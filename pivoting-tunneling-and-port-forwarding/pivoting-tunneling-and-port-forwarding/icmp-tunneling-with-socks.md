@@ -2,6 +2,7 @@
 
 ***
 
+{% hint style="warning" %}
 L’**ICMP tunneling** encapsule votre trafic dans des **paquets ICMP** contenant des **requêtes et des réponses d’écho**.
 
 L’ICMP tunneling fonctionne **uniquement** lorsque les **réponses aux pings sont autorisées** dans un réseau protégé par un pare-feu.
@@ -17,6 +18,7 @@ Une fois le tunnel créé, nous pourrons **proxifier notre trafic à travers le 
 Nous allons commencer par démarrer le **serveur ptunnel-ng** sur l’**hôte pivot** cible.
 
 Commençons par installer et configurer **ptunnel-ng**
+{% endhint %}
 
 ***
 
@@ -24,7 +26,7 @@ Commençons par installer et configurer **ptunnel-ng**
 
 If ptunnel-ng is not on our attack host, we can clone the project using git.
 
-**Cloning Ptunnel-ng**
+<mark style="color:green;">**Cloning Ptunnel-ng**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ git clone https://github.com/utoni/ptunnel-ng.git
@@ -32,15 +34,13 @@ mrroboteLiot@htb[/htb]$ git clone https://github.com/utoni/ptunnel-ng.git
 
 Once the ptunnel-ng repo is cloned to our attack host, we can run the `autogen.sh` script located at the root of the ptunnel-ng directory.
 
-**Building Ptunnel-ng with Autogen.sh**
+<mark style="color:green;">**Building Ptunnel-ng with Autogen.sh**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ sudo ./autogen.sh 
 ```
 
-After running autogen.sh, ptunnel-ng can be used from the client and server-side. We will now need to transfer the repo from our attack host to the target host. As in previous sections, we can use SCP to transfer the files. If we want to transfer the entire repo and the files contained inside, we will need to use the `-r` option with SCP.
-
-**Alternative approach of building a static binary**
+<mark style="color:green;">**Alternative approach of building a static binary**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ sudo apt install automake autoconf -y
@@ -49,7 +49,7 @@ mrroboteLiot@htb[/htb]$ sed -i '$s/.*/LDFLAGS=-static "${NEW_WD}\/configure" --e
 mrroboteLiot@htb[/htb]$ ./autogen.sh
 ```
 
-**Transferring Ptunnel-ng to the Pivot Host**
+<mark style="color:green;">**Transferring Ptunnel-ng to the Pivot Host**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ scp -r ptunnel-ng ubuntu@10.129.202.64:~/
@@ -57,7 +57,7 @@ mrroboteLiot@htb[/htb]$ scp -r ptunnel-ng ubuntu@10.129.202.64:~/
 
 With ptunnel-ng on the target host, we can start the server-side of the ICMP tunnel using the command directly below.
 
-**Starting the ptunnel-ng Server on the Target Host**
+<mark style="color:green;">**Starting the ptunnel-ng Server on the Target Host**</mark>
 
 ```shell-session
 ubuntu@WEB01:~/ptunnel-ng/src$ sudo ./ptunnel-ng -r10.129.202.64 -R22
@@ -67,7 +67,7 @@ The IP address following `-r` should be the IP we want ptunnel-ng to accept conn
 
 Back on the attack host, we can attempt to connect to the ptunnel-ng server (`-p <ipAddressofTarget>`) but ensure this happens through local port 2222 (`-l2222`). Connecting through local port 2222 allows us to send traffic through the ICMP tunnel.
 
-**Connecting to ptunnel-ng Server from Attack Host**
+<mark style="color:green;">**Connecting to ptunnel-ng Server from Attack Host**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ sudo ./ptunnel-ng -p10.129.202.64 -l2222 -r10.129.202.64 -R22
@@ -75,7 +75,7 @@ mrroboteLiot@htb[/htb]$ sudo ./ptunnel-ng -p10.129.202.64 -l2222 -r10.129.202.64
 
 With the ptunnel-ng ICMP tunnel successfully established, we can attempt to connect to the target using SSH through local port 2222 (`-p2222`).
 
-**Tunneling an SSH connection through an ICMP Tunnel**
+<mark style="color:green;">**Tunneling an SSH connection through an ICMP Tunnel**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ ssh -p2222 -lubuntu 127.0.0.1
@@ -85,7 +85,7 @@ If configured correctly, we will be able to enter credentials and have an SSH se
 
 On the client & server side of the connection, we will notice ptunnel-ng gives us session logs and traffic statistics associated with the traffic that passes through the ICMP tunnel. This is one way we can confirm that our traffic is passing from client to server utilizing ICMP.
 
-**Viewing Tunnel Traffic Statistics**
+<mark style="color:green;">**Viewing Tunnel Traffic Statistics**</mark>
 
 ```shell-session
 inf]: Incoming tunnel request from 10.10.14.18.
@@ -99,19 +99,15 @@ Session statistics:
 
 We may also use this tunnel and SSH to perform dynamic port forwarding to allow us to use proxychains in various ways.
 
-**Enabling Dynamic Port Forwarding over SSH**
+<mark style="color:green;">**Enabling Dynamic Port Forwarding over SSH**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ ssh -D 9050 -p2222 -lubuntu 127.0.0.1
-
-ubuntu@127.0.0.1's password: 
-Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-91-generic x86_64)
-<snip>
 ```
 
 We could use proxychains with Nmap to scan targets on the internal network (172.16.5.x). Based on our discoveries, we can attempt to connect to the target.
 
-**Proxychaining through the ICMP Tunnel**
+<mark style="color:green;">**Proxychaining through the ICMP Tunnel**</mark>
 
 {% code fullWidth="true" %}
 ```shell-session

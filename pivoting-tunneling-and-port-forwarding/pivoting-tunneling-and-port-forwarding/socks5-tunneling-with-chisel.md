@@ -2,21 +2,17 @@
 
 ***
 
-[Chisel](https://github.com/jpillora/chisel) is a TCP/UDP-based tunneling tool written in [Go](https://go.dev/) that uses HTTP to transport data that is secured using SSH. `Chisel` can create a client-server tunnel connection in a firewall restricted environment. Let us consider a scenario where we have to tunnel our traffic to a webserver on the `172.16.5.0`/`23` network (internal network). We have the Domain Controller with the address `172.16.5.19`. This is not directly accessible to our attack host since our attack host and the domain controller belong to different network segments. However, since we have compromised the Ubuntu server, we can start a Chisel server on it that will listen on a specific port and forward our traffic to the internal network through the established tunnel.
+Chisel est un outil de tunneling TCP/UDP en Go qui utilise HTTP sécurisé par SSH. Il permet de créer un tunnel client-serveur dans un réseau restreint par un pare-feu. Par exemple, si notre cible interne (172.16.5.19) n’est pas accessible depuis notre machine d’attaque, on peut lancer Chisel sur le serveur Ubuntu compromis pour rediriger le trafic vers le réseau interne.
 
 ***
 
 ### <mark style="color:red;">Setting Up & Using Chisel</mark>
-
-Before we can use Chisel, we need to have it on our attack host. If we do not have Chisel on our attack host, we can clone the project repo using the command directly below:
 
 <mark style="color:green;">**Cloning Chisel**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ git clone https://github.com/jpillora/chisel.git
 ```
-
-We will need the programming language `Go` installed on our system to build the Chisel binary. With Go installed on the system, we can move into that directory and use `go build` to build the Chisel binary.
 
 <mark style="color:green;">**Building the Chisel Binary**</mark>
 
@@ -29,13 +25,10 @@ go build
 It can be helpful to be mindful of the size of the files we transfer onto targets on our client's networks, not just for performance reasons but also considering detection. Two beneficial resources to complement this particular concept are Oxdf's blog post "[Tunneling with Chisel and SSF](https://0xdf.gitlab.io/cheatsheets/chisel)" and IppSec's walkthrough of the box `Reddish`. IppSec starts his explanation of Chisel, building the binary and shrinking the size of the binary at the 24:29 mark of his [video](https://www.youtube.com/watch?v=Yp4oxoQIBAM\&t=1469s).
 {% endhint %}
 
-Once the binary is built, we can use `SCP` to transfer it to the target pivot host.
-
 <mark style="color:green;">**Transferring Chisel Binary to Pivot Host**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ scp chisel ubuntu@10.129.202.64:~/
-                                      100%   11MB   1.2MB/s   00:09    
 ```
 
 Then we can start the Chisel server/listener.
@@ -48,15 +41,15 @@ ubuntu@WEB01:~$ ./chisel server -v -p 1234 --socks5
 
 The Chisel listener will listen for incoming connections on port `1234` using SOCKS5 (`--socks5`) and forward it to all the networks that are accessible from the pivot host. In our case, the pivot host has an interface on the 172.16.5.0/23 network, which will allow us to reach hosts on that network.
 
-We can start a client on our attack host and connect to the Chisel server.
-
 <mark style="color:green;">**Connecting to the Chisel Server**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ ./chisel client -v 10.129.202.64:1234 socks
 ```
 
+{% hint style="info" %}
 As you can see in the above output, the Chisel client has created a TCP/UDP tunnel via HTTP secured using SSH between the Chisel server and the client and has started listening on port 1080. Now we can modify our proxychains.conf file located at `/etc/proxychains.conf` and add `1080` port at the end so we can use proxychains to pivot using the created tunnel between the 1080 port and the SSH tunnel.
+{% endhint %}
 
 <mark style="color:green;">**Editing & Confirming proxychains.conf**</mark>
 
@@ -88,12 +81,6 @@ mrroboteLiot@htb[/htb]$ proxychains xfreerdp /v:172.16.5.19 /u:victor /p:pass@12
 ***
 
 ### <mark style="color:red;">Chisel Reverse Pivot</mark>
-
-In the previous example, we used the compromised machine (Ubuntu) as our Chisel server, listing on port 1234. Still, there may be scenarios where firewall rules restrict inbound connections to our compromised target. In such cases, we can use Chisel with the reverse option.
-
-When the Chisel server has `--reverse` enabled, remotes can be prefixed with `R` to denote reversed. The server will listen and accept connections, and they will be proxied through the client, which specified the remote. Reverse remotes specifying `R:socks` will listen on the server's default socks port (1080) and terminate the connection at the client's internal SOCKS5 proxy.
-
-We'll start the server in our attack host with the option `--reverse`.
 
 <mark style="color:green;">**Starting the Chisel Server on our Attack Host**</mark>
 

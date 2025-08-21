@@ -2,11 +2,9 @@
 
 ***
 
-[Rpivot](https://github.com/klsecservices/rpivot) is a reverse SOCKS proxy tool written in Python for SOCKS tunneling. Rpivot binds a machine inside a corporate network to an external server and exposes the client's local port on the server-side. We will take the scenario below, where we have a web server on our internal network (`172.16.5.135`), and we want to access that using the rpivot proxy.
+Rpivot est un outil Python de proxy SOCKS inversé pour le tunneling SOCKS. Il permet de lier une machine dans un réseau interne à un serveur externe et d’exposer le port local du client côté serveur. Par exemple, si nous avons un serveur web sur notre réseau interne (172.16.5.135), Rpivot permet d’y accéder via ce proxy.
 
 ![](https://academy.hackthebox.com/storage/modules/158/77.png)
-
-We can start our rpivot SOCKS proxy server using the below command to allow the client to connect on port 9999 and listen on port 9050 for proxy pivot connections.
 
 <mark style="color:green;">**Cloning rpivot**</mark>
 
@@ -34,8 +32,6 @@ pyenv shell 2.7
 ```
 {% endcode %}
 
-We can start our rpivot SOCKS proxy server to connect to our client on the compromised Ubuntu server using `server.py`.
-
 <mark style="color:green;">**Running server.py from the Attack Host**</mark>
 
 {% code fullWidth="true" %}
@@ -43,8 +39,6 @@ We can start our rpivot SOCKS proxy server to connect to our client on the compr
 mrroboteLiot@htb[/htb]$ python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0
 ```
 {% endcode %}
-
-Before running `client.py` we will need to transfer rpivot to the target. We can do this using this SCP command:
 
 <mark style="color:green;">**Transfering rpivot to the Target**</mark>
 

@@ -23,7 +23,7 @@ Nous allons utiliser **l’outil Proxifier comme serveur proxy.**
 
 ***
 
-#### 📥 **Téléchargement des fichiers nécessaires**
+#### <mark style="color:green;">📥</mark> <mark style="color:green;"></mark><mark style="color:green;">**Téléchargement des fichiers nécessaires**</mark>
 
 Nous pouvons commencer par **télécharger les binaires appropriés** sur **notre machine d’attaque** pour exécuter cette attaque.
 
