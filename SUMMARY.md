@@ -409,7 +409,24 @@
   * [PATH HIJACK BASH\_ENV](linux-privilege-escalation/various-techniques/path-hijack-bash_env.md)
   * [SHARED MEMORY REVERSE ENG](linux-privilege-escalation/various-techniques/shared-memory-reverse-eng.md)
   * [MONGODB ESCALATION (UNIFI)](linux-privilege-escalation/various-techniques/mongodb-escalation-unifi.md)
+  * [UNTRASTED SEARCH PATH](linux-privilege-escalation/various-techniques/untrasted-search-path.md)
+  * [PSPSY](linux-privilege-escalation/various-techniques/pspsy.md)
+  * [STRACE](linux-privilege-escalation/various-techniques/strace.md)
+  * [IPA](linux-privilege-escalation/various-techniques/ipa.md)
+  * [SIGNED BINARY EXPLOIT](linux-privilege-escalation/various-techniques/signed-binary-exploit.md)
 
 ## CYPHER INJECTION
 
 * [CYPHER INJECTION](cypher-injection/cypher-injection.md)
+
+## GIT ENUMERATION
+
+* [GIT ENUMERATION](git-enumeration/git-enumeration.md)
+
+## 🪪 CERTIFICATS HTTP
+
+* [CERTIFICATS HTTPS](certificats-http/certificats-https.md)
+
+## MID
+
+* [MITPROXY](mid/mitproxy.md)
