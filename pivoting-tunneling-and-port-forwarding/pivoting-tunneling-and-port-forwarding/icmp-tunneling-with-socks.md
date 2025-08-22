@@ -24,15 +24,11 @@ Commençons par installer et configurer **ptunnel-ng**
 
 ### <mark style="color:red;">Setting Up & Using ptunnel-ng</mark>
 
-If ptunnel-ng is not on our attack host, we can clone the project using git.
-
 <mark style="color:green;">**Cloning Ptunnel-ng**</mark>
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ git clone https://github.com/utoni/ptunnel-ng.git
 ```
-
-Once the ptunnel-ng repo is cloned to our attack host, we can run the `autogen.sh` script located at the root of the ptunnel-ng directory.
 
 <mark style="color:green;">**Building Ptunnel-ng with Autogen.sh**</mark>
 
@@ -54,8 +50,6 @@ mrroboteLiot@htb[/htb]$ ./autogen.sh
 ```shell-session
 mrroboteLiot@htb[/htb]$ scp -r ptunnel-ng ubuntu@10.129.202.64:~/
 ```
-
-With ptunnel-ng on the target host, we can start the server-side of the ICMP tunnel using the command directly below.
 
 <mark style="color:green;">**Starting the ptunnel-ng Server on the Target Host**</mark>
 

@@ -1,6 +1,6 @@
 # REMEDIATION
 
-**Détection et Prévention**
+<mark style="color:green;">**Détection et Prévention**</mark>
 
 Tout au long de ce module, nous avons maîtrisé plusieurs techniques utilisables dans une perspective offensive. En tant que testeurs d'intrusion, nous devons également nous préoccuper des méthodes de mitigation et de détection permettant aux défenseurs de stopper ces types de TTP (Tactiques, Techniques et Procédures). Ceci est crucial car nous devons fournir à nos clients des solutions potentielles aux problèmes que nous découvrons et exploitons lors de nos évaluations. Certaines de ces solutions incluent :
 
@@ -12,7 +12,7 @@ Cette section couvrira ces solutions et leur impact sur la défense du réseau.
 
 ***
 
-### **Définition d'une ligne de base**
+### <mark style="color:red;">**Définition d'une ligne de base**</mark>
 
 Comprendre ce qui se passe sur un réseau est essentiel. En tant que défenseurs, nous devons pouvoir identifier et analyser rapidement :
 
@@ -33,7 +33,7 @@ Des outils comme **Netbrain** permettent de créer un schéma interactif du rés
 
 ***
 
-### **Personnes, Processus et Technologies**
+### <mark style="color:red;">**Personnes, Processus et Technologies**</mark>
 
 Le renforcement de la sécurité réseau se divise en trois catégories : **les personnes, les processus et la technologie**.
 
@@ -72,7 +72,7 @@ Une veille constante est nécessaire pour :
 
 ***
 
-### **De l'Extérieur vers l'Intérieur**
+### <mark style="color:red;">**De l'Extérieur vers l'Intérieur**</mark>
 
 #### **Protection du Périmètre**
 
@@ -103,7 +103,7 @@ Un **SIEM** bien configuré permet de centraliser les journaux et détecter les 
 
 ***
 
-### **MITRE ATT\&CK et contre-mesures**
+### <mark style="color:red;">**MITRE ATT\&CK et contre-mesures**</mark>
 
 #### **Exemples de techniques et de prévention**
 
@@ -111,7 +111,7 @@ Un **SIEM** bien configuré permet de centraliser les journaux et détecter les 
 
 ***
 
-### **Conclusion**
+### <mark style="color:red;">**Conclusion**</mark>
 
 Une bonne défense repose sur trois piliers :
 

@@ -2,7 +2,7 @@
 
 ***
 
-{% hint style="info" %}
+{% hint style="warning" %}
 Dnscat2 est un outil de tunneling qui utilise le protocole DNS pour envoyer des données entre deux hôtes. Il utilise un canal chiffré de Command-&-Control (**C\&C** ou **C2**) et envoie des données à l’intérieur des enregistrements TXT du protocole DNS.
 
 D’habitude, chaque environnement de domaine Active Directory dans un réseau d’entreprise aura son propre serveur DNS, qui résoudra les noms d’hôte en adresses IP et acheminera le trafic vers des serveurs DNS externes participant au système DNS global. Cependant, avec **dnscat2**, la résolution d’adresse est demandée à un **serveur externe**. Lorsqu’un serveur DNS local tente de résoudre une adresse, les **données sont exfiltrées et envoyées sur le réseau** au lieu d’une requête DNS légitime.

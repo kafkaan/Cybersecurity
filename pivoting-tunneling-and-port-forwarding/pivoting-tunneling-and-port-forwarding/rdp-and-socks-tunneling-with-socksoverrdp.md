@@ -2,6 +2,7 @@
 
 ***
 
+{% hint style="warning" %}
 Il y a souvent des moments **pendant une évaluation** où nous pouvons être **limités à un réseau Windows** et où nous ne pouvons pas utiliser **SSH pour le pivotement**.
 
 Nous devrons utiliser **des outils disponibles pour les systèmes d’exploitation Windows** dans ces cas-là.
@@ -20,6 +21,7 @@ Cependant, **cette fonctionnalité peut aussi être utilisée pour tunneler des 
 Nous pouvons utiliser **SocksOverRDP** pour **tunneler nos propres paquets** et ensuite **les proxyfier à travers lui**.
 
 Nous allons utiliser **l’outil Proxifier comme serveur proxy.**
+{% endhint %}
 
 ***
 
@@ -36,7 +38,7 @@ Nous aurons besoin de :\
 
 ***
 
-#### 🔗 **Exécution sur la cible**
+#### <mark style="color:green;">🔗</mark> <mark style="color:green;"></mark><mark style="color:green;">**Exécution sur la cible**</mark>
 
 1️⃣ **Se connecter à la cible en utilisant xfreerdp**\
 2️⃣ **Copier le fichier SocksOverRDPx64.zip sur la cible**\
@@ -74,7 +76,7 @@ C:\Users\htb-student\Desktop\SocksOverRDP-x64> netstat -antb | findstr 1080
 
 After starting our listener, we can transfer Proxifier portable to the Windows 10 target (on the 10.129.x.x network), and configure it to forward all our packets to 127.0.0.1:1080. Proxifier will route traffic through the given host and port. See the clip below for a quick walkthrough of configuring Proxifier.
 
-**Configuring Proxifier**
+<mark style="color:green;">**Configuring Proxifier**</mark>
 
 ![](https://academy.hackthebox.com/storage/modules/158/configuringproxifier.gif)
 
@@ -82,10 +84,28 @@ With Proxifier configured and running, we can start mstsc.exe, and it will use P
 
 ![](https://academy.hackthebox.com/storage/modules/158/rdpsockspivot.png)
 
-**RDP Performance Considerations**
+<mark style="color:green;">**RDP Performance Considerations**</mark>
 
 When interacting with our RDP sessions on an engagement, we may find ourselves contending with slow performance in a given session, especially if we are managing multiple RDP sessions simultaneously. If this is the case, we can access the `Experience` tab in mstsc.exe and set `Performance` to `Modem`.
 
 ![](https://academy.hackthebox.com/storage/modules/158/rdpexpen.png)
 
 ***
+
+```
+[ Ta machine attaquante ]
+        |
+        | (RDP + SocksOverRDP plugin)
+        v
++-------------------------+
+| Machine Pivot (172.16.5.19) |
+|  - SocksOverRDP-Server.exe  |
+|  - Ecoute sur 127.0.0.1:1080|
++-------------------------+
+        |
+        | (trafic routé via SOCKS proxy)
+        v
++-------------------------+
+| Cible interne (172.16.6.155) |
++-------------------------+
+```

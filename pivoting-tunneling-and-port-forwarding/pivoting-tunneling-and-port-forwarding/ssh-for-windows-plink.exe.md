@@ -2,7 +2,9 @@
 
 ***
 
+{% hint style="warning" %}
 Plink, ou PuTTY Link, est un outil SSH en ligne de commande pour Windows, souvent utilisé pour créer des redirections de port et des proxys SOCKS. Avant 2018, Windows n’avait pas de client SSH natif, donc PuTTY était largement utilisé par les administrateurs. En pentest, si l’on obtient un accès à une machine Windows verrouillée, on peut utiliser Plink comme pivot pour rediriger le trafic sans transférer d’outils externes, en exploitant les programmes déjà présents sur le système. Il est aussi pratique si l’attaquant utilise Windows comme machine principale.
+{% endhint %}
 
 ***
 

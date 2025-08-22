@@ -2,7 +2,9 @@
 
 ***
 
+{% hint style="warning" %}
 Rpivot est un outil Python de proxy SOCKS inversé pour le tunneling SOCKS. Il permet de lier une machine dans un réseau interne à un serveur externe et d’exposer le port local du client côté serveur. Par exemple, si nous avons un serveur web sur notre réseau interne (172.16.5.135), Rpivot permet d’y accéder via ce proxy.
+{% endhint %}
 
 ![](https://academy.hackthebox.com/storage/modules/158/77.png)
 
@@ -60,10 +62,6 @@ Backconnecting to server 10.10.14.18 port 9999
 New connection from host 10.129.202.64, source port 35226
 ```
 
-We will configure proxychains to pivot over our local server on 127.0.0.1:9050 on our attack host, which was initially started by the Python server.
-
-Finally, we should be able to access the webserver on our server-side, which is hosted on the internal network of 172.16.5.0/23 at 172.16.5.135:80 using proxychains and Firefox.
-
 <mark style="color:green;">**Browsing to the Target Webserver using Proxychains**</mark>
 
 ```shell-session
@@ -84,7 +82,9 @@ proxychains firefox-esr 172.16.5.135:80
 (Webserver interne) Réponse → Pivot → Rpivot → ProxyChains → Firefox
 {% endhint %}
 
+{% hint style="info" %}
 Similar to the pivot proxy above, there could be scenarios when we cannot directly pivot to an external server (attack host) on the cloud. Some organizations have [HTTP-proxy with NTLM authentication](https://docs.microsoft.com/en-us/openspecs/office_protocols/ms-grvhenc/b9e676e7-e787-4020-9840-7cfe7c76044a) configured with the Domain Controller. In such cases, we can provide an additional NTLM authentication option to rpivot to authenticate via the NTLM proxy by providing a username and password. In these cases, we could use rpivot's client.py in the following way:
+{% endhint %}
 
 <mark style="color:green;">**Connecting to a Web Server using HTTP-Proxy & NTLM Auth**</mark>
 

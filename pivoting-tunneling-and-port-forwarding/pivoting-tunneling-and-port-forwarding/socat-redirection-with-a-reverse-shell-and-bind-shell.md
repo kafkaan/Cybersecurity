@@ -1,6 +1,6 @@
 # Socat Redirection with a Reverse Shell and Bind Shell
 
-{% hint style="info" %}
+{% hint style="warning" %}
 Socat est un outil de relais bidirectionnel qui peut créer des sockets entre deux canaux réseau indépendants sans utiliser de tunnel SSH. Il agit comme un redirigeur qui peut écouter sur une adresse et un port, puis transmettre ces données vers une autre adresse IP et un autre port. Nous pouvons démarrer l'écouteur de Metasploit en utilisant la même commande mentionnée dans la dernière section sur notre machine d'attaque, puis exécuter Socat sur le serveur Ubuntu.
 {% endhint %}
 
