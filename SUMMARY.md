@@ -414,6 +414,7 @@
   * [STRACE](linux-privilege-escalation/various-techniques/strace.md)
   * [IPA](linux-privilege-escalation/various-techniques/ipa.md)
   * [SIGNED BINARY EXPLOIT](linux-privilege-escalation/various-techniques/signed-binary-exploit.md)
+  * [EMPTY ENV VARIABLES AND LIBRARY HIJACKING](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking.md)
 
 ## CYPHER INJECTION
 

