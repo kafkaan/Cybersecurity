@@ -43,7 +43,7 @@ fs             0x0	0
 gs             0x63	99
 ```
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
@@ -107,7 +107,7 @@ mrroboteLiot_1@htb[/htb]$ /usr/share/metasploit-framework/tools/exploit/pattern_
 ```
 {% endcode %}
 
-<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Si nous utilisons maintenant précisément ce nombre d'octets pour nos "U", nous devrions atterrir exactement sur l'EIP. Pour l'écraser et vérifier si nous l'avons atteint comme prévu, nous pouvons ajouter 4 octets supplémentaires avec "\x66" et l'exécuter pour nous assurer que nous contrôlons l'EIP.
 
@@ -124,6 +124,6 @@ Program received signal SIGSEGV, Segmentation fault.
 0x66666666 in ?? ()
 ```
 
-<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 Maintenant nous voyons que nous avons écrasé l'EIP avec nos caractères "\x66". Ensuite, nous devons découvrir combien d'espace nous avons pour notre shellcode, qui exécutera alors les commandes que nous avons l'intention d'exécuter. Comme nous contrôlons maintenant l'EIP, nous l'écraserons plus tard avec l'adresse pointant vers le début de notre shellcode.

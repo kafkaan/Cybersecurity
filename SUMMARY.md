@@ -400,6 +400,7 @@
   * [Formats PE et COFF](reverse-engeneering/reverse-engeneering/formats-pe-et-coff.md)
   * [C# REVERSE](reverse-engeneering/reverse-engeneering/c-reverse.md)
   * [MISP](reverse-engeneering/reverse-engeneering/misp.md)
+  * [Golang](reverse-engeneering/reverse-engeneering/golang.md)
 
 ## 🐧 Linux Privilege Escalation
 
