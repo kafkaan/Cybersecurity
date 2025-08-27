@@ -1,5 +1,7 @@
 # GIT ENUMERATION
 
+{% embed url="https://notes.benheater.com/books/web/page/git-dumper?ref=benheater.com" %}
+
 ### <mark style="color:red;">🧩 Contexte</mark>
 
 * Les répertoires `.git/` exposés sur un serveur web (souvent oubliés après un déploiement) permettent :

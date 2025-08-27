@@ -11,6 +11,8 @@ On le rencontre souvent après une compromission via un service (webshell ASP.NE
 ***
 
 > Un bon article existe à propos des attaques par **usurpation de jeton**. : [https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt](https://github.com/hatRiot/token-priv/blob/master/abusing_token_eop_1.0.txt)
+>
+> [https://github.com/tylerdotrar/SigmaPotato?ref=benheater.com](https://github.com/tylerdotrar/SigmaPotato?ref=benheater.com)
 
 ***
 
