@@ -4,8 +4,6 @@
 
 ### <mark style="color:red;">ActiveDirectory PowerShell Module</mark>
 
-The ActiveDirectory PowerShell module is a group of PowerShell cmdlets for administering an Active Directory environment from the command line.
-
 <mark style="color:green;">**Discover Modules**</mark>
 
 {% code fullWidth="true" %}
@@ -30,8 +28,6 @@ PS C:\htb> Get-ADDomain
 ```
 
 This will print out helpful information like the domain SID, domain functional level, any child domains, and more.&#x20;
-
-Next, we'll use the [Get-ADUser](https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2022-ps) cmdlet. We will be filtering for accounts with the `ServicePrincipalName` property populated. This will get us a listing of accounts that may be susceptible to a Kerberoasting attack, which we will cover in-depth after the next section.
 
 <mark style="color:green;">**Get-ADUser**</mark>
 
@@ -103,8 +99,6 @@ PS C:\htb>  Get-DomainGroupMember -Identity "Domain Admins" -Recurse
 ```
 {% endcode %}
 
-Above we performed a recursive look at the `Domain Admins` group to list its members. Now we know who to target for potential elevation of privileges. Like with the AD PowerShell module, we can also enumerate domain trust mappings.
-
 <mark style="color:green;">**Trust Enumeration**</mark>
 
 ```powershell-session
@@ -151,7 +145,9 @@ PS C:\htb> .\SharpView.exe Get-DomainUser -Identity forend
 
 ### <mark style="color:red;">Snaffler</mark>
 
+{% hint style="info" %}
 [Snaffler](https://github.com/SnaffCon/Snaffler) is a tool that can help us acquire credentials or other sensitive data in an Active Directory environment. Snaffler works by obtaining a list of hosts within the domain and then enumerating those hosts for shares and readable directories. Once that is done, it iterates through any directories readable by our user and hunts for files that could serve to better our position within the assessment. Snaffler requires that it be run from a domain-joined host or in a domain-user context.
+{% endhint %}
 
 <mark style="color:green;">**Snaffler Execution**</mark>
 
@@ -159,7 +155,9 @@ PS C:\htb> .\SharpView.exe Get-DomainUser -Identity forend
 Snaffler.exe -s -d inlanefreight.local -o snaffler.log -v data
 ```
 
-The `-s` tells it to print results to the console for us, the `-d` specifies the domain to search within, and the `-o` tells Snaffler to write results to a logfile. The `-v` option is the verbosity level. Typically `data` is best as it only displays results to the screen, so it's easier to begin looking through the tool runs. Snaffler can produce a considerable amount of data, so we should typically output to file and let it run and then come back to it later. It can also be helpful to provide Snaffler raw output to clients as supplemental data during a penetration test as it can help them zero in on high-value shares that should be locked down first.
+Avec **Snaffler**, `-s` affiche les résultats à l’écran, `-d` précise le domaine, `-o` écrit dans un fichier log, et `-v` règle la verbosité.&#x20;
+
+Comme l’outil génère beaucoup de données, il est recommandé de les exporter dans un fichier et de ne garder à l’écran que l’essentiel. Les logs bruts peuvent aussi être fournis aux clients pour identifier rapidement les partages sensibles à sécuriser en priorité
 
 <mark style="color:green;">**Snaffler in Action**</mark>
 
@@ -168,8 +166,6 @@ The `-s` tells it to print results to the console for us, the `-d` specifies the
 PS C:\htb> .\Snaffler.exe  -d INLANEFREIGHT.LOCAL -s -v data
 ```
 {% endcode %}
-
-We may find passwords, SSH keys, configuration files, or other data that can be used to further our access. Snaffler color codes the output for us and provides us with a rundown of the file types found in the shares.
 
 ***
 
@@ -191,17 +187,21 @@ PS C:\htb> .\SharpHound.exe -c All --zipfilename ILFREIGHT
 ```
 {% endcode %}
 
-Nous pouvons commencer par taper `domain:` dans la barre de recherche en haut à gauche et choisir **INLANEFREIGHT.LOCAL** parmi les résultats. Prenons un moment pour parcourir l'onglet **Node Info**. Comme nous pouvons le voir, cela correspondrait à une entreprise assez grande avec plus de 550 hôtes à cibler et des relations de confiance avec deux autres domaines.
-
-Maintenant, examinons quelques requêtes pré-construites dans l'onglet **Analysis**. La requête **Find Computers with Unsupported Operating Systems** est idéale pour trouver des systèmes d'exploitation obsolètes et non pris en charge qui exécutent des logiciels hérités. Ces systèmes sont relativement courants dans les réseaux d'entreprise (en particulier dans les environnements plus anciens), car ils exécutent souvent des produits qui ne peuvent pas encore être mis à jour ou remplacés. Garder ces hôtes peut permettre d'économiser de l'argent, mais cela peut aussi ajouter des vulnérabilités inutiles au réseau. Les hôtes plus anciens peuvent être vulnérables à des failles d'exécution de code à distance anciennes, comme MS08-067. Si nous rencontrons ces hôtes plus anciens pendant une évaluation, nous devons être prudents avant de les attaquer (ou même vérifier avec notre client) car ils peuvent être fragiles et exécuter des applications ou des services critiques. Nous pouvons conseiller à notre client de segmenter ces hôtes du reste du réseau autant que possible s'ils ne peuvent pas les retirer encore, mais nous devrions aussi recommander qu'ils commencent à élaborer un plan pour les mettre hors service et les remplacer.
-
-Cette requête montre deux hôtes, l'un exécutant Windows 7 et l'autre exécutant Windows Server 2008 (aucun des deux n'est "actif" dans notre laboratoire). Parfois, nous verrons des hôtes qui ne sont plus allumés mais qui apparaissent encore comme des enregistrements dans Active Directory (AD). Nous devons toujours valider s'ils sont "actifs" ou non avant de faire des recommandations dans nos rapports. Nous pourrions rédiger une constatation à haut risque pour les systèmes d'exploitation hérités ou une recommandation de bonnes pratiques pour nettoyer les anciens enregistrements dans AD.
+* Recherche du domaine **INLANEFREIGHT.LOCAL** → plus de 550 hôtes et relations de confiance avec deux autres domaines.
+* L’onglet **Analysis** propose des requêtes utiles, comme _Find Computers with Unsupported Operating Systems_.
+* Ces hôtes anciens (ex. Windows 7, Windows Server 2008) sont souvent conservés pour des raisons de compatibilité mais créent des **risques de sécurité** (failles connues comme MS08-067).
+* Prudence lors des tests sur ces systèmes, car ils peuvent être fragiles ou critiques pour l’entreprise.
+* Recommandations possibles : **segmenter ces hôtes**, planifier leur **retrait/remplacement**, et **nettoyer Active Directory** pour supprimer les enregistrements obsolètes.
 
 **Unsupported Operating Systems**
 
 <figure><img src="../../.gitbook/assets/unsupported.webp" alt=""><figcaption></figcaption></figure>
 
-Nous verrons souvent des utilisateurs ayant des droits d'administrateur local sur leur hôte (peut-être temporairement pour installer un logiciel, et ces droits n'ont jamais été supprimés), ou bien ils occupent un rôle suffisamment élevé dans l'organisation pour justifier ces droits (qu'ils en aient besoin ou non). D'autres fois, nous verrons des droits d'administrateur local excessifs attribués à travers l'organisation, comme plusieurs groupes dans le département informatique ayant des droits d'administrateur local sur des groupes de serveurs ou même le groupe **Domain Users** ayant des droits d'administrateur local sur un ou plusieurs hôtes. Cela peut nous être utile si nous prenons le contrôle d'un compte utilisateur ayant ces droits sur une ou plusieurs machines. Nous pouvons exécuter la requête **Find Computers where Domain Users are Local Admin** pour voir rapidement s'il existe des hôtes où tous les utilisateurs ont des droits d'administrateur local. Si tel est le cas, alors tout compte que nous contrôlons pourra généralement être utilisé pour accéder aux hôtes en question, et nous pourrons peut-être récupérer des identifiants depuis la mémoire ou trouver d'autres données sensibles.
+* Certains utilisateurs conservent des **droits d’administrateur local** (temporaires non révoqués ou liés à leur poste élevé).
+* On observe parfois une **attribution excessive** de ces droits (groupes IT, voire _Domain Users_).
+* Cela constitue une **opportunité d’attaque** : un simple compte compromis peut donner accès à plusieurs hôtes.
+* La requête **Find Computers where Domain Users are Local Admin** aide à identifier ces situations.
+* Ces accès facilitent la collecte de **mots de passe en mémoire** ou de données sensibles.
 
 ***
 

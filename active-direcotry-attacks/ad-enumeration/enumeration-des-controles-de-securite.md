@@ -4,11 +4,11 @@
 
 ## <mark style="color:red;">**Windows Defender**</mark>
 
+{% hint style="warning" %}
 Windows Defender (renommé Microsoft Defender après la mise à jour de mai 2020 de Windows 10) s'est considérablement amélioré et, par défaut, bloque des outils comme **PowerView**.&#x20;
 
 Nous pouvons utiliser la commande PowerShell intégrée **Get-MpComputerStatus** pour vérifier l’état actuel de Defender. Par exemple, le paramètre `RealTimeProtectionEnabled` défini sur `True` indique que la protection en temps réel est activée.
-
-**Exemple : Vérification de l’état de Defender avec PowerShell**
+{% endhint %}
 
 ```powershell
 PS C:\htb> Get-MpComputerStatus
@@ -24,7 +24,9 @@ Sortie (extrait) :
 
 ## <mark style="color:red;">**AppLocker**</mark>
 
+{% hint style="warning" %}
 AppLocker est une solution de liste blanche proposée par Microsoft. Elle permet aux administrateurs de contrôler quels programmes ou fichiers peuvent être exécutés par les utilisateurs. AppLocker offre un contrôle précis sur les exécutables, scripts, fichiers d’installation, DLLs, applications packagées, etc. Par exemple, il est courant que les organisations bloquent **cmd.exe**, **PowerShell.exe** et l’accès en écriture à certains répertoires. Toutefois, ces restrictions peuvent être contournées.
+{% endhint %}
 
 Un exemple typique est le blocage de **PowerShell.exe** dans le chemin suivant :
 
@@ -65,7 +67,9 @@ Sortie : `ConstrainedLanguage` (Mode restreint)
 
 ## <mark style="color:red;">**LAPS (Local Administrator Password Solution)**</mark>
 
+{% hint style="warning" %}
 La solution Microsoft **LAPS** randomise et fait tourner les mots de passe administrateur locaux sur les hôtes Windows, empêchant les déplacements latéraux. Nous pouvons identifier quels utilisateurs du domaine peuvent lire ces mots de passe LAPS et quels hôtes n'ont pas LAPS installé. L’outil **LAPSToolkit** facilite cette tâche grâce à des fonctions comme **Find-LAPSDelegatedGroups**, qui permet d’identifier les groupes autorisés à lire les mots de passe LAPS.
+{% endhint %}
 
 <mark style="color:green;">**Exemple : Utilisation de Find-LAPSDelegatedGroups**</mark>
 

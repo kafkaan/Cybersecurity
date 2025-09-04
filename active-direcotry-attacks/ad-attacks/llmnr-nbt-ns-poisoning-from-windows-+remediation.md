@@ -9,25 +9,15 @@ PS C:\htb> Import-Module .\Inveigh.ps1
 PS C:\htb> (Get-Command Invoke-Inveigh).Parameters
 ```
 
-Let's start Inveigh with LLMNR and NBNS spoofing, and output to the console and write to a file. We will leave the rest of the defaults, which can be seen [here](https://github.com/Kevin-Robertson/Inveigh#parameter-help).
-
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell-session
 PS C:\htb> Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y
-
-[*] Inveigh 1.506 started at 2022-02-28T19:26:30
-[+] Elevated Privilege Mode = Enabled
-[+] Primary IP Address = 172.16.5.25
-[+] Spoofer IP Address = 172.16.5.25
-[+] ADIDNS Spoofer = Disabled
 ```
 {% endcode %}
 
 We can see that we immediately begin getting LLMNR and mDNS requests. The below animation shows the tool in action.
 
 <figure><img src="../../.gitbook/assets/inveigh_pwsh.png" alt=""><figcaption></figcaption></figure>
-
-As we can see, the tool starts and shows which options are enabled by default and which are not. The options with a `[+]` are default and enabled by default and the ones with a `[ ]` before them are disabled. The running console output also shows us which options are disabled and, therefore, responses are not being sent (mDNS in the above example).&#x20;
 
 We can also see the message `Press ESC to enter/exit interactive console`
 

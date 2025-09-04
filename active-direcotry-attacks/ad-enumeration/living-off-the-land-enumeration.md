@@ -40,8 +40,6 @@ PS C:\htb> Get-ChildItem Env: | ft key,value
 ```
 {% endcode %}
 
-We have performed basic enumeration of the host. Now, let's discuss a few operational security tactics.
-
 {% hint style="warning" %}
 Many defenders are unaware that several versions of PowerShell often exist on a host. If not uninstalled, they can still be used. Powershell event logging was introduced as a feature with Powershell 3.0 and forward. With that in mind, we can attempt to call Powershell version 2.0 or older. If successful, our actions from the shell will not be logged in Event Viewer. This is a great way for us to remain under the defenders' radar while still utilizing resources built into the hosts to our advantage. Below is an example of downgrading Powershell.
 {% endhint %}
@@ -77,7 +75,10 @@ Dans l’image mentionnée, on peut voir les **entrées rouges** dans le journal
 
 <figure><img src="../../.gitbook/assets/downgrade.webp" alt=""><figcaption></figcaption></figure>
 
-With [Script Block Logging](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows?view=powershell-7.2) enabled, we can see that whatever we type into the terminal gets sent to this log. If we downgrade to PowerShell V2, this will no longer function correctly. Our actions after will be masked since Script Block Logging does not work below PowerShell 3.0. Notice above in the logs that we can see the commands we issued during a normal shell session, but it stopped after starting a new PowerShell instance in version 2. Be aware that the action of issuing the command `powershell.exe -version 2` within the PowerShell session will be logged. So evidence will be left behind showing that the downgrade happened, and a suspicious or vigilant defender may start an investigation after seeing this happen and the logs no longer filling up for that instance. We can see an example of this in the image below. Items in the red box are the log entries before starting the new instance, and the info in green is the text showing a new PowerShell session was started in HostVersion 2.0.
+* **Script Block Logging** enregistre toutes les commandes exécutées dans PowerShell (v3.0+).
+* Si on passe en **PowerShell v2**, cette journalisation cesse de fonctionner.
+* Le **downgrade lui-même est logué** (`powershell.exe -version 2`), laissant une trace visible.
+* Un défenseur attentif peut remarquer la coupure soudaine des logs et enquêter.
 
 <mark style="color:green;">**Starting V2 Logs**</mark>
 
@@ -117,7 +118,7 @@ PS C:\htb> Get-MpComputerStatus
 
 ## <mark style="color:red;">Am I Alone?</mark>
 
-When landing on a host for the first time, one important thing is to check and see if you are the only one logged in. If you start taking actions from a host someone else is on, there is the potential for them to notice you. If a popup window launches or a user is logged out of their session, they may report these actions or change their password, and we could lose our foothold.
+Sur un hôte compromis, vérifier s’il y a déjà un utilisateur connecté pour éviter d’éveiller des soupçons ou perdre l’accès.
 
 <mark style="color:green;">**Using qwinsta**</mark>
 
@@ -129,8 +130,6 @@ PS C:\htb> qwinsta
 >console           forend                    1  Active
  rdp-tcp                                 65536  Listen
 ```
-
-Now that we have a solid feel for the state of our host, we can enumerate the network settings for our host and identify any potential domain machines or services we may want to target next.
 
 ***
 
@@ -168,7 +167,9 @@ Dans notre cas, nous allons utiliser **WMI** pour générer un **rapport** conte
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Command</strong></td><td><strong>Description</strong></td></tr><tr><td><code>wmic qfe get Caption,Description,HotFixID,InstalledOn</code></td><td>Prints the patch level and description of the Hotfixes applied</td></tr><tr><td><code>wmic computersystem get Name,Domain,Manufacturer,Model,Username,Roles /format:List</code></td><td>Displays basic host information to include any attributes within the list</td></tr><tr><td><code>wmic process list /format:list</code></td><td>A listing of all processes on host</td></tr><tr><td><code>wmic ntdomain list /format:list</code></td><td>Displays information about the Domain and Domain Controllers</td></tr><tr><td><code>wmic useraccount list /format:list</code></td><td>Displays information about all local accounts and any domain accounts that have logged into the device</td></tr><tr><td><code>wmic group list /format:list</code></td><td>Information about all local groups</td></tr><tr><td><code>wmic sysaccount list /format:list</code></td><td>Dumps information about any system accounts that are being used as service accounts.</td></tr></tbody></table>
 
-Below we can see information about the domain and the child domain, and the external forest that our current domain has a trust with. This [cheatsheet](https://gist.github.com/xorrior/67ee741af08cb1fc86511047550cdaf4) has some useful commands for querying host and domain info using wmic.
+Below we can see information about the domain and the child domain, and the external forest that our current domain has a trust with.&#x20;
+
+* This [cheatsheet](https://gist.github.com/xorrior/67ee741af08cb1fc86511047550cdaf4) has some useful commands for querying host and domain info using wmic.
 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell-session
@@ -208,8 +209,6 @@ Keep in mind that `net.exe` commands are typically monitored by EDR solutions an
 ```powershell-session
 PS C:\htb> net group /domain
 ```
-
-We can see above the `net group` command provided us with a list of groups within the domain.
 
 <mark style="color:green;">**Information about a Domain User**</mark>
 
@@ -278,6 +277,8 @@ PS C:\Users\forend.INLANEFREIGHT> dsquery * -filter "(userAccountControl:1.2.840
 
 ```
 {% endcode %}
+
+***
 
 ## <mark style="color:red;">LDAP Filtering Explained</mark>
 

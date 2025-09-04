@@ -40,7 +40,7 @@ GuardAutoLogon
 Certificate Services
 ```
 
-This can be helpful for us to begin to see what types of security measures are in place (such as denying cmd.exe access and a separate password policy for service accounts). We can see that autologon is in use which may mean there is a readable password in a GPO, and see that Active Directory Certificate Services (AD CS) is present in the domain. If Group Policy Management Tools are installed on the host we are working from, we can use various built-in [GroupPolicy cmdlets](https://docs.microsoft.com/en-us/powershell/module/grouppolicy/?view=windowsserver2022-ps) such as `Get-GPO` to perform the same enumeration.
+**On peut détecter les mesures de sécurité en place, repérer l’autologon (mot de passe potentiellement lisible dans une GPO), identifier la présence d’AD CS, et utiliser les cmdlets GroupPolicy pour énumérer les GPO si les outils sont installés.**
 
 <mark style="color:green;">**Enumerating GPO Names with a Built-In Cmdlet**</mark>
 

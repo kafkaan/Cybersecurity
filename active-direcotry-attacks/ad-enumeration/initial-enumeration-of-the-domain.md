@@ -2,42 +2,12 @@
 
 ***
 
-### <mark style="color:red;">Setting Up</mark>
-
-Le test de pénétration se déroule dans un environnement interne en fonction
-
-1. <mark style="color:green;">**Configurations possibles pour le test**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
-   * Une machine virtuelle Linux dans l'infrastructure interne, communiquant avec un serveur de saut (jump host) via VPN.
-   * Un appareil physique branché à un port Ethernet, avec une connexion VPN pour le contrôle à distance.
-   * Une présence physique sur site avec un ordinateur connecté à leur réseau.
-   * Une machine virtuelle Linux sur Azure/AWS ayant accès au réseau interne, contrôlée par SSH avec IP publique autorisée.
-   * Un accès VPN au réseau interne (limité pour certaines attaques comme LLMNR/NBT-NS Poisoning).
-   * Un ordinateur portable connecté au VPN de l’entreprise.
-   * Une station de travail gérée localement ou via VDI (Virtual Desktop Interface) avec diverses options d'accès (local admin, protection des points de terminaison en mode surveillance, etc.).
-2. <mark style="color:green;">**Méthodes de test selon les informations fournies par le client**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
-   * **Approche Grey box** : Le client fournit une liste limitée d’adresses IP ou de plages réseau.
-   * **Approche Black box** : L’équipe de test doit découvrir l’ensemble du réseau sans information préalable.
-   * Approches **évasives** (tests furtifs) ou **non évasives** (tests visibles), ou un mélange des deux.
-
-***
-
-3. <mark style="color:green;">**Cas d’étude avec Inlanefreight**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
-   * **Configuration choisie** :
-     * Une VM de test personnalisée dans leur réseau interne, accessible via SSH depuis un serveur de saut.
-     * Une machine Windows supplémentaire pour charger des outils.
-   * **Type de test** :
-     * Approche **Grey box** avec une plage réseau fournie : **172.16.5.0/23**.
-     * **Non évasif** : Pas de techniques furtives.
-     * Départ **non authentifié**, mais un compte utilisateur standard a été fourni (**htb-student**) pour explorer les ressources internes.
-
-***
-
 ### <mark style="color:red;">Tasks</mark>
 
 * Enumerate the **internal network**, identifying **hosts**, critical **services**, and potential avenues for a **foothold**.
 * This can include **active and passive measures** to identify users, hosts, and vulnerabilities we may be able to take advantage of to further our access.
 
-**Key Data Points**
+<mark style="color:green;">**Key Data Points**</mark>
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Data Point</strong></td><td><strong>Description</strong></td></tr><tr><td><code>AD Users</code></td><td>We are trying to enumerate valid user accounts we can target for password spraying.</td></tr><tr><td><code>AD Joined Computers</code></td><td>Key Computers include Domain Controllers, file servers, SQL servers, web servers, Exchange mail servers, database servers, etc.</td></tr><tr><td><code>Key Services</code></td><td>Kerberos, NetBIOS, LDAP, DNS</td></tr><tr><td><code>Vulnerable Hosts and Services</code></td><td>Anything that can be a quick win. ( a.k.a an easy host to exploit and gain a foothold)</td></tr></tbody></table>
 
@@ -55,18 +25,18 @@ Une fois les hôtes identifiés, on les analyse pour recueillir des données int
 
 &#x20;We can use **`Wireshark`** and **`TCPDump`** to "put our ear to the wire" and see what hosts and types of network traffic&#x20;
 
-We notice some [<mark style="color:orange;">**ARP**</mark>](https://en.wikipedia.org/wiki/Address_Resolution_Protocol) <mark style="color:orange;">**requests and replies**</mark>
+We notice some&#x20;
 
-[<mark style="color:orange;">**MDNS**</mark>](https://en.wikipedia.org/wiki/Multicast_DNS)<mark style="color:orange;">**, and other basic**</mark> [<mark style="color:orange;">**layer two**</mark>](https://www.juniper.net/documentation/us/en/software/junos/multicast-l2/topics/topic-map/layer-2-understanding.html) <mark style="color:orange;">**packets**</mark> (since we are on a switched network, we are limited to the current broadcast domain) some of which we can see below. This is a great start that gives us a few bits of information about the customer's network setup.
+* [<mark style="color:orange;">**ARP**</mark>](https://en.wikipedia.org/wiki/Address_Resolution_Protocol) <mark style="color:orange;">**requests and replies**</mark>
+* [<mark style="color:orange;">**MDNS**</mark>](https://en.wikipedia.org/wiki/Multicast_DNS)<mark style="color:orange;">**, and other basic**</mark> [<mark style="color:orange;">**layer two**</mark>](https://www.juniper.net/documentation/us/en/software/junos/multicast-l2/topics/topic-map/layer-2-understanding.html) <mark style="color:orange;">**packets**</mark>&#x20;
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-┌─[htb-student@ea-attack01]─[~]
-└──╼ $sudo -E wireshark
+sudo -E wireshark
 ```
 {% endcode %}
 
-**Wireshark Output**
+<mark style="color:green;">**Wireshark Output**</mark>
 
 <figure><img src="../../.gitbook/assets/ea-wireshark.webp" alt=""><figcaption></figcaption></figure>
 
@@ -83,7 +53,7 @@ If we are on a host without a GUI (which is typical), we can use [tcpdump](https
 <mark style="color:orange;">**Tcpdump Output**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo tcpdump -i ens224 
+sudo tcpdump -i ens224 
 ```
 
 <figure><img src="../../.gitbook/assets/tcpdump-example.png" alt=""><figcaption></figcaption></figure>
@@ -254,8 +224,6 @@ D'après les résultats, on voit qu'il y a potentiellement un hôte avec un syst
 
 Les résultats des scans nous montrent où commencer à rechercher des informations sur les utilisateurs de domaine. Nous avons découvert plusieurs serveurs de services de domaine (DC01, MX01, WS01, etc.), et maintenant nous pouvons tenter d'énumérer les utilisateurs.
 
-Le but final est de trouver un compte utilisateur de domaine ou un accès SYSTEM sur un hôte du domaine pour commencer l'exploration en profondeur.
-
 ***
 
 ### <mark style="color:red;">Identifying Users</mark>
@@ -269,15 +237,13 @@ Nous allons utiliser Kerbrute en combinaison avec les listes d'utilisateurs `jsm
 <mark style="color:orange;">**Cloning Kerbrute GitHub Repo**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo git clone https://github.com/ropnop/kerbrute.git
+sudo git clone https://github.com/ropnop/kerbrute.git
 ```
-
-Typing `make help` will show us the compiling options available.
 
 <mark style="color:orange;">**Listing Compiling Options**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ make help
+make help
 
 help:            Show this help.
 windows:  Make Windows x86 and x64 Binaries
@@ -292,30 +258,24 @@ We can choose to compile just one binary or type `make all` and compile one each
 <mark style="color:orange;">**Compiling for Multiple Platforms and Architectures**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo make all
-
-<SNIP>
+sudo make all
 ```
-
-The newly created `dist` directory will contain our compiled binaries.
 
 <mark style="color:orange;">**Listing the Compiled Binaries in dist**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ ls dist/
+ls dist/
 
 kerbrute_darwin_amd64  kerbrute_linux_386  kerbrute_linux_amd64  kerbrute_windows_386.exe  kerbrute_windows_amd64.exe
 ```
 {% endcode %}
 
-We can then test out the binary to make sure it works properly. We will be using the x64 version on the supplied Parrot Linux attack host in the target environment.
-
 <mark style="color:orange;">**Testing the kerbrute\_linux\_amd64 Binary**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ ./kerbrute_linux_amd64 
+ ./kerbrute_linux_amd64 
 ```
 {% endcode %}
 
@@ -325,25 +285,21 @@ We can add the tool to our PATH to make it easily accessible from anywhere on th
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ echo $PATH
+echo $PATH
 ```
 {% endcode %}
 
 <mark style="color:orange;">**Moving the Binary**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute
+sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute
 ```
 
 <mark style="color:orange;">**Enumerating Users with Kerbrut**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ kerbrute userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o valid_ad_users
-
-2021/11/17 23:01:46 >  Using KDC(s):
-2021/11/17 23:01:46 >   172.16.5.5:88
-2021/11/17 23:01:46 >  [+] VALID USERNAME:       jjones@INLANEFREIGHT.LOCAL
+kerbrute userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o valid_ad_users
 ```
 {% endcode %}
 

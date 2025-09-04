@@ -6,7 +6,7 @@
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ crackmapexec smb 172.16.5.5 -u avazquez -p Password123 --pass-pol
+crackmapexec smb 172.16.5.5 -u avazquez -p Password123 --pass-pol
 ```
 {% endcode %}
 
@@ -15,9 +15,9 @@ mrroboteLiot@htb[/htb]$ crackmapexec smb 172.16.5.5 -u avazquez -p Password123 -
 ## <mark style="color:red;">Enumerating the Password Policy - from Linux - SMB NULL Sessions</mark>
 
 {% hint style="warning" %}
-The first is via an SMB NULL session. SMB NULL sessions allow an unauthenticated attacker to retrieve information from the domain, such as a complete listing of users, groups, computers, user account attributes, and the domain password policy.&#x20;
+The first is via an **SMB NULL session**. SMB NULL sessions allow an unauthenticated attacker to retrieve information from the domain, such as a complete listing of users, groups, computers, user account attributes, and the domain password policy.&#x20;
 
-SMB NULL session misconfigurations are often the result of legacy Domain Controllers being upgraded in place, ultimately bringing along insecure configurations, which existed by default in older versions of Windows Server.
+**SMB NULL session misconfigurations** are often the result of legacy Domain Controllers being upgraded in place, ultimately bringing along insecure configurations, which existed by default in older versions of Windows Server.
 
 When creating a domain in earlier versions of Windows Server, anonymous access was granted to certain shares, which allowed for domain enumeration.
 {% endhint %}
@@ -25,7 +25,7 @@ When creating a domain in earlier versions of Windows Server, anonymous access w
 <mark style="color:green;">**Using rpcclient**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ rpcclient -U "" -N 172.16.5.5
+rpcclient -U "" -N 172.16.5.5
 
 rpcclient $> querydominfo
 ```
@@ -55,26 +55,24 @@ Let's try this using [enum4linux](https://labs.portcullis.co.uk/tools/enum4linux
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ enum4linux -P 172.16.5.5
+enum4linux -P 172.16.5.5
 ```
 {% endcode %}
 
-{% hint style="info" %}
+{% hint style="warning" %}
 The tool [enum4linux-ng](https://github.com/cddmp/enum4linux-ng) is a rewrite of `enum4linux` in Python, but has additional features such as the ability to export data as YAML or JSON files which can later be used to process the data further or feed it to other tools. It also supports colored output, among other features
 {% endhint %}
 
 <mark style="color:green;">**Using enum4linux-ng**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ enum4linux-ng -P 172.16.5.5 -oA ilfreight
+enum4linux-ng -P 172.16.5.5 -oA ilfreight
 ```
-
-Enum4linux-ng provided us with a bit clearer output and handy JSON and YAML output using the `-oA` flag.
 
 <mark style="color:green;">**Displaying the contents of ilfreight.json**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ cat ilfreight.json 
+cat ilfreight.json 
 ```
 
 ***
@@ -133,7 +131,7 @@ With an LDAP anonymous bind, we can use LDAP-specific enumeration tools such as 
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength
+ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength
 ```
 {% endcode %}
 

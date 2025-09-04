@@ -99,7 +99,7 @@ Any of the rogue servers (i.e., SMB) can be disabled in the `Responder.conf` fil
 <mark style="color:green;">**Responder Logs**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ ls
+ls
 
 Analyzer-Session.log                Responder-Session.log
 Config-Responder.log                SMB-NTLMv2-SSP-172.16.5.200.txt
@@ -114,15 +114,11 @@ Proxy-Auth-NTLMv2-172.16.5.200.txt
 sudo responder -I ens224 
 ```
 
-<mark style="color:green;">**Capturing with Responder**</mark>
-
-Typically we should start Responder and let it run for a while in a tmux window while we perform other enumeration tasks to maximize the number of hashes that we can obtain. Once we are ready, we can pass these hashes to Hashcat using hash **mode `5600` for NTLMv2** hashes that we typically obtain with Responder.&#x20;
-
 <mark style="color:green;">**Cracking an NTLMv2 Hash With Hashcat**</mark>
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt 
+hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt 
 
 ```
 {% endcode %}

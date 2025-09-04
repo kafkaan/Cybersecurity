@@ -21,12 +21,6 @@ There are several options available to us with the tool. Since the host is domai
     {% endcode %}
 * **Fonctionnement** : L’outil crée une liste d’utilisateurs à partir de l’Active Directory, exclut les utilisateurs sur le point d’être verrouillés et tente de se connecter en utilisant un mot de passe commun.
 
-<mark style="color:green;">**Étapes de l'attaque :**</mark>
-
-1. **Génération de la liste d'utilisateurs** : Si l'attaquant est déjà authentifié au domaine, la liste des utilisateurs est automatiquement générée.
-2. **Application du mot de passe** : L'outil tente un mot de passe sur plusieurs comptes en même temps.
-3. **Vérification des succès** : Si l'attaque réussit, les informations (utilisateur et mot de passe) sont enregistrées dans un fichier de sortie.
-
 <mark style="color:green;">**Mitigation des attaques de Password Spraying**</mark>
 
 1. **Authentification multi-facteurs** : Cela empêche l'attaquant d’accéder aux comptes même si le mot de passe est valide.

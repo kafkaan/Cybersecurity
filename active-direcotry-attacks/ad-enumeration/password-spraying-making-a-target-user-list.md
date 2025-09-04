@@ -17,16 +17,14 @@
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ enum4linux -U 172.16.5.5  | grep "user:" | cut -f2 -d"[" | cut -f1 -d"]"
+enum4linux -U 172.16.5.5  | grep "user:" | cut -f2 -d"[" | cut -f1 -d"]"
 ```
 {% endcode %}
-
-We can use the `enumdomusers` command after connecting anonymously using `rpcclient`.
 
 <mark style="color:green;">**Using rpcclient**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ rpcclient -U "" -N 172.16.5.5
+rpcclient -U "" -N 172.16.5.5
 
 rpcclient $> enumdomusers 
 ```
@@ -39,7 +37,7 @@ Finally, we can use `CrackMapExec` with the `--users` flag. This is a useful too
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ crackmapexec smb 172.16.5.5 --users
+crackmapexec smb 172.16.5.5 --users
 ```
 {% endcode %}
 
@@ -53,13 +51,9 @@ We can use various tools to gather users when we find an LDAP anonymous bind. So
 
 {% code overflow="wrap" fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" "
+ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" "
 ```
 {% endcode %}
-
-Tools such as `windapsearch` make this easier (though we should still understand how to create our own LDAP search filters). Here we can specify anonymous access by providing a blank username with the `-u` flag and the `-U` flag to tell the tool to retrieve just users.
-
-Voici une fiche complète sur les **filtres LDAP** pour t’aider à mieux comprendre leur fonctionnement, leurs syntaxes, et leurs cas d’utilisation.
 
 ***
 
@@ -200,7 +194,7 @@ ldapsearch -x -h <server_ip> -b "DC=example,DC=com" -s sub "(&(objectclass=group
 ### <mark style="color:red;">**Using windapsearch**</mark>
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ ./windapsearch.py --dc-ip 172.16.5.5 -u "" -U
+./windapsearch.py --dc-ip 172.16.5.5 -u "" -U
 ```
 
 ***
@@ -237,7 +231,7 @@ Cet outil utilise l'authentification préalable Kerberos (**Kerberos Pre-Authent
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$  kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt     
+kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt     
 ```
 {% endcode %}
 
@@ -253,6 +247,6 @@ Using Kerbrute for username enumeration will generate event ID [4768: A Kerberos
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u htb-student -p Academy_student_AD! --users
+sudo crackmapexec smb 172.16.5.5 -u htb-student -p Academy_student_AD! --users
 ```
 {% endcode %}

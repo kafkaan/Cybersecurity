@@ -4,11 +4,9 @@
 
 ### <mark style="color:red;">Windows Defender & SMBEXEC.py Considerations</mark>
 
-If Windows Defender (or another AV or EDR product) is enabled on a target, our shell session may be established, but issuing any commands will likely fail. The first thing smbexec.py does is create a service called `BTOBTO`.&#x20;
+Si Windows Defender (ou un autre antivirus/EDR) est activé sur la cible, la session shell peut s’établir, mais l’exécution des commandes échouera probablement. smbexec.py crée d’abord un service appelé **BTOBTO**, puis un second service **BTOBO**. Chaque commande est envoyée à la cible via SMB sous forme de fichier batch `execute.bat`, qui est créé, exécuté puis supprimé automatiquement. Windows Defender détecte ce comportement comme malveillant, générant des alertes dans ses logs.
 
-Another service called `BTOBO` is created, and any command we type is sent to the target over SMB inside a .bat file called `execute.bat`. With each new command we type, a new batch script is created and echoed to a temporary file that executes said script and deletes it from the system. Let's look at a Windows Defender log to see what behavior was considered malicious.
-
-**Windows Defender Quarantine Log**
+<mark style="color:green;">**Windows Defender Quarantine Log**</mark>
 
 <figure><img src="../../../.gitbook/assets/defenderLog.webp" alt=""><figcaption></figcaption></figure>
 

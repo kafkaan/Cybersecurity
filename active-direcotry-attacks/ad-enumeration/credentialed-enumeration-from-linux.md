@@ -12,7 +12,7 @@
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ crackmapexec -h
+crackmapexec -h
 ```
 {% endcode %}
 
@@ -22,7 +22,7 @@ We can see that we can use the tool with MSSQL, SMB, SSH, and WinRM credentials.
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ crackmapexec smb -h
+crackmapexec smb -h
 ```
 {% endcode %}
 
@@ -37,7 +37,7 @@ mrroboteLiot@htb[/htb]$ crackmapexec smb -h
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --users
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --users
 ```
 {% endcode %}
 
@@ -45,7 +45,7 @@ mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups
 ```
 {% endcode %}
 
@@ -53,7 +53,7 @@ mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.130 -u forend -p Klmcargo2 --loggedon-users
+sudo crackmapexec smb 172.16.5.130 -u forend -p Klmcargo2 --loggedon-users
 ```
 {% endcode %}
 
@@ -65,7 +65,7 @@ We can use the `--shares` flag to enumerate available shares on the remote host 
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --shares
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --shares
 ```
 {% endcode %}
 
@@ -75,7 +75,7 @@ Next, we can dig into the shares and spider each directory looking for files. Th
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M spider_plus --share 'Department Shares'
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M spider_plus --share 'Department Shares'
 
 ```
 {% endcode %}
