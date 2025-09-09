@@ -2,7 +2,18 @@
 
 ### <mark style="color:blue;">Credentials in SMB Shares and SYSVOL Scripts</mark>
 
-The SYSVOL share can be a treasure trove of data, especially in large organizations. We may find many different batch, VBScript, and PowerShell scripts within the scripts directory, which is readable by all authenticated users in the domain. It is worth digging around this directory to hunt for passwords stored in scripts. Sometimes we will find very old scripts containing since disabled accounts or old passwords, but from time to time, we will strike gold, so we should always dig through this directory. Here, we can see an interesting script named `reset_local_admin_pass.vbs`.
+* **Qu’est-ce que SYSVOL ?**
+  * C’est un partage accessible à **tous les utilisateurs authentifiés** d’un domaine Active Directory.
+  * On y trouve notamment un dossier `scripts`.
+* **Pourquoi c’est intéressant ?**
+  * Ce répertoire contient souvent des **scripts Batch, VBScript, PowerShell** utilisés par les admins.
+  * Ces scripts sont exécutés automatiquement pour gérer des postes ou déployer des configurations.
+* **Ce qu’on peut y trouver** :
+  * Des **mots de passe en clair** dans les scripts (ex. : `reset_local_admin_pass.vbs`).
+  * Des comptes ou mots de passe anciens (parfois obsolètes), mais qui peuvent encore marcher.
+* **Bonne pratique d’attaquant** :
+  * Toujours explorer `SYSVOL\scripts`.
+  * Même si 90 % du temps on tombe sur du vieux contenu, il arrive de trouver des **identifiants encore valides** = jackpot 💎.
 
 <mark style="color:green;">**Discovering an Interesting Script**</mark>
 

@@ -18,7 +18,7 @@ Tout **utilisateur du domaine** peut lire ces fichiers car ils sont stockés sur
 Ce problème a été corrigé en **2014** avec la mise à jour **MS14-025** (_Vulnerability in GPP could allow elevation of privilege_), pour empêcher les administrateurs de définir des mots de passe via **GPP**. Cependant, le correctif **ne supprime pas** les fichiers **Groups.xml** contenant des mots de passe déjà stockés dans SYSVOL.\
 Si vous supprimez la stratégie GPP au lieu de simplement la **délier de l’OU**, la copie mise en cache sur l’ordinateur local **reste présente**.
 
-**Viewing Groups.xml**
+<mark style="color:green;">**Viewing Groups.xml**</mark>
 
 <figure><img src="../../../.gitbook/assets/GPP.webp" alt=""><figcaption></figcaption></figure>
 

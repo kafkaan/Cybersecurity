@@ -2,9 +2,16 @@
 
 ### <mark style="color:blue;">Enumerating DNS Records</mark>
 
-We can use a tool such as [adidnsdump](https://github.com/dirkjanm/adidnsdump) to enumerate all DNS records in a domain using a valid domain user account. This is especially helpful if the naming convention for hosts returned to us in our enumeration using tools such as `BloodHound` is similar to `SRV01934.INLANEFREIGHT.LOCAL`. If all servers and workstations have a non-descriptive name, it makes it difficult for us to know what exactly to attack. If we can access DNS entries in AD, we can potentially discover interesting DNS records that point to this same server, such as `JENKINS.INLANEFREIGHT.LOCAL`, which we can use to better plan out our attacks.
-
-The tool works because, by default, all users can list the child objects of a DNS zone in an AD environment. By default, querying DNS records using LDAP does not return all results. So by using the `adidnsdump` tool, we can resolve all records in the zone and potentially find something useful for our engagement.&#x20;
+* **But de l’outil** :\
+  `adidnsdump` permet d’énumérer tous les enregistrements DNS d’un domaine Active Directory en utilisant un compte utilisateur valide du domaine.
+* **Pourquoi c’est utile** :
+  * Dans certains environnements, les noms de machines sont peu parlants (exemple : `SRV01934.INLANEFREIGHT.LOCAL`).
+  * Avec les enregistrements DNS, on peut découvrir des noms plus descriptifs (ex : `JENKINS.INLANEFREIGHT.LOCAL`), ce qui aide à cibler des serveurs intéressants (Jenkins, Exchange, SQL, etc.).
+* **Pourquoi ça marche** :
+  * Par défaut, **tous les utilisateurs du domaine** ont le droit de lister les objets enfants d’une zone DNS dans Active Directory.
+  * En interrogeant via LDAP standard, on n’obtient pas toujours tous les enregistrements.
+* **Avantage d’adidnsdump** :\
+  L’outil interroge la zone DNS de l’AD et retourne **l’ensemble des enregistrements DNS** disponibles, révélant potentiellement des cibles utiles pour l’attaque.
 
 {% hint style="warning" %}
 The background and more in-depth explanation of this tool and technique can be found in this [post](https://dirkjanm.io/getting-in-the-zone-dumping-active-directory-dns-with-adidnsdump/).
@@ -49,14 +56,6 @@ If we run again with the `-r` flag the tool will attempt to resolve unknown reco
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ adidnsdump -u inlanefreight\\forend ldap://172.16.5.5 -r
-
-Password: 
-
-[-] Connecting to host...
-[-] Binding to host
-[+] Bind OK
-[-] Querying zone for records
-[+] Found 27 records
 ```
 
 <mark style="color:green;">**Finding Hidden Records in the records.csv File**</mark>

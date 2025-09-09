@@ -16,7 +16,7 @@ Si nous pouvons **obtenir des droits** sur un **objet de stratégie de groupe (G
 
 **Comprendre comment énumérer et attaquer les GPOs** peut nous donner un **avantage** et peut parfois être **la clé** pour atteindre notre objectif dans un environnement **fortement sécurisé**.
 
-**Enumerating GPO Names with PowerView**
+<mark style="color:green;">**Enumerating GPO Names with PowerView**</mark>
 
 ```powershell-session
 PS C:\htb> Get-DomainGPO |select displayname
