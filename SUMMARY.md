@@ -402,7 +402,7 @@
   * [C# REVERSE](reverse-engeneering/reverse-engeneering/c-reverse.md)
   * [MISP](reverse-engeneering/reverse-engeneering/misp.md)
   * [Golang](reverse-engeneering/reverse-engeneering/golang.md)
-  * [Ptrace (Process Trace) - Cours Complet](reverse-engeneering/reverse-engeneering/ptrace-process-trace-cours-complet.md)
+  * [Process Trace](reverse-engeneering/reverse-engeneering/process-trace.md)
 
 ## 🐧 Linux Privilege Escalation
 
