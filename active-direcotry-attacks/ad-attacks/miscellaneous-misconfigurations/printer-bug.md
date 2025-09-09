@@ -33,6 +33,37 @@ Cette attaque peut être utilisée pour relayer vers **LDAP** et accorder à un 
 
 L'attaque peut également être utilisée pour relayer l'authentification LDAP et accorder des **privilèges de délégation restreinte basée sur les ressources (RBCD)** à la victime vers un compte machine sous notre contrôle, donnant ainsi à l'attaquant la possibilité de s'authentifier en tant que **n'importe quel utilisateur** sur l'ordinateur de la victime.
 
+{% hint style="warning" %}
+**1️⃣ C’est quoi RBCD ?**
+
+**RBCD = Resource-Based Constrained Delegation**\
+C’est une fonctionnalité de **Kerberos/Active Directory** qui permet à un **serveur ou une machine** de dire :
+
+> “Je peux déléguer mon droit de me faire passer pour un utilisateur X à cette machine spécifique.”
+
+Avant RBCD, c’était **constrained delegation classique** : l’admin du domaine décidait sur quelles machines un compte pouvait se faire passer pour un autre. Avec RBCD, la machine cible décide elle-même.
+
+***
+
+**2️⃣ Pourquoi c’est intéressant pour un attaquant ?**
+
+Si tu contrôles une machine (même **fausse** ou compromise), tu peux demander à une machine légitime dans le domaine :
+
+* “Hé, donne-moi le droit de me faire passer pour n’importe quel utilisateur sur toi.”
+* Si tu arrives à changer l’ACL **msDS-AllowedToActOnBehalfOfOtherIdentity** sur cette machine, tu peux t’authentifier en tant que n’importe quel utilisateur (même Administrator).
+
+***
+
+**3️⃣ Comment ça fonctionne concrètement ?**
+
+1. **Créer une fausse machine** dans le domaine (par ex. `FakeComp$`).
+2. **Obtenir le SID** de cette machine : c’est son identifiant unique dans AD.
+3. **Modifier l’ACL** de la machine cible :
+   * msDS-AllowedToActOnBehalfOfOtherIdentity → ajouter le SID de ta fausse machine.
+4. Maintenant, ta machine **peut demander un ticket Kerberos** pour n’importe quel utilisateur sur cette machine.
+5. Avec un outil comme **Rubeus**, tu peux générer un **TGS** pour l’utilisateur visé et t’authentifier en tant que lui.
+{% endhint %}
+
 Cette attaque peut être exploitée pour **compromettre un contrôleur de domaine** dans un **domaine/forêt partenaire**, à condition que l'attaquant ait déjà un **accès administrateur** à un **contrôleur de domaine** dans la première forêt/domaine et que la relation de confiance autorise la **délégation TGT**, ce qui n'est plus activé par défaut.
 
 Nous pouvons utiliser des outils comme le **module Get-SpoolStatus** de cet outil (qui peut être trouvé sur la cible générée) ou cet outil pour vérifier la présence de machines vulnérables au **Printer Bug (MS-PRN)**.
@@ -46,8 +77,4 @@ Elle peut nous aider à **attaquer à travers les relations de confiance entre f
 ```powershell-session
 PS C:\htb> Import-Module .\SecurityAssessment.ps1
 PS C:\htb> Get-SpoolStatus -ComputerName ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL
-
-ComputerName                        Status
-------------                        ------
-ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL   True
 ```

@@ -10,8 +10,4 @@ Si Windows Defender (ou un autre antivirus/EDR) est activé sur la cible, la ses
 
 <figure><img src="../../../.gitbook/assets/defenderLog.webp" alt=""><figcaption></figcaption></figure>
 
-If opsec or being "quiet" is a consideration during an assessment, we would most likely want to avoid a tool like smbexec.py. The focus of this module is on tactics and techniques. We will refine our methodology as we progress in more advanced modules, but we first must obtain a solid base in enumerating and attacking Active Directory.
-
-***
-
 ***
