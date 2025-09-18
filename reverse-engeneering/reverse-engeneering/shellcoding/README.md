@@ -1,7 +1,5 @@
 # Shellcoding
 
-## <mark style="color:red;">🐚 Shellcodes (Code de Shell)</mark>
-
 ***
 
 ### <mark style="color:blue;">Qu’est-ce qu’un Shellcode ?</mark>
@@ -360,7 +358,7 @@ gef➤  r
 int main()
 {
     int (*ret)() = (int (*)()) "\x48\x31\xdb\x66\xbb...SNIP...\x0f\x05";
-    ret();
+    ret();l
 }
 ```
 
@@ -382,14 +380,6 @@ Exécution :
 
 ```bash
 ./helloworld
-```
-
-***
-
-### 🎯 Exercice : Shellcode à exécuter
-
-```shell
-4831db536a0a48b86d336d307279217d5048b833645f316e37305f5048b84854427b6c303464504889e64831c0b0014831ff40b7014831d2b2190f054831c0043c4030ff0f05
 ```
 
 ***

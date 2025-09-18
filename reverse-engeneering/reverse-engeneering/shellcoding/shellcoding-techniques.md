@@ -2,13 +2,6 @@
 
 ***
 
-## <mark style="color:red;">🐚 Techniques de Shellcoding</mark>
-
-Comme nous l'avons vu dans la section précédente, notre code assembleur Hello World a dû être modifié pour produire un shellcode fonctionnel.\
-Dans cette section, nous allons voir certaines des techniques et astuces que nous pouvons utiliser pour contourner les problèmes rencontrés dans notre code assembleur.
-
-***
-
 ### <mark style="color:blue;">✅ Exigences du Shellcoding</mark>
 
 Comme nous l'avons brièvement mentionné dans la section précédente, tous les binaires ne produisent pas des shellcodes valides pouvant être directement chargés en mémoire et exécutés.\
@@ -43,7 +36,7 @@ C’est ce qui se passe quand le code assembleur **ne respecte pas les exigences
 
 ***
 
-### <mark style="color:green;">📋 Les 3 Exigences du Shellcoding :</mark>
+### <mark style="color:blue;">📋 Les 3 Exigences du Shellcoding :</mark>
 
 1. ❌ **Ne pas contenir de variables**
 2. ❌ **Ne pas référencer d’adresses mémoire directes**
@@ -115,7 +108,7 @@ Hello HTB Academy!
 
 ***
 
-#### 🐛 Debug avec GDB :
+#### <mark style="color:green;">🐛 Debug avec GDB :</mark>
 
 ```bash
 gdb -q ./helloworld
@@ -179,7 +172,7 @@ b001
 
 ***
 
-#### 🧼 Exemple avec `rbx` :
+#### <mark style="color:green;">🧼 Exemple avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`rbx`</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 ```nasm
 xor rbx, rbx
