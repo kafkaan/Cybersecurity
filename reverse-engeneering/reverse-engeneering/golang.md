@@ -37,13 +37,13 @@ Dans IDA Pro, un tel binaire (non strippé) peut montrer **2058 fonctions**, alo
 
 C’est ici que nos techniques et scripts deviennent indispensables.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
 ### Chapitre 2 – Structure des binaires Go
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### La fonction `main.main`
 

@@ -107,7 +107,7 @@ mrroboteLiot_1@htb[/htb]$ /usr/share/metasploit-framework/tools/exploit/pattern_
 ```
 {% endcode %}
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Si nous utilisons maintenant précisément ce nombre d'octets pour nos "U", nous devrions atterrir exactement sur l'EIP. Pour l'écraser et vérifier si nous l'avons atteint comme prévu, nous pouvons ajouter 4 octets supplémentaires avec "\x66" et l'exécuter pour nous assurer que nous contrôlons l'EIP.
 

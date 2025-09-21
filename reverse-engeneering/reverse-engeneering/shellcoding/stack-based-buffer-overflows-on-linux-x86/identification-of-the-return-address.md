@@ -94,7 +94,7 @@ On exécute à nouveau notre exploit avec le shellcode et l’adresse corrigée 
 
 ***
 
-#### 🔹 Résultat côté Netcat
+#### <mark style="color:green;">🔹 Résultat côté Netcat</mark>
 
 ```
 Listening on [0.0.0.0] (family 0, port 31337)

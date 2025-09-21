@@ -12,22 +12,13 @@ Ces registres sont divisés en **registres généraux**, **registres de contrôl
 
 ### <mark style="color:blue;">Registres de Données</mark>
 
-| Registre 32-bit | Registre 64-bit | Description                                                                                                                                       |
-| --------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| EAX             | RAX             | Accumulateur utilisé pour les entrées/sorties et les opérations arithmétiques                                                                     |
-| EBX             | RBX             | Base utilisé dans l'adressage indexé                                                                                                              |
-| ECX             | RCX             | Compteur utilisé pour les instructions de rotation et le comptage des boucles                                                                     |
-| EDX             | RDX             | Données utilisé pour les E/S et dans les opérations arithmétiques pour les opérations de multiplication et division impliquant de grandes valeurs |
+<table data-full-width="true"><thead><tr><th>Registre 32-bit</th><th>Registre 64-bit</th><th>Description</th></tr></thead><tbody><tr><td>EAX</td><td>RAX</td><td>Accumulateur utilisé pour les entrées/sorties et les opérations arithmétiques</td></tr><tr><td>EBX</td><td>RBX</td><td>Base utilisé dans l'adressage indexé</td></tr><tr><td>ECX</td><td>RCX</td><td>Compteur utilisé pour les instructions de rotation et le comptage des boucles</td></tr><tr><td>EDX</td><td>RDX</td><td>Données utilisé pour les E/S et dans les opérations arithmétiques pour les opérations de multiplication et division impliquant de grandes valeurs</td></tr></tbody></table>
 
 ***
 
 ### <mark style="color:blue;">Registres de Pointeurs</mark>
 
-| Registre 32-bit | Registre 64-bit | Description                                                                                                                      |
-| --------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| EIP             | RIP             | Pointeur d'instruction stocke l'adresse de décalage de la prochaine instruction à exécuter                                       |
-| ESP             | RSP             | Pointeur de pile pointe vers le sommet de la pile                                                                                |
-| EBP             | RBP             | Pointeur de base également connu sous le nom de pointeur de base de pile ou pointeur de cadre qui pointe vers la base de la pile |
+<table data-full-width="true"><thead><tr><th>Registre 32-bit</th><th>Registre 64-bit</th><th>Description</th></tr></thead><tbody><tr><td>EIP</td><td>RIP</td><td>Pointeur d'instruction stocke l'adresse de décalage de la prochaine instruction à exécuter</td></tr><tr><td>ESP</td><td>RSP</td><td>Pointeur de pile pointe vers le sommet de la pile</td></tr><tr><td>EBP</td><td>RBP</td><td>Pointeur de base également connu sous le nom de pointeur de base de pile ou pointeur de cadre qui pointe vers la base de la pile</td></tr></tbody></table>
 
 ***
 
@@ -50,26 +41,26 @@ Puisque la mémoire de la pile est construite sur une structure de données **La
 (gdb) disas bowfunc 
 
 Dump of assembler code for function bowfunc:
-   0x0000054d <+0>:     push   ebp       # PROLOGUE - Étape 1 : Sauvegarde l'ancien EBP sur la pile
+   0x0000054d <+0>:     push   ebp      # PROLOGUE - Étape 1 : Sauvegarde l'ancien EBP sur la pile
                                         # Cette instruction pousse la valeur actuelle du registre EBP sur la pile
                                         # pour la préserver avant de créer un nouveau cadre de pile
                                         # ESP = ESP - 4, puis [ESP] = EBP
 
-   0x0000054e <+1>:     mov    ebp,esp   # PROLOGUE - Étape 2 : Crée un nouveau cadre de pile
+   0x0000054e <+1>:     mov    ebp,esp  # PROLOGUE - Étape 2 : Crée un nouveau cadre de pile
                                         # Copie la valeur du pointeur de pile (ESP) dans le pointeur de base (EBP)
                                         # Ceci établit la base du nouveau cadre de pile
                                         # EBP = ESP (maintenant EBP pointe vers le même endroit qu'ESP)
 
-   0x00000550 <+3>:     push   ebx       # PROLOGUE - Étape 3 : Sauvegarde du registre EBX
+   0x00000550 <+3>:     push   ebx      # PROLOGUE - Étape 3 : Sauvegarde du registre EBX
                                         # Pousse le registre EBX sur la pile pour le préserver
                                         # ESP = ESP - 4, puis [ESP] = EBX
                                         # Ceci est fait pour éviter de corrompre la valeur dans EBX
 
    0x00000551 <+4>:     sub    esp,0x404 # PROLOGUE - Étape 4 : Alloue de l'espace pour les variables locales
-                                        # Soustrait 0x404 (1028 en décimal) octets du pointeur de pile
-                                        # ESP = ESP - 0x404
-                                        # Ceci réserve 1028 octets sur la pile pour les variables locales de la fonction
-                                        # Cette valeur importante (1028 octets) suggère un buffer de taille significative
+                                         # Soustrait 0x404 (1028 en décimal) octets du pointeur de pile
+                                         # ESP = ESP - 0x404
+                                         # Ceci réserve 1028 octets sur la pile pour les variables locales de la fonction
+                                         # Cette valeur importante (1028 octets) suggère un buffer de taille significative
 
    <...SNIP...>                        # Ici se trouvent les instructions principales de la fonction
                                         # (opérations sur les données, appels de fonctions, etc.)
@@ -87,7 +78,7 @@ Dump of assembler code for function bowfunc:
 ```
 {% endcode %}
 
-#### Explication Détaillée du Prologue
+#### <mark style="color:green;">Explication Détaillée du Prologue</mark>
 
 Le **prologue** de la fonction comprend les quatre premières instructions :
 
@@ -96,7 +87,7 @@ Le **prologue** de la fonction comprend les quatre premières instructions :
 3. **`push ebx`** : Sauvegarde le registre EBX (préservation)
 4. **`sub esp,0x404`** : Réserve l'espace pour les variables locales
 
-#### Explication Détaillée de l'Épilogue
+#### <mark style="color:green;">Explication Détaillée de l'Épilogue</mark>
 
 L'**épilogue** de la fonction comprend les deux dernières instructions :
 
@@ -107,16 +98,13 @@ L'**épilogue** de la fonction comprend les deux dernières instructions :
 
 ### <mark style="color:blue;">Registres d'Index</mark>
 
-| Registre 32-bit | Registre 64-bit | Description                                                                           |
-| --------------- | --------------- | ------------------------------------------------------------------------------------- |
-| ESI             | RSI             | Index Source utilisé comme pointeur depuis une source pour les opérations de chaîne   |
-| EDI             | RDI             | Destination utilisé comme pointeur vers une destination pour les opérations de chaîne |
+<table data-full-width="true"><thead><tr><th>Registre 32-bit</th><th>Registre 64-bit</th><th>Description</th></tr></thead><tbody><tr><td>ESI</td><td>RSI</td><td>Index Source utilisé comme pointeur depuis une source pour les opérations de chaîne</td></tr><tr><td>EDI</td><td>RDI</td><td>Destination utilisé comme pointeur vers une destination pour les opérations de chaîne</td></tr></tbody></table>
 
 ***
 
 ### <mark style="color:blue;">Compilation 64-bit vs 32-bit</mark>
 
-#### Compilation en Format 64-bit :
+#### <mark style="color:green;">Compilation en Format 64-bit :</mark>
 
 ```bash
 student@nix-bow:~$ gcc bow.c -o bow64 -fno-stack-protector -z execstack -m64

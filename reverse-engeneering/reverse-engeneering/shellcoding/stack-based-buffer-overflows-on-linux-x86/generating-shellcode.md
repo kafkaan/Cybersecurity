@@ -41,7 +41,7 @@ unsigned char buf[] =
 
 Now that we have our shellcode, we adjust it to have only one string, and then we can adapt and submit our simple exploit again.
 
-**Notes**
+<mark style="color:green;">**Notes**</mark>
 
 ```shell-session
    Buffer = "\x55" * (1040 - 124 - 95 - 4) = 817
