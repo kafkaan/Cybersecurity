@@ -45,6 +45,24 @@ L'architecture ARMv6 dispose de **16 registres 32 bits** en mode utilisateur :
 * **r15 (pc)** : Program Counter - adresse de la prochaine instruction
 * **cpsr** : Current Program Status Register - état du processeur et mode d'exécution
 
+{% hint style="success" %}
+Le CPSR est un registre de 32 bits. Il contient plusieurs **zones importantes** :
+
+1. **Flags de condition (bits 31 à 28)**
+   * **N (Negative)** : mis à 1 si le résultat de la dernière opération est négatif
+   * **Z (Zero)** : mis à 1 si le résultat est 0
+   * **C (Carry)** : mis à 1 si la dernière opération a généré un retenue (overflow non signé)
+   * **V (Overflow)** : mis à 1 si la dernière opération a généré un dépassement (overflow signé)
+2. **Mode du processeur (bits 4 à 0)**
+   * Indique si le CPU est en **User mode, FIQ, IRQ, Supervisor, etc.**
+   * Exemple : 0b10000 → User mode
+3. **Interrupt Disable Bits**
+   * Masque des interruptions IRQ ou FIQ
+   * Permet de désactiver temporairement certaines interruptions
+4. **Autres bits**
+   * Divers bits de contrôle et statut du processeur selon la version ARM.
+{% endhint %}
+
 {% hint style="info" %}
 Il y a _16 registres_ pouvant être utilisés dans le mode utilisateur (le mode dans lequel les programmes sont exécutés).\
 Sur ARMv6, tous ces registres sont des registres 32 bits.
@@ -57,6 +75,8 @@ Sur ARMv6, tous ces registres sont des registres 32 bits.
 * le registre _r15_ (pc) est le "program counter", il contient l’adresse de la prochaine instruction à exécuter ;
 * le registre _cpsr_ pour "current program status register" est un registre spécial mis à jour par le biais de différentes instructions. Il est utilisé, par exemple, par les instructions conditionnelles et stocke le mode d’exécution actuel.
 {% endhint %}
+
+***
 
 ### <mark style="color:blue;">3. La Pile (Stack)</mark>
 
@@ -75,7 +95,7 @@ Il existe 4 types de piles :
 
 ### <mark style="color:blue;">4. Jeu d'Instructions</mark>
 
-#### <mark style="color:green;">Caractéristiques Générales</mark>
+#### <mark style="color:green;">Caractéristiques Générales</mark>  :nerd:
 
 Une instruction ARMv6 est tout le temps codée sur _32 bits_ (ou 16 bits pour le THUMB mode, cf. plus bas).&#x20;
 
@@ -83,7 +103,7 @@ Une instruction ARMv6 est tout le temps codée sur _32 bits_ (ou 16 bits pour le
 * **Alignement** : Adresses alignées sur 4 octets (2 octets en THUMB)
 * **Format** : `0x18bd8070 -> popne {r4, r5, r6, pc}`
 
-#### <mark style="color:green;">Mnémoniques Conditionnels</mark>
+#### <mark style="color:green;">Mnémoniques Conditionnels</mark>&#x20;
 
 Presque chaque instruction ARM peut être exécutée (ou non) suivant une condition. Voici la liste des mnémonique :
 
@@ -103,7 +123,7 @@ Presque chaque instruction ARM peut être exécutée (ou non) suivant une condit
 * `le` : plus petit ou égal (signé)
 * `al` : toujours vrai
 
-#### <mark style="color:green;">Instructions Arithmétiques</mark>
+#### <mark style="color:green;">Instructions Arithmétiques</mark> :heavy\_plus\_sign:
 
 * Syntaxe : _opconds Rd, Rs, Operand_
 * op est un mnémonique parmi : _add, sub, rsb, adc, sbc, rsc_
@@ -119,7 +139,7 @@ addeq r0, r0, #42   ; Ajoute 42 à r0 (si égal)
 subs r1, r2, r3     ; r1 = r2 - r3 (cpsr modifié)
 ```
 
-#### <mark style="color:green;">Instructions Logiques</mark>
+#### <mark style="color:green;">Instructions Logiques</mark> :handshake:
 
 * Syntaxe : _opconds Rd, Rs, Operand_
 * op est un mnémonique parmi : _and, eor, tst, teq, orr, mov, bic, mvn_
@@ -134,7 +154,7 @@ subs r1, r2, r3     ; r1 = r2 - r3 (cpsr modifié)
 andle r5, r2, #13    ; r5 = r2 & 13 (si <=)
 ```
 
-#### <mark style="color:green;">Instructions de Multiplication</mark>
+#### <mark style="color:green;">Instructions de Multiplication</mark> :heavy\_multiplication\_x:
 
 * Syntaxe 1 : _mulconds Rd, Rm, Rs_
 * Syntaxe 2 : _mlaconds Rd, Rm, Rs, Rn_
@@ -150,7 +170,7 @@ mul r5, r0, r1      ; r5 = r0 * r1 ; Stock dans r5 le résultat de (r0 * r1)
 mla r2, r5, r6, r3  ; r2 = r5 * r6 + r3 ; Stock dans r2, le résultat de (r5 * r6 + r3)
 ```
 
-#### <mark style="color:green;">Instructions de Comparaison</mark>
+#### <mark style="color:green;">Instructions de Comparaison</mark> :infinity:
 
 * Syntaxe : _opcond Rs, Operand_
 * op est un mnémonique parmis : _cmp, cmn_
@@ -166,7 +186,7 @@ cmn r4, r6   ; additionne r4 et r6, et modifie le registre cpsr
 
 ```
 
-#### <mark style="color:green;">Instructions d'Accès Mémoire</mark>
+#### <mark style="color:green;">Instructions d'Accès Mémoire</mark> :pencil:
 
 * Syntaxe 1 : o&#x70;_&#x63;ondbt_ Rd, \[Rs]
 * Syntaxe 2 : o&#x70;_&#x63;ondb_ Rd, \[Rs + off] _!_
