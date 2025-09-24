@@ -405,9 +405,10 @@
   * [Process Trace](reverse-engeneering/reverse-engeneering/process-trace.md)
   * [WebAssembly](reverse-engeneering/reverse-engeneering/webassembly.md)
   * [ARM](reverse-engeneering/reverse-engeneering/arm.md)
-  * [HACKING ART OF THE EXPLOITATION](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation/README.md)
-    * [Getting Your Hands Dirty](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation/getting-your-hands-dirty.md)
-    * [Advanced C](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation/advanced-c.md)
+  * [Hacking Art Of The Exploitation : Book](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation-book/README.md)
+    * [Getting Your Hands Dirty](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation-book/getting-your-hands-dirty.md)
+    * [Advanced C](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation-book/advanced-c.md)
+    * [EXPLOITATION](reverse-engeneering/reverse-engeneering/hacking-art-of-the-exploitation-book/exploitation.md)
 
 ## 🐧 Linux Privilege Escalation
 

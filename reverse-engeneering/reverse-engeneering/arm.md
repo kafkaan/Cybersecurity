@@ -125,10 +125,10 @@ Presque chaque instruction ARM peut être exécutée (ou non) suivant une condit
 
 #### <mark style="color:green;">Instructions Arithmétiques</mark> :heavy\_plus\_sign:
 
-* Syntaxe : _opconds Rd, Rs, Operand_
-* op est un mnémonique parmi : _add, sub, rsb, adc, sbc, rsc_
+* Syntaxe : _<mark style="color:orange;">**op-conds Rd, Rs, Operand**</mark>_
+* op est un mnémonique parmi : _<mark style="color:orange;">**add, sub, rsb, adc, sbc, rsc**</mark>_
 * cond est un mnémonique conditionnel (optionnel)
-* s indique si le registre cpsr est modifié par l’instruction (optionnel)
+* <mark style="color:orange;">**s**</mark> indique si le registre cpsr est modifié par l’instruction (optionnel)
 * Rd est le registre de destination
 * Rs est le registre source
 * Operand peut être un registre ou une constante.
@@ -141,8 +141,8 @@ subs r1, r2, r3     ; r1 = r2 - r3 (cpsr modifié)
 
 #### <mark style="color:green;">Instructions Logiques</mark> :handshake:
 
-* Syntaxe : _opconds Rd, Rs, Operand_
-* op est un mnémonique parmi : _and, eor, tst, teq, orr, mov, bic, mvn_
+* Syntaxe : _<mark style="color:orange;">**op-conds Rd, Rs, Operand**</mark>_
+* op est un mnémonique parmi : _<mark style="color:orange;">**and, eor, tst, teq, orr, mov, bic, mvn**</mark>_
 * cond est un mnémonique conditionnel. (optionnel)
 * s indique si le registre cpsr est modifié par l’instruction. (optionnel)
 * Rd est le registre de destination
@@ -156,8 +156,8 @@ andle r5, r2, #13    ; r5 = r2 & 13 (si <=)
 
 #### <mark style="color:green;">Instructions de Multiplication</mark> :heavy\_multiplication\_x:
 
-* Syntaxe 1 : _mulconds Rd, Rm, Rs_
-* Syntaxe 2 : _mlaconds Rd, Rm, Rs, Rn_
+* Syntaxe 1 : _<mark style="color:orange;">**mul-conds Rd, Rm, Rs**</mark>_
+* Syntaxe 2 : _<mark style="color:orange;">**mla-conds Rd, Rm, Rs, Rn**</mark>_
 * cond est un mnémonique conditionnel (optionnel)
 * s indique si le registre cpsr est modifié par l’instruction (optionnel)
 * Rd est le registre de destination
@@ -172,8 +172,8 @@ mla r2, r5, r6, r3  ; r2 = r5 * r6 + r3 ; Stock dans r2, le résultat de (r5 * r
 
 #### <mark style="color:green;">Instructions de Comparaison</mark> :infinity:
 
-* Syntaxe : _opcond Rs, Operand_
-* op est un mnémonique parmis : _cmp, cmn_
+* Syntaxe : _<mark style="color:orange;">**op-cond Rs, Operand**</mark>_
+* op est un mnémonique parmis : _<mark style="color:orange;">**cmp, cmn**</mark>_
 * cond est un mnémonique conditionnel. (optionnel)
 * Rs est un registre pour le premier operand
 * Operand est un registre ou une constante
@@ -188,10 +188,10 @@ cmn r4, r6   ; additionne r4 et r6, et modifie le registre cpsr
 
 #### <mark style="color:green;">Instructions d'Accès Mémoire</mark> :pencil:
 
-* Syntaxe 1 : o&#x70;_&#x63;ondbt_ Rd, \[Rs]
-* Syntaxe 2 : o&#x70;_&#x63;ondb_ Rd, \[Rs + off] _!_
-* Syntaxe 3 : o&#x70;_&#x63;ondbt_ Rd, \[Rs], off
-* op est un mnémonique parmi : _ldr, str_
+* Syntaxe 1 : <mark style="color:orange;">**op-**</mark>_<mark style="color:orange;">**cond-bt**</mark>_<mark style="color:orange;">**&#x20;**</mark><mark style="color:orange;">**Rd, \[Rs]**</mark>
+* Syntaxe 2 : <mark style="color:orange;">**op-**</mark>_<mark style="color:orange;">**cond-b**</mark>_<mark style="color:orange;">**&#x20;**</mark><mark style="color:orange;">**Rd, \[Rs + off]**</mark><mark style="color:orange;">**&#x20;**</mark>_<mark style="color:orange;">**!**</mark>_
+* Syntaxe 3 : <mark style="color:orange;">**op-**</mark>_<mark style="color:orange;">**cond-bt**</mark>_<mark style="color:orange;">**&#x20;**</mark><mark style="color:orange;">**Rd, \[Rs], off**</mark>
+* op est un mnémonique parmi : _<mark style="color:orange;">**ldr, str**</mark>_
 * cond est un mnémonique conditionnel (optionnel)
 * b permet de transferer que le byte le moins significatif (optionnel)
 * t n’est pas utilisé en user mode.
@@ -209,8 +209,8 @@ str r1, [r6 + #75]!   ; Copie à l'adresse r6+75 r1, et ajoute 75 à r1
 
 <mark style="color:green;">**Accès Multi-registres**</mark>
 
-* Syntaxe : o&#x70;_&#x63;on&#x64;_&#x6D;ode Rs _!_, reglis&#x74;_^_
-* op est un mnémonique parmis : _ldm, stm_
+* Syntaxe : <mark style="color:orange;">**op-**</mark>_<mark style="color:orange;">**cond-**</mark>_<mark style="color:orange;">**mode Rs**</mark><mark style="color:orange;">**&#x20;**</mark>_<mark style="color:orange;">**!**</mark>_<mark style="color:orange;">**, reglist**</mark>_<mark style="color:orange;">**^**</mark>_
+* op est un mnémonique parmis : _<mark style="color:orange;">**ldm, stm**</mark>_
 * cond est un mnémonique conditionnel (optionnel)
 * mode est un mnémonique parmi&#x20;
   * _ia_ incrémentation de l’adresse après chaque transfert&#x20;
@@ -236,8 +236,8 @@ pop {fp,pc}        ; Alias de ldmfd sp!, {fp,pc}
 
 #### <mark style="color:green;">Instructions de Branchement</mark>
 
-* Syntaxe 1 : _opcond label_
-* Syntaxe 2 : _bxcond Rs_
+* Syntaxe 1 : _op-cond label_
+* Syntaxe 2 : _bx-cond Rs_
 * op est un mnémonique parmis _b, bl_
 * cond est un mnémonique conditionnel (optionnel)
 * label est l’adresse où effectuer le branchement
@@ -254,12 +254,14 @@ b label  ; Saut simple vers label
 
 #### <mark style="color:green;">Interruption Logicielle</mark>
 
-* Syntaxe : _swicond expression_
+* Syntaxe : _swi-cond expression_
 * cond est un mnémonique conditionnel (optionnel)
 * expression est une valeur ignorée par le processeur
 
 _swi_ est l’instruction permettant de générer une interruption logicielle. Elle est utilisée par exemple pour les appels systèmes Linux.\
 Sur Linux, le numéro de l’appel système est placé dans le registre r7, et les arguments sur la pile.
+
+***
 
 ### <mark style="color:blue;">5. Mode THUMB</mark>
 
@@ -271,13 +273,15 @@ Pour passer du mode normal au mode THUMB, il suffit d’utiliser l’instruction
 
 Ce mode peut être très utile afin de supprimer les octets nuls d’un shellcode par exemple, et d’en diminuer la taille.
 
+***
+
 ### <mark style="color:blue;">6. Appels de Fonctions</mark>
 
 Dans cette partie, je vais tenter de montrer la forme du code Assembleur généré par [GCC](http://fr.wikipedia.org/wiki/GNU_Compiler_Collection).
 
-Tout d’abord, lorsqu’une fonction est appelée, les arguments sont passés dans les registres _r0_ à _r3_. Si une fonction possède plus de 4 arguments, alors les autres arguments sont placés sur la pile.
+Tout d’abord, lorsqu’une fonction est appelée, **les arguments sont passés dans les registres&#x20;**_**r0**_**&#x20;à&#x20;**_**r3**_**.** Si une fonction possède plus de 4 arguments, **alors les autres arguments sont placés sur la pile.**
 
-La valeur de retour d’une fonction est quant à elle placée dans le registre _r0_.
+La **valeur de retour d’une fonction est quant à elle placée dans le registre&#x20;**_**r0**_.
 
 Une fonction commence généralement par un _prologue_, et se termine par un _épilogue_. Entre les deux, se trouve le corps de la fonction.
 
@@ -366,15 +370,3 @@ int main(void) {
 * En 0x83e4, on place dans r1 la variable qu’on a sauvegardé sur la pile en 0x83d8.
 * En 0x83e8, on appelle la fonction printf. r0 contient l’adresse de la chaine "%s", et r1 contient l’adresse de la chaine "Hello world".
 * En 0x83ec et 0x83f0, on a l’épilogue de la fonction foo. On commence par remettre la pile dans le contexte de main, puis on restaure fp, puis pc. En restaurant pc, on revient dans la fonction main (car le registre lr avait été sauvegardé lors du prologue, et contenait l’adresse située après l’appel de foo)
-
-### Conclusion
-
-L'architecture ARM offre un jeu d'instructions riche et flexible, particulièrement adapté aux systèmes embarqués. Sa conception RISC permet une exécution efficace avec des instructions conditionnelles et une gestion flexible de la pile.
-
-**Points clés à retenir :**
-
-* Instructions conditionnelles universelles
-* Gestion flexible de la pile
-* Convention d'appel claire
-* Mode THUMB pour l'optimisation de taille
-* Architecture bien adaptée aux contraintes embarquées
