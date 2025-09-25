@@ -4,54 +4,57 @@
 
 ## <mark style="color:red;">Structured Query Language (SQL)</mark>
 
-SQL syntax can differ from one RDBMS to another. However, they are all required to follow the [ISO standard](https://en.wikipedia.org/wiki/ISO/IEC_9075) for Structured Query Language. We will be following the MySQL/MariaDB syntax for the examples shown. SQL can be used to perform the following actions:
+Le SQL suit une norme ISO mais la syntaxe varie selon les SGBD (ici on prend MySQL/MariaDB).\
+Actions principales :
 
-* Retrieve data
-* Update data
-* Delete data
-* Create new tables and databases
-* Add / remove users
-* Assign permissions to these users
+* Récupérer des données (SELECT)
+* Mettre à jour des données (UPDATE)
+* Supprimer des données (DELETE)
+* Créer tables et bases (CREATE)
+* Gérer les utilisateurs (ADD/CREATE USER, DROP USER)
+* Attribuer permissions (GRANT / REVOKE)
 
 ***
 
 ### <mark style="color:blue;">Command Line</mark>
 
-The `mysql` utility is used to authenticate to and interact with a MySQL/MariaDB database. The `-u` flag is used to supply the username and the `-p` flag for the password. The `-p` flag should be passed empty, so we are prompted to enter the password and do not pass it directly on the command line since it could be stored in cleartext in the bash\_history file.
+Le client `mysql` permet de se connecter et d’interagir avec MySQL/MariaDB.
+
+* `-u` pour l’utilisateur, `-p` pour le mot de passe.
+* Passe `-p` sans valeur (ex. `-p`) pour être invité à saisir le mot de passe — ne le met pas en clair dans la ligne de commande (évite qu’il reste dans l’historique).
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ mysql -u root -p
 ```
 
-Again, it is also possible to use the password directly in the command, though this should be avoided, as it could lead to the password being kept in logs and terminal history:
+**Ou**
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ mysql -u root -p<password>
 ```
 
-<mark style="color:orange;">**Tip: There shouldn't be any spaces between '-p' and the password.**</mark>
-
-The examples above log us in as the superuser, i.e.,"`root`" with the password "`password`," to have privileges to execute all commands. Other DBMS users would have certain privileges to which statements they can execute. We can view which privileges we have using the [SHOW GRANTS](https://dev.mysql.com/doc/refman/8.0/en/show-grants.html) command which we will be discussing later.
-
-When we do not specify a host, it will default to the `localhost` server. We can specify a remote host and port using the `-h` and `-P` flags.
+* Pas d’espace entre `-p` et le mot de passe si tu le fournis sur la ligne (mais évite de le faire).
+* Les exemples utilisent `root/password` (superutilisateur) avec tous les privilèges — les autres utilisateurs ont des droits limités.
+* Voir ses droits : `SHOW GRANTS;`.
+* Par défaut la cible est `localhost`.
+* Utiliser `-h <host>` et `-P <port>` pour se connecter à un hôte/port distant.
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ mysql -u root -h docker.hackthebox.eu -P 3306 -p 
 ```
 
-Note: The default MySQL/MariaDB port is (3306), but it can be configured to another port. It is specified using an uppercase \`P\`, unlike the lowercase \`p\` used for passwords.
-
 ***
 
 ### <mark style="color:blue;">Creating a database</mark>
-
-Once we log in to the database using the `mysql` utility, we can start using SQL queries to interact with the DBMS. For example, a new database can be created within the MySQL DBMS using the [CREATE DATABASE](https://dev.mysql.com/doc/refman/5.7/en/create-database.html) statement.
 
 ```shell-session
 mysql> CREATE DATABASE users;
 ```
 
-MySQL expects command-line queries to be terminated with a semi-colon. The example above created a new database named `users`. We can view the list of databases with [SHOW DATABASES](https://dev.mysql.com/doc/refman/8.0/en/show-databases.html), and we can switch to the `users` database with the `USE` statement:
+* Les requêtes MySQL doivent finir par `;`.
+* Exemple : création d’une base `users`.
+* Lister les bases : `SHOW DATABASES;`.
+* Changer de base : `USE users;`.
 
 ```shell-session
 mysql> SHOW DATABASES;
@@ -65,7 +68,10 @@ Database changed
 
 ### <mark style="color:blue;">Tables</mark>
 
-DBMS stores data in the form of tables. A table is made up of horizontal rows and vertical columns. The intersection of a row and a column is called a cell. Every table is created with a fixed set of columns, where each column is of a particular data type.
+* Un **SGBD** stocke les données sous forme de **tables**.
+* Une table = lignes (rows) + colonnes (columns).
+* Intersection = **cellule**.
+* Chaque colonne a un type de donnée défini.
 
 ```sql
 CREATE TABLE logins (
@@ -98,25 +104,29 @@ mysql> DESCRIBE logins;
 
 <mark style="color:green;">**Table Properties**</mark>
 
-Within the `CREATE TABLE` query, there are many [properties](https://dev.mysql.com/doc/refman/8.0/en/create-table.html) that can be set for the table and each column. For example, we can set the `id` column to auto-increment using the `AUTO_INCREMENT` keyword, which automatically increments the id by one every time a new item is added to the table:
+* Avec `CREATE TABLE`, on peut définir des propriétés pour la table et ses colonnes.
+* Exemple : `AUTO_INCREMENT` sur une colonne `id` pour incrémenter automatiquement à chaque insertion.
 
 ```sql
     id INT NOT NULL AUTO_INCREMENT,
 ```
 
-The `NOT NULL` constraint ensures that a particular column is never left empty 'i.e., required field.' We can also use the `UNIQUE` constraint to ensures that the inserted item are always unique. For example, if we use it with the `username` column, we can ensure that no two users will have the same username:
+* `NOT NULL` : empêche une colonne d’être vide (champ obligatoire).
+* `UNIQUE` : garantit que les valeurs sont uniques (ex. aucun doublon de `username`).
 
 ```sql
     username VARCHAR(100) UNIQUE NOT NULL,
 ```
 
-Another important keyword is the `DEFAULT` keyword, which is used to specify the default value. For example, within the `date_of_joining` column, we can set the default value to [Now()](https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html#function_now), which in MySQL returns the current date and time:
+* `DEFAULT` : définit une valeur par défaut pour une colonne.
+* Exemple : `date_of_joining DEFAULT NOW()` pour utiliser la date et l’heure actuelles.
 
 ```sql
     date_of_joining DATETIME DEFAULT NOW(),
 ```
 
-Finally, one of the most important properties is `PRIMARY KEY`, which we can use to uniquely identify each record in the table, referring to all data of a record within a table for relational databases, as previously discussed in the previous section. We can make the `id` column the `PRIMARY KEY` for this table:
+* `PRIMARY KEY` : identifie de façon unique chaque enregistrement d’une table.
+* Exemple : définir la colonne `id` comme clé primaire.
 
 ```sql
     PRIMARY KEY (id)
@@ -140,9 +150,6 @@ CREATE TABLE logins (
 
 <mark style="color:green;">**1. INSERT (Ajouter des données)**</mark>
 
-Permet d'insérer de nouvelles lignes dans une table.\
-**Syntaxe** :
-
 ```sql
 INSERT INTO table_name VALUES (valeur1, valeur2, ...);
 ```
@@ -160,9 +167,6 @@ INSERT INTO table_name VALUES (valeur1, valeur2, ...);
 
 <mark style="color:green;">**2. SELECT (Lire des données)**</mark>
 
-Permet de récupérer des données d’une table.\
-**Syntaxe** :
-
 *   Sélectionner toutes les colonnes :
 
     ```sql
@@ -176,9 +180,6 @@ Permet de récupérer des données d’une table.\
 
 <mark style="color:green;">**3. DROP (Supprimer des tables ou bases)**</mark>
 
-Supprime définitivement une table ou une base.\
-**Syntaxe** :
-
 *   Supprimer une table :
 
     ```sql
@@ -188,9 +189,6 @@ Supprime définitivement une table ou une base.\
 ⚠️ **Attention** : La suppression est irréversible !
 
 <mark style="color:green;">**4. ALTER (Modifier la structure d’une table)**</mark>
-
-Permet de modifier une table existante (ajouter, renommer ou supprimer des colonnes).\
-**Syntaxes** :
 
 *   Ajouter une colonne :
 
@@ -214,9 +212,6 @@ Permet de modifier une table existante (ajouter, renommer ou supprimer des colon
     ```
 
 <mark style="color:green;">**5. UPDATE (Mettre à jour des données)**</mark>
-
-Permet de modifier des enregistrements dans une table.\
-**Syntaxe** :
 
 ```sql
 UPDATE table_name SET colonne1 = nouvelle_valeur1 WHERE condition;
@@ -291,27 +286,19 @@ Note: the offset marks the order of the first record to be included, starting fr
 
 To filter or search for specific data, we can use conditions with the `SELECT` statement using the [WHERE](https://dev.mysql.com/doc/refman/8.0/en/where-optimization.html) clause, to fine-tune the results:
 
-Code: sql
-
 ```sql
 SELECT * FROM table_name WHERE <condition>;
 ```
-
-The query above will return all records which satisfy the given condition. Let us look at an example:
 
 ```shell-session
 mysql> SELECT * FROM logins WHERE id > 1;
 ```
 
-The example above selects all records where the value of `id` is greater than `1`. As we can see, the first row with its `id` as 1 was skipped from the output. We can do something similar for usernames:
-
 ```shell-session
 mysql> SELECT * FROM logins where username = 'admin';
 ```
 
-The query above selects the record where the username is `admin`. We can use the `UPDATE` statement to update certain records that meet a specific condition.
-
-Note: String and date data types should be surrounded by single quote (') or double quotes ("), while numbers can be used directly.
+**Note: String and date data types should be surrounded by single quote (') or double quotes ("), while numbers can be used directly.**
 
 ***
 

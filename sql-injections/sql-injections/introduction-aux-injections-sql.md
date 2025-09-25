@@ -12,7 +12,7 @@ $query = "select * from logins";
 $result = $conn->query($query);
 ```
 
-Ensuite, le résultat de la requête est stocké dans la variable `$result`, et nous pouvons l'afficher sur la page web ou l'utiliser de toute autre manière. Voici comment afficher les résultats dans une nouvelle ligne :
+Ensuite, le résultat de la requête est stocké dans la variable `$result`, et nous pouvons l'afficher sur la page web ou l'utiliser de toute autre manière.
 
 ```php
 while($row = $result->fetch_assoc() ){
@@ -50,7 +50,9 @@ Dans ce cas, la requête finale exécutée pourrait être dangereuse pour la bas
 
 Lorsqu'une injection SQL est effectuée, cela peut entraîner une erreur de syntaxe. Par exemple, si un utilisateur entre une chaîne comme `'1'; DROP TABLE users;'`, cela pourrait provoquer une erreur SQL en raison de la présence de caractères non échappés.
 
+{% hint style="danger" %}
 Cependant, pour réussir une injection SQL, il est important de s'assurer que la requête SQL modifiée est valide. Si elle n'est pas valide, l'injection échouera. Parfois, des commentaires peuvent être utilisés pour contourner les erreurs de syntaxe et injecter du code valide.
+{% endhint %}
 
 ***
 
@@ -64,8 +66,6 @@ Les injections SQL peuvent être classées en fonction de la manière dont le r�
 2. <mark style="color:green;">**Injections SQL aveugles (Blind SQL Injection)**</mark> : L'attaquant ne voit pas directement le résultat de la requête, mais utilise des déclarations conditionnelles pour en déduire des informations. Elle se divise en deux types :
    * **Boolean-Based Blind SQL Injection** : L'attaquant utilise des conditions pour voir si la page retourne un résultat basé sur une requête spécifique.
    * **Time-Based Blind SQL Injection** : L'attaquant utilise des délais (par exemple, `SLEEP()`) pour déterminer si une condition est vraie.
-3. **Injections SQL hors bande (Out-of-Band SQL Injection)** : L'attaquant redirige les résultats de l'injection vers un emplacement distant, comme un enregistrement DNS, et tente de récupérer ces informations depuis cet endroit.
-
-Dans ce cours, nous nous concentrerons sur l'introduction aux injections SQL en utilisant l'exemple de l'injection SQL basée sur l'union (Union-Based SQL Injection).
+3. <mark style="color:green;">**Injections SQL hors bande (Out-of-Band SQL Injection)**</mark> : L'attaquant redirige les résultats de l'injection vers un emplacement distant, comme un enregistrement DNS, et tente de récupérer ces informations depuis cet endroit.
 
 ***

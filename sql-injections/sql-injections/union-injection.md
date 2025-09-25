@@ -8,8 +8,6 @@ We see a potential SQL injection in the search parameters. We apply the SQLi Dis
 
 <figure><img src="https://academy.hackthebox.com/storage/modules/33/ports_quote.png" alt=""><figcaption></figcaption></figure>
 
-Since we caused an error, this may mean that the page is vulnerable to SQL injection. This scenario is ideal for exploitation through Union-based injection, as we can see our queries' results.
-
 ***
 
 ### <mark style="color:red;">Detect number of columns</mark>
@@ -21,11 +19,9 @@ Before going ahead and exploiting Union-based queries, we need to find the numbe
 
 <mark style="color:green;">**Using ORDER BY**</mark>
 
-The first way of detecting the number of columns is through the `ORDER BY` function, which we discussed earlier. We have to inject a query that sorts the results by a column we specified, 'i.e., column 1, column 2, and so on', until we get an error saying the column specified does not exist.
-
-For example, we can start with `order by 1`, sort by the first column, and succeed, as the table must have at least one column. Then we will do `order by 2` and then `order by 3` until we reach a number that returns an error, or the page does not show any output, which means that this column number does not exist. The final successful column we successfully sorted by gives us the total number of columns.
-
-If we failed at `order by 4`, this means the table has three columns, which is the number of columns we were able to sort by successfully. Let us go back to our previous example and attempt the same, with the following payload:
+* Pour **détecter le nombre de colonnes**, on peut utiliser `ORDER BY`.
+* Injecter `ORDER BY 1`, `ORDER BY 2`, etc., jusqu’à obtenir une **erreur** → le dernier numéro valide = nombre de colonnes.
+* Exemple : si `ORDER BY 4` échoue, la table a **3 colonnes**.
 
 ```sql
 ' order by 1-- -
@@ -57,7 +53,9 @@ This means that this table has exactly 4 columns .
 
 <mark style="color:green;">**Using UNION**</mark>
 
-The other method is to attempt a Union injection with a different number of columns until we successfully get the results back. The first method always returns the results until we hit an error, while this method always gives an error until we get a success. We can start by injecting a 3 column `UNION` query:
+* Une autre méthode : tester une **injection UNION** avec différents nombres de colonnes jusqu’à obtenir un résultat valide.
+* Contrairement à `ORDER BY`, ici on obtient **une erreur jusqu’au succès**.
+* Exemple : commencer par un `UNION` à 3 colonnes.
 
 ```sql
 cn' UNION select 1,2,3-- -
@@ -75,24 +73,23 @@ cn' UNION select 1,2,3,4-- -
 
 <figure><img src="https://academy.hackthebox.com/storage/modules/33/ports_columns_correct.png" alt=""><figcaption></figcaption></figure>
 
-This time we successfully get the results, meaning once again that the table has 4 columns. We can use either method to determine the number of columns. Once we know the number of columns, we know how to form our payload, and we can proceed to the next step.
-
 ***
 
 ### <mark style="color:red;">Location of Injection</mark>
 
-While a query may return multiple columns, the web application may only display some of them. So, if we inject our query in a column that is not printed on the page, we will not get its output. This is why we need to determine which columns are printed to the page, to determine where to place our injection. In the previous example, while the injected query returned 1, 2, 3, and 4, we saw only 2, 3, and 4 displayed back to us on the page as the output data:
+* Même si une requête renvoie plusieurs colonnes, la **page web n’en affiche que certaines**.
+* Il faut identifier quelles colonnes sont affichées pour **placer correctement l’injection**.
+* Exemple : injection renvoie `1, 2, 3, 4`, mais seulement `2, 3, 4` apparaissent à l’écran.
 
 <figure><img src="https://academy.hackthebox.com/storage/modules/33/ports_columns_correct.png" alt=""><figcaption></figcaption></figure>
 
-It is very common that not every column will be displayed back to the user. For example, the ID field is often used to link different tables together, but the user doesn't need to see it. This tells us that columns 2 and 3, and 4 are printed to place our injection in any of them. `We cannot place our injection at the beginning, or its output will not be printed.`
-
-This is the benefit of using numbers as our junk data, as it makes it easy to track which columns are printed, so we know at which column to place our query. To test that we can get actual data from the database 'rather than just numbers,' we can use the `@@version` SQL query as a test and place it in the second column instead of the number 2:
+* Souvent, certaines colonnes comme `ID` ne sont pas affichées à l’utilisateur.
+* Les colonnes visibles (`2, 3, 4`) sont **celles où placer l’injection**.
+* Utiliser des **nombres comme données factices** aide à identifier quelles colonnes s’affichent.
+* Exemple : remplacer un chiffre par `@@version` dans la colonne visible pour tester l’extraction réelle de données.
 
 ```sql
 cn' UNION select 1,@@version,3,4-- -
 ```
 
 <figure><img src="https://academy.hackthebox.com/storage/modules/33/db_version_1.jpg" alt=""><figcaption></figcaption></figure>
-
-As we can see, we can get the database version displayed. Now we know how to form our Union SQL injection payloads to successfully get the output of our query printed on the page. In the next section, we will discuss how to enumerate the database and get data from other tables and databases.

@@ -2,17 +2,19 @@
 
 ***
 
-In addition to gathering data from various tables and databases within the DBMS, a SQL Injection can also be leveraged to perform many other operations, such as reading and writing files on the server and even gaining remote code execution on the back-end server.
-
-***
-
 ### <mark style="color:red;">Privileges</mark>
 
-Reading data is much more common than writing data, which is strictly reserved for privileged users in modern DBMSes, as it can lead to system exploitation, as we will see. For example, in `MySQL`, the DB user must have the `FILE` privilege to load a file's content into a table and then dump data from that table and read files. So, let us start by gathering data about our user privileges within the database to decide whether we will read and/or write files to the back-end server.
+* **Lire des données** est beaucoup plus courant que **écrire**, cette dernière action étant réservée aux utilisateurs privilégiés.
+* Exemple : sur MySQL, il faut le **privilège FILE** pour charger un fichier dans une table et lire des fichiers.
+* On commence donc par **vérifier les privilèges de l’utilisateur** pour décider si l’on peut lire et/ou écrire des fichiers sur le serveur.
 
 <mark style="color:green;">**DB User**</mark>
 
-First, we have to determine which user we are within the database. While we do not necessarily need database administrator (DBA) privileges to read data, this is becoming more required in modern DBMSes, as only DBA are given such privileges. The same applies to other common databases. If we do have DBA privileges, then it is much more probable that we have file-read privileges. If we do not, then we have to check our privileges to see what we can do. To be able to find our current DB user, we can use any of the following queries:
+* Il faut d’abord savoir **quel utilisateur nous sommes** dans la base.
+* Lire des données ne nécessite pas forcément les droits DBA, mais dans les DBMS modernes, **seuls les DBA ont souvent ces privilèges**.
+* Si nous avons les droits DBA, il est probable d’avoir aussi le **privilège de lecture de fichiers**.
+* Sinon, il faut **vérifier nos privilèges** pour savoir ce qu’on peut faire.
+* Pour connaître l’utilisateur actuel, on peut utiliser plusieurs requêtes.
 
 ```sql
 SELECT USER()
@@ -86,7 +88,9 @@ We see that the `FILE` privilege is listed for our user, enabling us to read fil
 
 ### <mark style="color:red;">LOAD\_FILE</mark>
 
-Now that we know we have enough privileges to read local system files, let us do that using the `LOAD_FILE()` function. The [LOAD\_FILE()](https://mariadb.com/kb/en/load_file/) function can be used in MariaDB / MySQL to read data from files. The function takes in just one argument, which is the file name. The following query is an example of how to read the `/etc/passwd` file:
+* Si l’on a **suffisamment de privilèges**, on peut lire des fichiers locaux avec **`LOAD_FILE()`**.
+* Cette fonction MySQL/MariaDB prend **un seul argument** : le nom du fichier.
+* Exemple : lire `/etc/passwd` avec `LOAD_FILE('/etc/passwd')`.
 
 ```sql
 SELECT LOAD_FILE('/etc/passwd');
@@ -101,8 +105,6 @@ cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -
 ```
 
 <figure><img src="https://academy.hackthebox.com/storage/modules/33/load_file_sqli.png" alt=""><figcaption></figcaption></figure>
-
-We were able to successfully read the contents of the passwd file through the SQL injection. Unfortunately, this can be potentially used to leak the application source code as well.
 
 ***
 

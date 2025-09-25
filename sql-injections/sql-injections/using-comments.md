@@ -4,15 +4,17 @@
 
 ### <mark style="color:red;">Comments</mark>
 
-Just like any other language, SQL allows the use of comments as well. Comments are used to document queries or ignore a certain part of the query. We can use two types of line comments with MySQL `--` and `#`, in addition to an in-line comment `/**/` (though this is not usually used in SQL injections). The `--` can be used as follows:
+* SQL permet d’utiliser des **commentaires** pour documenter ou ignorer une partie d’une requête.
+* Types de commentaires MySQL :
+  * Ligne : `--` ou `#`
+  * Inline : `/* ... */` (rare en injection SQL)
 
 ```shell-session
 mysql> SELECT username FROM logins; -- Selects usernames from the logins table 
 ```
 
-Note: In SQL, using two dashes only is not enough to start a comment. So, there has to be an empty space after them, so the comment starts with (-- ), with a space at the end. This is sometimes URL encoded as (--+), as spaces in URLs are encoded as (+). To make it clear, we will add another (-) at the end (-- -), to show the use of a space character.
-
-The `#` symbol can be used as well.
+* Pour démarrer un commentaire avec `--`, il faut **un espace après** : `--` (parfois encodé en URL `--+`).
+* On peut aussi utiliser `#` pour commenter.
 
 {% code fullWidth="true" %}
 ```shell-session
@@ -38,27 +40,29 @@ SELECT * FROM logins WHERE username='admin'-- ' AND password = 'something';
 
 ![admin\_dash](https://academy.hackthebox.com/storage/modules/33/admin_dash.png)
 
-As we see, we were able to bypass the authentication, as the new modified query checks for the username, with no other conditions.
-
 ***
 
 ### <mark style="color:red;">Another Example</mark>
 
-SQL supports the usage of parenthesis if the application needs to check for particular conditions before others. Expressions within the parenthesis take precedence over other operators and are evaluated first. Let us look at a scenario like this:
+* SQL permet d’utiliser des **parenthèses** pour prioriser certaines conditions.
+* Les expressions entre parenthèses sont évaluées **avant les autres opérateurs**.
 
 ![paranthesis\_fail](https://academy.hackthebox.com/storage/modules/33/paranthesis_fail.png)
 
-The above query ensures that the user's id is always greater than 1, which will prevent anyone from logging in as admin. Additionally, we also see that the password was hashed before being used in the query. This will prevent us from injecting through the password field because the input is changed to a hash.
-
-Let us try logging in with valid credentials `admin / p@ssw0rd` to see the response.
+* La requête force `id > 1`, empêchant de se connecter en tant qu’admin.
+* Le **mot de passe est haché** avant d’être utilisé, bloquant l’injection via ce champ.
+* Test avec des identifiants valides (`admin / p@ssw0rd`) pour observer la réponse
 
 ![paranthesis\_valid\_fail](https://academy.hackthebox.com/storage/modules/33/paranthesis_valid_fail.png)
 
-As expected, the login failed even though we supplied valid credentials because the admin’s ID equals 1. So let us try logging in with the credentials of another user, such as `tom`.
+* Le login échoue même avec des identifiants valides si l’**ID de l’admin = 1**.
+* Essayer avec un autre utilisateur, par exemple `tom`.
 
 ![tom\_login](https://academy.hackthebox.com/storage/modules/33/tom_login.png)
 
-Logging in as the user with an id not equal to 1 was successful. So, how can we log in as the admin? We know from the previous section on comments that we can use them to comment out the rest of the query. So, let us try using `admin'--` as the username.
+* La connexion avec un utilisateur dont l’ID ≠ 1 fonctionne.
+* Pour se connecter en tant qu’admin, on peut **commenter le reste de la requête**.
+* Exemple d’injection : `admin'--` comme nom d’utilisateur.
 
 ![paranthesis\_error](https://academy.hackthebox.com/storage/modules/33/paranthesis_error.png)
 
@@ -73,5 +77,3 @@ The query was successful, and we logged in as admin. The final query as a result
 ```sql
 SELECT * FROM logins where (username='admin')
 ```
-
-The query above is like the one from the previous example and returns the row containing admin.

@@ -6,29 +6,33 @@
 
 ### <mark style="color:red;">Write File Privileges</mark>
 
-To be able to write files to the back-end server using a MySQL database, we require three things:
-
-1. User with `FILE` privilege enabled
-2. MySQL global `secure_file_priv` variable not enabled
-3. Write access to the location we want to write to on the back-end server
-
-We have already found that our current user has the `FILE` privilege necessary to write files. We must now check if the MySQL database has that privilege. This can be done by checking the `secure_file_priv` global variable.
+* Pour **écrire des fichiers** via MySQL, il faut :
+  1. Un utilisateur avec le **privilège FILE**
+  2. La variable globale `secure_file_priv` **non activée**
+  3. Les **droits d’écriture** sur l’emplacement ciblé du serveur
+* Nous avons l’utilisateur avec le **privilège FILE**.
+* Il reste à vérifier si MySQL autorise l’écriture en consultant **`secure_file_priv`**.
 
 <mark style="color:green;">**secure\_file\_priv**</mark>
 
-The [secure\_file\_priv](https://mariadb.com/kb/en/server-system-variables/#secure_file_priv) variable is used to determine where to read/write files from. An empty value lets us read files from the entire file system. Otherwise, if a certain directory is set, we can only read from the folder specified by the variable. On the other hand, `NULL` means we cannot read/write from any directory. MariaDB has this variable set to empty by default, which lets us read/write to any file if the user has the `FILE` privilege. However, `MySQL` uses `/var/lib/mysql-files` as the default folder. This means that reading files through a `MySQL` injection isn't possible with default settings. Even worse, some modern configurations default to `NULL`, meaning that we cannot read/write files anywhere within the system.
-
-So, let's see how we can find out the value of `secure_file_priv`. Within `MySQL`, we can use the following query to obtain the value of this variable:
+* La variable `secure_file_priv` détermine **où lire/écrire des fichiers** :
+  * **Vide** → accès à tout le système de fichiers
+  * **Répertoire défini** → accès limité à ce dossier
+  * **NULL** → aucun accès en lecture/écriture
+* Par défaut :
+  * MariaDB → vide (accès complet si utilisateur a FILE)
+  * MySQL → `/var/lib/mysql-files`
+  * Certaines configs modernes → NULL (aucun accès)
+* Pour connaître sa valeur : utiliser une **requête MySQL** sur `secure_file_priv`.
 
 ```sql
 SHOW VARIABLES LIKE 'secure_file_priv';
 ```
 
-However, as we are using a `UNION` injection, we have to get the value using a `SELECT` statement. This shouldn't be a problem, as all variables and most configurations' are stored within the `INFORMATION_SCHEMA` database. `MySQL` global variables are stored in a table called [global\_variables](https://dev.mysql.com/doc/refman/5.7/en/information-schema-variables-table.html), and as per the documentation, this table has two columns `variable_name` and `variable_value`.
-
-We have to select these two columns from that table in the `INFORMATION_SCHEMA` database. There are hundreds of global variables in a MySQL configuration, and we don't want to retrieve all of them. We will then filter the results to only show the `secure_file_priv` variable, using the `WHERE` clause we learned about in a previous section.
-
-The final SQL query is the following:
+* Avec une **injection UNION**, il faut récupérer la valeur via un `SELECT`.
+* Les variables MySQL sont dans `INFORMATION_SCHEMA.global_variables` : colonnes `variable_name` et `variable_value`.
+* Pour ne récupérer que **`secure_file_priv`**, on utilise une **clause WHERE**.
+* La requête finale sélectionne uniquement cette variable.
 
 {% code overflow="wrap" fullWidth="true" %}
 ```sql
@@ -113,13 +117,13 @@ We don’t see any errors on the page, which indicates that the query succeeded.
 
 <figure><img src="https://academy.hackthebox.com/storage/modules/33/write_proof_text.png" alt=""><figcaption></figcaption></figure>
 
+{% hint style="info" %}
 Note: We see the string we dumped along with '1', '3' before it, and '4' after it. This is because the entire 'UNION' query result was written to the file. To make the output cleaner, we can use "" instead of numbers.
+{% endhint %}
 
 ***
 
 ### <mark style="color:red;">Writing a Web Shell</mark>
-
-Having confirmed write permissions, we can go ahead and write a PHP web shell to the webroot folder. We can write the following PHP webshell to be able to execute commands directly on the back-end server:
 
 ```php
 <?php system($_REQUEST[0]); ?>
