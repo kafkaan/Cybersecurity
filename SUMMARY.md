@@ -264,6 +264,7 @@
     * [Abus des gMSA via msDS-GroupMSAMembership](active-direcotry-attacks/ad-attacks/acl-abuse/abus-des-gmsa-via-msds-groupmsamembership.md)
     * [Group Policy Object (GPO) Abuse](active-direcotry-attacks/ad-attacks/acl-abuse/group-policy-object-gpo-abuse.md)
   * [Read the GMSA Password](active-direcotry-attacks/ad-attacks/read-the-gmsa-password.md)
+* [KEBEROS TICKETS](active-direcotry-attacks/keberos-tickets.md)
 * [SKILLS ASSESSMENT I](active-direcotry-attacks/skills-assessment-i.md)
 * [SKILLS ASSESSMENT II](active-direcotry-attacks/skills-assessment-ii.md)
 

@@ -1,3 +1,9 @@
+---
+cover: >-
+  https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Mitmproxy_logo.svg/1280px-Mitmproxy_logo.svg.png
+coverY: 0
+---
+
 # MITPROXY
 
 ***
@@ -15,7 +21,7 @@
 
 ### <mark style="color:red;">🔐 Modes principaux</mark>
 
-#### 1. Proxy classique (interception navigateur/app)
+#### <mark style="color:blue;">1. Proxy classique (interception navigateur/app)</mark>
 
 ```bash
 mitmproxy -p 8080
@@ -23,7 +29,7 @@ mitmproxy -p 8080
 
 ➡️ Configure ton navigateur/app à utiliser `127.0.0.1:8080` comme proxy.
 
-#### 2. Transparent proxy (redirection réseau via iptables)
+#### <mark style="color:blue;">2. Transparent proxy (redirection réseau via iptables)</mark>
 
 ```bash
 mitmproxy --mode transparent -p 8080
@@ -31,7 +37,7 @@ mitmproxy --mode transparent -p 8080
 
 ➡️ Tout le trafic est capturé, même sans configuration proxy côté client.
 
-#### 3. Reverse proxy (ton cas dans le CTF)
+#### <mark style="color:blue;">3. Reverse proxy (ton cas dans le CTF)</mark>
 
 ```bash
 mitmproxy --mode reverse:https://git.sorcery.htb \
@@ -60,7 +66,7 @@ mitmproxy --mode reverse:https://git.sorcery.htb \
 
 ### <mark style="color:red;">📂 Utilisation typique en pentest</mark>
 
-#### 1. Interception HTTPS classique
+#### <mark style="color:blue;">1. Interception HTTPS classique</mark>
 
 * Installer le **certificat mitmproxy** côté client.
 *   Lancer :
@@ -72,7 +78,7 @@ mitmproxy --mode reverse:https://git.sorcery.htb \
 
 ***
 
-#### 2. MITM avec certificat volé / forgé
+#### <mark style="color:blue;">2. MITM avec certificat volé / forgé</mark>
 
 Exemple CTF :
 
@@ -89,7 +95,7 @@ Exemple CTF :
 
 ***
 
-#### 3. Automatisation avec script Python
+#### <mark style="color:blue;">3. Automatisation avec script Python</mark>
 
 Exemple `inject.py` :
 

