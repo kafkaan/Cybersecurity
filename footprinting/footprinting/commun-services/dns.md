@@ -3,6 +3,23 @@ description: Domain Name System (DNS) is an integral part of the Internet.
 cover: >-
   https://images.unsplash.com/photo-1531956656798-56686eeef3d4?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxOTcwMjR8MHwxfHNlYXJjaHw2fHxkbnN8ZW58MHx8fHwxNzQwNDgwMjM2fDA&ixlib=rb-4.0.3&q=85
 coverY: 0
+layout:
+  width: default
+  cover:
+    visible: true
+    size: full
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
 ---
 
 # DNS
@@ -92,7 +109,7 @@ coverY: 0
 
 ## <mark style="color:red;">**4. Configuration DNS**</mark>
 
-* <mark style="color:orange;">**Fichiers de configuration DNS locaux**</mark>
+* <mark style="color:green;">**Fichiers de configuration DNS locaux**</mark>
   *   **named.conf.local** : Définir les différentes zones.
 
       ```dns-zone-file
@@ -111,7 +128,7 @@ coverY: 0
       ```
   * **named.conf.options** : Options générales.
   * **named.conf.log** : Logs du serveur DNS.
-*   <mark style="color:orange;">**Zone Files**</mark>
+*   <mark style="color:green;">**Zone Files**</mark>
 
     * **Format** : Texte décrivant une zone DNS avec le format de fichier BIND.
     * **Exigence** : Doit contenir un enregistrement SOA et au moins un enregistrement NS.
@@ -133,7 +150,7 @@ coverY: 0
     server1  IN  A      10.129.14.5
     www      IN  CNAME  server2
     ```
-*   <mark style="color:orange;">**Fichiers de résolution inverse**</mark>
+*   <mark style="color:green;">**Fichiers de résolution inverse**</mark>
 
     * **Rôle** : Résolution des adresses IP en noms de domaine.
 
@@ -153,7 +170,7 @@ coverY: 0
     ```
 
 {% hint style="info" %}
-<mark style="color:orange;">**Traduction Inverse (Reverse Lookup) dans DNS**</mark>
+<mark style="color:green;">**Traduction Inverse (Reverse Lookup) dans DNS**</mark>
 
 **1. Introduction**
 
@@ -206,7 +223,7 @@ Imaginons que nous avons une adresse IP `192.0.2.1` et nous voulons connaître l
 ## <mark style="color:red;">**5. Sécurité DNS**</mark>
 
 * **Risques** : DNS est principalement non chiffré, ce qui permet à des attaquants d'intercepter et de surveiller les requêtes DNS.
-* **Solutions de chiffrement** :
+* <mark style="color:green;">**Solutions de chiffrement**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * **DNS over TLS (DoT)**
   * **DNS over HTTPS (DoH)**
   * **DNSCrypt** : Chiffre le trafic entre l'ordinateur et le serveur de noms.
@@ -215,11 +232,11 @@ Imaginons que nous avons une adresse IP `192.0.2.1` et nous voulons connaître l
 
 ## <mark style="color:red;">**6. Attaques et Vulnérabilités**</mark>
 
-* **Paramètres dangereux** :
+* <mark style="color:green;">**Paramètres dangereux**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * **allow-query** : Qui peut envoyer des requêtes.
   * **allow-recursion** : Qui peut envoyer des requêtes récursives.
   * **allow-transfer** : Qui peut recevoir des transferts de zone.
-*   **Footprinting** :
+*   <mark style="color:green;">**Footprinting**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
     * **Requête NS** : Identifier les serveurs DNS connus.
     * **Requête ANY** : Voir tous les enregistrements disponibles.

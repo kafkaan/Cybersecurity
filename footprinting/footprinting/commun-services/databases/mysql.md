@@ -1,6 +1,23 @@
 ---
 cover: ../../../../.gitbook/assets/mysql.jpg
-coverY: -159
+coverY: -96.225
+layout:
+  width: default
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
 ---
 
 # MySQL
@@ -54,7 +71,7 @@ Les commandes MySQL sont traduites en code exécutable et exécutent les actions
 * Afficher, modifier, ajouter ou supprimer des lignes dans des tables.
 * Changer la structure des tables, créer ou supprimer des relations et des index, et gérer les utilisateurs.
 
-#### Commandes de base
+#### <mark style="color:green;">Commandes de base</mark>
 
 * `mysql -u <user> -p<password> -h <IP address>` : Connexion au serveur MySQL.
 * `show databases;` : Afficher toutes les bases de données.
@@ -146,7 +163,9 @@ If we look at the existing databases, we will see several already exist. The mos
 {% hint style="warning" %}
 <mark style="color:orange;">**Le schéma**</mark><mark style="color:orange;">**&#x20;**</mark><mark style="color:orange;">**`sys`**</mark> est une base de données spéciale dans MySQL conçue pour faciliter la gestion et la surveillance du serveur de bases de données. Voici une explication détaillée de ce qu'est le schéma `sys` et comment il est utilisé, avec un exemple concret pour mieux comprendre.
 
-#### Qu'est-ce que le Schéma `sys`?
+***
+
+<mark style="color:green;">**Qu'est-ce que le Schéma**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`sys`**</mark><mark style="color:green;">**?**</mark>
 
 1. **Définition**
    * **`sys`** est une base de données intégrée à MySQL qui fournit des vues, des fonctions et des procédures stockées pour simplifier l'administration et la surveillance du serveur MySQL. Elle est conçue pour rendre les informations de gestion plus accessibles et plus compréhensibles.
@@ -155,7 +174,9 @@ If we look at the existing databases, we will see several already exist. The mos
 3. **Utilité**
    * Le schéma `sys` est particulièrement utile pour les administrateurs de bases de données, car il permet de surveiller et d'analyser le serveur de manière plus intuitive grâce à des vues simplifiées.
 
-#### Exemple d'Utilisation du Schéma `sys`
+***
+
+<mark style="color:green;">**Exemple d'Utilisation du Schéma**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`sys`**</mark>
 
 Imaginons que vous souhaitez obtenir des informations sur les hôtes qui se connectent à votre serveur MySQL. Vous pouvez utiliser les tables du schéma `sys` pour obtenir ces informations de manière simplifiée.
 
@@ -204,7 +225,9 @@ Imaginons que vous souhaitez obtenir des informations sur les hôtes qui se conn
 
     Cette commande montre les verrous en cours et qui attend pour des ressources dans InnoDB.
 
-#### Comparaison avec le Schéma `information_schema`
+***
+
+<mark style="color:green;">**Comparaison avec le Schéma**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`information_schema`**</mark>
 
 * **`information_schema`** : Ce schéma contient des vues d'information standardisées sur les bases de données, les tables, les colonnes, etc. Il est conforme aux normes ANSI/ISO SQL et est utilisé pour obtenir des informations détaillées sur les structures de la base de données.
 * **`sys`** : Complète `information_schema` en fournissant des vues et des procédures spécifiques pour la gestion et la surveillance du serveur, souvent de manière plus conviviale.

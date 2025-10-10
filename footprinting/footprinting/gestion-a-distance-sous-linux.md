@@ -134,7 +134,7 @@ total size is 0  speedup is 0.00
 From here, we could sync all files to our attack host with the command `rsync -av rsync://127.0.0.1/dev`. If Rsync is configured to use SSH to transfer files, we could modify our commands to include the `-e ssh` flag, or `-e "ssh -p2222"` if a non-standard port is in use for SSH.This [guide](https://phoenixnap.com/kb/how-to-rsync-over-ssh) is helpful for understanding the syntax for using Rsync over SSH.
 
 {% hint style="warning" %}
-<mark style="color:blue;">**Qu'est-ce que Rsync ?**</mark>
+<mark style="color:green;">**Qu'est-ce que Rsync ?**</mark>
 
 Rsync (Remote Sync) est un utilitaire puissant utilisé pour copier et synchroniser des fichiers et des répertoires entre différents systèmes, que ce soit sur le même réseau ou à travers Internet. Rsync est efficace parce qu'il ne transfère que les différences entre les fichiers, ce qui économise la bande passante et le temps de transfert.
 

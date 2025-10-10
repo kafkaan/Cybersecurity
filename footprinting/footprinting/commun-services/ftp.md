@@ -4,12 +4,29 @@ description: >-
   protocoles sur Internet. Le FTP fonctionne au sein de la couche application de
   la pile de protocoles TCP/IP. Il se situe donc au m
 cover: ../../../.gitbook/assets/mainimage-1.jpg
-coverY: 0
+coverY: -27.41454020221473
+layout:
+  width: default
+  cover:
+    visible: true
+    size: full
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
 ---
 
 # FTP
 
-> A distinction is made between <mark style="color:red;">**`active`**</mark> and <mark style="color:red;">**`passive`**</mark>
+> Distinction entre <mark style="color:red;">**`active`**</mark> et <mark style="color:red;">**`passive`**</mark>
 >
 > **Dans la variante active, le client établit la connexion via le port TCP 21, et informe ainsi le serveur du port client par lequel ce dernier peut transmettre ses réponses. Cependant, si une pare-feu protège le client, le serveur ne peut pas répondre, car toutes les connexions entrantes sont bloquées.**
 >

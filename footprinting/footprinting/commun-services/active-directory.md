@@ -66,28 +66,36 @@ L'Active Directory est divisé en trois partitions logiques :
 {% hint style="warning" %}
 Les partitions de l'annuaire Active Directory sont stockées dans la **base de données Active Directory** sur les **contrôleurs de domaine**. Ces partitions sont des divisions **logiques** au sein de la base de données qui permettent de mieux organiser et gérer les informations selon leur type et leur portée. Voyons plus en détail où et comment ces partitions sont gérées.
 
-#### 1. **Partition de schéma** :
+
+
+1\. **Partition de schéma** :
 
 * **Contenu** : C'est ici que sont stockées les **définitions** de toutes les classes et attributs utilisés dans l'Active Directory. Cela inclut les définitions de ce qu’est un utilisateur, un groupe, un ordinateur, etc., ainsi que les types d’attributs qu’ils peuvent avoir.
 *   **Où c'est stocké** : La partition de schéma est répliquée sur **tous les contrôleurs de domaine** de la forêt. Chaque DC (contrôleur de domaine) dans la forêt possède donc une copie de cette partition.
 
     > **Exemple** : Lorsque vous créez un nouvel utilisateur dans un domaine, la partition de schéma détermine les attributs obligatoires (nom, mot de passe) et facultatifs (téléphone, adresse) qu'un utilisateur doit avoir.
 
-#### 2. **Partition de configuration** :
+
+
+2\. **Partition de configuration** :
 
 * **Contenu** : Elle contient les informations sur la **structure globale de la forêt**, y compris les relations entre domaines, les contrôleurs de domaine, et les sites. Elle est cruciale pour que l'Active Directory puisse répliquer les données correctement entre les contrôleurs de domaine dans la forêt.
 *   **Où c'est stocké** : Comme la partition de schéma, la partition de configuration est également répliquée sur **tous les contrôleurs de domaine** de la forêt.
 
     > **Exemple** : La partition de configuration gère les relations de confiance entre les domaines. Si vous avez deux domaines, `domaineA` et `domaineB`, la partition de configuration stocke les informations sur cette relation.
 
-#### 3. **Partition de domaine** :
+
+
+3\. **Partition de domaine** :
 
 * **Contenu** : Cette partition contient les informations **spécifiques à chaque domaine**, comme les utilisateurs, groupes, ordinateurs, et autres objets qui existent uniquement dans ce domaine.
 *   **Où c'est stocké** : Contrairement aux partitions de schéma et de configuration, la partition de domaine n’est répliquée que sur les **contrôleurs de domaine** qui appartiennent à ce domaine particulier. Chaque domaine dans une forêt a sa propre partition de domaine, qui est répliquée uniquement entre les DC de ce domaine.
 
     > **Exemple** : Si vous avez un domaine `paris.corpA.local`, la partition de domaine stocke les objets spécifiques à ce domaine (utilisateurs, ordinateurs, groupes, etc.). Elle est répliquée uniquement entre les contrôleurs de domaine du domaine `paris.corpA.local`.
 
-#### Où sont physiquement stockées ces partitions ?
+
+
+Où sont physiquement stockées ces partitions ?
 
 Les partitions sont stockées physiquement dans la **base de données Active Directory**, qui est localisée dans le fichier **NTDS.DIT** sur les contrôleurs de domaine. Ce fichier est l'endroit où toutes les données Active Directory sont réellement sauvegardées. Il contient :
 
@@ -97,7 +105,9 @@ Les partitions sont stockées physiquement dans la **base de données Active Dir
 
 Le fichier **NTDS.DIT** est situé, par défaut, sur le disque local du serveur dans un répertoire spécifique (souvent `C:\Windows\NTDS`).
 
-#### **En résumé :**
+
+
+**En résumé :**
 
 * **Partition de schéma** et **partition de configuration** : Répliquées sur **tous les contrôleurs de domaine de la forêt**.
 * **Partition de domaine** : Répliquée uniquement sur les **contrôleurs de domaine du domaine** auquel elle appartient.
@@ -368,7 +378,9 @@ La **partition de configuration** sur tous les contrôleurs de domaine de la for
 {% hint style="info" %}
 sur les objets Active Directory dans une **forêt**. Il permet de **rechercher rapidement** des objets (utilisateurs, groupes, ordinateurs, etc.) dans n’importe quel domaine de la forêt, même si les informations complètes sur ces objets ne sont pas disponibles sur le contrôleur de domaine local. C’est un mécanisme essentiel pour améliorer la **recherche et la localisation des ressources** dans une grande infrastructure Active Directory.
 
-#### Détails du **catalogue global** :
+
+
+Détails du **catalogue global** :
 
 1. **Contenu** :
    * Il contient un **sous-ensemble des attributs** de chaque objet dans la forêt.
@@ -385,15 +397,21 @@ sur les objets Active Directory dans une **forêt**. Il permet de **rechercher r
    * Le catalogue global joue un rôle essentiel dans le **partage d'informations** entre les domaines d'une forêt.
    * Par exemple, un utilisateur du domaine **paris.corpA.local** peut chercher une ressource située dans le domaine **londres.corpB.local**, et le catalogue global permettra de **localiser** cet objet sans qu'il soit nécessaire d'interroger directement les contrôleurs de domaine dans chaque domaine de la forêt.
 
-#### Exemple de fonctionnement :
+
+
+Exemple de fonctionnement :
 
 Supposons que vous ayez deux domaines dans une forêt : `corpA.local` et `corpB.local`. Si un utilisateur de `corpA.local` cherche un autre utilisateur qui se trouve dans `corpB.local`, cette recherche se fait via un serveur de catalogue global. Le **serveur de catalogue global** a déjà un sous-ensemble des attributs de l’utilisateur de `corpB.local`, il peut donc retourner rapidement les informations requises sans interroger directement les contrôleurs de domaine du domaine **corpB.local**.
 
-#### Rôle du **catalogue global** dans l’authentification :
+
+
+Rôle du **catalogue global** dans l’authentification :
 
 Le **catalogue global** est aussi essentiel pour certaines opérations d'**authentification**. Par exemple, lors de la **connexion** d’un utilisateur à un domaine, si cet utilisateur est membre d’un groupe universel qui se trouve dans un autre domaine, le catalogue global sera interrogé pour valider cette appartenance. Cela permet à l’Active Directory de vérifier les permissions au sein de plusieurs domaines, rendant ainsi possible une gestion centralisée.
 
-#### **En résumé** :
+
+
+**En résumé** :
 
 * Le **catalogue global** contient un sous-ensemble des informations des objets de tous les domaines d'une forêt.
 * Il est stocké sur des **serveurs de catalogue global**, qui sont des contrôleurs de domaine configurés pour jouer ce rôle.

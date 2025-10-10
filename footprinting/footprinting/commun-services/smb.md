@@ -27,23 +27,25 @@ coverY: 0
 ## <mark style="color:red;">Samba</mark>
 
 {% hint style="warning" %}
-<mark style="color:orange;">**Samba**</mark>
+<mark style="color:green;">**Samba**</mark>
 
 * **Qu'est-ce que c'est ?** : Samba est un <mark style="color:orange;">**logiciel qui permet aux systèmes Linux et Unix de partager des fichiers et des imprimantes avec des systèmes Windows**</mark>. Il utilise le protocole SMB/CIFS (Server Message Block/Common Internet File System) pour cette communication.
 * **Comment ça marche ?** : Quand vous installez Samba sur un système Linux, il permet à ce système d'agir comme un serveur de fichiers pour les clients Windows. Ainsi, un dossier partagé sur un ordinateur Linux peut être accédé depuis un ordinateur Windows, et vice versa.
-* <mark style="color:orange;">**NetBIOS**</mark>**&#x20;:**
-  * **Qu'est-ce que c'est ?** : NetBIOS (Network Basic Input/Output System) est un protocole ancien qui <mark style="color:orange;">**permet aux ordinateurs sur un réseau local de se découvrir**</mark> et de communiquer en utilisant des noms d'hôtes simples, au lieu des adresses IP.Il utilisait les _**ports TCP/UDP 137, 138 et 139**<mark style="color:orange;">**.**</mark>_
-  * **Fonctionnement avec Samba** : NetBIOS peut être utilisé par Samba pour la découverte des noms d'hôtes. Cela signifie que, grâce à NetBIOS, les ordinateurs sur le réseau peuvent trouver les autres ordinateurs et leurs ressources partagées par leurs noms simples (par exemple, "MAISON" ou "BUREAU").
-* <mark style="color:orange;">**NBNS et WINS :**</mark>
-  * **NBNS (NetBIOS Name Service)** : C'est un service qui permet de résoudre les noms NetBIOS en adresses IP. Chaque ordinateur en ligne doit enregistrer son nom NetBIOS pour être découvert par d'autres machines.
-  * **WINS (Windows Internet Name Service)** : C'est une amélioration du service NBNS. WINS est utilisé principalement dans les réseaux Windows pour résoudre les noms NetBIOS en adresses IP de manière plus efficace.
 
-**Comment Samba utilise NetBIOS :**
+**NetBIOS&#x20;**<mark style="color:green;">**:**</mark>
+
+* **Qu'est-ce que c'est ?** : NetBIOS (Network Basic Input/Output System) est un protocole ancien qui <mark style="color:orange;">**permet aux ordinateurs sur un réseau local de se découvrir**</mark> et de communiquer en utilisant des noms d'hôtes simples, au lieu des adresses IP.Il utilisait les _**ports TCP/UDP 137, 138 et 139**<mark style="color:orange;">**.**</mark>_
+* **Fonctionnement avec Samba** : NetBIOS peut être utilisé par Samba pour la découverte des noms d'hôtes. Cela signifie que, grâce à NetBIOS, les ordinateurs sur le réseau peuvent trouver les autres ordinateurs et leurs ressources partagées par leurs noms simples (par exemple, "MAISON" ou "BUREAU").
+
+<mark style="color:green;">**NBNS et WINS :**</mark>
+
+* **NBNS (NetBIOS Name Service)** : C'est un service qui permet de résoudre les noms NetBIOS en adresses IP. Chaque ordinateur en ligne doit enregistrer son nom NetBIOS pour être découvert par d'autres machines.
+* **WINS (Windows Internet Name Service)** : C'est une amélioration du service NBNS. WINS est utilisé principalement dans les réseaux Windows pour résoudre les noms NetBIOS en adresses IP de manière plus efficace.
+
+<mark style="color:green;">**Comment Samba utilise NetBIOS :**</mark>
 
 * Lorsque vous configurez Samba sur un système Linux, il peut utiliser NetBIOS pour permettre aux ordinateurs Windows de découvrir et d'accéder aux ressources partagées par leur nom NetBIOS.
 * Par exemple, si vous avez un ordinateur Linux avec Samba installé et un dossier partagé appelé "PHOTOS", les ordinateurs Windows sur le même réseau peuvent voir et accéder à ce dossier en utilisant le nom NetBIOS de l'ordinateur Linux.
-
-En résumé, Samba utilise NetBIOS pour la découverte des noms et facilite ainsi la communication et le partage de ressources entre les systèmes Linux et Windows sur un réseau local.
 {% endhint %}
 
 #### <mark style="color:green;">**Samba 3 - Membre d'un Domaine Active Directory**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
@@ -191,7 +193,7 @@ Mais elle est pas assez efficace
 ### <mark style="color:blue;">Rpcclient</mark>&#x20;
 
 {% hint style="warning" %}
-<mark style="color:orange;">**Qu'est-ce que le RPC (Remote Procedure Call) ?**</mark>
+<mark style="color:green;">**Qu'est-ce que le RPC (Remote Procedure Call) ?**</mark>
 
 **Remote Procedure Call (RPC)** est <mark style="color:orange;">**une méthode utilisée pour permettre à un programme sur un ordinateur (le client) d'exécuter du code sur un autre ordinateur (le serveur).**</mark> Cela se fait via un réseau. Voici une comparaison pour mieux comprendre :
 
@@ -199,7 +201,7 @@ Imaginez que vous travaillez dans un bureau et que vous devez demander à un col
 
 ***
 
-**Comment fonctionne le RPC ?**
+<mark style="color:green;">**Comment fonctionne le RPC ?**</mark>
 
 1. **Le Client envoie une demande (appel) au Serveur** :
    * Le client demande au serveur d'exécuter une fonction spécifique.
@@ -222,11 +224,9 @@ Supposons que vous avez une fonction sur le serveur qui ajoute deux nombres.
 
 ***
 
-#### <mark style="color:orange;">Qu'est-ce que</mark> <mark style="color:orange;"></mark><mark style="color:orange;">`rpcclient`</mark> <mark style="color:orange;"></mark><mark style="color:orange;">?</mark>
+<mark style="color:green;">**Qu'est-ce que**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`rpcclient`**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**?**</mark>
 
 `rpcclient` est un outil qui permet d'interagir avec des services RPC sur des serveurs Windows. Il fait partie du projet Samba et permet d'envoyer des requêtes spécifiques aux services RPC sur les serveurs Windows.
-
-
 
 **Utilisation de `rpcclient` avec des exemples**
 

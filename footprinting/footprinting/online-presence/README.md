@@ -26,8 +26,6 @@ layout:
 
 > Les informations sur un domaine sont un élément essentiel de tout test d'intrusion. Il ne s'agit pas seulement des sous-domaines, mais de l'ensemble de la présence sur Internet. Ainsi, nous recueillons des informations et essayons de comprendre le fonctionnement de l'entreprise, ainsi que les technologies et structures nécessaires pour que les services soient proposés de manière efficace et réussie
 
-The first thing we should do is scrutinize the company's `main website`. Then, we should read through the texts, keeping in mind what technologies and structures are needed for these services.
-
 ***
 
 ## <mark style="color:red;">Infrastructure Based Enumeration</mark>
@@ -100,7 +98,7 @@ The first thing we should do is scrutinize the company's `main website`. Then, w
 
 ### <mark style="color:blue;">Host Based Enumeration</mark>
 
-#### <mark style="color:orange;">Utilisation de Shodan</mark>
+#### <mark style="color:green;">Utilisation de Shodan</mark>
 
 * **Objectif**: Rechercher les <mark style="color:orange;">**dispositifs et systèmes connectés en permanence à Internet**</mark>.
 * **Méthode**:
@@ -111,7 +109,7 @@ The first thing we should do is scrutinize the company's `main website`. Then, w
       for i in $(cat ip-addresses.txt); do shodan host $i; done
       ```
 
-#### <mark style="color:orange;">Analyse des Enregistrements DNS</mark>
+#### <mark style="color:green;">Analyse des Enregistrements DNS</mark>
 
 * **Objectif**: Identifier les enregistrements DNS pour découvrir plus de hôtes et services.
 * **Méthode**:
@@ -123,12 +121,41 @@ The first thing we should do is scrutinize the company's `main website`. Then, w
       ```
 
 {% hint style="info" %}
-<mark style="color:orange;">**We see an IP record, some mail servers, some DNS servers, TXT records, and an SOA record**</mark><mark style="color:orange;">.</mark>
+<mark style="color:green;">**We see an IP record, some mail servers, some DNS servers, TXT records, and an SOA record**</mark><mark style="color:green;">.</mark>
 
-* `A` records: We recognize the IP addresses that point to a specific (sub)domain through the A record. Here we only see one that we already know.
-* `MX` records: The mail server records show us which mail server is responsible for managing the emails for the company. Since this is handled by google in our case, we should note this and skip it for now.
-* `NS` records: These kinds of records show which name servers are used to resolve the FQDN to IP addresses. Most hosting providers use their own name servers, making it easier to identify the hosting provider.
-* `TXT` records: this type of record often contains verification keys for different third-party providers and other security aspects of DNS, such as [SPF](https://datatracker.ietf.org/doc/html/rfc7208), [DMARC](https://datatracker.ietf.org/doc/html/rfc7489), and [DKIM](https://datatracker.ietf.org/doc/html/rfc6376), which are responsible for verifying and confirming the origin of the emails sent. Here we can already see some valuable information if we look closer at the results.
+🔹 **Enregistrements A (A records)**
+
+Les enregistrements **A** permettent d’associer une adresse IP à un nom de domaine (ou sous-domaine).\
+Ici, on ne voit qu’une seule adresse IP, que nous connaissions déjà.
+
+***
+
+🔹 **Enregistrements MX (MX records)**
+
+Les enregistrements **MX** indiquent quels serveurs de messagerie sont responsables de la gestion des e-mails du domaine.\
+Dans notre cas, ce service est assuré par **Google**, donc nous pouvons simplement le noter et passer à la suite.
+
+***
+
+🔹 **Enregistrements NS (NS records)**
+
+Les enregistrements **NS** spécifient quels **serveurs de noms** (name servers) sont utilisés pour résoudre les noms de domaine complets (FQDN) en adresses IP.\
+La plupart des hébergeurs utilisent leurs **propres serveurs de noms**, ce qui peut aider à **identifier le fournisseur d’hébergement**.
+
+***
+
+🔹 **Enregistrements TXT (TXT records)**
+
+Les enregistrements **TXT** contiennent souvent des **clés de vérification** utilisées par des services tiers, ainsi que des **informations de sécurité DNS** comme :
+
+* **SPF** (Sender Policy Framework)
+* **DKIM** (DomainKeys Identified Mail)
+* **DMARC** (Domain-based Message Authentication, Reporting & Conformance)
+
+Ces mécanismes servent à **authentifier et vérifier l’origine des e-mails** envoyés depuis le domaine.\
+En examinant de près les résultats, on peut déjà y trouver **des informations intéressantes et utiles**.
+
+***
 {% endhint %}
 
 ***

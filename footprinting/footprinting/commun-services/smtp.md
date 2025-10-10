@@ -1,3 +1,25 @@
+---
+cover: ../../../.gitbook/assets/smtp-jpg.webp
+coverY: 0
+layout:
+  width: default
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+---
+
 # SMTP
 
 ## <mark style="color:red;">Protocole SMTP (Simple Mail Transfer Protocol)</mark>
@@ -19,7 +41,9 @@ SMTP servers also use other ports such as TCP port `587`. This port is used to r
 ### <mark style="color:blue;">**2. Fonctionnement du SMTP**</mark>
 
 {% hint style="info" %}
-Une fonction essentielle d'un serveur SMTP est de prévenir le spam en utilisant des mécanismes d'authentification qui permettent seulement aux utilisateurs autorisés d'envoyer des e-mails. À cette fin, la plupart des serveurs SMTP modernes supportent l'extension du protocole <mark style="color:orange;">**ESMTP avec SMTP-Auth**</mark>. Après avoir envoyé son e-mail, le client SMTP, également connu sous le nom d'Agent **Utilisateur de Messagerie (MUA)**, le convertit en un en-tête et un corps de message et télécharge les deux sur le serveur SMTP. Ce dernier dispose d'un **Agent de Transfert de Mail (MTA)**, la base logicielle pour l'envoi et la réception des e-mails. Le MTA vérifie la taille et le spam de l'e-mail, puis le stocke. Pour soulager le MTA, il est parfois précédé par un **Agent de Soumission de Mail (MSA)**, qui vérifie la validité, c'est-à-dire l'origine de l'e-mail. Ce MSA est également appelé serveur de relais (Relay server). Ceux-ci sont très importants plus tard, car une attaque appelée "Open Relay Attack" peut être réalisée sur de nombreux serveurs SMTP en raison d'une mauvaise configuration. Nous discuterons de cette attaque et de la manière d'identifier le point faible un peu plus tard. Le MTA recherche ensuite dans le DNS l'adresse IP du serveur de messagerie du destinataire.
+Une fonction essentielle d'un serveur SMTP est de prévenir le spam en utilisant des mécanismes d'authentification qui permettent seulement aux utilisateurs autorisés d'envoyer des e-mails. À cette fin, la plupart des serveurs SMTP modernes supportent l'extension du protocole <mark style="color:orange;">**ESMTP avec SMTP-Auth**</mark>.&#x20;
+
+Après avoir envoyé son e-mail, le client SMTP, également connu sous le nom d'Agent **Utilisateur de Messagerie (MUA)**, le convertit en un en-tête et un corps de message et télécharge les deux sur le serveur SMTP. Ce dernier dispose d'un **Agent de Transfert de Mail (MTA)**, la base logicielle pour l'envoi et la réception des e-mails. Le MTA vérifie la taille et le spam de l'e-mail, puis le stocke. Pour soulager le MTA, il est parfois précédé par un **Agent de Soumission de Mail (MSA)**, qui vérifie la validité, c'est-à-dire l'origine de l'e-mail. Ce MSA est également appelé serveur de relais (Relay server). Ceux-ci sont très importants plus tard, car une attaque appelée "Open Relay Attack" peut être réalisée sur de nombreux serveurs SMTP en raison d'une mauvaise configuration. Nous discuterons de cette attaque et de la manière d'identifier le point faible un peu plus tard. Le MTA recherche ensuite dans le DNS l'adresse IP du serveur de messagerie du destinataire.
 {% endhint %}
 
 1. **Client (MUA)** : Envoyer un e-mail en spécifiant l'expéditeur, le destinataire, le contenu, etc.
@@ -81,7 +105,7 @@ Une extension appelée **Extended SMTP (ESMTP)** a été développée pour amél
 
 Exemple de configuration dans le fichier `/etc/postfix/main.cf` :
 
-```plaintext
+```sh
 smtpd_banner = ESMTP Server
 biff = no
 append_dot_mydomain = no
@@ -108,9 +132,9 @@ home_mailbox = /home/postfix
 ### <mark style="color:blue;">**6. Exemples de Commandes avec Telnet**</mark>
 
 * **Telnet** 10.129.14.128 25
-*   **Envoi d'un e-mail** :
+*   <mark style="color:green;">**Envoi d'un e-mail**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
-    ```plaintext
+    ```sh
     EHLO mail1
     MAIL FROM: <cry0l1t3@inlanefreight.htb>
     RCPT TO: <mrb3n@inlanefreight.htb>
@@ -129,18 +153,18 @@ home_mailbox = /home/postfix
 ### <mark style="color:blue;">**7. Problèmes de Sécurité et Attaques**</mark>
 
 {% hint style="danger" %}
-**1. Utilisation d'un serveur de relais (relay server) pour éviter les filtres anti-spam :**
+<mark style="color:green;">**1. Utilisation d'un serveur de relais (relay server) pour éviter les filtres anti-spam :**</mark>
 
 * **Serveur de relais** : C'est un serveur SMTP que le destinataire considère comme digne de confiance et qui est vérifié par d'autres serveurs.
 * **Authentification** : En règle générale, l'expéditeur doit s'authentifier auprès du serveur de relais pour pouvoir l'utiliser. Cela permet de garantir que seuls les utilisateurs autorisés peuvent envoyer des e-mails via ce serveur.
 * **Objectif** : En utilisant un serveur de relais, l'expéditeur essaie de s'assurer que ses e-mails ne seront pas filtrés par les filtres anti-spam et atteindront bien le destinataire.
 
-**2. Problème de la mauvaise configuration des serveurs SMTP :**
+<mark style="color:green;">**2. Problème de la mauvaise configuration des serveurs SMTP :**</mark>
 
 * **Manque de visibilité des administrateurs** : Les administrateurs réseau peuvent ne pas avoir une vue d'ensemble des plages d'adresses IP qu'ils doivent autoriser sur leur serveur SMTP.
 * **Résultat** : Pour éviter les erreurs et ne pas perturber la communication, ils peuvent finir par permettre l'accès à **toutes les adresses IP**. C'est une configuration dangereuse car elle ouvre la porte à des abus.
 
-**3. Configuration d'un relais ouvert (Open Relay) :**
+<mark style="color:green;">**3. Configuration d'un relais ouvert (Open Relay) :**</mark>
 
 * **Open Relay** : Un serveur SMTP est dit "open relay" lorsqu'il permet à n'importe quel utilisateur, sans restrictions d'IP, d'envoyer des e-mails via ce serveur, même s'ils ne sont pas authentifiés ou ne font pas partie du réseau de confiance.
 *   **Exemple de configuration** :
@@ -151,7 +175,7 @@ home_mailbox = /home/postfix
 
     * **mynetworks = 0.0.0.0/0** : Cette configuration signifie que le serveur SMTP acceptera des connexions de n'importe quelle adresse IP. Autrement dit, il n'y a aucune restriction sur les adresses IP autorisées à utiliser ce serveur pour envoyer des e-mails.
 
-**4. Risques associés :**
+<mark style="color:green;">**4. Risques associés :**</mark>
 
 * **Envoi de faux e-mails** : Avec une telle configuration, un attaquant peut utiliser le serveur pour envoyer des e-mails frauduleux en se faisant passer pour une autre personne ou entité
 {% endhint %}
@@ -166,17 +190,11 @@ home_mailbox = /home/postfix
 ```bash
 mrroboteLiot@htb[/htb]$ sudo nmap 10.129.14.128 -sC -sV -p25
 
-Starting Nmap 7.80 ( https://nmap.org ) at 2021-09-27 17:56 CEST
-Nmap scan report for 10.129.14.128
-Host is up (0.00025s latency).
-
 PORT   STATE SERVICE VERSION
 25/tcp open  smtp    Postfix smtpd
 |_smtp-commands: mail1.inlanefreight.htb, PIPELINING, SIZE 10240000, VRFY, ETRN, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING, 
 MAC Address: 00:00:00:00:00:00 (VMware)
 
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 14.09 seconds
 ```
 {% endcode %}
 

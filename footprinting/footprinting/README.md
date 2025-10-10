@@ -27,11 +27,9 @@ layout:
 
 La méthodologie d'énumération est une <mark style="color:orange;">**approche structurée utilisée par les testeurs de pénétration pour explorer et comprendre un système cible**</mark>.&#x20;
 
-Elle est divisée en plusieurs couches, chacune représentant un <mark style="color:orange;">**niveau spécifique d'information à découvrir**</mark>. Ce cours simplifié explique comment procéder à l'énumération et à l'exploitation des vulnérabilités de manière dynamique.
+Elle est divisée en plusieurs couches, chacune représentant un <mark style="color:orange;">**niveau spécifique d'information à découvrir**</mark>.&#x20;
 
-This methodology is nested in 6 layers and represents, metaphorically speaking, boundaries that we try to pass with the enumeration process. The whole enumeration process is divided into three different levels:
-
-<table data-header-hidden><thead><tr><th width="220"></th><th width="262"></th><th></th></tr></thead><tbody><tr><td><code>Infrastructure-based enumeration</code></td><td><code>Host-based enumeration</code></td><td><code>OS-based enumeration</code></td></tr></tbody></table>
+<table data-header-hidden data-full-width="true"><thead><tr><th width="324"></th><th width="353"></th><th></th></tr></thead><tbody><tr><td><code>Infrastructure-based enumeration</code></td><td><code>Host-based enumeration</code></td><td><code>OS-based enumeration</code></td></tr></tbody></table>
 
 <figure><img src="../../.gitbook/assets/image (90).png" alt=""><figcaption><p>COUCHES</p></figcaption></figure>
 

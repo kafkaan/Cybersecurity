@@ -1,3 +1,8 @@
+---
+cover: ../../../.gitbook/assets/SNMP_versions.png
+coverY: -61.81993259508908
+---
+
 # SNMP
 
 ## <mark style="color:red;">**Présentation générale**</mark>

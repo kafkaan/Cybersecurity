@@ -1,3 +1,25 @@
+---
+cover: ../../../.gitbook/assets/nfs-in-linux.png
+coverY: 0
+layout:
+  width: default
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+---
+
 # NFS
 
 ***
@@ -15,29 +37,29 @@
 
 ## <mark style="color:red;">**Versions de NFS**</mark>
 
-1. **NFSv2** :
+1. <mark style="color:green;">**NFSv2**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
    * Plus ancien et largement supporté.
    * Fonctionne <mark style="color:orange;">**entièrement sur UDP.**</mark>
    * Moins sécurisé et avec des fonctionnalités limitées.
-2. **NFSv3** :
+2. <mark style="color:green;">**NFSv3**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
    * Introduit des améliorations telles que la <mark style="color:orange;">**prise en charge de tailles de fichiers variables**</mark> et un meilleur rapport d'erreurs.
    * Ne pas entièrement compatible avec NFSv2.
    * Utilise <mark style="color:orange;">**UDP et TCP pour la communication.**</mark>
-3. **NFSv4** :
+3. <mark style="color:green;">**NFSv4**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
    * Introduit <mark style="color:orange;">**Kerberos pour l'authentification**</mark>, fonctionne **à travers les pare-feu**<mark style="color:orange;">,</mark> ne nécessite plus de portmappers.
    * Supporte les ACLs (Access Control Lists), opérations basées sur l'état, améliore la performance et la sécurité.
    * Premier version à utiliser un protocole stateful (basé sur l'état).
-4. **NFSv4.1 (RFC 8881)** :
+4. <mark style="color:green;">**NFSv4.1 (RFC 8881)**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
    * Supporte les <mark style="color:orange;">**déploiements de serveurs en cluster et l'accès parallèle aux fichiers distribués (pNFS).**</mark>
    * Inclut un mécanisme de troncation de session (NFS multipathing).
    * Utilise un seul port (2049) pour simplifier l'utilisation à travers les pare-feu.
 
 {% hint style="info" %}
-<mark style="color:orange;">**Qu'est-ce que Kerberos ?**</mark>
+<mark style="color:green;">**Qu'est-ce que Kerberos ?**</mark>
 
 Kerberos est un protocole de sécurité qui permet l'authentification sécurisée des utilisateurs et des services dans un réseau. Il est conçu pour permettre à des entités (utilisateurs ou services) de prouver leur identité de manière sécurisée et de s'assurer que les informations échangées sont protégées contre les attaques.
 
-<mark style="color:orange;">**Fonctionnement de Kerberos**</mark>
+<mark style="color:green;">**Fonctionnement de Kerberos**</mark>
 
 Le fonctionnement de Kerberos repose sur trois composants principaux :
 
@@ -72,12 +94,12 @@ NFS est basé sur le protocole <mark style="color:orange;">**ONC-RPC (Open Netwo
 * **XDR (External Data Representation)** est utilisé pour l'échange de données indépendamment du système.
 * L'authentification et l'autorisation sont gérées par RPC, pas directement par NFS. NFS utilise les UID/GID UNIX pour la gestion des permissions.
 
-**Problème de sécurité** :
+<mark style="color:green;">**Problème de sécurité**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 * Les UID/GID ne doivent pas forcément correspondre entre le client et le serveur, ce qui peut créer des problèmes d'accès non autorisé.
 
 {% hint style="info" %}
-<mark style="color:orange;">**Fonctionnement de NFS avec RPC**</mark>
+<mark style="color:green;">**Fonctionnement de NFS avec RPC**</mark>
 
 Voici une explication détaillée et illustrée du fonctionnement de NFS en utilisant RPC :
 
@@ -100,7 +122,9 @@ Voici une explication détaillée et illustrée du fonctionnement de NFS en util
    * **Client** : Envoie une requête RPC de type `UNMOUNT` pour démonter le répertoire.
    * **Serveur** : Répond avec une confirmation.
 
-#### Exemple Simplifié
+***
+
+<mark style="color:green;">**Exemple Simplifié**</mark>
 
 ```plaintext
   CLIENT                          Serveur NFS
@@ -131,7 +155,9 @@ Voici une explication détaillée et illustrée du fonctionnement de NFS en util
   |                               |
 ```
 
-**Rôle de RPC dans NFS**
+***
+
+<mark style="color:green;">**Rôle de RPC dans NFS**</mark>
 
 * **Abstraction** : RPC fournit une abstraction qui permet aux appels de procédures sur le serveur NFS de ressembler à des appels locaux sur le client.
 * **Transparence** : Les clients NFS n'ont pas à se soucier des détails de la communication réseau ; ils envoient simplement des requêtes RPC.
@@ -226,13 +252,13 @@ mkdir target-NFS
 sudo mount -t nfs 10.129.14.128:/ ./target-NFS/ -o nolock
 ```
 
-**Liste des fichiers** :
+#### <mark style="color:green;">**Liste des fichiers**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 ```bash
 ls -l target-NFS
 ```
 
-**Démonter le partage NFS** :
+#### <mark style="color:green;">**Démonter le partage NFS**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 ```bash
 sudo umount ./target-NFS

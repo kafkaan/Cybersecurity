@@ -1,3 +1,8 @@
+---
+cover: ../../../.gitbook/assets/txt-records-ft-1.png
+coverY: 72.68175252768415
+---
+
 # Verification TXT
 
 Les enregistrements TXT (Text) sont un <mark style="color:orange;">**type de ressource DNS qui permet aux administrateurs de stocker des informations textuelles dans le système de noms de domaine (DNS)**</mark>. Ces enregistrements sont souvent utilisés pour diverses fonctions de sécurité et de vérification, notamment les mécanismes de sécurité des emails tels que <mark style="color:orange;">**SPF, DKIM, et DMARC**</mark>. Voyons en détail comment chacun de ces mécanismes fonctionne et leur rôle dans la vérification des emails.
