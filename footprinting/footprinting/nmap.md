@@ -1,8 +1,4 @@
 ---
-description: >-
-  Enumeration is the most critical part of all. The art, the difficulty, and the
-  goal are not to gain access to our target computer. Instead, it is identifying
-  all of the ways we could attack a target w
 cover: >-
   https://png.pngtree.com/thumb_back/fh260/background/20230702/pngtree-d-rendering-of-an-internet-page-featuring-login-credentials-input-fields-image_3740977.jpg
 coverY: 58
@@ -18,7 +14,6 @@ coverY: 58
 
 ```shell
 mrroboteLiot@htb[/htb]$ nmap <scan types> <options> <target>
-
 ```
 
 ***
@@ -26,7 +21,9 @@ mrroboteLiot@htb[/htb]$ nmap <scan types> <options> <target>
 ## <mark style="color:red;">Host Discovery</mark>
 
 {% hint style="info" %}
-<mark style="color:orange;">**TTL (Time To Live**</mark><mark style="color:orange;">)</mark> est une valeur de minuterie incluse dans les paquets envoyés sur les réseaux qui indique au destinataire pendant combien de temps conserver ou utiliser le paquet avant de le supprimer et d'expirer les données (paquet). Les valeurs TTL sont différentes pour différents systèmes d'exploitation. Ainsi, vous pouvez déterminer le système d'exploitation en fonction de la valeur TTL. Vous pouvez obtenir la valeur TTL en envoyant une requête ping à une adresse.&#x20;
+<mark style="color:orange;">**TTL (Time To Live**</mark><mark style="color:orange;">)</mark> est une valeur de minuterie incluse dans les paquets envoyés sur les réseaux qui indique au destinataire pendant combien de temps conserver ou utiliser le paquet avant de le supprimer et d'expirer les données (paquet).&#x20;
+
+Les valeurs TTL sont différentes pour différents systèmes d'exploitation. Ainsi, vous pouvez déterminer le système d'exploitation en fonction de la valeur TTL. Vous pouvez obtenir la valeur TTL en envoyant une requête ping à une adresse.&#x20;
 
 * Linux : 64
 * Windows : 128
@@ -39,7 +36,7 @@ Lors de tests de pénétration internes pour l'ensemble du réseau d'une entrepr
 La méthode la plus efficace consiste à utiliser des **requêtes ICMP echo.**
 
 {% hint style="warning" %}
-L’ICMP est un protocole que les périphériques d’un réseau utilisent pour communiquer les problèmes de transmission de données. Dans cette définition du protocole ICMP, l’une des principales façons de l’utiliser est de déterminer si les données atteignent leur destination et ce au bon moment. Cela fait de l’ICMP un facteur important du processus de signalement des erreurs et des tests visant à déterminer si un réseau transmet bien les données. Cependant, il peut également être utilisé pour exécuter des attaques par déni de service distribué (DDoS).
+L’**ICMP** est un protocole que les périphériques d’un réseau utilisent pour communiquer les problèmes de transmission de données. Dans cette définition du protocole ICMP, l’une des principales façons de l’utiliser est de déterminer si les données atteignent leur destination et ce au bon moment. Cela fait de l’ICMP un facteur important du processus de signalement des erreurs et des tests visant à déterminer si un réseau transmet bien les données. Cependant, il peut également être utilisé pour exécuter des attaques par déni de service distribué (DDoS).
 {% endhint %}
 
 ### <mark style="color:blue;">**Scan de Plage d'Adresses**</mark>&#x20;

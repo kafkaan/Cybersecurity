@@ -2,7 +2,17 @@
 
 ## <mark style="color:red;">Introduction</mark>
 
-La gestion à distance des serveurs Windows est une fonctionnalité essentielle pour les administrateurs système. Elle permet de contrôler et de configurer les serveurs sans nécessiter un accès physique direct. Les principales technologies utilisées pour la gestion à distance sont le **Remote Desktop Protocol (RDP)**, **Windows Remote Management (WinRM)**, et **Windows Management Instrumentation (WMI)**. Ces outils sont intégrés dans Windows et permettent une gestion efficace et sécurisée des serveurs à distance.
+La gestion à distance des serveurs Windows est une fonctionnalité essentielle pour les administrateurs système.&#x20;
+
+Elle permet de contrôler et de configurer les serveurs sans nécessiter un accès physique direct.&#x20;
+
+Les principales technologies utilisées pour la gestion à distance sont&#x20;
+
+* le **Remote Desktop Protocol (RDP)**
+* **Windows Remote Management (WinRM)**
+* **Windows Management Instrumentation (WMI)**.&#x20;
+
+Ces outils sont intégrés dans Windows et permettent une gestion efficace et sécurisée des serveurs à distance.
 
 ***
 
@@ -113,7 +123,13 @@ xfreerdp /u:cry0l1t3 /p:"P455w0rd!" /v:10.129.201.248
 
 ## <mark style="color:red;">**WinRM**</mark>&#x20;
 
-Le Windows Remote Management (WinRM) est un protocole de gestion à distance intégré à Windows, basé sur la ligne de commande. WinRM utilise le protocole SOAP (Simple Object Access Protocol) pour établir des connexions avec des hôtes distants et leurs applications. Par conséquent, WinRM doit être explicitement activé et configuré à partir de Windows 10. <mark style="color:orange;">**WinRM repose sur les ports TCP 5985 et 5986**</mark> pour la communication, le dernier **port 5986 utilisant HTTPS**, car les ports 80 et 443 étaient auparavant utilisés pour cette tâche. Cependant, comme le port 80 était principalement bloqué pour des raisons de sécurité, les nouveaux ports 5985 et 5986 sont utilisés aujourd'hui.
+Le Windows Remote Management (WinRM) est un protocole de gestion à distance intégré à Windows, basé sur la ligne de commande.&#x20;
+
+WinRM utilise le protocole **SOAP (Simple Object Access Protocol)** pour établir des connexions avec des hôtes distants et leurs applications.&#x20;
+
+Par conséquent, WinRM doit être explicitement activé et configuré à partir de Windows 10.&#x20;
+
+<mark style="color:orange;">**WinRM repose sur les ports TCP 5985 et 5986**</mark> pour la communication, le dernier **port 5986 utilisant HTTPS**, car les ports 80 et 443 étaient auparavant utilisés pour cette tâche. Cependant, comme le port 80 était principalement bloqué pour des raisons de sécurité, les nouveaux ports 5985 et 5986 sont utilisés aujourd'hui.
 
 Un autre composant adapté à WinRM pour l'administration est le Windows Remote Shell (WinRS), qui permet d'exécuter des commandes arbitraires sur le système distant. Ce programme est même inclus par défaut sur Windows 7. Ainsi, avec WinRM, il est possible d'exécuter une commande à distance sur un autre serveur.
 
