@@ -28,7 +28,7 @@ Vulnérabilité dans le protocole RDP (Remote Desktop Protocol), même lorsqu'il
 2. **Problème pour le client** : Lorsque le client (l'utilisateur qui se connecte à distance) reçoit un tel certificat, il ne peut pas vérifier si le certificat est authentique ou s'il a été falsifié par un attaquant. Le client reçoit alors un avertissement, mais cet avertissement n'empêche pas nécessairement la connexion.
 3. **Vulnérabilité** : En raison de cette situation, un attaquant pourrait créer un faux certificat qui ressemble à celui du serveur légitime. Le client ne pourrait pas faire la différence, ce qui laisse la porte ouverte à des attaques, même si un avertissement est affiché.
 
-The Remote Desktop service is installed by default on Windows servers and does not require additional external applications. This service can be activated using the Server Manager and comes with the default setting to allow connections to the service only to hosts with Network level authentication (NLA).
+Ce service peut être activé via le **Gestionnaire de serveur** et est configuré par défaut pour n’accepter les connexions que depuis des hôtes utilisant **l’authentification au niveau réseau (NLA)**.
 
 ***
 
@@ -109,8 +109,6 @@ Exemple :
 xfreerdp /u:cry0l1t3 /p:"P455w0rd!" /v:10.129.201.248
 ```
 
-Lors de la connexion, un avertissement de certificat peut apparaître si le nom d'hôte utilisé ne correspond pas à celui du certificat. Il est important de vérifier et de comprendre ces avertissements pour assurer une connexion sécurisée.
-
 ***
 
 ## <mark style="color:red;">**WinRM**</mark>&#x20;
@@ -130,19 +128,6 @@ Comme nous le savons déjà, WinRM utilise par défaut les ports TCP 5985 (HTTP)
 {% code title="" overflow="wrap" %}
 ```bash
 mrroboteLiot@htb[/htb]$ nmap -sV -sC 10.129.201.248 -p5985,5986 --disable-arp-ping -n
-
-Starting Nmap 7.92 (https://nmap.org) at 2021-11-06 16:31 CET
-Nmap scan report for 10.129.201.248
-Host is up (0.030s latency).
-
-PORT     STATE SERVICE VERSION
-5985/tcp open  http    Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-|_http-title: Not Found
-|_http-server-header: Microsoft-HTTPAPI/2.0
-Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/.
-Nmap done: 1 IP address (1 host up) scanned in 7.34 seconds
 ```
 {% endcode %}
 
@@ -153,16 +138,6 @@ Si nous voulons savoir si un ou plusieurs serveurs distants peuvent être attein
 {% code title="" overflow="wrap" %}
 ```bash
 mrroboteLiot@htb[/htb]$ evil-winrm -i 10.129.201.248 -u Cry0l1t3 -p P455w0rD!
-
-Evil-WinRM shell v3.3
-
-Warning: Remote path completions is disabled due to ruby limitation: quoting_detection_proc() function is unimplemented on this machine
-
-Data: For more information, check Evil-WinRM Github: https://github.com/Hackplayers/evil-winrm#Remote-path-completion
-
-Info: Establishing connection to remote endpoint
-
-*Evil-WinRM* PS C:\Users\Cry0l1t3\Documents>
 ```
 {% endcode %}
 
@@ -170,13 +145,17 @@ Info: Establishing connection to remote endpoint
 
 ## <mark style="color:red;">**WMI**</mark>&#x20;
 
-Le **Windows Management Instrumentation (WMI)** est l'implémentation de Microsoft et également une extension du **Common Information Model (CIM)**, une fonctionnalité clé du **Web-Based Enterprise Management (WBEM)** standardisé pour la plate-forme Windows. WMI permet l'accès en lecture et en écriture à presque tous les paramètres des systèmes Windows. De manière compréhensible, cela en fait l'interface la plus critique dans l'environnement Windows pour l'administration et la maintenance à distance des ordinateurs Windows, qu'il s'agisse de PC ou de serveurs. WMI est généralement accessible via PowerShell, VBScript, ou la console Windows Management Instrumentation (WMIC). WMI n'est pas un programme unique, mais se compose de plusieurs programmes et de diverses bases de données, également appelées référentiels.
+* **WMI (Windows Management Instrumentation)** est l’implémentation de Microsoft du **Common Information Model (CIM)** et une extension du standard **WBEM** pour Windows.
+* Permet l’accès **en lecture et en écriture** à presque tous les paramètres des systèmes Windows.
+* Constitue **l’interface principale** pour l’administration et la maintenance à distance des ordinateurs Windows (PC et serveurs).
+* Accessible via **PowerShell**, **VBScript** ou la console **WMIC**.
+* WMI n’est pas un seul programme, mais un ensemble de **programmes et de bases de données** (référentiels).
 
 <mark style="color:green;">**Cartographie du service**</mark>&#x20;
 
 L'initialisation de la communication WMI se fait toujours sur le port TCP 135, et après l'établissement réussi de la connexion, la communication est déplacée vers un port aléatoire. Par exemple, le programme **wmiexec.py** de l'outil Impacket peut être utilisé pour cela.
 
-**Exemple d'utilisation de WMIexec.py** :
+<mark style="color:green;">**Exemple d'utilisation de WMIexec.py**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 {% code title="" overflow="wrap" %}
 ```bash

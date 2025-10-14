@@ -17,23 +17,23 @@ La gestion à distance des serveurs Linux est essentielle pour administrer les s
 
 [**Secure Shell**](https://en.wikipedia.org/wiki/Secure_Shell) **(`SSH`)** enables two computers to establish an encrypted and direct connection within a possibly insecure network on the standard port `TCP 22`
 
-* **Fonctionnement** : Permet d'établir une <mark style="color:orange;">**connexion sécurisée entre deux ordinateurs sur un réseau**</mark> potentiellement non sécurisé, utilisant <mark style="color:purple;">**l**</mark><mark style="color:orange;">**e port TCP 22**</mark> par défaut.
-*   **Versions** :
+* <mark style="color:green;">**Fonctionnement**</mark> : Permet d'établir une <mark style="color:orange;">**connexion sécurisée entre deux ordinateurs sur un réseau**</mark> potentiellement non sécurisé, utilisant <mark style="color:orange;">**l**</mark><mark style="color:orange;">**e port TCP 22**</mark> par défaut.
+*   <mark style="color:green;">**Versions**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
     * **SSH-1** : Obsolète, vulnérable aux attaques MITM.
     * **SSH-2** : Amélioré en termes de chiffrement, sécurité et stabilité.
 
     `SSH-2`, also known as SSH version 2, is a more advanced protocol than SSH version 1 in encryption, speed, stability, and security. For example, `SSH-1` is vulnerable to `MITM` attacks, whereas SSH-2 is not.
-* **Utilisations** :
+* <mark style="color:green;">**Utilisations**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * Accès à distance via la ligne de commande ou l'interface graphique.
   * Transfert de fichiers, tunnel TCP, exécution de commandes à distance.
-* **Méthodes d'authentification** :
+* <mark style="color:green;">**Méthodes d'authentification**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * **Mot de passe**
   * **Clé publique/privée**
   * **Authentification basée sur l'hôte**
   * **Challenge-response**
   * **GSSAPI**
-* **Configuration par défaut** :
+* <mark style="color:green;">**Configuration par défaut**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * <mark style="color:orange;">**Fichier principal :**</mark><mark style="color:orange;">**&#x20;**</mark><mark style="color:orange;">**`/etc/ssh/sshd_config`**</mark>
   * Certaines <mark style="color:orange;">**options comme le X11Forwarding sont activées par défaut mais peuvent présenter des risques.**</mark> (injection vulnerability in version 7.2p1 of OpenSSH in 2016)
 
@@ -50,19 +50,14 @@ cat /etc/ssh/sshd_config  | grep -v "#" | sed -r '/^\s*$/d'
 ### <mark style="color:blue;">Footprinting the Service</mark>
 
 ```bash
-mrroboteLiot@htb[/htb]$ git clone https://github.com/jtesta/ssh-audit.git && cd ssh-audit
-mrroboteLiot@htb[/htb]$ ./ssh-audit.py 10.129.14.132
+git clone https://github.com/jtesta/ssh-audit.git && cd ssh-audit
+./ssh-audit.py 10.129.14.132
 ```
 
 <mark style="color:orange;">**Change Authentication Method**</mark>
 
 ```bash
-mrroboteLiot@htb[/htb]$ ssh -v cry0l1t3@10.129.14.132
-
-OpenSSH_8.2p1 Ubuntu-4ubuntu0.3, OpenSSL 1.1.1f  31 Mar 2020
-debug1: Reading configuration data /etc/ssh/ssh_config 
-...SNIP...
-debug1: Authentications that can continue: publickey,password,keyboard-interactive
+ssh -v cry0l1t3@10.129.14.132
 ```
 
 For potential brute-force attacks, we can specify the authentication method with the SSH client option
@@ -119,7 +114,7 @@ dev            	Dev Tools
 Here we can see a share called `dev`, and we can enumerate it further.
 
 ```shell-session
-mrroboteLiot@htb[/htb]$ rsync -av --list-only rsync://127.0.0.1/dev
+rsync -av --list-only rsync://127.0.0.1/dev
 
 receiving incremental file list
 drwxr-xr-x             48 2022/09/19 09:43:10 .
@@ -160,11 +155,6 @@ Rsync (Remote Sync) est un utilitaire puissant utilisé pour copier et synchroni
 
 * **Sauvegarde locale :** Synchroniser un dossier local avec un dossier de sauvegarde sur le même ordinateur.
 * **Sauvegarde distante :** Sauvegarder un dossier de travail sur un serveur distant via SSH.
-
-#### **Scénario décrit avec Nmap et Nc :**
-
-* **Nmap Scan :** Tu as utilisé Nmap pour détecter que le service Rsync est actif sur le port 873, ce qui indique qu'il est disponible pour synchroniser des fichiers.
-* **Netcat (nc) :** En utilisant `nc`, tu as établi une connexion avec le service Rsync et obtenu une liste des répertoires partagés disponibles (`#list` montre `dev` comme un répertoire accessible).
 {% endhint %}
 
 ***
@@ -172,7 +162,7 @@ Rsync (Remote Sync) est un utilitaire puissant utilisé pour copier et synchroni
 ## <mark style="color:red;">**3. R-Services**</mark>
 
 {% hint style="info" %}
-R-Services are a **suite of services hosted to enable remote access or issue commands between Unix hosts over TCP/IP**. Initially developed by the Computer Systems Research Group (`CSRG`) at the University of California, Berkeley, `r-services` were the de facto standard for remote access between Unix operating systems until they were replaced by the Secure Shell (`SSH`) protocols and commands due to inherent security flaws built into them. Much like `telnet`, r-services transmit information from client to server(and vice versa.) over the network in an unencrypted format, making it possible for attackers to intercept network traffic (passwords, login information, etc.) by performing man-in-the-middle (`MITM`) attacks.
+Les R-Services sont un ensemble de services hébergés permettant l’accès à distance ou l’envoi de commandes entre hôtes Unix via TCP/IP. Initialement développés par le Computer Systems Research Group (CSRG) de l’Université de Californie à Berkeley, les r‑services ont été la norme de facto pour l’accès à distance entre systèmes Unix jusqu’à ce qu’ils soient remplacés par les protocoles et commandes Secure Shell (SSH) en raison de failles de sécurité inhérentes. À l’instar de telnet, les r‑services transmettent les informations du client vers le serveur (et réciproquement) sur le réseau en clair, ce qui permet à des attaquants d’intercepter le trafic réseau (mots de passe, identifiants, etc.) en réalisant des attaques de type « man‑in‑the‑middle » (MITM).
 {% endhint %}
 
 * **R-Services** : Ensemble de services pour l'accès à distance et l'exécution de commandes entre systèmes Unix, utilisant les <mark style="color:blue;">**ports 512, 513 et 514.**</mark>
@@ -207,27 +197,19 @@ Each command has its intended functionality; however, we will only cover the mos
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ sudo nmap -sV -p 512,513,514 10.0.17.2
-
-Starting Nmap 7.80 ( https://nmap.org ) at 2022-12-02 15:02 EST
-Nmap scan report for 10.0.17.2
-Host is up (0.11s latency).
-
-PORT    STATE SERVICE    VERSION
-512/tcp open  exec?
-513/tcp open  login?
-514/tcp open  tcpwrapped
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 145.54 seconds
 ```
 
 ***
 
 ### <mark style="color:blue;">**Access Control & Trusted Relationships**</mark>
 
-The primary concern for `r-services`, and one of the primary reasons `SSH` was introduced to replace it, is the inherent issues regarding access control for these protocols. R-services rely on trusted information sent from the remote client to the host machine they are attempting to authenticate to. By default, these services utilize [Pluggable Authentication Modules (PAM)](https://debathena.mit.edu/trac/wiki/PAM) for user authentication onto a remote system; however, <mark style="color:orange;">**`They also bypass this authentication through the use of the /etc/hosts.equiv and .rhosts`**</mark> files on the system. The `hosts.equiv` and `.rhosts` files contain a list of hosts (`IPs` or `Hostnames`) and users that are `trusted` by the local host when a connection attempt is made using `r-commands`. Entries in either file can appear like the following:
-
-Note: The `hosts.equiv` file is recognized as the global configuration regarding all users on a system, whereas `.rhosts` provides a per-user configuration.
+* Le principal problème des r-services, et l’une des raisons majeures de l’introduction de SSH, concerne le contrôle d’accès de ces protocoles.
+* Les r-services se basent sur des informations « de confiance » envoyées par le client distant à la machine hôte pour l’authentification.
+* Par défaut, ils utilisent les **Pluggable Authentication Modules (PAM)** pour l’authentification des utilisateurs sur un système distant.
+* Cependant, ils peuvent contourner cette authentification via les fichiers **/etc/hosts.equiv** et **.rhosts**.
+* Ces fichiers listent les hôtes (IP ou noms d’hôtes) et les utilisateurs considérés comme fiables par le système local lors d’une connexion avec des commandes r.
+* **hosts.equiv** : configuration globale pour tous les utilisateurs du système.
+* **.rhosts** : configuration spécifique à chaque utilisateur.
 
 #### <mark style="color:green;">**Sample .rhosts File**</mark>
 
@@ -239,9 +221,12 @@ htb-student     10.0.17.5
 +               +
 ```
 
-As we can see from this example, both files follow the specific syntax of `<username> <ip address>` or `<username> <hostname>` pairs. Additionally, the `+` modifier can be used within these files as a wildcard to specify anything. In this example, the `+` modifier allows any external user to access r-commands from the `htb-student` user account via the host with the IP address `10.0.17.10`.
-
-Misconfigurations in either of these files can allow an attacker to authenticate as another user without credentials, with the potential for gaining code execution. Now that we understand how we can potentially abuse misconfigurations in these files let's attempt to try logging into a target host using `rlogin`.
+* Syntaxe des fichiers : chaque entrée suit le format `<utilisateur> <adresse IP>` ou `<utilisateur> <nom d'hôte>`.
+* Modificateur `+` : peut être utilisé comme wildcard pour signifier « n’importe quoi ».
+* Effet du `+` dans l’exemple : il permet à n’importe quel utilisateur externe d’accéder aux commandes r depuis le compte `htb-student` en provenance de l’hôte `10.0.17.10`.
+* Risque principal : une mauvaise configuration de `/etc/hosts.equiv` ou `~/.rhosts` peut permettre à un attaquant de s’authentifier en tant qu’un autre utilisateur **sans mot de passe**.
+* Impact potentiel : accès non autorisé pouvant conduire à l’exécution de code ou à une compromission du système.
+* Contexte des fichiers : `hosts.equiv` s’applique globalement à tous les utilisateurs, `~/.rhosts` est spécifique à un utilisateur donné.
 
 ***
 
@@ -249,13 +234,7 @@ Misconfigurations in either of these files can allow an attacker to authenticate
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ rlogin 10.0.17.2 -l htb-student
-
-Last login: Fri Dec  2 16:11:21 from localhost
-
-[htb-student@localhost ~]$
 ```
-
-We have successfully logged in under the `htb-student` account on the remote host due to the misconfigurations in the `.rhosts` file. Once successfully logged in, we can also abuse the `rwho` command to list all interactive sessions on the local network by sending requests to the UDP port 513.
 
 <mark style="color:green;">**Listing Authenticated Users Using Rwho**</mark>
 
@@ -266,8 +245,6 @@ root     web01:pts/0 Dec  2 21:34
 htb-student     workstn01:tty1  Dec  2 19:57  2:25       
 ```
 
-From this information, we can see that the `htb-student` user is currently authenticated to the `workstn01` host, whereas the `root` user is authenticated to the `web01` host. We can use this to our advantage when scoping out potential usernames to use during further attacks on hosts over the network. However, the `rwho` daemon periodically broadcasts information about logged-on users, so it might be beneficial to watch the network traffic.
-
 <mark style="color:green;">**Listing Authenticated Users Using Rusers**</mark>
 
 To provide additional information in conjunction with `rwho`, we can issue the `rusers` command. This will give us a more detailed account of all logged-in users over the network, including information such as the username, hostname of the accessed machine, TTY that the user is logged in to, the date and time the user logged in, the amount of time since the user typed on the keyboard, and the remote host they logged in from (if applicable).
@@ -277,7 +254,5 @@ mrroboteLiot@htb[/htb]$ rusers -al 10.0.17.5
 
 htb-student     10.0.17.5:console          Dec 2 19:57     2:25
 ```
-
-As we can see, R-services are less frequently used nowadays due to their inherent security flaws and the availability of more secure protocols such as SSH. To be a well-rounded information security professional, we must have a broad and deep understanding of many systems, applications, protocols, etc. So, file away this knowledge about R-services because you never know when you may encounter them.
 
 ***
