@@ -13,7 +13,7 @@ coverY: 58
 ### <mark style="color:blue;">Syntax</mark>
 
 ```shell
-mrroboteLiot@htb[/htb]$ nmap <scan types> <options> <target>
+nmap <scan types> <options> <target>
 ```
 
 ***
@@ -36,7 +36,11 @@ Lors de tests de pénétration internes pour l'ensemble du réseau d'une entrepr
 La méthode la plus efficace consiste à utiliser des **requêtes ICMP echo.**
 
 {% hint style="warning" %}
-L’**ICMP** est un protocole que les périphériques d’un réseau utilisent pour communiquer les problèmes de transmission de données. Dans cette définition du protocole ICMP, l’une des principales façons de l’utiliser est de déterminer si les données atteignent leur destination et ce au bon moment. Cela fait de l’ICMP un facteur important du processus de signalement des erreurs et des tests visant à déterminer si un réseau transmet bien les données. Cependant, il peut également être utilisé pour exécuter des attaques par déni de service distribué (DDoS).
+L’**ICMP** est un protocole que les périphériques d’un réseau utilisent pour communiquer les problèmes de transmission de données.&#x20;
+
+Dans cette définition du protocole ICMP, l’une des principales façons de l’utiliser est de déterminer si les données atteignent leur destination et ce au bon moment.&#x20;
+
+Cela fait de l’ICMP un facteur important du processus de signalement des erreurs et des tests visant à déterminer si un réseau transmet bien les données. Cependant, il peut également être utilisé pour exécuter des attaques par déni de service distribué **(DDoS).**
 {% endhint %}
 
 ### <mark style="color:blue;">**Scan de Plage d'Adresses**</mark>&#x20;
@@ -54,7 +58,7 @@ sudo nmap 10.129.2.0/24 -sn -oA tnet | grep for | cut -d" " -f5
 
 ### <mark style="color:blue;">**Scan à Partir d'une Liste d'IP**</mark>
 
-{% code title="Nmap" overflow="wrap" lineNumbers="true" %}
+{% code overflow="wrap" fullWidth="true" %}
 ```bash
 sudo nmap -sn -oA tnet 10.129.2.18 10.129.2.19 10.129.2.20 | grep for | cut -d" " -f5
 ```
@@ -64,7 +68,7 @@ sudo nmap -sn -oA tnet 10.129.2.18 10.129.2.19 10.129.2.20 | grep for | cut -d" 
 
 ### <mark style="color:blue;">Scan de Multiples IPs</mark>
 
-{% code overflow="wrap" lineNumbers="true" %}
+{% code fullWidth="true" %}
 ```bash
 sudo nmap -sn -oA tnet 10.129.2.18 10.129.2.19 10.129.2.20 | grep for | cut -d" " -f5
 ```
@@ -82,9 +86,15 @@ sudo nmap 10.129.2.18 -sn -oA host
 * **-oA host** : Stocke les résultats dans tous les formats avec le nom 'host'.
 
 {% hint style="warning" %}
-If we disable port scan (`-sn`), Nmap automatically **ping scan with `ICMP Echo`**` ``Requests` (`-PE`). Once such a request is sent, we usually expect an `ICMP reply` if the pinging host is alive. The more interesting fact is that our previous scans did not do that because before Nmap could send an ICMP echo request, it would send an `ARP ping` resulting in an `ARP reply`. We can confirm this with the "`--packet-trace`" option. To ensure that ICMP echo requests are sent, we also define the option (`-PE`) for this.
+If we disable port scan (`-sn`), Nmap automatically **ping scan with `ICMP Echo`**` ``Requests` (`-PE`).&#x20;
 
-{% code overflow="wrap" lineNumbers="true" fullWidth="true" %}
+Once such a request is sent, we usually expect an `ICMP reply` if the pinging host is alive.&#x20;
+
+The more interesting fact is that our previous scans did not do that because before Nmap could send an ICMP echo request, it would send an `ARP ping` resulting in an `ARP reply`.&#x20;
+
+We can confirm this with the "`--packet-trace`" option. To ensure that ICMP echo requests are sent, we also define the option (`-PE`) for this.
+
+{% code overflow="wrap" fullWidth="true" %}
 ```bash
 sudo nmap 10.129.2.18 -sn -oA host -PE --packet-trace 
 ```
@@ -95,7 +105,7 @@ sudo nmap 10.129.2.18 -sn -oA host -PE --packet-trace
 
 Another way to determine why Nmap has our target marked as "alive" is with the "`--reason`" option.
 
-{% code lineNumbers="true" %}
+{% code fullWidth="true" %}
 ```bash
 sudo nmap 10.129.2.18 -sn -oA host -PE --reason 
 ```
@@ -103,7 +113,7 @@ sudo nmap 10.129.2.18 -sn -oA host -PE --reason
 
 To disable ARP requests and scan our target with the desired `ICMP echo requests`, we can disable ARP pings by setting the "`--disable-arp-ping`" option.&#x20;
 
-{% code overflow="wrap" lineNumbers="true" %}
+{% code overflow="wrap" fullWidth="true" %}
 ```bash
 sudo nmap 10.129.2.18 -sn -oA host -PE --packet-trace --disable-arp-ping
 ```
@@ -162,6 +172,8 @@ This scan never determines OPEN or OPEN|Filtered:
 ```
 {% endcode %}
 
+***
+
 ### <mark style="color:blue;">Discovering Open TCP Ports</mark>
 
 `Nmap` scans the top 1000 TCP ports with the SYN scan (`-sS`). This SYN scan is set only to default when we run it as root because of the socket permissions required to create raw TCP packets. Otherwise, the TCP scan (`-sT`) is performed by default.
@@ -180,7 +192,7 @@ To have a clear view of the SYN scan, we disable the ICMP echo requests <mark st
 
 <mark style="color:orange;">**Nmap - Trace the Packets**</mark>
 
-{% code title="Trace the Packets" overflow="wrap" lineNumbers="true" %}
+{% code overflow="wrap" fullWidth="true" %}
 ```bash
 sudo nmap 10.129.2.28 -p 21 --packet-trace -Pn -n --disable-arp-ping
 ```
@@ -194,7 +206,7 @@ sudo nmap 10.129.2.28 -p 21 --packet-trace -Pn -n --disable-arp-ping
 
 > The Nmap [TCP Connect Scan](https://nmap.org/book/scan-methods-connect-scan.html) (`-sT`) uses the TCP three-way handshake to determine if a specific port on a target host is open or closed. The scan sends an `SYN` packet to the target port and waits for a response. It is considered open if the target port responds with an `SYN-ACK` packet and closed if it responds with an `RST` packet.
 
-{% code title="Connect Scan on TCP Port 443" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+{% code overflow="wrap" fullWidth="true" %}
 ```bash
 sudo nmap 10.129.2.28 -p 443 --packet-trace --disable-arp-ping -Pn -n --reason -sT
 ```
@@ -270,9 +282,9 @@ sudo nmap 10.129.2.28 -p- -sV
 ```
 
 {% hint style="warning" %}
-option <mark style="color:orange;">`(--stats-every=5s)`</mark> that we can use is defining how periods of time the status should be shown. Here we can specify the number of seconds (`s`) or minutes (`m`), after which we want to get the status.
-
-We can also increase the `verbosity level` <mark style="color:red;">`(-v / -vv)`</mark>`,` which will show us the open ports directly when `Nmap` detects them.
+* Option <mark style="color:orange;">`(--stats-every=5s)`</mark> that we can use is defining how periods of time the status should be shown.&#x20;
+* Here we can specify the number of seconds (`s`) or minutes (`m`), after which we want to get the status.
+* We can also increase the `verbosity level` <mark style="color:red;">`(-v / -vv)`</mark>`,` which will show us the open ports directly when `Nmap` detects them.
 {% endhint %}
 
 ### <mark style="color:blue;">Banner Grabbing</mark>
@@ -308,15 +320,16 @@ Service Info: Host:  inlane
 we can see the port's status, service name, and hostname. Nevertheless, let us look at this line here:
 
 * `NSOCK INFO [0.4200s] nsock_trace_handler_callback(): Callback: READ SUCCESS for EID 18 [10.129.2.28:25] (35 bytes): 220 inlane ESMTP Postfix (Ubuntu)..`
-* &#x20;It happens because, after a successful three-way handshake, the server often sends a banner for identification. This serves to let the client know which service it is working with. At the network level, this happens with a `PSH` flag in the TCP header
+* &#x20;It happens because, after a successful three-way handshake, the server often sends a banner for identification.&#x20;
+* This serves to let the client know which service it is working with. At the network level, this happens with a `PSH` flag in the TCP header
 
-<mark style="color:orange;">**Tcpdump**</mark>
+<mark style="color:orange;">**TCPDUMP**</mark>
 
 ```wasm
 sudo tcpdump -i eth0 host 10.10.14.2 and 10.129.2.28
 ```
 
-#### <mark style="color:orange;">Nc</mark>
+#### <mark style="color:orange;">NC</mark>
 
 ```bash
 nc -nv 10.129.2.28 25
@@ -352,20 +365,20 @@ Le **Nmap Scripting Engine (NSE)** permet d'écrire et d'exécuter des scripts e
 
 ### <mark style="color:blue;">**Commandes de Base**</mark>
 
-1.  **Scripts par Défaut**
+1.  <mark style="color:green;">**Scripts par Défaut**</mark>
 
     ```bash
     sudo nmap <target> -sC
     ```
 
     * **-sC** : Exécute les scripts par défaut.
-2.  **Scripts par Catégorie**
+2.  <mark style="color:green;">**Scripts par Catégorie**</mark>
 
     <pre class="language-bash"><code class="lang-bash"><strong>sudo nmap &#x3C;target> --script &#x3C;category>
     </strong></code></pre>
 
     * **\<category>** : Spécifie la catégorie de scripts.
-3.  **Scripts Définis**
+3.  <mark style="color:green;">**Scripts Définis**</mark>
 
     ```bash
     sudo nmap <target> --script <script-name>,<script-name>,...
@@ -373,9 +386,9 @@ Le **Nmap Scripting Engine (NSE)** permet d'écrire et d'exécuter des scripts e
 
     * **\<script-name>** : Liste des scripts spécifiques à utiliser.
 
-**Exemples Pratiques**
+<mark style="color:green;">**Exemples Pratiques**</mark>
 
-1.  **Scan avec Scripts Spécifiques**
+1.  <mark style="color:orange;">**Scan avec Scripts Spécifiques**</mark>
 
     ```bash
     sudo nmap 10.129.2.28 -p 25 --script banner,smtp-commands
@@ -383,14 +396,14 @@ Le **Nmap Scripting Engine (NSE)** permet d'écrire et d'exécuter des scripts e
 
     * **banner** : Affiche la bannière du service.
     * **smtp-commands** : Affiche les commandes SMTP supportées.
-2.  **Scan Aggressif**
+2.  <mark style="color:orange;">**Scan Aggressif**</mark>
 
     ```bash
     sudo nmap 10.129.2.28 -p 80 -A
     ```
 
     * **-A** : Détection des services, du système d'exploitation, traceroute, et exécution des scripts par défaut.
-3.  **Évaluation des Vulnérabilités**
+3.  <mark style="color:orange;">**Évaluation des Vulnérabilités**</mark>
 
     ```bash
     sudo nmap 10.129.2.28 -p 80 -sV --script vuln
@@ -413,7 +426,7 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
 
 ### <mark style="color:blue;">**1. Options de Performance**</mark>
 
-* **Vitesse de Scan (-T <0-5>)**
+* <mark style="color:green;">**Vitesse de Scan (-T <0-5>)**</mark>
   * Définit la rapidité du scan.
   * **-T 0** : Paranoïaque (très lent, minimum de détection).
   * **-T 1** : Discret.
@@ -421,9 +434,9 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
   * **-T 3** : Normal (défaut).
   * **-T 4** : Aggressif.
   * **-T 5** : Insane (très rapide, risque élevé de détection).
-* **Parallélisme (--min-parallelism \<number>)**
+* <mark style="color:green;">**Parallélisme (--min-parallelism \<number>)**</mark>
   * Définit le nombre minimal de threads pour les connexions simultanées.
-* **Timeouts**
+* <mark style="color:green;">**Timeouts**</mark>
   * **--initial-rtt-timeout \<time>** : Temps initial de réponse du paquet.
   * **--max-rtt-timeout \<time>** : Temps maximal de réponse du paquet.
   *   Exemples :
@@ -431,13 +444,13 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
       ```bash
       sudo nmap 10.129.2.0/24 -F --initial-rtt-timeout 50ms --max-rtt-timeout 100ms
       ```
-* **Taux de Paquets (--min-rate \<number>)**
+* <mark style="color:green;">**Taux de Paquets (--min-rate \<number>)**</mark>
   * Nombre de paquets envoyés par seconde.
   *   Exemples :
 
       <pre class="language-bash"><code class="lang-bash"><strong>sudo nmap 10.129.2.0/24 -F --min-rate 300
       </strong></code></pre>
-* **Retries (--max-retries \<number>)**
+* <mark style="color:green;">**Retries (--max-retries \<number>)**</mark>
   * Nombre de tentatives en cas de non-réponse.
   *   Exemple :
 
@@ -449,14 +462,14 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
 
 ### <mark style="color:blue;">**2. Exemples de Performance**</mark>
 
-*   **Scan par Défaut**
+*   <mark style="color:green;">**Scan par Défaut**</mark>
 
     ```bash
     sudo nmap 10.129.2.0/24 -F
     ```
 
     * Trouvé : 10 hôtes en 39.44 secondes.
-*   **Optimisation du Timeout**
+*   <mark style="color:green;">**Optimisation du Timeout**</mark>
 
     {% code title="Optimisation" overflow="wrap" %}
     ```bash
@@ -466,7 +479,7 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
 
     * Trouvé : 8 hôtes en 12.29 secondes.
     * Conclusion : Un timeout trop court peut faire manquer des hôtes.
-*   **Réduire les Retries**
+*   <mark style="color:green;">**Réduire les Retries**</mark>
 
     ```bash
     sudo nmap 10.129.2.0/24 -F --max-retries 0
@@ -475,7 +488,7 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
     * Par défaut : 23 ports ouverts trouvés.
     * Réduit les retries : 21 ports ouverts trouvés.
     * Conclusion : Moins de retries peuvent faire manquer des informations importantes.
-*   **Optimiser le Taux de Paquets**
+*   <mark style="color:green;">**Optimiser le Taux de Paquets**</mark>
 
     ```bash
     sudo nmap 10.129.2.0/24 -F -oN tnet.minrate300 --min-rate 300
@@ -483,7 +496,7 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
 
     * Temps de scan réduit à 8.67 secondes (contre 29.83 secondes).
     * Les ports ouverts restent les mêmes : 23.
-* **Timing Templates**
+* <mark style="color:green;">**Timing Templates**</mark>
   *   **Scan Normal**
 
       ```bash
