@@ -41,19 +41,19 @@ Voici les **droits dangereux** sur un modèle de certificat :
 
 ### <mark style="color:red;">🛠️</mark> <mark style="color:red;"></mark><mark style="color:red;">**Détection de modèles vulnérables**</mark>
 
-#### Avec Certipy :
+#### <mark style="color:green;">Avec Certipy :</mark>
 
 ```bash
 certipy find -u <user> -p <pass> -dc-ip <IP_DC> -vulnerable -enabled -old-bloodhound
 ```
 
-#### Extraction simple :
+#### <mark style="color:green;">Extraction simple :</mark>
 
 ```bash
 cat *_Certipy.txt | grep "ESC4"
 ```
 
-#### Avec BloodHound :
+#### <mark style="color:green;">Avec BloodHound :</mark>
 
 Importation des fichiers générés par `Certipy` (JSON/ZIP) dans BloodHound.
 

@@ -13,11 +13,15 @@
 
 ### <mark style="color:red;">🔎 Commandes Git utiles en pentest</mark>
 
-#### 1. Récupérer un dépôt `.git`
+#### <mark style="color:green;">1. Récupérer un dépôt</mark> <mark style="color:green;"></mark><mark style="color:green;">`.git`</mark>
 
-```bash
+```sh
 # Télécharger avec wget
 wget -r -np -R "index.html*" http://target/.git/
+
+-r : mode récursif (télécharge les fichiers et sous-dossiers)
+-np : "no parent" - ne remonte pas dans les dossiers parents
+-R "index.html*" : rejette/exclut les fichiers correspondant au pattern "index.html*"
 
 # Outil spécialisé
 git-dumper http://target/.git/ ./dumped_repo
@@ -25,7 +29,7 @@ git-dumper http://target/.git/ ./dumped_repo
 
 ***
 
-#### 2. Réinitialiser l’arborescence pour naviguer
+#### <mark style="color:green;">2. Réinitialiser l’arborescence pour naviguer</mark>
 
 ```bash
 cd dumped_repo
@@ -34,7 +38,7 @@ git reset --hard
 
 ***
 
-#### 3. Visualiser l’historique complet
+#### <mark style="color:green;">3. Visualiser l’historique complet</mark>
 
 ```bash
 git log --stat --all
@@ -58,7 +62,7 @@ Date:   Tue Jan 5 14:23:11 2025
 
 ***
 
-#### 4. Explorer les commits en détail
+#### <mark style="color:green;">4. Explorer les commits en détail</mark>
 
 ```bash
 git show <commit_id>
@@ -68,7 +72,7 @@ git show <commit_id>
 
 ***
 
-#### 5. Parcourir toutes les branches et tags
+#### <mark style="color:green;">5. Parcourir toutes les branches et tags</mark>
 
 ```bash
 git branch -a
@@ -77,7 +81,7 @@ git tag -l
 
 ***
 
-#### 6. Rechercher des secrets dans l’historique
+#### <mark style="color:green;">6. Rechercher des secrets dans l’historique</mark>
 
 ```bash
 git log -p | grep -i "password"
@@ -87,7 +91,7 @@ git log -p | grep -i "api"
 
 ***
 
-#### 7. Récupérer un fichier à un commit précis
+#### <mark style="color:$danger;">7. Récupérer un fichier à un commit précis</mark>
 
 ```bash
 git checkout <commit_id> -- config.php
@@ -119,7 +123,7 @@ git checkout <commit_id> -- config.php
 
 ### <mark style="color:red;">📂 Exemple d’exploitation en CTF</mark>
 
-#### Étape 1 – Découverte
+#### <mark style="color:green;">Étape 1 – Découverte</mark>
 
 ```bash
 gobuster dir -u http://target/ -w /usr/share/wordlists/dirb/common.txt
@@ -127,14 +131,14 @@ gobuster dir -u http://target/ -w /usr/share/wordlists/dirb/common.txt
 
 → Détection de `.git/`.
 
-#### Étape 2 – Dump du repo
+#### <mark style="color:green;">Étape 2 – Dump du repo</mark>
 
 ```bash
 git-dumper http://target/.git/ ./repo
 cd repo && git reset --hard
 ```
 
-#### Étape 3 – Recherche d’indices
+#### <mark style="color:green;">Étape 3 – Recherche d’indices</mark>
 
 ```bash
 git log --stat --all
@@ -142,7 +146,7 @@ git show <commit_id>
 grep -r "password" .
 ```
 
-#### Étape 4 – Secret trouvé
+#### <mark style="color:green;">Étape 4 – Secret trouvé</mark>
 
 Exemple :
 

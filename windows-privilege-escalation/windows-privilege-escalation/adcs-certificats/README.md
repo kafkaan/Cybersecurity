@@ -188,7 +188,7 @@ Un certificat X.509 contient plusieurs éléments clés :
 ```
 {% endcode %}
 
-#### 2. Vérification de la signature
+2\. Vérification de la signature
 
 {% code overflow="wrap" fullWidth="true" %}
 ```

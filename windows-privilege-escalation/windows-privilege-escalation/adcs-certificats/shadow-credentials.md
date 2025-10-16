@@ -2,13 +2,17 @@
 
 ## <mark style="color:red;">Attaque Shadow Credentials (AddKeyCredentialLink)</mark>
 
+***
+
 ### <mark style="color:blue;">Description de la faille</mark>
 
-L'attaque **Shadow Credentials** exploite l'attribut `msDS-KeyCredentialLink` introduit avec Windows Hello for Business dans Active Directory. Cette technique permet à un attaquant ayant des privilèges d'écriture sur un objet utilisateur d'ajouter des "credentials alternatifs" sous forme de certificats, permettant ensuite l'authentification PKINIT (Public Key Initial Authentication) pour obtenir un TGT Kerberos.
+L'attaque **Shadow Credentials** exploite l'attribut **`msDS-KeyCredentialLink`** introduit avec Windows Hello for Business dans Active Directory. Cette technique permet à un attaquant ayant des privilèges d'écriture sur un objet utilisateur d'ajouter des "credentials alternatifs" sous forme de certificats, permettant ensuite l'authentification **PKINIT (Public Key Initial Authentication)** pour obtenir un TGT Kerberos.
+
+***
 
 ### <mark style="color:blue;">Mécanisme technique</mark>
 
-#### L'attribut msDS-KeyCredentialLink
+#### <mark style="color:green;">L'attribut msDS-KeyCredentialLink</mark>
 
 ```
 msDS-KeyCredentialLink = Attribut multivalué stockant les clés publiques
@@ -19,7 +23,7 @@ msDS-KeyCredentialLink = Attribut multivalué stockant les clés publiques
         - Métadonnées (création, usage)
 ```
 
-#### Processus d'exploitation
+#### <mark style="color:green;">Processus d'exploitation</mark>
 
 ```
 1. Attaquant a WriteProperty/GenericWrite sur un utilisateur
@@ -30,23 +34,27 @@ msDS-KeyCredentialLink = Attribut multivalué stockant les clés publiques
 6. Extrait le hash NT via U2U (User-to-User)
 ```
 
+***
+
 ### <mark style="color:blue;">Prérequis pour l'attaque</mark>
 
-#### Droits nécessaires
+#### <mark style="color:green;">Droits nécessaires</mark>
 
 * **WriteProperty** sur l'attribut `msDS-KeyCredentialLink`
 * **GenericWrite** ou **GenericAll** sur l'objet utilisateur cible
 * **WriteOwner** + **WriteDACL** (pour s'accorder les droits)
 
-#### Infrastructure requise
+#### <mark style="color:green;">Infrastructure requise</mark>
 
 * Active Directory avec niveau fonctionnel ≥ 2016
 * Windows Hello for Business activé (pas obligatoire)
 * PKI ou certificats auto-signés acceptés
 
+***
+
 ### <mark style="color:blue;">Outils d'exploitation</mark>
 
-#### pywhisker (Python)
+#### <mark style="color:green;">Pywhisker (Python)</mark>
 
 ```bash
 # Ajouter un KeyCredential à edward.martin
@@ -63,7 +71,7 @@ python3 pywhisker.py -d "haze.htb" \
 # - DeviceID : e9c8619d-56ca-f459-7b2d-5abe4d379b6f
 ```
 
-#### Whisker (C#/.NET)
+#### <mark style="color:green;">Whisker (C#/.NET)</mark>
 
 ```powershell
 # Alternative Windows native
@@ -71,6 +79,8 @@ python3 pywhisker.py -d "haze.htb" \
 ```
 
 ***
+
+## <mark style="color:red;">EXEMPLE</mark>
 
 L’utilisateur `mark.adams`, initialement non privilégié, a escaladé ses privilèges en abusant des ACLs sur un compte gMSA (`Haze-IT-Backup$`), récupéré ses credentials, puis les a utilisés pour :
 
@@ -83,7 +93,7 @@ L’utilisateur `mark.adams`, initialement non privilégié, a escaladé ses pri
 
 ***
 
-### <mark style="color:red;">🎯</mark> <mark style="color:red;"></mark><mark style="color:red;">**Objectif**</mark>
+### <mark style="color:blue;">🎯</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Objectif**</mark>
 
 * Escalader vers un utilisateur avec des privilèges plus élevés (potentiellement DA).
 * Rester furtif sans modifier de mot de passe ni déclencher d’alerte.
@@ -91,7 +101,7 @@ L’utilisateur `mark.adams`, initialement non privilégié, a escaladé ses pri
 
 ***
 
-### <mark style="color:red;">🧱</mark> <mark style="color:red;"></mark><mark style="color:red;">**Étapes techniques détaillées**</mark>
+### <mark style="color:blue;">🧱</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Étapes techniques détaillées**</mark>
 
 ***
 
@@ -171,7 +181,7 @@ NT Hash: 09e0b3eeb2e7a6b0d419e9ff8f4d91af
 
 ***
 
-### <mark style="color:red;">🛠️</mark> <mark style="color:red;"></mark><mark style="color:red;">**Chaîne d’exploitation ASCII**</mark>
+### <mark style="color:blue;">🛠️</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Chaîne d’exploitation ASCII**</mark>
 
 ```
 [ mark.adams (user) ]

