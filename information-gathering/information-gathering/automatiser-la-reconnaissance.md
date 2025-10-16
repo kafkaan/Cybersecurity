@@ -2,7 +2,7 @@
 
 ***
 
-**Définition :** Automatiser les tâches de reconnaissance web permet d'améliorer l'efficacité et la précision, permettant de recueillir des informations à grande échelle et d'identifier rapidement les vulnérabilités potentielles.
+<mark style="color:green;">**Définition**</mark>**&#x20;:** Automatiser les tâches de reconnaissance web permet d'améliorer l'efficacité et la précision, permettant de recueillir des informations à grande échelle et d'identifier rapidement les vulnérabilités potentielles.
 
 ***
 
@@ -20,19 +20,19 @@
 
 Ces frameworks fournissent une suite complète d'outils pour la reconnaissance web :
 
-1. **FinalRecon :**
+1. <mark style="color:green;">**FinalRecon :**</mark>
    * Outil de reconnaissance basé sur Python offrant une gamme de modules pour différentes tâches comme la vérification des certificats SSL, la collecte d'informations Whois, l'analyse des en-têtes et le crawling.
    * Structure modulaire permettant une personnalisation facile selon les besoins spécifiques.
-2. **Recon-ng :**
+2. <mark style="color:green;">**Recon-ng :**</mark>
    * Framework puissant écrit en Python offrant une structure modulaire avec divers modules pour différentes tâches de reconnaissance.
    * Peut effectuer l'énumération DNS, la découverte de sous-domaines, le scan de ports, le crawling web, et même exploiter les vulnérabilités connues.
-3. **theHarvester :**
+3. <mark style="color:green;">**theHarvester :**</mark>
    * Conçu spécifiquement pour la collecte d'adresses email, de sous-domaines, d'hôtes, de noms d'employés, de ports ouverts, et de bannières à partir de différentes sources publiques comme les moteurs de recherche, les serveurs de clés PGP et la base de données SHODAN.
    * Outil en ligne de commande écrit en Python.
-4. **SpiderFoot :**
+4. <mark style="color:green;">**SpiderFoot :**</mark>
    * Outil d'automatisation de l'intelligence open-source qui intègre diverses sources de données pour collecter des informations sur une cible, y compris les adresses IP, les noms de domaine, les adresses email et les profils de réseaux sociaux.
    * Peut effectuer des recherches DNS, le crawling web, le scan de ports, et plus encore.
-5. **OSINT Framework :**
+5. <mark style="color:green;">**OSINT Framework :**</mark>
    * Collection de divers outils et ressources pour la collecte d'intelligence open-source.
    * Couvre une large gamme de sources d'informations, y compris les réseaux sociaux, les moteurs de recherche, les registres publics, et plus encore.
 
@@ -57,7 +57,7 @@ Ces frameworks fournissent une suite complète d'outils pour la reconnaissance w
 
 ***
 
-**Installation de FinalRecon**
+<mark style="color:green;">Installation de FinalRecon</mark>
 
 **Étapes d'installation :**
 

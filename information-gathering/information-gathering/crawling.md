@@ -63,8 +63,6 @@
 
 ## <mark style="color:red;">Robots.txt</mark>
 
-***
-
 <mark style="color:green;">**Définition**</mark>
 
 Le fichier `robots.txt` est un fichier texte simple placé à la racine d'un site web (par exemple, `www.example.com/robots.txt`). Il suit le standard d'exclusion des robots (Robots Exclusion Standard), définissant des directives indiquant aux bots quelles parties du site ils peuvent ou ne peuvent pas explorer.
@@ -102,12 +100,7 @@ Le fichier `robots.txt` suit une structure simple :
 
 <mark style="color:green;">**Exemple de directives**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
-| Directive   | Description                                                                | Exemple                                        |
-| ----------- | -------------------------------------------------------------------------- | ---------------------------------------------- |
-| Disallow    | Spécifie les chemins que le bot ne doit pas explorer                       | `Disallow: /admin/`                            |
-| Allow       | Permet au bot d'explorer des chemins spécifiques, même s'ils sont disallow | `Allow: /public/`                              |
-| Crawl-delay | Définit un délai entre les requêtes successives du bot                     | `Crawl-delay: 10`                              |
-| Sitemap     | Fournit l'URL d'un sitemap pour un crawl plus efficace                     | `Sitemap: https://www.example.com/sitemap.xml` |
+<table data-full-width="true"><thead><tr><th>Directive</th><th>Description</th><th>Exemple</th></tr></thead><tbody><tr><td>Disallow</td><td>Spécifie les chemins que le bot ne doit pas explorer</td><td><code>Disallow: /admin/</code></td></tr><tr><td>Allow</td><td>Permet au bot d'explorer des chemins spécifiques, même s'ils sont disallow</td><td><code>Allow: /public/</code></td></tr><tr><td>Crawl-delay</td><td>Définit un délai entre les requêtes successives du bot</td><td><code>Crawl-delay: 10</code></td></tr><tr><td>Sitemap</td><td>Fournit l'URL d'un sitemap pour un crawl plus efficace</td><td><code>Sitemap: https://www.example.com/sitemap.xml</code></td></tr></tbody></table>
 
 ***
 
@@ -154,11 +147,11 @@ Les URIs bien connus (`.well-known`), définis dans la RFC 8615, désignent un r
 
 ### <mark style="color:blue;">**Utilisation des URIs .well-known dans la Reconnaissance Web**</mark>
 
-**Importance** :
+<mark style="color:green;">**Importance**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 * **Découverte d'Endpoints et de Détails de Configuration** : Les URIs `.well-known` peuvent révéler des points d'accès et des informations de configuration cruciales pour les tests de pénétration.
 
-**Exemple : openid-configuration**
+<mark style="color:green;">Exemple : openid-configuration</mark>
 
 * **Fonction** : Fait partie du protocole OpenID Connect Discovery, une couche d'identité sur le protocole OAuth 2.0.
 * **Utilisation** : Les applications clientes utilisent cette configuration pour l'authentification en récupérant les détails du fournisseur OpenID Connect via l'endpoint `https://example.com/.well-known/openid-configuration`.
@@ -179,16 +172,16 @@ Les URIs bien connus (`.well-known`), définis dans la RFC 8615, désignent un r
 }
 ```
 
-**Informations Utiles** :
+<mark style="color:green;">**Informations Utiles**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 * **Découverte des Endpoints** :
   * `authorization_endpoint` : URL pour les demandes d'autorisation des utilisateurs.
   * `token_endpoint` : URL où les tokens sont émis.
   * `userinfo_endpoint` : Endpoint fournissant les informations de l'utilisateur.
   * `jwks_uri` : URI pour le JSON Web Key Set, détaillant les clés cryptographiques utilisées par le serveur.
-* **Détails des Scopes et Types de Réponse** :
+* <mark style="color:green;">**Détails des Scopes et Types de Réponse**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * Comprendre les scopes et types de réponse supportés aide à cartographier les fonctionnalités et limitations de l'implémentation OpenID Connect.
-* **Détails sur les Algorithmes** :
+* <mark style="color:green;">**Détails sur les Algorithmes**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
   * Informations sur les algorithmes de signature supportés, cruciales pour comprendre les mesures de sécurité en place.
 
 ***
@@ -216,27 +209,27 @@ Les URIs bien connus (`.well-known`), définis dans la RFC 8615, désignent un r
 
 ### <mark style="color:blue;">**Utilisation de Scrapy pour le Crawling Web**</mark>
 
-1. **Installation de Scrapy :**
+1. <mark style="color:green;">**Installation de Scrapy :**</mark>
    *   Commande pour installer Scrapy :
 
        ```bash
        pip3 install scrapy
        ```
-2. **Téléchargement de ReconSpider :**
+2. <mark style="color:green;">**Téléchargement de ReconSpider :**</mark>
    *   Commande pour télécharger et extraire ReconSpider :
 
        ```bash
        wget -O ReconSpider.zip https://academy.hackthebox.com/storage/modules/144/ReconSpider.v1.2.zip
        unzip ReconSpider.zip
        ```
-3. **Exécution de ReconSpider :**
+3. <mark style="color:green;">**Exécution de ReconSpider :**</mark>
    *   Commande pour exécuter ReconSpider :
 
        ```bash
        python3 ReconSpider.py http://inlanefreight.com
        ```
    * **Remplacer** `inlanefreight.com` par le domaine cible que vous souhaitez crawler.
-4. **Analyse des Résultats :**
+4. <mark style="color:green;">**Analyse des Résultats :**</mark>
    * Les données collectées seront enregistrées dans un fichier JSON `results.json`.
    *   Structure du fichier JSON :
 
@@ -274,7 +267,7 @@ Les URIs bien connus (`.well-known`), définis dans la RFC 8615, désignent un r
        }
        ```
 
-**Clés JSON et Description :**
+<mark style="color:green;">**Clés JSON et Description :**</mark>
 
 | JSON Key            | Description                                                |
 | ------------------- | ---------------------------------------------------------- |

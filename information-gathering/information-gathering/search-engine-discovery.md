@@ -2,7 +2,7 @@
 
 ***
 
-**Définition :** Search Engine Discovery, ou collecte d'OSINT (Open Source Intelligence), utilise les moteurs de recherche pour extraire des informations sur des sites web, des organisations ou des individus. Cette méthode permet de découvrir des données précieuses qui ne sont pas forcément visibles directement sur les sites web.
+<mark style="color:green;">**Définition**</mark>**&#x20;:** Search Engine Discovery, ou collecte d'OSINT (Open Source Intelligence), utilise les moteurs de recherche pour extraire des informations sur des sites web, des organisations ou des individus. Cette méthode permet de découvrir des données précieuses qui ne sont pas forcément visibles directement sur les sites web.
 
 ***
 
@@ -34,7 +34,7 @@ Les opérateurs de recherche sont des commandes spéciales qui permettent de cib
 
 ## <mark style="color:red;">**Google Dorking**</mark>
 
-**Définition :** Google Dorking, ou Google Hacking, utilise les opérateurs de recherche pour découvrir des informations sensibles, des vulnérabilités de sécurité ou du contenu caché sur les sites web, en utilisant Google Search.
+<mark style="color:green;">**Définition**</mark>**&#x20;:** Google Dorking, ou Google Hacking, utilise les opérateurs de recherche pour découvrir des informations sensibles, des vulnérabilités de sécurité ou du contenu caché sur les sites web, en utilisant Google Search.
 
 <mark style="color:green;">**Exemples Communs de Google Dorks :**</mark>
 
