@@ -22,7 +22,7 @@ L'hébergement virtuel (ou virtual hosting) est une technique utilisée par les 
 
 #### <mark style="color:green;">4.</mark> <mark style="color:green;"></mark><mark style="color:green;">**Exemple d'Apache et Nginx**</mark>
 
-*   **Apache** : Apache utilise des fichiers de configuration appelés "Virtual Hosts" pour gérer l'hébergement virtuel. Par exemple, dans un fichier de configuration, vous pouvez définir un bloc `<VirtualHost>` pour chaque site web que vous souhaitez héberger.
+*   <mark style="color:orange;">**Apache**</mark> : Apache utilise des fichiers de configuration appelés "Virtual Hosts" pour gérer l'hébergement virtuel. Par exemple, dans un fichier de configuration, vous pouvez définir un bloc `<VirtualHost>` pour chaque site web que vous souhaitez héberger.
 
     Exemple :
 
@@ -39,7 +39,7 @@ L'hébergement virtuel (ou virtual hosting) est une technique utilisée par les 
     ```
 
     Dans cet exemple, Apache sert le contenu de `/var/www/example` pour `www.example.com` et le contenu de `/var/www/anotherexample` pour `www.anotherexample.com`.
-*   **Nginx** : Nginx utilise également des blocs de configuration pour gérer l'hébergement virtuel, mais avec une syntaxe différente. Les configurations sont définies dans des fichiers de configuration appelés "server blocks".
+*   <mark style="color:orange;">**Nginx**</mark> : Nginx utilise également des blocs de configuration pour gérer l'hébergement virtuel, mais avec une syntaxe différente. Les configurations sont définies dans des fichiers de configuration appelés "server blocks".
 
     Exemple :
 
@@ -132,13 +132,9 @@ Dans cet exemple, `example1.com`, `example2.org`, et `another-example.net` sont 
 
 ## <mark style="color:red;">**8. Outils de Découverte des Virtual Hosts**</mark>
 
-| Tool                                                 | Description                                                                                                      | Features                                                        |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [gobuster](https://github.com/OJ/gobuster)           | A multi-purpose tool often used for directory/file brute-forcing, but also effective for virtual host discovery. | Fast, supports multiple HTTP methods, can use custom wordlists. |
-| [Feroxbuster](https://github.com/epi052/feroxbuster) | Similar to Gobuster, but with a Rust-based implementation, known for its speed and flexibility.                  | Supports recursion, wildcard discovery, and various filters.    |
-| [ffuf](https://github.com/ffuf/ffuf)                 | Another fast web fuzzer that can be used for virtual host discovery by fuzzing the `Host` header.                | Customizable wordlist input and filtering options.              |
+<table data-full-width="true"><thead><tr><th>Tool</th><th>Description</th><th>Features</th></tr></thead><tbody><tr><td><a href="https://github.com/OJ/gobuster">gobuster</a></td><td>A multi-purpose tool often used for directory/file brute-forcing, but also effective for virtual host discovery.</td><td>Fast, supports multiple HTTP methods, can use custom wordlists.</td></tr><tr><td><a href="https://github.com/epi052/feroxbuster">Feroxbuster</a></td><td>Similar to Gobuster, but with a Rust-based implementation, known for its speed and flexibility.</td><td>Supports recursion, wildcard discovery, and various filters.</td></tr><tr><td><a href="https://github.com/ffuf/ffuf">ffuf</a></td><td>Another fast web fuzzer that can be used for virtual host discovery by fuzzing the <code>Host</code> header.</td><td>Customizable wordlist input and filtering options.</td></tr></tbody></table>
 
-### <mark style="color:blue;">**Gobuster**</mark> <mark style="color:blue;"></mark><mark style="color:blue;">:</mark>
+### <mark style="color:blue;">**Gobuster**</mark>&#x20;
 
 * Utilisé pour la découverte de VHosts et la force brute des répertoires/fichiers.
 *   Exemple de commande :

@@ -40,8 +40,6 @@ Le fingerprinting (ou identification) est une technique essentielle de reconnais
 
 <mark style="color:green;">**Cas Pratique : inlanefreight.com**</mark>
 
-**Exemple de Banner Grabbing :**
-
 1.  **Commande :**
 
     ```sh
@@ -84,7 +82,7 @@ Le fingerprinting (ou identification) est une technique essentielle de reconnais
 
 `Web Application Firewalls` (`WAFs`) are security solutions designed to protect web applications from various attacks.
 
-1.  **Commande :**
+1.  <mark style="color:green;">**Commande :**</mark>
 
     ```sh
     wafw00f inlanefreight.com
@@ -104,7 +102,7 @@ Le fingerprinting (ou identification) est une technique essentielle de reconnais
 
 ## <mark style="color:red;">**Scan avec Nikto :**</mark>
 
-1.  **Installation et Commandes :**
+1.  <mark style="color:green;">**Installation et Commandes :**</mark>
 
     ```sh
     sudo apt update && sudo apt install -y perl
@@ -115,7 +113,7 @@ Le fingerprinting (ou identification) est une technique essentielle de reconnais
     ```
 
     The `-h` flag specifies the target host. The `-Tuning b` flag tells `Nikto` to only run the Software Identification modules.
-2.  **Résultat :**
+2.  <mark style="color:green;">**Résultat :**</mark>
 
     {% code overflow="wrap" %}
     ```sh

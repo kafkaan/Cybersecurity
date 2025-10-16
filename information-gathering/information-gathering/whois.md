@@ -13,6 +13,8 @@
 whois nom_de_domaine
 ```
 
+***
+
 ## <mark style="color:red;">**Informations Typiquement Rencontrées**</mark>
 
 * **Domain Name** : Nom de domaine (ex. : example.com)
@@ -39,6 +41,8 @@ whois nom_de_domaine
 * **Identification des Personnes Clés** : Noms, e-mails et téléphones pour le social engineering ou le phishing.
 * **Découverte de l'Infrastructure** : Serveurs de noms, adresses IP pour identifier des points d'entrée ou des configurations.
 * **Analyse Historique** : Suivre les changements de propriété et de contact à travers le temps.
+
+***
 
 ## <mark style="color:red;">**Exemple de Sortie WHOIS**</mark>
 

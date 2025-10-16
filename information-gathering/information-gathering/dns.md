@@ -1,3 +1,25 @@
+---
+cover: ../../.gitbook/assets/que-sont-dns.png
+coverY: 12.39622641509434
+layout:
+  width: default
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+---
+
 # DNS
 
 ## <mark style="color:red;">Introduction</mark>
@@ -54,13 +76,13 @@ Exemples :
 {% hint style="info" %}
 <mark style="color:green;">**Détails sur la Zone DNS**</mark>
 
-**Qu'est-ce qu'une Zone DNS ?**
+<mark style="color:orange;">**Qu'est-ce qu'une Zone DNS ?**</mark>
 
 * **Zone** : Une zone DNS représente une portion de l'espace de noms de domaine pour laquelle une entité spécifique est responsable. Cette entité gère l'enregistrement des noms et les adresses IP associés à ces noms au sein de cette zone.
 * **Responsabilité** : Une zone est gérée par des serveurs de noms faisant autorité qui contiennent les informations de cette zone.
 * **Fichier de Zone** : Le fichier de zone est un fichier texte sur le serveur DNS qui définit les enregistrements de ressources dans cette zone.
 
-**Illustration**
+<mark style="color:orange;">**Illustration**</mark>
 
 * **example.com** est un domaine.
 * **mail.example.com** et **blog.example.com** sont des sous-domaines appartenant à **example.com**.
@@ -84,7 +106,9 @@ The "`IN`" in the examples stands for "Internet." It's a class field in DNS reco
 * **Contenu** : Il inclut des informations telles que le serveur de noms primaire, l'adresse e-mail de l'administrateur, le numéro de série, et des paramètres temporels pour le rafraîchissement, la tentative de nouvelle synchronisation, l'expiration et le TTL minimal.
 * **Utilisation** : Il est utilisé pour la gestion de la zone, la synchronisation entre les serveurs DNS et pour informer les serveurs secondaires quand synchroniser les données.
 
-#### <mark style="color:green;">Enregistrements NS (Name Server)</mark>
+***
+
+<mark style="color:green;">**Enregistrements NS (Name Server)**</mark>
 
 * **Rôle** : Les enregistrements NS spécifient quels serveurs de noms sont autorisés à répondre pour la zone DNS. En d'autres termes, ils indiquent quels serveurs DNS détiennent les enregistrements pour le domaine et ses sous-domaines.
 * **Contenu** : Ils listent les noms des serveurs de noms autoritaires pour la zone.
@@ -108,9 +132,9 @@ The `dig` command (`Domain Information Groper`)
 {% hint style="info" %}
 <mark style="color:orange;">**Digging DNS**</mark>
 
-{% code title="" overflow="wrap" lineNumbers="true" %}
+{% code overflow="wrap" %}
 ```dns-zone-file
-mrroboteLiot@htb[/htb]$ dig google.com
+dig google.com
 
 ; <<>> DiG 9.18.24-0ubuntu0.22.04.1-Ubuntu <<>> google.com
 ;; global options: +cmd
@@ -132,7 +156,7 @@ google.com.             0       IN      A       142.251.47.142
 ```
 {% endcode %}
 
-1. Header
+1. <mark style="color:green;">**Header**</mark>
    * `;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 16449`: This line indicates the type of query (`QUERY`), the successful status (`NOERROR`), and a unique identifier (`16449`) for this specific query.
      * `;; flags: qr rd ad; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0`: This describes the flags in the DNS header:
        * `qr`: Query Response flag - indicates this is a response.
@@ -140,11 +164,11 @@ google.com.             0       IN      A       142.251.47.142
        * `ad`: Authentic Data flag - means the resolver considers the data authentic.
        * The remaining numbers indicate the number of entries in each section of the DNS response: 1 question, 1 answer, 0 authority records, and 0 additional records.
    * `;; WARNING: recursion requested but not available`: This indicates that recursion was requested, but the server does not support it.
-2. Question Section
+2. <mark style="color:green;">**Question Section**</mark>
    * `;google.com. IN A`: This line specifies the question: "What is the IPv4 address (A record) for `google.com`?"
-3. Answer Section
+3. <mark style="color:green;">**Answer Section**</mark>
    * `google.com. 0 IN A 142.251.47.142`: This is the answer to the query. It indicates that the IP address associated with `google.com` is `142.251.47.142`. The '`0`' represents the `TTL` (time-to-live), indicating how long the result can be cached before being refreshed.
-4. Footer
+4. <mark style="color:green;">**Footer**</mark>
    * `;; Query time: 0 msec`: This shows the time it took for the query to be processed and the response to be received (0 milliseconds).
    * `;; SERVER: 172.23.176.1#53(172.23.176.1) (UDP)`: This identifies the DNS server that provided the answer and the protocol used (UDP).
    * `;; WHEN: Thu Jun 13 10:45:58 SAST 2024`: This is the timestamp of when the query was made.
@@ -223,7 +247,7 @@ L'énumération des sous-domaines consiste à identifier et à lister systémati
 
 <mark style="color:green;">**Commande d'Exemple pour dnsenum**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
-{% code title="DNS" overflow="wrap" %}
+{% code overflow="wrap" fullWidth="true" %}
 ```bash
 dnsenum --enum inlanefreight.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -r
 ```
@@ -237,27 +261,7 @@ dnsenum --enum inlanefreight.com -f /usr/share/seclists/Discovery/DNS/subdomains
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ dnsenum --enum inlanefreight.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt 
-
-dnsenum VERSION:1.2.6
-
------   inlanefreight.com   -----
-
-Host's addresses:
-__________________
-
-inlanefreight.com.                       300      IN    A        134.209.24.248
-
-[...]
-
-Brute forcing with /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt:
-_______________________________________________________________________________________
-
-www.inlanefreight.com.                   300      IN    A        134.209.24.248
-support.inlanefreight.com.               300      IN    A        134.209.24.248
-[...]
-
-done.
+dnsenum --enum inlanefreight.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt
 ```
 {% endcode %}
 
@@ -286,7 +290,7 @@ Bien que les transferts de zone soient importants pour la gestion des DNS, une m
 
 * **Problème de Sécurité :**
   * Si un serveur de noms autoritaire permet les transferts de zone à n'importe quel client, des attaquants peuvent obtenir une copie complète des enregistrements DNS, y compris les sous-domaines cachés, les adresses IP et les serveurs de noms.
-* **Informations Révélées :**
+* <mark style="color:green;">**Informations Révélées :**</mark>
   * **Sous-domaines :** Liste complète des sous-domaines, y compris ceux qui ne sont pas facilement découverts autrement.
   * **Adresses IP :** Les IP associées aux sous-domaines, utiles pour des attaques potentielles.
   * **Enregistrements de Serveurs de Noms :** Détails sur les serveurs de noms autoritaires, révélant le fournisseur d'hébergement et des configurations potentielles.

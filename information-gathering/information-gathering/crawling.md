@@ -15,7 +15,7 @@
 3. **Ajout à la file d'attente**: Ces liens sont ajoutés à une file d'attente.
 4. **Exploration itérative**: Le crawler visite ces liens un par un, répétant le processus.
 
-**Illustration**:
+<mark style="color:green;">Illustration</mark>:
 
 *   **Homepage**: Contient `link1`, `link2`, et `link3`.
 
@@ -39,10 +39,10 @@
 
 ## <mark style="color:red;">**Stratégies de Crawling**</mark>
 
-1. **Crawling en largeur (Breadth-First Crawling)**
+1. <mark style="color:green;">**Crawling en largeur (Breadth-First Crawling)**</mark>
    * Priorité à l'exploration de tous les liens d'une page avant de passer aux pages suivantes.
    * Idéal pour obtenir une vue d'ensemble de la structure et du contenu d'un site.
-2. **Crawling en profondeur (Depth-First Crawling)**
+2. <mark style="color:green;">**Crawling en profondeur (Depth-First Crawling)**</mark>
    * Priorité à l'exploration d'une chaîne de liens aussi loin que possible avant de revenir en arrière.
    * Utile pour trouver du contenu spécifique ou atteindre les pages profondes d'un site.
 
@@ -50,29 +50,18 @@
 
 ## <mark style="color:red;">**Extraction d'informations précieuses**</mark>
 
-1. **Liens (internes et externes)**
+1. <mark style="color:green;">**Liens (internes et externes)**</mark>
    * Cartographie de la structure d'un site, découverte de pages cachées, identification de relations avec des ressources externes.
-2. **Commentaires**
+2. <mark style="color:green;">**Commentaires**</mark>
    * Les sections de commentaires peuvent révéler des informations sensibles ou des indices de vulnérabilités.
-3. **Métadonnées**
+3. <mark style="color:green;">**Métadonnées**</mark>
    * Informations comme les titres de pages, descriptions, mots-clés, noms d'auteurs, et dates fournissant un contexte sur le contenu et la pertinence des pages.
-4. **Fichiers sensibles**
+4. <mark style="color:green;">**Fichiers sensibles**</mark>
    * Recherche de fichiers sensibles (e.g., `.bak`, `.old`, `web.config`, `settings.php`, `error_log`, `access_log`), souvent exposés par inadvertance.
 
 ***
 
-## <mark style="color:red;">**Importance du contexte**</mark>
-
-* **Analyse holistique**:
-  * Connecter les données extraites pour obtenir une vue d'ensemble cohérente.
-  * Exemple : Une version logicielle mentionnée dans un commentaire combinée avec des métadonnées obsolètes ou une configuration vulnérable.
-* **Corrélation des découvertes**:
-  * Identifier des motifs dans les liens ou les fichiers.
-  * Exemple : Découverte d'un répertoire `/files/` avec la navigation de répertoires activée, exposant des fichiers sensibles.
-
-***
-
-## <mark style="color:red;">robots.txt</mark>
+## <mark style="color:red;">Robots.txt</mark>
 
 ***
 
@@ -111,7 +100,7 @@ Le fichier `robots.txt` suit une structure simple :
   * **User-agent**: Spécifie le bot cible.
   * **Directives**: Fournissent des instructions spécifiques.
 
-**Exemple de directives** :
+<mark style="color:green;">**Exemple de directives**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 | Directive   | Description                                                                | Exemple                                        |
 | ----------- | -------------------------------------------------------------------------- | ---------------------------------------------- |

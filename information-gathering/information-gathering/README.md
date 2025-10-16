@@ -3,6 +3,8 @@ description: >-
   Web Reconnaissance is the foundation of a thorough security assessment. This
   process involves systematically and meticulously collecting information about
   a target website or web application
+cover: ../../.gitbook/assets/1860x1046-blog-Now I See You.jpg
+coverY: 0
 ---
 
 # Information Gathering
@@ -12,9 +14,9 @@ description: >-
 The primary goals of web reconnaissance include:
 
 * **`Identifying Assets`:** Uncovering all publicly accessible components of the target, such as web pages, subdomains, IP addresses, and technologies used. This step provides a comprehensive overview of the target's online presence.
-* `Discovering Hidden Information`: Locating sensitive information that might be inadvertently exposed, including backup files, configuration files, or internal documentation. These findings can reveal valuable insights and potential entry points for attacks.
-* `Analysing the Attack Surface`: Examining the target's attack surface to identify potential vulnerabilities and weaknesses. This involves assessing the technologies used, configurations, and possible entry points for exploitation.
-* `Gathering Intelligence`: Collecting information that can be leveraged for further exploitation or social engineering attacks. This includes identifying key personnel, email addresses, or patterns of behaviour that could be exploited.
+* **`Discovering Hidden Information`:** Locating sensitive information that might be inadvertently exposed, including backup files, configuration files, or internal documentation. These findings can reveal valuable insights and potential entry points for attacks.
+* **`Analysing the Attack Surface`:** Examining the target's attack surface to identify potential vulnerabilities and weaknesses. This involves assessing the technologies used, configurations, and possible entry points for exploitation.
+* **`Gathering Intelligence`:** Collecting information that can be leveraged for further exploitation or social engineering attacks. This includes identifying key personnel, email addresses, or patterns of behaviour that could be exploited.
 
 ## <mark style="color:red;">Types of Reconnaissance</mark>
 
@@ -25,5 +27,3 @@ The primary goals of web reconnaissance include:
 ### <mark style="color:blue;">Passive Reconnaissance</mark>
 
 <table data-full-width="true"><thead><tr><th>Technique</th><th>Description</th><th>Example</th><th>Tools</th><th>Risk of Detection</th></tr></thead><tbody><tr><td><code>Search Engine Queries</code></td><td>Utilising search engines to uncover information about the target, including websites, social media profiles, and news articles.</td><td>Searching Google for "<code>[Target Name] employees</code>" to find employee information or social media profiles.</td><td>Google, DuckDuckGo, Bing, and specialised search engines (e.g., Shodan)</td><td>Very Low: Search engine queries are normal internet activity and unlikely to trigger alerts.</td></tr><tr><td><code>WHOIS Lookups</code></td><td>Querying WHOIS databases to retrieve domain registration details.</td><td>Performing a WHOIS lookup on a target domain to find the registrant's name, contact information, and name servers.</td><td>whois command-line tool, online WHOIS lookup services</td><td>Very Low: WHOIS queries are legitimate and do not raise suspicion.</td></tr><tr><td><code>DNS</code></td><td>Analysing DNS records to identify subdomains, mail servers, and other infrastructure.</td><td>Using <code>dig</code> to enumerate subdomains of a target domain.</td><td>dig, nslookup, host, dnsenum, fierce, dnsrecon</td><td>Very Low: DNS queries are essential for internet browsing and are not typically flagged as suspicious.</td></tr><tr><td><code>Web Archive Analysis</code></td><td>Examining historical snapshots of the target's website to identify changes, vulnerabilities, or hidden information.</td><td>Using the Wayback Machine to view past versions of a target website to see how it has changed over time.</td><td>Wayback Machine</td><td>Very Low: Accessing archived versions of websites is a normal activity.</td></tr><tr><td><code>Social Media Analysis</code></td><td>Gathering information from social media platforms like LinkedIn, Twitter, or Facebook.</td><td>Searching LinkedIn for employees of a target organisation to learn about their roles, responsibilities, and potential social engineering targets.</td><td>LinkedIn, Twitter, Facebook, specialised OSINT tools</td><td>Very Low: Accessing public social media profiles is not considered intrusive.</td></tr><tr><td><code>Code Repositories</code></td><td>Analysing publicly accessible code repositories like GitHub for exposed credentials or vulnerabilities.</td><td>Searching GitHub for code snippets or repositories related to the target that might contain sensitive information or code vulnerabilities.</td><td>GitHub, GitLab</td><td>Very Low: Code repositories are meant for public access, and searching them is not suspicious.</td></tr></tbody></table>
-
-\

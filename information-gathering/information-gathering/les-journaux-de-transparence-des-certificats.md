@@ -26,21 +26,14 @@ Il existe deux options populaires pour rechercher dans les journaux CT :
 
 <mark style="color:orange;">**Recherche avec crt.sh**</mark>
 
-Bien que crt.sh offre une interface web pratique, vous pouvez également utiliser son API pour des recherches automatisées directement depuis votre terminal. Voici comment trouver tous les sous-domaines 'dev' sur facebook.com en utilisant `curl` et `jq` :
-
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
 curl -s "https://crt.sh/?q=facebook.com&output=json" | jq -r '.[] | select(.name_value | contains("dev")) | .name_value' | sort -u
 ```
 {% endcode %}
 
-* `curl -s "https://crt.sh/?q=facebook.com&output=json"` : Cette commande récupère la sortie JSON de crt.sh pour les certificats correspondant au domaine facebook.com.
-* `jq -r '.[] | select(.name_value | contains("dev")) | .name_value'` : Cette partie filtre les résultats JSON, sélectionnant uniquement les entrées où le champ `name_value` (qui contient le domaine ou le sous-domaine) inclut la chaîne "dev". L'option `-r` demande à `jq` de renvoyer des chaînes brutes.
-
 {% hint style="warning" %}
-#### <mark style="color:red;">`| jq -r '.[]`</mark>
-
-\| select(.name\_value | contains("dev")) | .name\_value'\`
+&#x20;select(.name\_value | contains("dev")) | .name\_value'\`
 
 * **`|`** : C'est un pipe, il passe la sortie de la commande précédente (les données JSON obtenues par `curl`) comme entrée à la commande suivante (ici `jq`).
 * **`jq`** : Un outil de ligne de commande pour le traitement de données JSON.
