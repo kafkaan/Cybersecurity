@@ -71,7 +71,7 @@ Pourquoi ?\
 
 ***
 
-#### ✅ Exemple :
+#### <mark style="color:green;">✅ Exemple :</mark>
 
 Si on veut faire une syscall pour afficher `Hello World` sans perdre la valeur contenue dans `rax`,\
 on fait :

@@ -51,18 +51,16 @@ Pourquoi ?
 
 ### <mark style="color:blue;">Installation</mark>
 
-GDB is installed in many Linux distributions, and it is also installed by default in Parrot OS and PwnBox. In case it is not installed in your VM, you can use `apt` to install it with the following commands:
-
-```shell-session
+```sh
 sudo apt-get update
 sudo apt-get install gdb
 ```
 
+{% hint style="info" %}
 One of the great features of `GDB` is its support for third-party plugins. An excellent plugin that is well maintained and has good documentation is [GEF](https://github.com/hugsy/gef). GEF is a free and open-source GDB plugin that is built precisely for reverse engineering and binary exploitation. This fact makes it a great tool to learn.
+{% endhint %}
 
-To add GEF to GDB, we can use the following commands:
-
-```shell-session
+```sh
 wget -O ~/.gdbinit-gef.py -q https://gef.blah.cat/py
 echo source ~/.gdbinit-gef.py >> ~/.gdbinit
 ```
@@ -73,17 +71,13 @@ echo source ~/.gdbinit-gef.py >> ~/.gdbinit
 
 Now that we have both tools installed, we can run gdb to debug our `HelloWorld` binary using the following commands, and GEF will be loaded automatically:
 
-```shell-session
+```sh
 gdb -q ./helloWorld
 ...SNIP...
 gef➤
 ```
 
-As we can see from `gef➤`, GEF is loaded when GDB is run. If you ever run into any issues with `GEF`, you can consult with the [GEF Documentation](https://hugsy.github.io/gef/), and you will likely find a solution.
-
-Going forward, we will frequently be assembling and linking our assembly code and then running it with `gdb`. To do so quickly, we can use the `assembler.sh` script we wrote in the previous section with the `-g` flag. It will assemble and link the code, and then run it with `gdb`, as follows:
-
-```shell-session
+```sh
 mrroboteLiot_1@htb[/htb]$ ./assembler.sh helloWorld.s -g
 ...SNIP...
 gef➤
@@ -95,13 +89,11 @@ gef➤
 
 Once `GDB` is started, we can use the `info` command to view general information about the program, like its functions or variables.
 
-Tip: If we want to understand how any command runs within `GDB`, we can use the `help CMD` command to get its documentation. For example, we can try executing `help info`
-
 <mark style="color:green;">**Functions**</mark>
 
 To start, we will use the `info` command to check which `functions` are defined within the binary:
 
-```shell-session
+```nasm
 gef➤  info functions
 
 All defined functions:
@@ -116,7 +108,7 @@ As we can see, we found our main `_start` function.
 
 We can also use the `info variables` command to view all available variables within the program:
 
-```shell-session
+```nasm
 gef➤  info variables
 
 All defined variables:
@@ -136,7 +128,7 @@ As we can see, we find the `message`, along with some other default variables th
 
 To view the instructions within a specific function, we can use the `disassemble` or `disas` command along with the function name, as follows:
 
-```shell-session
+```nasm
 gef➤  disas _start
 
 Dump of assembler code for function _start:
@@ -169,7 +161,7 @@ Avoir l’adresse mémoire d’une instruction ou d’un argument est **essentie
 
 ***
 
-#### 🧠 Pourquoi certaines adresses commencent par `0x00000000004xxxxx` ?
+#### <mark style="color:green;">🧠 Pourquoi certaines adresses commencent par</mark> <mark style="color:green;"></mark><mark style="color:green;">`0x00000000004xxxxx`</mark> <mark style="color:green;"></mark><mark style="color:green;">?</mark>
 
 Pendant le débogage, tu remarqueras que **certaines adresses mémoire ont ce format** :
 
@@ -185,8 +177,7 @@ Et non pas ce format brut habituel :
 
 ***
 
-👉 Cela vient de l'utilisation de **l’adressage relatif à `$rip`** (le pointeur d’instruction)\
-dans les **exécutables position-indépendants** (**PIE – Position-Independent Executables**).
+👉 Cela vient de l'utilisation de **l’adressage relatif à `$rip`** (le pointeur d’instruction) dans les **exécutables position-indépendants** (**PIE – Position-Independent Executables**).
 
 ***
 

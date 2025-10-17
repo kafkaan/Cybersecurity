@@ -63,7 +63,7 @@ L’instruction `dec` fonctionne pareil, mais **décrémente** au lieu d’incr�
 
 ***
 
-#### 🧮 Instructions binaires
+#### <mark style="color:green;">🧮 Instructions binaires</mark>
 
 Maintenant, les **instructions arithmétiques binaires**. Voici les principales (on suppose que `rax` et `rbx` valent `1`) :
 
@@ -94,7 +94,7 @@ _start:
 
 ***
 
-#### 🧪 Exécution dans gdb :
+#### <mark style="color:green;">🧪 Exécution dans gdb :</mark>
 
 ```bash
 gdb
@@ -138,7 +138,7 @@ On suppose ici que `rax = 1` et `rbx = 2`.
 {% hint style="info" %}
 #### <mark style="color:green;">🚀 Utilité de</mark> <mark style="color:green;"></mark><mark style="color:green;">`xor`</mark>
 
-#### Très utile pour **mettre à 0 un registre** ! `xor rax, rax` → `rax = 0`, car tous les bits sont identiques, donc XOR les annule.
+Très utile pour **mettre à 0 un registre** ! `xor rax, rax` → `rax = 0`, car tous les bits sont identiques, donc XOR les annule.
 {% endhint %}
 
 ***
@@ -158,7 +158,7 @@ _start:
 
 ***
 
-#### 🧪 Exécution dans gdb :
+#### <mark style="color:green;">🧪 Exécution dans gdb :</mark>
 
 ```bash
 gdb

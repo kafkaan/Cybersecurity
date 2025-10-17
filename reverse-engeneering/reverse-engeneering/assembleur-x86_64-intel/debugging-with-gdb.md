@@ -6,8 +6,6 @@ Now that we have the general information about our program, we will start runnin
 
 <table data-full-width="true"><thead><tr><th>Step</th><th>Description</th></tr></thead><tbody><tr><td><code>Break</code></td><td>Setting breakpoints at various points of interest</td></tr><tr><td><code>Examine</code></td><td>Running the program and examining the state of the program at these points</td></tr><tr><td><code>Step</code></td><td>Moving through the program to examine how it acts with each instruction and with user input</td></tr><tr><td><code>Modify</code></td><td>Modify values in specific registers or addresses at specific breakpoints, to study how it would affect the execution</td></tr></tbody></table>
 
-We will go through these points in this section to learn the basics of debugging a program with GDB.
-
 ***
 
 ### <mark style="color:blue;">Break</mark>
@@ -20,8 +18,6 @@ Cela permet de :
 * Voir l’état du programme
 * Voir les **valeurs des registres**
 * **Exécuter instruction par instruction**
-
-We can set a breakpoint at a specific address or for a particular function. To set a breakpoint, we can use the `break` or `b` command along with the address or function name we want to break at. For example, to follow all instructions run by our program, let's break at the `_start` function, as follows
 
 ```shell-session
 gef➤  b _start
@@ -82,9 +78,11 @@ Breakpoint 1 at 0x40100a
 
 The `*` tells `GDB` to break at the instruction stored in `0x40100a`.
 
-Note: Once the program is running, if we set another breakpoint, like `b *0x401005`, in order to continue to that breakpoint, we should use the `continue` or `c` command. If we use `run` or `r` again, it will run the program from the start. This can be useful to skip loops, as we will see later in the module.
+If we want to see what breakpoints we have at any point of the execution, we can use the `info breakpoint` command.&#x20;
 
-If we want to see what breakpoints we have at any point of the execution, we can use the `info breakpoint` command. We can also `disable`, `enable`, or `delete` any breakpoint. Furthermore, GDB also supports setting conditional breaks that stop the execution when a specific condition is met.
+We can also `disable`, `enable`, or `delete` any breakpoint.&#x20;
+
+Furthermore, GDB also supports setting conditional breaks that stop the execution when a specific condition is met.
 
 ***
 
@@ -111,7 +109,7 @@ Il **automatise de nombreuses étapes répétitives** que l’on fait habituelle
 
 Pour examiner **manuellement** une **adresse mémoire** ou un **registre**, on peut utiliser la commande `x` dans GDB.
 
-#### 📌 Syntaxe :
+<mark style="color:green;">**📌 Syntaxe :**</mark>
 
 ```
 x/FMT ADRESSE
@@ -127,31 +125,17 @@ x/FMT ADRESSE
 
 <mark style="color:green;">**🧬 Le format**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`FMT`**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**peut contenir 3 parties :**</mark>
 
-| Partie     | Signification                                                                        |
-| ---------- | ------------------------------------------------------------------------------------ |
-| **Nombre** | combien d’éléments à afficher (ex : `10`)                                            |
-| **Taille** | taille de chaque élément : `b` (byte), `h` (2B), `w` (4B), `g` (8B)                  |
-| **Type**   | format d'affichage : `x` (hex), `d` (décimal), `i` (instruction), `s` (string), etc. |
+<table data-full-width="true"><thead><tr><th>Partie</th><th>Signification</th></tr></thead><tbody><tr><td><strong>Nombre</strong></td><td>combien d’éléments à afficher (ex : <code>10</code>)</td></tr><tr><td><strong>Taille</strong></td><td>taille de chaque élément : <code>b</code> (byte), <code>h</code> (2B), <code>w</code> (4B), <code>g</code> (8B)</td></tr><tr><td><strong>Type</strong></td><td>format d'affichage : <code>x</code> (hex), <code>d</code> (décimal), <code>i</code> (instruction), <code>s</code> (string), etc.</td></tr></tbody></table>
 
 ***
 
-✅ Exemples pratiques :
+<mark style="color:green;">**✅ Exemples pratiques :**</mark>
 
-| Commande          | Signification                                                  |
-| ----------------- | -------------------------------------------------------------- |
-| `x/x $rip`        | Examine 1 valeur en hex à l’adresse `RIP`                      |
-| `x/10xw $rsp`     | Affiche 10 mots (4 octets) en hex depuis la pile               |
-| `x/s $rsi`        | Affiche la **chaîne de caractères** pointée par `RSI`          |
-| `x/5i $rip`       | Affiche les **5 prochaines instructions** à exécuter           |
-| `x/gx 0xdeadbeef` | Affiche un **quadword (8 octets)** en hex à une adresse donnée |
+<table data-full-width="true"><thead><tr><th>Commande</th><th>Signification</th></tr></thead><tbody><tr><td><code>x/x $rip</code></td><td>Examine 1 valeur en hex à l’adresse <code>RIP</code></td></tr><tr><td><code>x/10xw $rsp</code></td><td>Affiche 10 mots (4 octets) en hex depuis la pile</td></tr><tr><td><code>x/s $rsi</code></td><td>Affiche la <strong>chaîne de caractères</strong> pointée par <code>RSI</code></td></tr><tr><td><code>x/5i $rip</code></td><td>Affiche les <strong>5 prochaines instructions</strong> à exécuter</td></tr><tr><td><code>x/gx 0xdeadbeef</code></td><td>Affiche un <strong>quadword (8 octets)</strong> en hex à une adresse donnée</td></tr></tbody></table>
 
 ***
 
-| Argument | Description                                        | Example                                                  |
-| -------- | -------------------------------------------------- | -------------------------------------------------------- |
-| `Count`  | The number of times we want to repeat the examine  | `2`, `3`, `10`                                           |
-| `Format` | The format we want the result to be represented in | `x(hex)`, `s(string)`, `i(instruction)`                  |
-| `Size`   | The size of memory we want to examine              | `b(byte)`, `h(halfword)`, `w(word)`, `g(giant, 8 bytes)` |
+<table data-full-width="true"><thead><tr><th>Argument</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>Count</code></td><td>The number of times we want to repeat the examine</td><td><code>2</code>, <code>3</code>, <code>10</code></td></tr><tr><td><code>Format</code></td><td>The format we want the result to be represented in</td><td><code>x(hex)</code>, <code>s(string)</code>, <code>i(instruction)</code></td></tr><tr><td><code>Size</code></td><td>The size of memory we want to examine</td><td><code>b(byte)</code>, <code>h(halfword)</code>, <code>w(word)</code>, <code>g(giant, 8 bytes)</code></td></tr></tbody></table>
 
 <mark style="color:green;">**Instructions**</mark>
 
@@ -166,11 +150,11 @@ gef➤  x/4ig $rip
    0x401014 <_start+20>:	mov    edx,0x12
 ```
 
-We see that we get the following four instructions as expected. This can help us as we go through a program in examining certain areas and what instructions they may contain.
-
 <mark style="color:green;">**Strings**</mark>
 
-We can also examine a variable stored at a specific memory address. We know that our `message` variable is stored at the `.data` section on address `0x402000` from our previous disassembly. We also see the upcoming command `movabs rsi, 0x402000`, so we may want to examine what is being moved from `0x402000`.
+We can also examine a variable stored at a specific memory address. We know that our `message` variable is stored at the `.data` section on address `0x402000` from our previous disassembly.&#x20;
+
+We also see the upcoming command `movabs rsi, 0x402000`, so we may want to examine what is being moved from `0x402000`.
 
 In this case, we will not put anything for the `Count`, as we only want one address (1 is the default), and will use `s` as the format to get it in a string format rather than in hex:
 
@@ -356,7 +340,5 @@ gef➤  c
 Continuing.
 Patched!
 ```
-
-We see that we successfully modified the final printed string and have the program output something of our choosing. The ability to modify values of registers and addresses will help us a lot through debugging and binary exploitation, as it allows us to test various values and conditions without having to change the code and recompile the binary every time.
 
 ***

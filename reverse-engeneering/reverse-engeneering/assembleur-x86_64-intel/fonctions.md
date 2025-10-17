@@ -23,7 +23,7 @@ Mais contrairement aux procédures simples, les fonctions sont souvent plus **co
 
 ***
 
-#### Avant d'appeler une fonction, on doit :
+#### <mark style="color:green;">Avant d'appeler une fonction, on doit :</mark>
 
 1. **Sauvegarder les registres** (ceux que l’appel va modifier)
 2. **Passer les arguments** (comme pour un syscall)
@@ -64,7 +64,7 @@ et on devrait convertir nos nombres → ce serait trop complexe.
 
 ***
 
-#### ✅ Solution : utiliser `printf` de la **librairie C (libc)**
+#### <mark style="color:green;">✅ Solution : utiliser</mark> <mark style="color:green;"></mark><mark style="color:green;">`printf`</mark> <mark style="color:green;"></mark><mark style="color:green;">de la</mark> <mark style="color:green;"></mark><mark style="color:green;">**librairie C (libc)**</mark>
 
 La **libc** (utilisée dans les programmes C) contient **plein de fonctions utiles**.
 
@@ -130,7 +130,7 @@ int printf(const char *format, ...);
 
 ***
 
-#### 🎯 Format : entier
+#### <mark style="color:green;">🎯 Format : entier</mark>
 
 ```nasm
 section .data
@@ -143,7 +143,7 @@ section .data
 
 ***
 
-#### 🔧 Définir les registres
+#### <mark style="color:green;">🔧 Définir les registres</mark>
 
 ```nasm
 printFib:

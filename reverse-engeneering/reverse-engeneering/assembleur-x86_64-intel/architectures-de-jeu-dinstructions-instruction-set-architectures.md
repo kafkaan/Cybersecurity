@@ -6,7 +6,7 @@
 
 ***
 
-Une **I**<mark style="color:green;">**nstruction Set Architecture (ISA)**</mark> spécifie la syntaxe et la sémantique du langage assembleur sur chaque architecture.\
+Une <mark style="color:green;">I</mark><mark style="color:green;">**nstruction Set Architecture (ISA)**</mark> spécifie la syntaxe et la sémantique du langage assembleur sur chaque architecture.\
 Ce n’est pas seulement une syntaxe différente, mais cela est intégré dans la **conception fondamentale du processeur**, car cela affecte **la manière et l’ordre dans lequel les instructions sont exécutées**, ainsi que leur **niveau de complexité**.
 
 L’ISA se compose principalement des composants suivants :

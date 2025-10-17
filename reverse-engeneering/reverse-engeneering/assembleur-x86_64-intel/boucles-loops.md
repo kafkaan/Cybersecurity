@@ -46,7 +46,7 @@ Chaque fois que l’instruction `loop` est exécutée, **`rcx` est décrémenté
 
 ***
 
-#### 📘 Table des instructions
+#### <mark style="color:green;">📘 Table des instructions</mark>
 
 <table data-full-width="true"><thead><tr><th>Instruction</th><th>Description</th><th>Exemple</th></tr></thead><tbody><tr><td><code>mov rcx, x</code></td><td>Définit le compteur de boucle <code>rcx</code> à <code>x</code></td><td><code>mov rcx, 3</code></td></tr><tr><td><code>loop</code></td><td>Retourne au début de la boucle jusqu’à ce que <code>rcx == 0</code></td><td><code>loop exampleLoop</code></td></tr></tbody></table>
 
@@ -103,7 +103,7 @@ mov rcx, 10
 
 ***
 
-#### 📜 Code complet :
+#### <mark style="color:green;">📜 Code complet :</mark>
 
 ```nasm
 global  _start
@@ -122,7 +122,7 @@ loopFib:
 
 ***
 
-#### 🧪 Exécution avec GDB
+#### <mark style="color:green;">🧪 Exécution avec GDB</mark>
 
 ```bash
 gdb

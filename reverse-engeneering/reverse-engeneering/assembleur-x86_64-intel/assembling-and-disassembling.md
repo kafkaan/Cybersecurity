@@ -1,4 +1,4 @@
-# Assembler et Désassembler un fichier assembleur (Assembling & Disassembling)
+# Assembling & Disassembling
 
 ***
 
@@ -21,7 +21,7 @@ Tout d’abord, nous allons copier le code ci-dessous dans un fichier appelé **
 
 ***
 
-#### 📄 Code (nasm)
+#### <mark style="color:green;">📄 Code (nasm)</mark>
 
 ```nasm
 global _start
@@ -45,10 +45,6 @@ _start:
 
 ***
 
-Remarquez que nous avons utilisé **`equ`** pour **calculer dynamiquement la longueur** du message,\
-au lieu d’utiliser une valeur statique comme `18`.\
-Cela sera très utile plus tard.
-
 Maintenant, **assemblons le fichier avec `nasm`**, via la commande suivante :
 
 ```bash
@@ -60,9 +56,7 @@ nasm -f elf64 helloWorld.s
 
 ***
 
-Cela va produire un fichier **`helloWorld.o`** (fichier objet), qui est du code machine,\
-avec les détails de toutes les variables et sections.\
-Mais ce fichier **n’est pas encore exécutable**.
+Cela va produire un fichier **`helloWorld.o`** (fichier objet), qui est du code machine, avec les détails de toutes les variables et sections. Mais ce fichier **n’est pas encore exécutable**.
 
 ***
 
@@ -70,9 +64,9 @@ Mais ce fichier **n’est pas encore exécutable**.
 
 L’étape finale est de **lier** le fichier avec **`ld`**.
 
-Le fichier **`helloWorld.o`**, même s’il est assemblé, **ne peut pas encore être exécuté**.\
-Car plusieurs **références et labels** utilisés par `nasm` doivent être **résolus en adresses réelles**,\
-et le fichier doit être **lié à certaines bibliothèques du système**.
+{% hint style="info" %}
+Le fichier **`helloWorld.o`**, même s’il est assemblé, **ne peut pas encore être exécuté c**ar plusieurs **références et labels** utilisés par `nasm` doivent être **résolus en adresses réelles**,  et le fichier doit être **lié à certaines bibliothèques du système**.
+{% endhint %}
 
 ***
 
@@ -228,7 +222,7 @@ On voit bien la chaîne `"Hello HTB Academy!"` stockée à l’adresse `0x402000
 
 ***
 
-✅ **Conclusion**
+<mark style="color:green;">✅</mark> <mark style="color:green;"></mark><mark style="color:green;">**Conclusion**</mark>
 
 * On a assemblé (`nasm`), lié (`ld`), exécuté (`./helloWorld`)
 * On a désassemblé (`objdump`)

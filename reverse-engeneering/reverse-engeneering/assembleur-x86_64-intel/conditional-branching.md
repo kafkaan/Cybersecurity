@@ -21,7 +21,7 @@ Il existe beaucoup d’autres conditions similaires.\
 Pour la liste complète, voir le **manuel Intel x86\_64**, section **Jcc – Jump if Condition is Met**.
 {% endhint %}
 
-Les instructions conditionnelles ne se limitent pas aux `jmp` :
+<mark style="color:green;">**Les instructions conditionnelles ne se limitent pas aux**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`jmp`**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**:**</mark>
 
 * `CMOVcc` : **mov conditionnel**
 * `SETcc` : **assignation conditionnelle (0 ou 1)**
@@ -250,7 +250,7 @@ Après l’instruction `SUB`, les flags sont mis à jour :
 
 ***
 
-### <mark style="color:red;">🧪 Exemple :</mark> <mark style="color:red;"></mark><mark style="color:red;">`jnz loopFib`</mark>
+### <mark style="color:blue;">🧪 Exemple :</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`jnz loopFib`</mark>
 
 L’instruction `loop` vue précédemment est **équivalente à** :
 
@@ -263,7 +263,7 @@ Mais `loop` est juste une optimisation de syntaxe.
 
 ***
 
-#### 📜 Nouveau code avec `jnz`
+#### <mark style="color:green;">📜 Nouveau code avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`jnz`</mark>
 
 ```nasm
 global  _start
@@ -331,7 +331,7 @@ Exemple : on veut **arrêter l’exécution quand le Fibonacci dépasse 10**.
 
 ***
 
-#### 🎯 `cmp` = compare (ne modifie pas les registres)
+#### <mark style="color:green;">🎯</mark> <mark style="color:green;"></mark><mark style="color:green;">`cmp`</mark> <mark style="color:green;"></mark><mark style="color:green;">= compare (ne modifie pas les registres)</mark>
 
 ```nasm
 cmp rbx, 10    ; fait rbx - 10 → met les flags
@@ -340,7 +340,7 @@ js  loopFib    ; saute si résultat < 0
 
 ***
 
-#### 📜 Nouveau code avec `cmp` et `js`
+#### <mark style="color:green;">📜 Nouveau code avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`cmp`</mark> <mark style="color:green;"></mark><mark style="color:green;">et</mark> <mark style="color:green;"></mark><mark style="color:green;">`js`</mark>
 
 ```nasm
 global  _start

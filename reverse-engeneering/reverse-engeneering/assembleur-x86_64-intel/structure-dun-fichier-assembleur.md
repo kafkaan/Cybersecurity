@@ -6,10 +6,11 @@
 
 ```nasm
 global  _start
-
+-------------------------------------------------------
 section .data
 message: db      "Hello HTB Academy!"
 
+-------------------------------------------------------
 section .text
 _start:
     mov     rax, 1
@@ -35,11 +36,11 @@ _start:
 
 En regardant les **parties verticales** du code, chaque ligne peut contenir **trois éléments** :
 
-#### 1. **Labels**
+<mark style="color:green;">1.</mark> <mark style="color:green;"></mark><mark style="color:green;">**Labels**</mark>
 
-#### 2. **Instructions**
+<mark style="color:green;">2.</mark> <mark style="color:green;"></mark><mark style="color:green;">**Instructions**</mark>
 
-#### 3. **Opérandes**
+<mark style="color:green;">3.</mark> <mark style="color:green;"></mark><mark style="color:green;">**Opérandes**</mark>
 
 ***
 
@@ -49,11 +50,7 @@ En plus de cela, nous pouvons **définir une étiquette (label)** à chaque lign
 
 Ensuite, si nous **regardons le code ligne par ligne**, on remarque qu’il y a **trois parties principales** :
 
-| Section         | Description                                                                                               |
-| --------------- | --------------------------------------------------------------------------------------------------------- |
-| `global _start` | C’est une **directive** qui dit au code de commencer l’exécution à l’étiquette `_start` définie plus bas. |
-| `section .data` | C’est la **section de données**, qui contient toutes les **variables**.                                   |
-| `section .text` | C’est la **section de code**, contenant toutes les **instructions** à exécuter.                           |
+<table data-full-width="true"><thead><tr><th>Section</th><th>Description</th></tr></thead><tbody><tr><td><code>global _start</code></td><td>C’est une <strong>directive</strong> qui dit au code de commencer l’exécution à l’étiquette <code>_start</code> définie plus bas.</td></tr><tr><td><code>section .data</code></td><td>C’est la <strong>section de données</strong>, qui contient toutes les <strong>variables</strong>.</td></tr><tr><td><code>section .text</code></td><td>C’est la <strong>section de code</strong>, contenant toutes les <strong>instructions</strong> à exécuter.</td></tr></tbody></table>
 
 Les sections `.data` et `.text` font référence aux **segments mémoire de données et de texte**,\
 où ces instructions seront stockées.
@@ -123,7 +120,7 @@ Les étiquettes définies avec `equ` sont des **constantes** : **elles ne peuven
 
 ***
 
-#### Exemple :
+#### <mark style="color:green;">Exemple :</mark>
 
 ```nasm
 section .data
@@ -183,7 +180,7 @@ et t’aident beaucoup quand tu reviens plus tard lire ton code.
 ***
 
 {% hint style="warning" %}
-RESUME
+<mark style="color:green;">**RESUME**</mark>
 
 * `global` → indique le point d’entrée
 * `.data` → variables

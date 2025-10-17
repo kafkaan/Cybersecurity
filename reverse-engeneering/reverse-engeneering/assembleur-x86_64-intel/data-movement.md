@@ -180,7 +180,7 @@ Utile pour manipuler des données trop volumineuses pour un registre, notamment 
 
 ***
 
-Exemple :
+**Exemple :**
 
 ```nasm
 global  _start
@@ -191,7 +191,7 @@ _start:
     mov rax, [rsp+10]
 ```
 
-Gdb :
+**Gdb :**
 
 ```
  → lea rax, [rsp+0xa]

@@ -52,7 +52,7 @@ add rax, rbx     ; rax = rax + rbx => 7
 
 ***
 
-#### 📞 Exemple appel système : write(1, msg, 13)
+#### <mark style="color:green;">📞 Exemple appel système : write(1, msg, 13)</mark>
 
 ```nasm
 mov rax, 1        ; syscall write
@@ -64,7 +64,7 @@ syscall
 
 ***
 
-### 🧯 Registres de pile (`rsp`, `rbp`)
+### <mark style="color:green;">🧯 Registres de pile (</mark><mark style="color:green;">`rsp`</mark><mark style="color:green;">,</mark> <mark style="color:green;"></mark><mark style="color:green;">`rbp`</mark><mark style="color:green;">)</mark>
 
 | Registre | Rôle                                  |
 | -------- | ------------------------------------- |
@@ -93,7 +93,7 @@ pop rbx     ; récupère ce qui est au sommet de la pile dans rbx
 
 ***
 
-#### 🧪 Exemples avec flags
+#### <mark style="color:green;">🧪 Exemples avec flags</mark>
 
 **`cmp` : compare deux valeurs sans modifier les registres**
 
@@ -121,7 +121,7 @@ jl lower        ; saute si rax < rbx (SF != OF)
 
 ***
 
-#### 🧪 Exemple complet : test conditionnel
+#### <mark style="color:green;">🧪 Exemple complet : test conditionnel</mark>
 
 ```nasm
 mov rax, 5

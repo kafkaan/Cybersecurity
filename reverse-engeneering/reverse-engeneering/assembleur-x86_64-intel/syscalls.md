@@ -226,7 +226,7 @@ void _exit(int status);
 
 ***
 
-#### ✅ Code pour `exit` :
+#### <mark style="color:green;">✅ Code pour</mark> <mark style="color:green;"></mark><mark style="color:green;">`exit`</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 ```nasm
 mov rax, 60     ; numéro du syscall exit
@@ -269,7 +269,7 @@ loopFib:
 
 ***
 
-### 🧪 Vérification du code de sortie :
+### <mark style="color:blue;">🧪 Vérification du code de sortie :</mark>
 
 ```bash
 ./assembler.sh fib.s

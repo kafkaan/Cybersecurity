@@ -94,11 +94,12 @@ push 0x6e69622f ; "/bin"
 
 ### <mark style="color:blue;">⚙️</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Assembler & Exécuter**</mark>
 
-```bash
-nasm -f elf64 hello.asm -o hello.o
-ld hello.o -o hello
-./hello
-```
+<pre class="language-bash" data-full-width="true"><code class="lang-bash">nasm -f elf64 hello.asm -o hello.o
+<strong>----------------------------------
+</strong><strong>ld hello.o -o hello
+</strong><strong>----------------------------------
+</strong>./hello
+</code></pre>
 
 ***
 

@@ -108,7 +108,9 @@ Driver du terminal/fichier
 Hardware (écran, disque...)
 ```
 
-As we can see, when the `write` syscall is called in `C` or Assembly, both are using `1`, the text, and `12` as the arguments. This will be covered more in-depth later in the module. From this point, Assembly code, shellcode, and binary machine code are mostly identical but written in different formats. The previous Assembly code can be assembled into the following hex machine code (i.e., shellcode):
+As we can see, when the `write` syscall is called in `C` or Assembly, both are using `1`, the text, and `12` as the arguments.
+
+&#x20;This will be covered more in-depth later in the module. From this point, Assembly code, shellcode, and binary machine code are mostly identical but written in different formats. The previous Assembly code can be assembled into the following hex machine code (i.e., shellcode):
 
 ```shellcode
 48 c7 c0 01
@@ -152,15 +154,15 @@ A CPU uses different electrical charges for a `1` and a `0`, and hence can calcu
 0f 05                 ; syscall         (2 bytes)
 ```
 
-<mark style="color:green;">**Structure des instructions x86-64**</mark>
+***
 
-#### **Format général** :
+<mark style="color:green;">**Format général**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 ```
 [Prefixes] [REX] [Opcode] [ModR/M] [SIB] [Displacement] [Immediate]
 ```
 
-#### **Décodage détaillé** :
+<mark style="color:green;">**Décodage détaillé**</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 **`48 c7 c0 01 00 00 00`** (mov rax, 1)
 

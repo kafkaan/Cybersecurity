@@ -15,7 +15,7 @@ et **essentiels pour l’exploitation binaire** à l’avenir.
 ***
 
 Il existe **deux types principaux de registres** sur lesquels nous allons nous concentrer :\
-**les registres de données** et **les registres de pointeurs**.
+<mark style="color:orange;">**les registres de données**</mark> et <mark style="color:orange;">**les registres de pointeurs**</mark>.
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Registres de données</strong></td><td><strong>Registres de pointeurs</strong></td></tr><tr><td><code>rax</code></td><td><code>rbp</code></td></tr><tr><td><code>rbx</code></td><td><code>rsp</code></td></tr><tr><td><code>rcx</code></td><td><code>rip</code></td></tr><tr><td><code>rdx</code></td><td></td></tr><tr><td><code>r8</code></td><td></td></tr><tr><td><code>r9</code></td><td></td></tr><tr><td><code>r10</code></td><td></td></tr></tbody></table>
 

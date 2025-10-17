@@ -72,7 +72,7 @@ nom_fonction:
 
 ### <mark style="color:blue;">🚪 Prologue et Épilogue {#prologue-epilogue}</mark>
 
-#### 🎬 Prologue Standard
+#### <mark style="color:green;">🎬 Prologue Standard</mark>
 
 ```asm
 ma_fonction:
@@ -82,7 +82,7 @@ ma_fonction:
                     ; (toujours multiple de 16 pour alignement)
 ```
 
-#### 🎭 Épilogue Standard
+#### <mark style="color:green;">🎭 Épilogue Standard</mark>
 
 ```asm
     mov rsp, rbp    ; Libérer les variables locales
@@ -90,7 +90,7 @@ ma_fonction:
     ret             ; Retourner à l'appelant
 ```
 
-#### 🎯 Prologue/Épilogue Simplifié (si pas de variables locales)
+#### <mark style="color:green;">🎯 Prologue/Épilogue Simplifié (si pas de variables locales)</mark>
 
 ```asm
 ma_fonction:
@@ -107,7 +107,7 @@ ma_fonction:
 
 ### <mark style="color:blue;">📥 Gestion des paramètres {#parametres}</mark>
 
-#### Exemple : fonction avec 3 paramètres
+#### <mark style="color:green;">Exemple : fonction avec 3 paramètres</mark>
 
 ```asm
 ; int additionner(int a, int b, int c)
@@ -127,7 +127,7 @@ additionner:
     ret
 ```
 
-#### Exemple : plus de 6 paramètres
+#### <mark style="color:green;">Exemple : plus de 6 paramètres</mark>
 
 ```asm
 ; int somme7(int a, int b, int c, int d, int e, int f, int g)
@@ -184,7 +184,7 @@ section .data
     message db "Hello World", 0
 ```
 
-#### Retour de structure (> 64 bits)
+#### <mark style="color:green;">Retour de structure (> 64 bits)</mark>
 
 ```nasm
 ; Pour structures > 64 bits, l'appelant passe un pointeur vers
@@ -210,7 +210,7 @@ get_large_struct:
 
 ### <mark style="color:blue;">💾 Sauvegarde des registres {#sauvegarde}</mark>
 
-#### Exemple complet avec sauvegarde
+#### <mark style="color:green;">Exemple complet avec sauvegarde</mark>
 
 ```asm
 ma_fonction:
@@ -236,7 +236,7 @@ ma_fonction:
     ret
 ```
 
-#### Optimisation : ne sauvegarder que ce qu'on utilise
+#### <mark style="color:green;">Optimisation : ne sauvegarder que ce qu'on utilise</mark>
 
 ```asm
 fonction_simple:
@@ -378,7 +378,7 @@ fin_strlen:
 
 ### <mark style="color:blue;">🚀 Fonctions avancées {#avancees}</mark>
 
-#### 1. Fonction avec nombre variable d'arguments
+#### <mark style="color:green;">1. Fonction avec nombre variable d'arguments</mark>
 
 ```asm
 ; int somme_variable(int count, ...)
@@ -408,7 +408,7 @@ fin:
     ret
 ```
 
-#### 2. Fonction avec gestion d'erreurs
+#### <mark style="color:green;">2. Fonction avec gestion d'erreurs</mark>
 
 ```asm
 ; int diviser_securise(int dividende, int diviseur, int* resultat)
@@ -440,7 +440,7 @@ fin_division:
     ret
 ```
 
-#### 3. Fonction optimisée (sans frame pointer)
+#### <mark style="color:green;">3. Fonction optimisée (sans frame pointer)</mark>
 
 ```asm
 ; Version optimisée sans RBP pour de meilleures performances
@@ -453,7 +453,7 @@ addition_rapide:
 
 ***
 
-### ✅ Checklist pour créer une fonction
+### <mark style="color:blue;">✅ Checklist pour créer une fonction</mark>
 
 1. **Nom et visibilité**
    * \[ ] Définir le nom de la fonction

@@ -32,7 +32,7 @@ Les **processeurs modernes** ont une conception multi-cœurs, leur permettant d�
 
 ***
 
-### <mark style="color:red;">🔁</mark> <mark style="color:red;"></mark><mark style="color:red;">**Cycle d’instruction**</mark>
+### <mark style="color:blue;">🔁</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Cycle d’instruction**</mark>
 
 Un **cycle d’instruction** est le cycle nécessaire au CPU pour traiter une seule instruction machine.
 
@@ -103,7 +103,7 @@ Comme nous pouvons le voir, le **même code machine** effectue une **instruction
 
 ***
 
-Cela est dû au fait que chaque type de processeur possède une **architecture assembleur bas niveau différente**, appelée **Architecture de Jeu d’Instructions (ISA)**.
+Cela est dû au fait que chaque type de processeur possède une **architecture assembleur bas niveau différente**, appelée <mark style="color:orange;">**Architecture de Jeu d’Instructions (ISA)**</mark>.
 
 Par exemple, l’instruction `add rax, 1` vue plus haut est pour les processeurs **Intel x86 64 bits**.
 
@@ -186,13 +186,13 @@ Dans la prochaine section, nous parlerons des deux **architectures ISA les plus 
 {% hint style="info" %}
 ***
 
-**🔧 EXEMPLE RÉEL**
+<mark style="color:green;">**🔧 EXEMPLE RÉEL**</mark>
 
 Imaginons que tu veux faire :
 
 `A = B + C`
 
-#### En **RISC** (style ARM) :
+En **RISC** (style ARM) :
 
 Tu écris **4 instructions simples** :
 
@@ -207,7 +207,7 @@ STORE A, R3     ; stocke R3 dans A
 
 ***
 
-#### En **CISC** (style x86) :
+<mark style="color:green;">**En CISC (style x86) :**</mark>
 
 Tu écris **1 instruction complexe** :
 
