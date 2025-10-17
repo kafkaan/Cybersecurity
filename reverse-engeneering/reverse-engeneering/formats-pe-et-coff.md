@@ -2,7 +2,28 @@
 
 ## <mark style="color:red;">Formats PE et COFF (Portable Executable et Common Object File Format)</mark>
 
-Le format **PE (Portable Executable)** est le format de fichier exécutable utilisé sous Windows (EXE, DLL, SYS, etc.), et **COFF (Common Object File Format)** est le format de fichier objet (généralement .obj ou .lib). La spécification définit la structure de ces fichiers afin de faciliter le développement d’outils Windows. Le terme “Portable” rappelle que le format n’est pas lié à une architecture précise. Un fichier PE/COFF contient plusieurs en-têtes et sections décrivant comment le code et les données sont organisés.
+Le format **PE (Portable Executable)** est le format de fichier exécutable utilisé sous Windows (EXE, DLL, SYS, etc.),&#x20;
+
+**COFF (Common Object File Format)** est le format de fichier objet (généralement .obj ou .lib).&#x20;
+
+La spécification définit la structure de ces fichiers afin de faciliter le développement d’outils Windows. Le terme “Portable” rappelle que le format n’est pas lié à une architecture précise.&#x20;
+
+Un fichier PE/COFF contient plusieurs en-têtes et sections décrivant comment le code et les données sont organisés.
+
+* **Fichier .obj (COFF)** = pièces détachées dans l’atelier.
+  * Ce sont des **morceaux de code** (fonctions) compilés séparément.
+  * Ils contiennent des **références non résolues** (par ex. « cette pièce a besoin d’un boulon appelé X »).
+  * Usage : **donner au linker** pour assembler.
+* **Fichier .exe / .dll (PE)** = la voiture finie prête à rouler.
+  * Le linker a **assemblé** toutes les pièces `.obj`, a **résolu** les références (trouvé les boulons), a ajouté de l’info pour le garage (le système Windows) pour savoir comment démarrer et charger la voiture.
+  * Contient des tables comme : qui importe quelles fonctions d’autres DLL, où commence l’exécution, etc.
+
+<mark style="color:green;">En une phrase</mark>
+
+* **COFF (.obj)** = format pour les **pièces** (travail du compilateur).
+* **PE (.exe/.dll)** = format pour la **voiture finie** (sortie du linker, utilisée par Windows).
+
+***
 
 ### <mark style="color:blue;">1. Définition des formats PE et COFF</mark>
 
@@ -138,18 +159,7 @@ Juste après l’en-tête (COFF + Optional) se trouve la **table des sections**.
 
 Chaque en-tête de section comporte (voir tableau ci-dessous):
 
-| Offset (dans header) | Taille | Champ                    | Description                                                                                                                                               |
-| -------------------- | ------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0                    | 8      | **Name**                 | Nom ASCII (UTF-8) sur 8 octets (suffixe ‘`$/num`’ possible pour objets).                                                                                  |
-| 8                    | 4      | **VirtualSize**          | Taille en mémoire de la section (remplie de zéros si > SizeOfRawData). Pseudo‐`BSS` si 0..                                                                |
-| 12                   | 4      | **VirtualAddress**       | RVA du début de la section dans l’image (addresse relative).                                                                                              |
-| 16                   | 4      | **SizeOfRawData**        | Taille sur disque (en octets) des données initialisées dans la section. Doit être multiple de FileAlignment. Si < VirtualSize, reste en mémoire mis à 0.. |
-| 20                   | 4      | **PointerToRawData**     | Offset fichier de la première page de données de la section. Multiple de FileAlignment. (0 si section non initialisée).                                   |
-| 24                   | 4      | **PointerToRelocations** | Offset vers les entrées de relocation COFF pour cette section (objet seulement). 0 pour les images PE (non utilisé).                                      |
-| 28                   | 4      | **PointerToLinenumbers** | Offset vers les entrées numéro de ligne (déprécié, souvent 0). 0 pour les images PE.                                                                      |
-| 32                   | 2      | **NumberOfRelocations**  | Nombre d’entrées de relocation pour la section (objet). 0 pour les images PE.                                                                             |
-| 34                   | 2      | **NumberOfLinenumbers**  | Nombre d’entrées ligne (déprécié, 0 dans PE).                                                                                                             |
-| 36                   | 4      | **Characteristics**      | Attributs de la section (drapeaux) (voir §5.1 ci-dessous).                                                                                                |
+<table data-full-width="true"><thead><tr><th>Offset (dans header)</th><th>Taille</th><th>Champ</th><th>Description</th></tr></thead><tbody><tr><td>0</td><td>8</td><td><strong>Name</strong></td><td>Nom ASCII (UTF-8) sur 8 octets (suffixe ‘<code>$/num</code>’ possible pour objets).</td></tr><tr><td>8</td><td>4</td><td><strong>VirtualSize</strong></td><td>Taille en mémoire de la section (remplie de zéros si > SizeOfRawData). Pseudo‐<code>BSS</code> si 0..</td></tr><tr><td>12</td><td>4</td><td><strong>VirtualAddress</strong></td><td>RVA du début de la section dans l’image (addresse relative).</td></tr><tr><td>16</td><td>4</td><td><strong>SizeOfRawData</strong></td><td>Taille sur disque (en octets) des données initialisées dans la section. Doit être multiple de FileAlignment. Si &#x3C; VirtualSize, reste en mémoire mis à 0..</td></tr><tr><td>20</td><td>4</td><td><strong>PointerToRawData</strong></td><td>Offset fichier de la première page de données de la section. Multiple de FileAlignment. (0 si section non initialisée).</td></tr><tr><td>24</td><td>4</td><td><strong>PointerToRelocations</strong></td><td>Offset vers les entrées de relocation COFF pour cette section (objet seulement). 0 pour les images PE (non utilisé).</td></tr><tr><td>28</td><td>4</td><td><strong>PointerToLinenumbers</strong></td><td>Offset vers les entrées numéro de ligne (déprécié, souvent 0). 0 pour les images PE.</td></tr><tr><td>32</td><td>2</td><td><strong>NumberOfRelocations</strong></td><td>Nombre d’entrées de relocation pour la section (objet). 0 pour les images PE.</td></tr><tr><td>34</td><td>2</td><td><strong>NumberOfLinenumbers</strong></td><td>Nombre d’entrées ligne (déprécié, 0 dans PE).</td></tr><tr><td>36</td><td>4</td><td><strong>Characteristics</strong></td><td>Attributs de la section (drapeaux) (voir §5.1 ci-dessous).</td></tr></tbody></table>
 
 En pratique, on reconnaît souvent les sections par leur nom (par exemple `.text` pour le code exécutable, `.data` pour les données initialisées, `.rdata` pour les données en lecture seule, `.rsrc` pour les ressources).
 
@@ -278,20 +288,3 @@ Tous ces champs ont été décrits plus haut avec leurs significations. Les cham
 | 0x8000     | TERMINAL\_SERVER\_AWARE | Conscient Terminal Server                 |
 
 ***
-
-### <mark style="color:blue;">11. Résumé technique</mark>
-
-En résumé, comprendre un fichier PE/COFF nécessite :
-
-* Savoir localiser et interpréter les **en-têtes** (DOS stub, signature “PE\0\0”, en-têtes COFF et Optional).
-* Connaître les **champs clés** de ces en-têtes (Machine, entry point, alignements, flags, Data Directories…).
-* Lire la **table des sections** pour trouver les **sections de données** (code, données, import, export, reloc, ressources…).
-* Traiter les **importations** (via la section .idata et l’IAT) et **exportations** (section .edata) des DLL.
-* Gérer les **relocations** : COFF reloc pour objets, base reloc pour images.
-* Examiner la **table de symboles** (.obj seulement) pour les résolutions externes si besoin.
-* Vérifier la **compatibilité et les flags de sécurité** (ASLR, DEP, etc.).
-* Respecter les **alignements** : SectionAlignment et FileAlignment.
-
-Ce cours a couvert toutes les parties importantes de la spécification officielle PE/COFF. Pour aller plus loin, on pourra étudier chaque section spécialisée (resources, TLS, etc.) dans la spec complète.
-
-**Sources** : Spécification Microsoft PE/COFF, révision 8.3 (2013) (citations dans le texte).
