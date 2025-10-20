@@ -135,9 +135,7 @@ function Invoke-AESEncryption {
 ```
 {% endcode %}
 
-We can use any previously shown file transfer methods to get this file onto a target host. After the script has been transferred, it only needs to be imported as a module, as shown below.
-
-**Import Module Invoke-AESEncryption.ps1**
+<mark style="color:green;">**Import Module Invoke-AESEncryption.ps1**</mark>
 
 {% code fullWidth="true" %}
 ```powershell
@@ -145,24 +143,11 @@ PS C:\htb> Import-Module .\Invoke-AESEncryption.ps1
 ```
 {% endcode %}
 
-After the script is imported, it can encrypt strings or files, as shown in the following examples. This command creates an encrypted file with the same name as the encrypted file but with the extension "`.aes`."
-
-**File Encryption Example**
+<mark style="color:green;">**File Encryption Example**</mark>
 
 {% code fullWidth="true" %}
 ```powershell
 PS C:\htb> Invoke-AESEncryption -Mode Encrypt -Key "p4ssw0rd" -Path .\scan-results.txt
-
-File encrypted to C:\htb\scan-results.txt.aes
-PS C:\htb> ls
-
-    Directory: C:\htb
-
-Mode                 LastWriteTime         Length Name
-----                 -------------         ------ ----
--a----        11/18/2020  12:17 AM           9734 Invoke-AESEncryption.ps1
--a----        11/18/2020  12:19 PM           1724 scan-results.txt
--a----        11/18/2020  12:20 PM           3448 scan-results.txt.aes
 ```
 {% endcode %}
 
@@ -172,18 +157,31 @@ Using very `strong` and `unique` passwords for encryption for every company wher
 
 ### <mark style="color:red;">File Encryption on Linux</mark>
 
-[OpenSSL](https://www.openssl.org/) is frequently included in Linux distributions, with sysadmins using it to generate security certificates, among other tasks. OpenSSL can be used to send files "nc style" to encrypt files.
+**Présence et utilisation**
 
-To encrypt a file using `openssl` we can select different ciphers, see [OpenSSL man page](https://www.openssl.org/docs/man1.1.1/man1/openssl-enc.html). Let's use `-aes256` as an example. We can also override the default iterations counts with the option `-iter 100000` and add the option `-pbkdf2` to use the Password-Based Key Derivation Function 2 algorithm. When we hit enter, we'll need to provide a password.
+* Fréquemment inclus dans les distributions Linux
+* Utilisé par les administrateurs système pour générer des certificats de sécurité et autres tâches
+
+**Capacités de transfert**
+
+* Permet d'envoyer des fichiers "à la manière de netcat (nc)"
+* Offre la possibilité de chiffrer les fichiers lors du transfert
+
+**Options de chiffrement**
+
+* Choix entre différents algorithmes de chiffrement (voir la page man d'OpenSSL)
+* Exemple courant : `-aes256`
+
+**Paramètres de sécurité avancés**
+
+* `-iter 100000` : permet de modifier le nombre d'itérations par défaut
+* `-pbkdf2` : utilise l'algorithme Password-Based Key Derivation Function 2 (dérivation de clé basée sur mot de passe)
 
 <mark style="color:orange;">**Encrypting /etc/passwd with openssl**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ openssl enc -aes256 -iter 100000 -pbkdf2 -in /etc/passwd -out passwd.enc
-
-enter aes-256-cbc encryption password:                                                         
-Verifying - enter aes-256-cbc encryption password:                              
+mrroboteLiot@htb[/htb]$ openssl enc -aes256 -iter 100000 -pbkdf2 -in /etc/passwd -out passwd.enc                           
 ```
 {% endcode %}
 
@@ -194,7 +192,5 @@ Remember to use a strong and unique password to avoid brute-force cracking attac
 {% code overflow="wrap" fullWidth="true" %}
 ```sh
 mrroboteLiot@htb[/htb]$ openssl enc -d -aes256 -iter 100000 -pbkdf2 -in passwd.enc -out passwd                    
-
-enter aes-256-cbc decryption password:
 ```
 {% endcode %}

@@ -4,15 +4,28 @@
 
 ### <mark style="color:red;">HTTP/S</mark>
 
-We have already discussed using the Python3 [uploadserver module](https://github.com/Densaugeo/uploadserver) to set up a web server with upload capabilities, but we can also use Apache or Nginx. This section will cover creating a secure web server for file upload operations.
-
-***
-
 ### <mark style="color:blue;">Nginx - Enabling PUT</mark>
 
-A good alternative for transferring files to `Apache` is [Nginx](https://www.nginx.com/resources/wiki/) because the configuration is less complicated, and the module system does not lead to security issues as `Apache` can.
+<mark style="color:green;">**Alternative à Apache**</mark>
 
-When allowing `HTTP` uploads, it is critical to be 100% positive that users cannot upload web shells and execute them. `Apache` makes it easy to shoot ourselves in the foot with this, as the `PHP` module loves to execute anything ending in `PHP`. Configuring `Nginx` to use PHP is nowhere near as simple.
+* Nginx est une bonne alternative à Apache pour le transfert de fichiers
+* Configuration moins compliquée qu'Apache
+* Système de modules plus sécurisé (évite les failles de sécurité courantes d'Apache)
+
+<mark style="color:green;">**Sécurité des uploads HTTP**</mark>
+
+* Risque critique : empêcher l'upload et l'exécution de web shells par les utilisateurs
+* Nécessite une vigilance absolue (100% de certitude)
+
+<mark style="color:green;">**Comparaison Apache vs Nginx**</mark>
+
+* **Apache** : risque élevé car le module PHP exécute facilement tout fichier se terminant par `.php`
+* **Nginx** : configuration PHP beaucoup plus complexe, donc plus sécurisée par défaut
+* Nginx réduit le risque d'erreurs de configuration dangereuses
+
+**Avantage sécurité**
+
+* La complexité de configuration PHP sous Nginx devient un atout de sécurité
 
 <mark style="color:orange;">**Create a Directory to Handle Uploaded Files**</mark>
 
@@ -33,8 +46,6 @@ mrroboteLiot@htb[/htb]$ sudo chown -R www-data:www-data /var/www/uploads/SecretU
 <mark style="color:orange;">**Create Nginx Configuration File**</mark>
 
 Create the Nginx configuration file by creating the file `/etc/nginx/sites-available/upload.conf` with the contents:
-
-Catching Files over HTTP/S
 
 ```nginx
 server {
@@ -70,26 +81,18 @@ If we get any error messages, check `/var/log/nginx/error.log`. If using Pwnbox,
 {% code fullWidth="true" %}
 ```bash
 mrroboteLiot@htb[/htb]$ tail -2 /var/log/nginx/error.log
-
-2020/11/17 16:11:56 [emerg] 5679#5679: bind() to 0.0.0.0:`80` failed (98: A`ddress already in use`)
-2020/11/17 16:11:56 [emerg] 5679#5679: still could not bind()
 ```
 {% endcode %}
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
 mrroboteLiot@htb[/htb]$ ss -lnpt | grep 80
-
-LISTEN 0      100          0.0.0.0:80        0.0.0.0:*    users:(("python",pid=`2811`,fd=3),("python",pid=2070,fd=3),("python",pid=1968,fd=3),("python",pid=1856,fd=3))
 ```
 {% endcode %}
 
 {% code fullWidth="true" %}
 ```bash
 mrroboteLiot@htb[/htb]$ ps -ef | grep 2811
-
-user65      2811    1856  0 16:05 ?        00:00:04 `python -m websockify 80 localhost:5901 -D`
-root        6720    2226  0 16:14 pts/0    00:00:00 grep --color=auto 2811
 ```
 {% endcode %}
 

