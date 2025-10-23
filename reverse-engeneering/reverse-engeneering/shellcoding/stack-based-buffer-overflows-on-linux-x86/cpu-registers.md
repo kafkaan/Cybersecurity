@@ -123,7 +123,7 @@ bow64: ELF 64-bit LSB shared object
 #### <mark style="color:$success;">Code Assembleur 64-bit avec Commentaires :</mark>
 
 {% code fullWidth="true" %}
-```assembly
+```nasm
 student@nix-bow:~$ gdb -q bow64
 (gdb) disas main
 
@@ -254,7 +254,7 @@ Pendant les opérations de chargement et de sauvegarde dans les registres et mé
 
 **Big-endian** et **little-endian** concernent l'ordre de valence. En **big-endian**, les chiffres avec la plus haute valence sont au début. En **little-endian**, les chiffres avec la plus faible valence sont au début.
 
-#### Exemple Pratique d'Endianness :
+#### <mark style="color:green;">Exemple Pratique d'Endianness :</mark>
 
 **Adresse :** `0xffff0000`\
 **Mot :** `\xAA\xBB\xCC\xDD`
@@ -264,7 +264,7 @@ Pendant les opérations de chargement et de sauvegarde dans les registres et mé
 | **Big-Endian**    | AA         | BB         | CC         | DD         |
 | **Little-Endian** | DD         | CC         | BB         | AA         |
 
-#### Importance pour l'Exploitation :
+#### <mark style="color:green;">Importance pour l'Exploitation :</mark>
 
 Ceci est **très important** pour nous permettre d'entrer notre code dans le bon ordre plus tard lorsque nous devons dire au CPU vers quelle adresse il doit pointer. En architecture x86, le format **little-endian** est utilisé, ce qui signifie que :
 
@@ -282,5 +282,3 @@ Ceci est **très important** pour nous permettre d'entrer notre code dans le bon
 4. **Instruction CALL** : Point d'entrée critique pour les exploitations
 5. **Endianness** : Format little-endian en x86 - les adresses sont inversées
 6. **Différences 32/64-bit** : Taille des registres et instructions différentes
-
-Cette compréhension des registres et du fonctionnement de la pile est fondamentale pour comprendre comment fonctionnent les débordements de tampons et comment les exploiter.

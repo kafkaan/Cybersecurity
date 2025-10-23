@@ -4,7 +4,9 @@
 
 ***
 
-Lorsque l’on compile un programme C/C++ sous Linux, le résultat est un fichier ELF (Executable and Linkable Format). Ce format contient des métadonnées décrivant l’architecture (32 bits vs 64 bits), le type de liaison (dynamique vs statique), le chemin de l’interpréteur, etc. Par exemple, la commande file appliquée à un exécutable 64 bits affiche quelque chose comme :
+Lorsque l’on compile un programme C/C++ sous Linux, le résultat est un fichier ELF (Executable and Linkable Format).
+
+Ce format contient des métadonnées décrivant l’architecture (32 bits vs 64 bits), le type de liaison (dynamique vs statique), le chemin de l’interpréteur, etc. Par exemple, la commande file appliquée à un exécutable 64 bits affiche quelque chose comme :
 
 ```bash
 $ file hello
@@ -19,9 +21,11 @@ Cet exemple indique que l’exécutable&#x20;
 
 En pratique, file est très utile pour connaître l’architecture du binaire (x86 vs ARM, 32 vs 64 bits), le bitness (LSB/MSB), le type de liaison et si les symboles de débogage sont présents ou non.
 
-<mark style="color:green;">**Architecture 32-bit vs 64-bit**</mark>**&#x20;:** sans option particulière du compilateur, un système x86\_64 produira par défaut un ELF 64 bits (x86-64). Avec l’option `-m32` on peut obtenir un binaire 32 bits (x86).
+<mark style="color:green;">**Architecture 32-bit vs 64-bit**</mark>&#x20;
 
-**Liaison statique vs dynamique :**&#x20;
+* Sans option particulière du compilateur, un système x86\_64 produira par défaut un ELF 64 bits (x86-64). Avec l’option `-m32` on peut obtenir un binaire 32 bits (x86).
+
+<mark style="color:green;">**Liaison statique vs dynamique :**</mark>&#x20;
 
 * La liaison statique intègre le code des bibliothèques directement dans l’exécutable lors de la compilation, ce qui produit un fichier plus volumineux mais indépendant des bibliothèques externes .&#x20;
 * La liaison dynamique (le plus courant sous Linux) laisse le code des bibliothèques partagées ( .so ) séparé : l’exécutable contient un petit stub de démarrage qui charge ces bibliothèques au lancement. Cela garde les fichiers plus petits et partage les bibliothèques en mémoire .&#x20;
@@ -31,7 +35,7 @@ En pratique, file est très utile pour connaître l’architecture du binaire (x
 
 * dépouiller (`strip`) un binaire signifie enlever les symboles de débogage et les noms de fonctions, ce qui réduit la taille mais complique l’analyse. Un binaire non dépouillé contiendra ses symboles (utile au débogage). Dans notre exemple, file mentionne « not stripped » pour signifier que les symboles sont présents .
 
-**Pour inspecter un binaire plus en profondeur, on peut utiliser**&#x20;
+<mark style="color:green;">**Pour inspecter un binaire plus en profondeur, on peut utiliser**</mark>&#x20;
 
 * `readelf` ou `objdump` (par exemple `readelf -h prog` pour l’en-tête ELF
 * `readelf -l prog` pour les segments
@@ -53,6 +57,8 @@ Lors de la compilation, on peut activer diverses protections pour limiter les ri
 * En pratique, on active cela avec l’option GCC `-fstack-protector` ou `-fstack-protector-all`.
 * La présence de canaries se traduit dans `checksec` par « Canary found » ou similaire .
 
+***
+
 #### <mark style="color:green;">NX (Non-Executable Stack ou DEP)</mark>
 
 * L’option NX (No-eXecute) interdit l’exécution de code dans certaines zones mémoire marquées en écriture (typiquement la pile).
@@ -68,6 +74,8 @@ Lors de la compilation, on peut activer diverses protections pour limiter les ri
 * Sous Linux on peut la désactiver avec `-z execstack`.
 * Le résultat est souvent résumé dans `checksec`: « NX enabled » si la pile est non exécutable .
 
+***
+
 #### <mark style="color:green;">PIE (Position Independent Executable)</mark>
 
 * Un exécutable PIE est lié de façon position-indépendante, ce qui permet au chargeur de l’OS de le placer à une adresse différente à chaque exécution (comme pour une bibliothèque partagée).
@@ -77,6 +85,8 @@ Lors de la compilation, on peut activer diverses protections pour limiter les ri
 * Par exemple, un exécutable compilé sans PIE apparaîtra dans file comme « not stripped, no PIE » tandis qu’un binaire PIE indiquera « pie executable » .
 * Comme le note la documentation, sans PIE même avec ASLR le code reste à une adresse fixe , d’où l’intérêt de PIE pour la sécurité.
 
+***
+
 #### <mark style="color:green;">RELRO (Relocation Read-Only)</mark>
 
 * Lorsqu’un programme utilise la liaison dynamique, il crée notamment une Global Offset Table (GOT) pour les appels aux fonctions externes.
@@ -85,6 +95,8 @@ Lors de la compilation, on peut activer diverses protections pour limiter les ri
   * **Partial RELRO** (par défaut souvent sur un binaire simple) bloque en lecture seule la plupart des sections après chargement, mais laisse l’initialisation différée possible.
   * **Full RELRO** (activé avec `-Wl,-z,relro,-z,now`) interdit tout lien tardif et verrouille complètement la GOT.
 * `checksec` affichera « Partial RELRO » ou « Full RELRO » .
+
+***
 
 #### <mark style="color:green;">\_FORTIFY\_SOURCE</mark>
 

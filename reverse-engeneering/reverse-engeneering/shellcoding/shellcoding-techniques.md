@@ -4,10 +4,10 @@
 
 ### <mark style="color:blue;">✅ Exigences du Shellcoding</mark>
 
+{% hint style="info" %}
 Comme nous l'avons brièvement mentionné dans la section précédente, tous les binaires ne produisent pas des shellcodes valides pouvant être directement chargés en mémoire et exécutés.\
 C’est parce qu’un shellcode doit répondre à certaines **exigences spécifiques**, sinon il ne sera pas désassemblé correctement à l’exécution.
-
-Pour mieux comprendre, essayons de désassembler le shellcode extrait dans la section précédente à partir du programme Hello World, en utilisant `pwn disasm` :
+{% endhint %}
 
 ```bash
 $ pwn disasm '48be0020400000000000bf01000000ba12000000b8010000000f05b83c000000bf000000000f05' -c 'amd64'
@@ -15,6 +15,7 @@ $ pwn disasm '48be0020400000000000bf01000000ba12000000b8010000000f05b83c000000bf
 
 Résultat :
 
+{% code fullWidth="true" %}
 ```nasm
 0:  48 be 00 20 40 00 00     movabs rsi,  0x402000
 7:  00 00 00
@@ -26,11 +27,13 @@ f:  ba 12 00 00 00           mov    edx,  0x12
 20: bf 00 00 00 00           mov    edi,  0x0
 25: 0f 05                    syscall
 ```
+{% endcode %}
 
-On voit que les instructions sont relativement similaires au code Hello World précédent, mais **pas identiques**.\
-On remarque une **ligne vide** qui pourrait casser le code.\
-La chaîne Hello World n’apparaît nulle part.\
-Et on voit aussi **beaucoup de 00 rouges**, on va y revenir.
+On voit que les instructions sont relativement similaires au code Hello World précédent, mais **pas identiques**.
+
+* On remarque une **ligne vide** qui pourrait casser le code.
+* La chaîne Hello World n’apparaît nulle part.
+* Et on voit aussi **beaucoup de 00 rouges**, on va y revenir.
 
 C’est ce qui se passe quand le code assembleur **ne respecte pas les exigences du shellcoding**.
 
@@ -275,13 +278,9 @@ print("%d bytes - Found NULL byte" % len(shellcode)) if [i for i in shellcode if
 ```
 {% endcode %}
 
-Lance :
-
 ```bash
 python3 shellcoder.py helloworld
 ```
-
-Résultat :
 
 ```
 4831db66bb79215348bb422041636164656d5348bb48656c6c6f204854534889e64831c0b0014831ff40b7014831d2b2120f054831c0043c4030ff0f05  
@@ -303,7 +302,5 @@ Résultat :
 ```
 Hello HTB Academy!
 ```
-
-🎉 Tu viens d’écrire, purifier, extraire et exécuter un shellcode totalement propre.
 
 ***

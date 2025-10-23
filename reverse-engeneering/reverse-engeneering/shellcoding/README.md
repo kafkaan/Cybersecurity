@@ -4,11 +4,9 @@
 
 ### <mark style="color:blue;">Qu’est-ce qu’un Shellcode ?</mark>
 
-Nous savons que chaque binaire exécutable est composé d’instructions machines écrites en assembleur, puis assemblées en code machine.\
 Un **shellcode** est <mark style="color:orange;">**la représentation hexadécimale du code machine exécutable d’un binaire**</mark><mark style="color:orange;">.</mark>
 
-Par exemple, prenons notre programme Hello World, qui exécute les instructions suivantes :
-
+{% code fullWidth="true" %}
 ```nasm
 global _start
 
@@ -27,8 +25,9 @@ _start:
     mov rdi, 0
     syscall
 ```
+{% endcode %}
 
-Comme nous l’avons vu dans la première section, ce programme assemble le shellcode suivant :
+Cela nous donne
 
 ```shell
 48be0020400000000000bf01000000ba12000000b8010000000f05b83c000000bf000000000f05
@@ -42,10 +41,11 @@ Ce shellcode représente correctement les instructions machines, et si on le cha
 
 :syringe: Pouvoir **injecter un shellcode directement dans la mémoire du processeur** et le faire exécuter joue un rôle essentiel dans l’**exploitation binaire**.
 
-Par exemple, avec un **buffer overflow**, on peut injecter un shellcode de **reverse shell**, le faire exécuter, et recevoir un shell distant.
+* Par exemple, avec un **buffer overflow**, on peut injecter un shellcode de **reverse shell**, le faire exécuter, et recevoir un shell distant.
 
-:unlock: Les systèmes modernes x86\_64 peuvent avoir des **protections contre le chargement de shellcode** en mémoire.\
-C’est pourquoi l’exploitation binaire en x86\_64 repose souvent sur le **ROP (Return Oriented Programming)**, qui nécessite aussi une **bonne compréhension du langage assembleur et de l’architecture machine**.
+:unlock: Les systèmes modernes x86\_64 peuvent avoir des **protections contre le chargement de shellcode** en mémoire.
+
+* C’est pourquoi l’exploitation binaire en x86\_64 repose souvent sur le **ROP (Return Oriented Programming)**, qui nécessite aussi une **bonne compréhension du langage assembleur et de l’architecture machine**.
 
 {% hint style="info" %}
 <mark style="color:green;">**📌 C’est quoi concrètement le ROP ?**</mark>
@@ -54,7 +54,7 @@ Le ROP consiste à **réutiliser du code existant** déjà présent dans le bina
 
 ***
 
-**🧱 Comment ça marche ?**
+<mark style="color:green;">**🧱 Comment ça marche ?**</mark>
 
 1. Le programme a une **vulnérabilité de type "buffer overflow"** (ex. : dépassement de tampon sur la pile).
 2. Au lieu d’écrire un shellcode dans la pile (ce qui est souvent bloqué), l’attaquant :
@@ -66,7 +66,7 @@ Le ROP consiste à **réutiliser du code existant** déjà présent dans le bina
 
 ***
 
-**🛠 Exemple très simple**
+<mark style="color:green;">**🛠 Exemple très simple**</mark>
 
 Imaginons qu'on a ces gadgets disponibles :
 
@@ -91,8 +91,6 @@ D'autres techniques d'attaque consistent à **infecter des exécutables existant
 
 ### <mark style="color:blue;">🧬 De l’assembleur au code machine</mark>
 
-Pour comprendre comment sont générés les shellcodes, il faut d’abord comprendre **comment chaque instruction est convertie en code machine**.
-
 Chaque **instruction x86 et chaque registre** a son propre code binaire machine (représenté en hex), transmis directement au processeur pour lui dire quoi exécuter.
 
 Exemples :
@@ -102,11 +100,7 @@ Exemples :
 
 Quand on assemble notre code avec `nasm`, il **convertit les instructions en code machine**.
 
-Rappel : le langage assembleur est fait pour être **lisible par les humains**, **le processeur ne le comprend pas** tant qu’il n’est pas converti.
-
 Nous allons utiliser **pwntools** pour assembler/désassembler du code, un outil essentiel en exploitation binaire.
-
-Installez pwntools (si ce n’est pas déjà fait) :
 
 ```bash
 sudo pip3 install pwntools
@@ -118,8 +112,6 @@ sudo pip3 install pwntools
 pwn asm 'push rax' -c 'amd64'
 ```
 
-Résultat :
-
 ```bash
 0:  50   push eax
 ```
@@ -129,8 +121,6 @@ Résultat :
 ```bash
 pwn disasm '50' -c 'amd64'
 ```
-
-Résultat :
 
 ```bash
 0:  50   push eax
@@ -154,8 +144,6 @@ file = ELF('helloworld')
 file.section(".text").hex()
 ```
 
-Résultat :
-
 ```shell
 48be0020400000000000bf01000000ba12000000b8010000000f05b83c000000bf000000000f05
 ```
@@ -174,8 +162,6 @@ file = ELF(sys.argv[1])
 shellcode = file.section(".text")
 print(shellcode.hex())
 ```
-
-Utilisation :
 
 ```bash
 python3 shellcoder.py helloworld
@@ -266,13 +252,13 @@ Lancer via pwntools :
 python3
 ```
 
+{% code fullWidth="true" %}
 ```python
 from pwn import *
 context(os="linux", arch="amd64", log_level="error")
-run_shellcode(unhex('4831db66bb79215348bb422041636164656d5348bb48656c6c6f204854534889e64831c0b0014831ff40b7014831d2b2120f054831c0043c4030ff0f05')).interactive()
+run_shellcode(unhex('4831db66bb79...c4030ff0f05')).interactive()
 ```
-
-Résultat :
+{% endcode %}
 
 ```
 Hello HTB Academy!
@@ -280,14 +266,17 @@ Hello HTB Academy!
 
 Tester un shellcode **non conforme** :
 
+{% code fullWidth="true" %}
 ```python
-run_shellcode(unhex('b801000000bf0100000048be0020400000000000ba120000000f05b83c000000bf000000000f05')).interactive()
+run_shellcode(unhex('b801000000bf0100000048..0000000f05b83c000000bf000000000f05')).interactive()
 ```
+{% endcode %}
 
 ***
 
 #### <mark style="color:green;">Script Python</mark> <mark style="color:green;"></mark><mark style="color:green;">`loader.py`</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
+{% code fullWidth="true" %}
 ```python
 #!/usr/bin/python3
 
@@ -298,6 +287,7 @@ context(os="linux", arch="amd64", log_level="error")
 
 run_shellcode(unhex(sys.argv[1])).interactive()
 ```
+{% endcode %}
 
 Utilisation :
 
