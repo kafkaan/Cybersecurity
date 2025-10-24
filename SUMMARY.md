@@ -56,8 +56,8 @@
 
 * [Shells And Payloads](shells-and-payloads/shells-and-payloads/README.md)
   * [Bind Shells](shells-and-payloads/shells-and-payloads/bind-shells.md)
-  * [Reverse Shells ( Windows)](shells-and-payloads/shells-and-payloads/reverse-shells-windows.md)
-  * [Introduction to Payloads ( Linux + Windwos)](shells-and-payloads/shells-and-payloads/introduction-to-payloads-linux-+-windwos.md)
+  * [Reverse Shells](shells-and-payloads/shells-and-payloads/reverse-shells.md)
+  * [Introduction to Payloads](shells-and-payloads/shells-and-payloads/introduction-to-payloads.md)
   * [Automating Payloads & Delivery with Metasploit](shells-and-payloads/shells-and-payloads/automating-payloads-and-delivery-with-metasploit.md)
   * [Crafting Payloads with MSFvenom](shells-and-payloads/shells-and-payloads/crafting-payloads-with-msfvenom.md)
   * [Infiltrating Windows](shells-and-payloads/shells-and-payloads/infiltrating-windows.md)

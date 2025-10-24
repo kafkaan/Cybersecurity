@@ -8,19 +8,7 @@ description: https://medium.com/@ahmadallobani232/the-live-engagement-70c845bdb5
 
 Chaque système d’exploitation possède un shell, et pour interagir avec lui, nous devons utiliser une application appelée émulateur de terminal. Voici quelques-uns des émulateurs de terminal les plus courants&#x20;
 
-| **Terminal Emulator**                                          | **Operating System**     |
-| -------------------------------------------------------------- | ------------------------ |
-| [Windows Terminal](https://github.com/microsoft/terminal)      | Windows                  |
-| [cmder](https://cmder.app)                                     | Windows                  |
-| [PuTTY](https://www.putty.org)                                 | Windows                  |
-| [kitty](https://sw.kovidgoyal.net/kitty/)                      | Windows, Linux and MacOS |
-| [Alacritty](https://github.com/alacritty/alacritty)            | Windows, Linux and MacOS |
-| [xterm](https://invisible-island.net/xterm/)                   | Linux                    |
-| [GNOME Terminal](https://en.wikipedia.org/wiki/GNOME_Terminal) | Linux                    |
-| [MATE Terminal](https://github.com/mate-desktop/mate-terminal) | Linux                    |
-| [Konsole](https://konsole.kde.org)                             | Linux                    |
-| [Terminal](https://en.wikipedia.org/wiki/Terminal_\(macOS\))   | MacOS                    |
-| [iTerm2](https://iterm2.com)                                   | MacOS                    |
+<table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Terminal Emulator</strong></td><td><strong>Operating System</strong></td></tr><tr><td><a href="https://github.com/microsoft/terminal">Windows Terminal</a></td><td>Windows</td></tr><tr><td><a href="https://cmder.app">cmder</a></td><td>Windows</td></tr><tr><td><a href="https://www.putty.org">PuTTY</a></td><td>Windows</td></tr><tr><td><a href="https://sw.kovidgoyal.net/kitty/">kitty</a></td><td>Windows, Linux and MacOS</td></tr><tr><td><a href="https://github.com/alacritty/alacritty">Alacritty</a></td><td>Windows, Linux and MacOS</td></tr><tr><td><a href="https://invisible-island.net/xterm/">xterm</a></td><td>Linux</td></tr><tr><td><a href="https://en.wikipedia.org/wiki/GNOME_Terminal">GNOME Terminal</a></td><td>Linux</td></tr><tr><td><a href="https://github.com/mate-desktop/mate-terminal">MATE Terminal</a></td><td>Linux</td></tr><tr><td><a href="https://konsole.kde.org">Konsole</a></td><td>Linux</td></tr><tr><td><a href="https://en.wikipedia.org/wiki/Terminal_(macOS)">Terminal</a></td><td>MacOS</td></tr><tr><td><a href="https://iterm2.com">iTerm2</a></td><td>MacOS</td></tr></tbody></table>
 
 ***
 
@@ -42,7 +30,7 @@ Un interprète de langage de commande est un programme qui :
 2. **Émulateur de terminal** : Un programme simulant un terminal physique.
 3. **Interprète de commandes (shell)** : Traduit et exécute les commandes utilisateur.
 
-#### Importance de connaître l'interprète utilisé
+#### <mark style="color:green;">Importance de connaître l'interprète utilisé</mark>
 
 Chaque interprète (comme Bash, PowerShell, Zsh) a ses propres commandes et syntaxe. Identifier l'interprète permet de :
 
@@ -62,7 +50,7 @@ Chaque interprète (comme Bash, PowerShell, Zsh) a ses propres commandes et synt
    * Un **`$`** indique que Bash ou un shell similaire est utilisé.
    * Si une commande inconnue est tapée, le shell renvoie une erreur, par exemple : « Command not found ».
 
-#### **Validation de l'interprète en cours**
+#### <mark style="color:green;">Validation de l'interprète en cours</mark>
 
 1.  **Commande `ps` :** Liste les processus actifs.
 
@@ -127,4 +115,3 @@ Programme qui :
 | **Prompt**      | `$`                             | `PS>`                                      |
 
 ***
-

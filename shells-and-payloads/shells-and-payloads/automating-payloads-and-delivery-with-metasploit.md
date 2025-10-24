@@ -23,7 +23,7 @@ In this case, we will be using enumeration results from a `nmap` scan to pick a 
 
 {% code fullWidth="true" %}
 ```bash
-mrroboteLiot@htb[/htb]$ nmap -sC -sV -Pn 10.129.164.25
+nmap -sC -sV -Pn 10.129.164.25
 
 Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times will be slower.
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-09-09 21:03 UTC
@@ -50,10 +50,6 @@ Host script results:
 ```
 {% endcode %}
 
-In the output, we see several standard ports that are typically open on a Windows system by default. Remember that scanning and enumeration is an excellent way to know what OS (Windows or Linux) our target is running to find an appropriate module to run with Metasploit. Let's go with `SMB` (listening on `445`) as the potential attack vector.
-
-Once we have this information, we can use Metasploit's search functionality to discover modules that are associated with SMB. In the `msfconsole`, we can issue the command `search smb` to get a list of modules associated with SMB vulnerabilities:
-
 <mark style="color:green;">**Searching Within Metasploit**</mark>
 
 {% code fullWidth="true" %}
@@ -62,17 +58,12 @@ msf6 > search smb
 ```
 {% endcode %}
 
-We will see a long list of `Matching Modules` associated with our search. Notice the format each module is in. Each module has a number listed on the far left of the table to make selecting the module easier, a `Name`, `Disclosure Date`, `Rank`, `Check` and `Description`.
-
-The number to the \`left\` of each potential module is a relative number based on your search that may change as modules are added to Metasploit. Don't expect this number to match every time you perform the search or attempt to use the module.
-
-Let's look at one module, in particular, to understand it within the context of payloads.
-
-`56 exploit/windows/smb/psexec`
+* Après une recherche dans Metasploit, on obtient une **liste de modules correspondants**.
+* Chaque module est affiché avec : un **numéro** à gauche (facilitant la sélection), un **nom**, une **date de divulgation**, un **rank**, un **check**, et une **description**.
+* Le numéro à gauche est **relatif à la recherche** et peut changer si de nouveaux modules sont ajoutés ; il n’est pas fixe.
+* Exemple concret : le module `56 exploit/windows/smb/psexec` peut être sélectionné et utilisé avec différents **payloads** pour l’exploitation.
 
 <table data-full-width="true"><thead><tr><th>Output</th><th>Meaning</th></tr></thead><tbody><tr><td><code>56</code></td><td>The number assigned to the module in the table within the context of the search. This number makes it easier to select. We can use the command <code>use 56</code> to select the module.</td></tr><tr><td><code>exploit/</code></td><td>This defines the type of module. In this case, this is an exploit module. Many exploit modules in MSF include the payload that attempts to establish a shell session.</td></tr><tr><td><code>windows/</code></td><td>This defines the platform we are targeting. In this case, we know the target is Windows, so the exploit and payload will be for Windows.</td></tr><tr><td><code>smb/</code></td><td>This defines the service for which the payload in the module is written.</td></tr><tr><td><code>psexec</code></td><td>This defines the tool that will get uploaded to the target system if it is vulnerable.</td></tr></tbody></table>
-
-Once we select the module, we will notice a change in the prompt that gives us the ability to configure the module based on parameters specific to our environment.
 
 <mark style="color:orange;">**Option Selection**</mark>
 
