@@ -447,3 +447,7 @@
 ## 💻 LDAP INJECTION
 
 * [LDAP Injection & Blind LDAP Injection](ldap-injection/ldap-injection-and-blind-ldap-injection.md)
+
+***
+
+* [PYTHON](python.md)
