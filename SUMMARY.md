@@ -426,7 +426,8 @@
   * [STRACE](linux-privilege-escalation/various-techniques/strace.md)
   * [IPA](linux-privilege-escalation/various-techniques/ipa.md)
   * [SIGNED BINARY EXPLOIT](linux-privilege-escalation/various-techniques/signed-binary-exploit.md)
-  * [EMPTY ENV VARIABLES AND LIBRARY HIJACKING](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking.md)
+  * [EMPTY ENV VARIABLES AND LIBRARY HIJACKING](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/README.md)
+    * [CVE-2024-48990-PoC](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/cve-2024-48990-poc.md)
 
 ## CYPHER INJECTION
 
