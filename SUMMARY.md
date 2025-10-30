@@ -295,6 +295,7 @@
   * [Verb Tampering Prevention](web-attacks/web-attacks/verb-tampering-prevention.md)
   * [Insecure Direct Object References (IDOR)](web-attacks/web-attacks/insecure-direct-object-references-idor.md)
   * [XXE](web-attacks/web-attacks/xxe.md)
+  * [XSLT INJECTION](web-attacks/web-attacks/xslt-injection.md)
   * [Log4J Exploit](web-attacks/web-attacks/log4j-exploit.md)
 
 ## 🪟 Windows Privilege Escalation
