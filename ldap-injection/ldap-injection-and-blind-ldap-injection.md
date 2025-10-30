@@ -1,5 +1,9 @@
 # LDAP Injection & Blind LDAP Injection
 
+{% embed url="https://1165982130-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F2Et8P5OeWSCJodZ98ujw%2Fuploads%2Fqn0nAlkDg4SFqOyvAkJX%2FEN-Blackhat-Europe-2008-LDAP-Injection-Blind-LDAP-Injection.pdf?alt=media&token=a203fef1-c459-410c-a6f8-88557b75283a" %}
+
+{% embed url="https://www.aptive.co.uk/blog/what-is-ldap-injection/" %}
+
 ## <mark style="color:red;">LDAP Injection & Blind LDAP Injection</mark>
 
 ### <mark style="color:blue;">📋 Introduction</mark>

@@ -1,6 +1,6 @@
 # Reversing C++
 
-## <mark style="color:$danger;">Manual Approach</mark>
+## <mark style="color:red;">Manual Approach</mark>
 
 ### <mark style="color:blue;">Identifying C++ Binaries and Constructs</mark>
 
@@ -8,7 +8,7 @@ Quand on fait du **reverse engineering** (analyse inverse) sur un programme comp
 
 ***
 
-#### <mark style="color:$success;">**1. Utilisation fréquente de**</mark><mark style="color:$success;">**&#x20;**</mark><mark style="color:$success;">**`ecx`**</mark><mark style="color:$success;">**&#x20;**</mark><mark style="color:$success;">**(pointeur**</mark><mark style="color:$success;">**&#x20;**</mark><mark style="color:$success;">**`this`**</mark><mark style="color:$success;">**) :**</mark>
+#### <mark style="color:green;">1. Utilisation fréquente de</mark> <mark style="color:green;"></mark><mark style="color:green;">`ecx`</mark> <mark style="color:green;"></mark><mark style="color:green;">(pointeur</mark> <mark style="color:green;"></mark><mark style="color:green;">`this`</mark><mark style="color:green;">) :</mark>
 
 En C++, les **fonctions membres des classes** utilisent un pointeur spécial appelé `this` pour accéder aux données de l’objet courant. En assembleur, ce pointeur est souvent stocké dans le registre `ecx`.
 
@@ -103,7 +103,9 @@ Pour comprendre quelle fonction est appelée, il faut retrouver la vtable associ
 En C++, une **fonction virtuelle** est une fonction qui peut être **redéfinie** dans une classe dérivée (héritage).\
 Elle permet d’avoir un **comportement différent selon le type réel de l’objet** utilisé, même si on le manipule via un pointeur ou une référence vers la classe de base.
 
-#### 📌 Exemple en C++ :
+
+
+<mark style="color:green;">**📌 Exemple en C++ :**</mark>
 
 ```cpp
 class Animal {
