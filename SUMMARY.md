@@ -348,6 +348,7 @@
   * [Additional Techniques](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/README.md)
     * [Interacting with Users](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/interacting-with-users/README.md)
       * [SCF on a File Share](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/interacting-with-users/scf-on-a-file-share.md)
+      * [Malicious ODF File](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/interacting-with-users/malicious-odf-file.md)
     * [Pillaging](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/pillaging/README.md)
       * [Abusing Cookies to Get Access to IM Clients](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/pillaging/abusing-cookies-to-get-access-to-im-clients.md)
       * [Installed Applications / mRemoteNG](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/pillaging/installed-applications-mremoteng.md)

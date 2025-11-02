@@ -1010,11 +1010,3 @@ def expensive_computation(n):
 ```
 
 ***
-
-### 🎓 Ressources pour approfondir
-
-1. **Python Docs** : https://docs.python.org/3/
-2. **Real Python** : https://realpython.com/
-3. **Awesome Python** : https://awesome-python.com/
-4. **Python Security** : https://bandit.readthedocs.io/
-5. **Asyncio Docs** : https://docs.python.org/3/library/asyncio.html
