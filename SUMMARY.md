@@ -437,6 +437,7 @@
   * [SIGNED BINARY EXPLOIT](linux-privilege-escalation/various-techniques/signed-binary-exploit.md)
   * [EMPTY ENV VARIABLES AND LIBRARY HIJACKING](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/README.md)
     * [CVE-2024-48990-PoC](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/cve-2024-48990-poc.md)
+  * [Terraform](linux-privilege-escalation/various-techniques/terraform.md)
 
 ## CYPHER INJECTION
 
