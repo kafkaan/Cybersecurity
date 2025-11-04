@@ -300,6 +300,8 @@
   * [XXE](web-attacks/web-attacks/xxe.md)
   * [XSLT INJECTION](web-attacks/web-attacks/xslt-injection.md)
   * [Log4J Exploit](web-attacks/web-attacks/log4j-exploit.md)
+  * [Next.Js CVE](web-attacks/web-attacks/next.js-cve.md)
+  * [Next.Js LFI](web-attacks/web-attacks/next.js-lfi.md)
 
 ## 🪟 Windows Privilege Escalation
 
