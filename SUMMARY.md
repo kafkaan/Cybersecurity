@@ -302,6 +302,8 @@
   * [Log4J Exploit](web-attacks/web-attacks/log4j-exploit.md)
   * [Next.Js CVE](web-attacks/web-attacks/next.js-cve.md)
   * [Next.Js LFI](web-attacks/web-attacks/next.js-lfi.md)
+  * [Server-Side Template Injection (SSTI)](web-attacks/web-attacks/server-side-template-injection-ssti.md)
+  * [Django Cache Poisoning](web-attacks/web-attacks/django-cache-poisoning.md)
 
 ## 🪟 Windows Privilege Escalation
 
