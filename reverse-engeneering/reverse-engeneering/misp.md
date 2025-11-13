@@ -22,7 +22,7 @@ Ce document explique comment exploiter une vulnérabilité de débordement de ta
 
 ### <mark style="color:blue;">2. Configuration du Débogage</mark>
 
-#### Compilation croisée de GDBServer
+#### <mark style="color:green;">Compilation croisée de GDBServer</mark>
 
 ```bash
 # Télécharger GDB
@@ -47,7 +47,7 @@ attach <pid_httpd>
 
 ### <mark style="color:blue;">3. Analyse du Débordement</mark>
 
-#### Registres MIPS importants
+#### <mark style="color:green;">Registres MIPS importants</mark>
 
 * **$ra** : Adresse de retour (équivalent EIP sur x86)
 * **$s0-$s7** : Registres sauvegardés
@@ -70,7 +70,7 @@ Utilisation des outils Metasploit :
 
 ### <mark style="color:blue;">4. Problèmes Spécifiques MIPS</mark>
 
-#### Cache Incoherency
+#### <mark style="color:green;">Cache Incoherency</mark>
 
 **Problème** : Instructions décodées dans le cache de données mais processeur lit les anciennes instructions du cache d'instructions.
 
@@ -80,7 +80,7 @@ Utilisation des outils Metasploit :
 
 ### <mark style="color:blue;">5. Contournement de l'ASLR avec ROP</mark>
 
-#### Stratégie ROP (Return-Oriented Programming)
+#### <mark style="color:green;">Stratégie ROP (Return-Oriented Programming)</mark>
 
 Chaînage de 4 gadgets ROP :
 
@@ -89,7 +89,7 @@ Chaînage de 4 gadgets ROP :
 3. **Gadget 3** : Sauvegarder l'adresse de la pile dans un registre
 4. **Gadget 4** : Sauter à l'emplacement du shellcode
 
-#### Recherche de gadgets
+#### <mark style="color:green;">Recherche de gadgets</mark>
 
 Plugin IDA de Craig Heffner :
 
@@ -105,7 +105,7 @@ mipsrop.stackfinders()
 
 **Base LibC** : `0x2b259000`
 
-#### Adresses des gadgets
+#### <mark style="color:green;">Adresses des gadgets</mark>
 
 ```
 1er ROP Gadget ($ra) = 0x2B2AA1C8
@@ -139,7 +139,7 @@ Shellcode reverse shell encodé
 
 ### <mark style="color:blue;">8. Encodage du Shellcode</mark>
 
-#### Caractères interdits
+#### <mark style="color:green;">Caractères interdits</mark>
 
 `0x20 0x00 0x3a 0x0a 0x3f`
 

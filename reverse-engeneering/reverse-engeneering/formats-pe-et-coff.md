@@ -18,7 +18,7 @@ Un fichier PE/COFF contient plusieurs en-têtes et sections décrivant comment l
   * Le linker a **assemblé** toutes les pièces `.obj`, a **résolu** les références (trouvé les boulons), a ajouté de l’info pour le garage (le système Windows) pour savoir comment démarrer et charger la voiture.
   * Contient des tables comme : qui importe quelles fonctions d’autres DLL, où commence l’exécution, etc.
 
-<mark style="color:green;">En une phrase</mark>
+<mark style="color:green;">**En une phrase**</mark>
 
 * **COFF (.obj)** = format pour les **pièces** (travail du compilateur).
 * **PE (.exe/.dll)** = format pour la **voiture finie** (sortie du linker, utilisée par Windows).
@@ -27,10 +27,14 @@ Un fichier PE/COFF contient plusieurs en-têtes et sections décrivant comment l
 
 ### <mark style="color:blue;">1. Définition des formats PE et COFF</mark>
 
-* **PE (Portable Executable)** : format d’**image exécutable** Windows. Utilisé pour les applications (EXE), bibliothèques dynamiques (DLL), pilotes (SYS), etc. C’est un format dit « image » car le binaire est chargé en mémoire comme une image continue. Le nom « Portable Executable » souligne l’indépendance d’architecture (le même format gère x86, x64, ARM, etc.).
-* **COFF (Common Object File Format)** : format d’**objet** produit par les compilateurs/assembleurs. Un fichier .obj (ou .lib) contient des sections de code/données, des symboles et des informations de relocation. Il sert d’entrée au _linker_ (éditeur de liens) pour construire l’image finale. Ce n’est pas nécessairement lié à la programmation orientée objet.
+* **PE (Portable Executable)** : format d’**image exécutable** Windows. Utilisé pour les applications (EXE), bibliothèques dynamiques (DLL), pilotes (SYS), etc.&#x20;
+  * &#x20;C’est un format dit « image » car le binaire est chargé en mémoire comme une image continue.&#x20;
+  * Le nom « Portable Executable » souligne l’indépendance d’architecture (le même format gère x86, x64, ARM, etc.).
+* **COFF (Common Object File Format)** : format d’**objet** produit par les compilateurs/assembleurs.
+  * &#x20;Un fichier .obj (ou .lib) contient des sections de code/données, des symboles et des informations de relocation.&#x20;
+  * Il sert d’entrée au _linker_ (éditeur de liens) pour construire l’image finale. Ce n’est pas nécessairement lié à la programmation orientée objet.
 
-**Tableau 1 – Concepts clés** (issus de la spécification):
+<mark style="color:orange;">**Tableau 1 – Concepts clés**</mark> <mark style="color:orange;"></mark><mark style="color:orange;">(issus de la spécification):</mark>
 
 <table data-full-width="true"><thead><tr><th>Concept</th><th>Définition</th></tr></thead><tbody><tr><td><strong>RVA</strong></td><td>Relative Virtual Address. Adresse d’un élément après chargement en mémoire, relative à la base d’image. En pratique l’adresse virtuelle moins l’adresse de base. Diffère généralement de l’offset sur disque.</td></tr><tr><td><strong>VA</strong></td><td>Virtual Address. Adresse virtuelle réelle (RVA + base d’image). C’est l’adresse utilisée en mémoire.</td></tr><tr><td><strong>Section</strong></td><td>Unité de code ou de données du fichier. Ex : <code>.text</code> (code), <code>.data</code> (données initialisées), etc. Tout le contenu d’une section est contigu en mémoire.</td></tr><tr><td><strong>Objet (file)</strong></td><td>Fichier .obj donné en entrée au linker. Le linker lie plusieurs objets pour produire l’image PE finale.</td></tr></tbody></table>
 
@@ -47,7 +51,9 @@ Un fichier PE comprend plusieurs zones consécutives sur le disque (figure 1) :
 * **Table des sections** : liste des en-têtes de section (une entrée par section), qui décrit le nom, la taille et l’emplacement des données dans chaque section.
 * **Sections de données** : zones de code ou données réelles (.text, .data, .rdata, .rsrc, etc.), alignées selon _FileAlignment_ et _SectionAlignment_. Par exemple, les sections contiennent le code exécutable, les chaînes de caractères, les tables d’import/export, les ressources, les relocations, etc. Les sections peuvent avoir des flags (exécutable, lecture seule, données non-initialisées, etc.).
 
-Dans un fichier **COFF objet** (.obj), on trouve au lieu du DOS Stub et signature un en-tête COFF suivi directement de la table des sections. Les fichiers objets contiennent _COFF Symbol Table_ et _COFF Relocations_ (pour le linker) que l’on retrouve après les données de section.
+Dans un fichier **COFF objet** (.obj), on trouve au lieu du DOS Stub et signature un en-tête COFF suivi directement de la table des sections.&#x20;
+
+Les fichiers objets contiennent _COFF Symbol Table_ et _COFF Relocations_ (pour le linker) que l’on retrouve après les données de section.
 
 > **Figure 1 (exemple)** – Répartition typique d’un fichier PE :\
 > MS-DOS Header + Stub → Signature “PE\0\0” → En-tête COFF → En-tête optionnel → Table des sections → Données de sections (code, données, ressources, tables d’import/export, etc.).
@@ -71,30 +77,226 @@ Dans un fichier **COFF objet** (.obj), on trouve au lieu du DOS Stub et signatur
 
 ### <mark style="color:blue;">3. En-tête COFF (File Header)</mark>
 
-Juste après la signature PE (ou au début pour un .obj) se trouve l’**en-tête COFF**. Il fait 20 octets et comprend :
+***
 
-* **Machine** (2 octets) : identifie l’architecture cible (processeur). Par exemple, 0x14c = Intel i386, 0x8664 = AMD64, 0x1c0 = ARM, 0xaa64 = ARM64, etc.. On ne peut exécuter l’image que sur une machine compatible ou émulant ce type. Par exemple :
-  * IMAGE\_FILE\_MACHINE\_I386 (0x14c) : Intel 386 ou ultérieur (32‑bits).
-  * IMAGE\_FILE\_MACHINE\_AMD64 (0x8664) : x64 (Intel/AMD 64 bits).
-  * IMAGE\_FILE\_MACHINE\_ARM (0x1c0) et ARM64 (0xaa64) pour ARM.
-* **NumberOfSections** (2 octets) : nombre de sections définies dans la table des sections, après les headers.
-* **TimeDateStamp** (4 octets) : timestamp UNIX (sec depuis 1/1/1970) indiquant la date de création du fichier.
-* **PointerToSymbolTable** (4 octets) : offset dans le fichier vers la table des symboles COFF (pour un .obj) ou 0 si pas de symboles. En image PE, ce champ vaut zéro (les symboles COFF sont dépréciés).
-* **NumberOfSymbols** (4 octets) : nombre d’entrées dans la table de symboles. Permet de localiser la table de chaînes après. Vaut 0 pour les images PE.
-* **SizeOfOptionalHeader** (2 octets) : taille en octets de l’en-tête optionnel. Non nul pour PE (fixe selon PE32 ou PE32+), mais 0 pour les objets. Sert à calculer où commence la table des sections.
-* **Characteristics** (2 octets) : drapeaux décrivant les attributs du fichier. Quelques flags importants :
-  * `IMAGE_FILE_EXECUTABLE_IMAGE (0x0002)` : indique que c’est une image exécutable valide. S’il n’est pas mis, le linker signale une erreur.
-  * `IMAGE_FILE_DLL (0x2000)` : le fichier est une DLL.
-  * `IMAGE_FILE_RELOCS_STRIPPED (0x0001)` : pas de relocations embarquées – doit être chargé à l’adresse de base préférée, sinon échec.
-  * `IMAGE_FILE_LARGE_ADDRESS_AWARE (0x0020)` : l’application peut gérer des adresses >2 GB (utile en 32 bits).
+#### <mark style="color:green;">L'en-tête COFF (20 octets)</mark>
 
-> Les valeurs Machine et Characteristics sont définies par des constantes (par ex. `IMAGE_FILE_MACHINE_I386 = 0x14c`, `IMAGE_FILE_DLL = 0x2000`) que l’on retrouve dans les en-têtes d’inclusion Windows (WinNT.h).
+Juste après la signature PE (ou au début d'un fichier `.obj`), on trouve l'**en-tête COFF** qui fait **20 octets**.
+
+***
+
+#### <mark style="color:green;">📋 Structure complète (20 octets)</mark>
+
+```
+Offset  Taille  Champ
+──────────────────────────────────────
++0      2       Machine
++2      2       NumberOfSections
++4      4       TimeDateStamp
++8      4       PointerToSymbolTable
++12     4       NumberOfSymbols
++16     2       SizeOfOptionalHeader
++18     2       Characteristics
+```
+
+***
+
+#### <mark style="color:green;">🔧 Détail de chaque champ</mark>
+
+**1. Machine (2 octets)** - Quelle architecture ?
+
+Identifie le **type de processeur** requis.
+
+**Valeurs courantes :**
+
+| Valeur   | Constante                  | Architecture            |
+| -------- | -------------------------- | ----------------------- |
+| `0x014c` | `IMAGE_FILE_MACHINE_I386`  | Intel 386+ (32 bits)    |
+| `0x8664` | `IMAGE_FILE_MACHINE_AMD64` | x64 (64 bits Intel/AMD) |
+| `0x01c0` | `IMAGE_FILE_MACHINE_ARM`   | ARM 32 bits             |
+| `0xaa64` | `IMAGE_FILE_MACHINE_ARM64` | ARM 64 bits             |
+
+**Exemple :**
+
+```
+Si Machine = 0x014c
+→ Programme 32 bits pour Intel/AMD
+→ Ne peut PAS tourner sur ARM
+```
+
+***
+
+**2. NumberOfSections (2 octets)** - Combien de sections ?
+
+Nombre de **sections** dans le fichier (`.text`, `.data`, `.rdata`, etc.).
+
+**Exemple :**
+
+```
+NumberOfSections = 0x0005
+→ Le fichier contient 5 sections
+→ La table des sections aura 5 entrées
+```
+
+***
+
+**3. TimeDateStamp (4 octets)** - Quand a-t-il été compilé ?
+
+**Timestamp UNIX** : nombre de secondes depuis le 1er janvier 1970.
+
+**Exemple :**
+
+```
+TimeDateStamp = 0x654A2B3C
+→ Converti : 8 novembre 2023, 14:32:12
+→ Date de compilation du fichier
+```
+
+**Utilité :** Vérifier la version, détecter des modifications.
+
+***
+
+**4. PointerToSymbolTable (4 octets)** - Où sont les symboles de debug ?
+
+Offset vers la **table des symboles COFF** (pour les fichiers `.obj`).
+
+**Valeurs possibles :**
+
+| Valeur       | Signification                             |
+| ------------ | ----------------------------------------- |
+| `0x00000000` | Pas de symboles (fichier PE final)        |
+| `> 0`        | Offset vers les symboles (fichier `.obj`) |
+
+**Important :** Pour les `.exe`/`.dll` modernes, ce champ vaut **toujours 0** (les symboles COFF sont obsolètes, remplacés par les fichiers `.pdb`).
+
+***
+
+**5. NumberOfSymbols (4 octets)** - Combien de symboles ?
+
+Nombre d'entrées dans la table des symboles.
+
+**Valeurs possibles :**
+
+| Valeur | Signification                       |
+| ------ | ----------------------------------- |
+| `0`    | Pas de symboles (fichier PE final)  |
+| `> 0`  | Nombre de symboles (fichier `.obj`) |
+
+**Utilité :** Permet de calculer où se trouve la table des chaînes après les symboles.
+
+***
+
+**6. SizeOfOptionalHeader (2 octets)** - Taille de l'en-tête optionnel
+
+Taille en octets de **l'en-tête optionnel** qui suit l'en-tête COFF.
+
+**Valeurs courantes :**
+
+| Type de fichier | Taille                        |
+| --------------- | ----------------------------- |
+| Fichier `.obj`  | `0` (pas d'en-tête optionnel) |
+| PE32 (32 bits)  | `0x00E0` (224 octets)         |
+| PE32+ (64 bits) | `0x00F0` (240 octets)         |
+
+**Utilité :** Permet de calculer où commence la **table des sections** :
+
+```
+Début table sections = Fin en-tête COFF + SizeOfOptionalHeader
+```
+
+***
+
+**7. Characteristics (2 octets)** - Quelles sont ses caractéristiques ?
+
+**Drapeaux binaires** décrivant les propriétés du fichier.
+
+**Flags importants :**
+
+| Flag                             | Valeur   | Signification                                             |
+| -------------------------------- | -------- | --------------------------------------------------------- |
+| `IMAGE_FILE_EXECUTABLE_IMAGE`    | `0x0002` | ✅ C'est un exécutable valide                              |
+| `IMAGE_FILE_DLL`                 | `0x2000` | 📚 C'est une DLL                                          |
+| `IMAGE_FILE_RELOCS_STRIPPED`     | `0x0001` | ⚠️ Pas de relocations (doit être chargé à l'adresse fixe) |
+| `IMAGE_FILE_LARGE_ADDRESS_AWARE` | `0x0020` | 💾 Peut utiliser > 2 GB (en 32 bits)                      |
+
+**Exemple de décodage :**
+
+```
+Characteristics = 0x2022
+→ En binaire : 0010 0000 0010 0010
+
+Bits actifs :
+  Bit 1 (0x0002) : IMAGE_FILE_EXECUTABLE_IMAGE ✅
+  Bit 5 (0x0020) : IMAGE_FILE_LARGE_ADDRESS_AWARE ✅
+  Bit 13 (0x2000) : IMAGE_FILE_DLL ✅
+
+Conclusion : C'est une DLL exécutable qui peut gérer > 2 GB
+```
+
+***
+
+📊 Exemple concret avec un fichier réel
+
+Voici l'en-tête COFF d'un fichier `notepad.exe` (Windows 11, 64 bits) :
+
+```
+Offset   Octets              Champ                  Valeur décodée
+────────────────────────────────────────────────────────────────────
++0x00    64 86              Machine                0x8664 (AMD64)
++0x02    07 00              NumberOfSections       7 sections
++0x04    3C 2B 4A 65        TimeDateStamp          0x654A2B3C (8 nov 2023)
++0x08    00 00 00 00        PointerToSymbolTable   0 (pas de symboles)
++0x0C    00 00 00 00        NumberOfSymbols        0
++0x10    F0 00              SizeOfOptionalHeader   0x00F0 (240 octets, PE32+)
++0x12    22 00              Characteristics        0x0022
+```
+
+**Décodage des Characteristics (0x0022) :**
+
+```
+0x0002 : IMAGE_FILE_EXECUTABLE_IMAGE ✅ Exécutable valide
+0x0020 : IMAGE_FILE_LARGE_ADDRESS_AWARE ✅ Peut utiliser > 2 GB
+```
+
+**Conclusion :**
+
+* Programme 64 bits AMD64
+* 7 sections (`.text`, `.data`, `.rdata`, etc.)
+* Compilé le 8 novembre 2023
+* Pas de symboles de debug embarqués
+* En-tête optionnel de 240 octets (PE32+)
+* Exécutable valide, peut gérer beaucoup de mémoire
+
+***
+
+💡 Résumé en une image
+
+```
+EN-TÊTE COFF (20 octets)
+┌─────────────────────────────────┐
+│ Machine (0x8664)                │ → x64
+├─────────────────────────────────┤
+│ NumberOfSections (7)            │ → 7 sections
+├─────────────────────────────────┤
+│ TimeDateStamp (0x654A2B3C)      │ → 8 nov 2023
+├─────────────────────────────────┤
+│ PointerToSymbolTable (0)        │ → Pas de symboles
+├─────────────────────────────────┤
+│ NumberOfSymbols (0)             │ → Pas de symboles
+├─────────────────────────────────┤
+│ SizeOfOptionalHeader (0x00F0)   │ → 240 octets (PE32+)
+├─────────────────────────────────┤
+│ Characteristics (0x0022)        │ → EXE + Large Address
+└─────────────────────────────────┘
+```
 
 ***
 
 ### <mark style="color:blue;">4. En-tête optionnel (Optional Header)</mark>
 
-L’**en-tête optionnel** (présent dans les images PE) contient les informations essentielles pour le loader. Il est divisé en deux parties : **champs standard** (COFF) et **champs Windows** (spécifiques à PE). Sa taille est indiquée dans SizeOfOptionalHeader du header COFF.
+L’**en-tête optionnel** (présent dans les images PE) contient les informations essentielles pour le loader.&#x20;
+
+Il est divisé en deux parties : **champs standard** (COFF) et **champs Windows** (spécifiques à PE). Sa taille est indiquée dans SizeOfOptionalHeader du header COFF.
 
 #### <mark style="color:green;">4.1. Champs standard (COFF)</mark>
 
@@ -114,6 +316,8 @@ Les premiers champs (8 champs) sont les mêmes pour tous les COFF, PE ou non :
 * **BaseOfData** (4 o) – _PE32 seulement_ (absent en PE32+) : RVA du début de la section de données initialisées (généralement .data). Ce champ n’existe pas en 64 bits (PE32+).
 
 Ces champs standard donnent les tailles et adresses de base des sections principales.
+
+***
 
 #### <mark style="color:green;">4.2. Champs Windows (PE32/PE32+)</mark>
 
@@ -140,6 +344,8 @@ Les champs suivants (21 champs) sont spécifiques à Windows :
 * **SizeOfHeapReserve**, **SizeOfHeapCommit** (4 o / 8 o) : idem pour le tas (heap) local.
 * **LoaderFlags** (4 o) : réservé, doit être 0.
 * **NumberOfRvaAndSizes** (4 o) : nombre d’entrées dans la table des Data Directories qui suit (typiquement 16).
+
+***
 
 #### <mark style="color:green;">4.3. Data Directories</mark>
 

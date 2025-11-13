@@ -30,7 +30,7 @@ func main() {
 
 Dans IDA Pro, un tel binaire (non strippé) peut montrer **2058 fonctions**, alors que notre code source n’en définit qu’une seule ! Cela illustre la complexité et le bruit introduit par le runtime Go.
 
-#### Différence entre binaire avec symboles et binaire strip
+#### <mark style="color:green;">Différence entre binaire avec symboles et binaire strip</mark>
 
 * **Non strippé** : on retrouve des noms utiles (`main.main`, `fmt.Println`…), IDA détecte beaucoup de fonctions.
 * **Strippé** (`go build -ldflags "-s"`) : beaucoup moins de fonctions reconnues (ex. 1329 au lieu de 2058), et les noms disparaissent (`sub_xxxx`).
@@ -41,17 +41,17 @@ C’est ici que nos techniques et scripts deviennent indispensables.
 
 ***
 
-### Chapitre 2 – Structure des binaires Go
+### <mark style="color:blue;">Chapitre 2 – Structure des binaires Go</mark>
 
 <figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-#### La fonction `main.main`
+#### <mark style="color:green;">La fonction</mark> <mark style="color:green;"></mark><mark style="color:green;">`main.main`</mark>
 
 En Go, la vraie fonction principale s’appelle **`main.main`**. La fonction `main()` que l’on écrit est transformée par le compilateur.
 
 Dans le binaire, `main()` est presque vide : elle appelle en fait `main.main`.
 
-#### Le rôle de `runtime_morestack`
+#### <mark style="color:green;">Le rôle de</mark> <mark style="color:green;"></mark><mark style="color:green;">`runtime_morestack`</mark>
 
 Chaque fonction Go contient en fin de code un bloc pour vérifier la pile :
 
@@ -64,7 +64,7 @@ jmp     <début_de_la_fonction>
 
 ➡ Cet idiome est précieux pour délimiter les fonctions et les reconstruire.
 
-#### La section `.gopclntab`
+#### <mark style="color:green;">La section</mark> <mark style="color:green;"></mark><mark style="color:green;">`.gopclntab`</mark>
 
 Go stocke dans son exécutable une table spéciale **`.gopclntab`** :
 
@@ -74,7 +74,7 @@ Go stocke dans son exécutable une table spéciale **`.gopclntab`** :
 
 👉 C’est la clé pour **restaurer automatiquement les noms de fonctions**.
 
-#### Les chaînes de caractères Go
+#### <mark style="color:green;">Les chaînes de caractères Go</mark>
 
 * Go stocke toutes ses chaînes dans une table unique.
 * Elles ne sont **pas terminées par `\0`** comme en C.

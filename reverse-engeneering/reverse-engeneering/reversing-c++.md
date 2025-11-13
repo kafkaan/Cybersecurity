@@ -20,7 +20,9 @@ En C++, les **fonctions membres des classes** utilisent un pointeur spécial app
 .text:004019EB call sub_401120 ; Appel d'une fonction membre
 ```
 
-Ici, la valeur de `esi` (probablement l’adresse d’un objet) est copiée dans `ecx` avant l’appel d’une fonction → **signe qu’on appelle une méthode d’objet (fonction membre)**.
+Ici, la valeur de `esi` (probablement l’adresse d’un objet) est copiée dans `ecx` avant l’appel d’une fonction&#x20;
+
+→  **signe qu’on appelle une méthode d’objet (fonction membre)**.
 
 #### <mark style="color:orange;">À quoi sert</mark> <mark style="color:orange;"></mark><mark style="color:orange;">`ecx`</mark> <mark style="color:orange;"></mark><mark style="color:orange;">ici ?</mark>
 
@@ -57,7 +59,7 @@ Dans cette fonction, on utilise `ecx` directement sans l’avoir initialisé dan
 
 ***
 
-#### <mark style="color:$success;">**2. Convention d’appel spécifique aux fonctions membres :**</mark>
+#### <mark style="color:green;">2. Convention d’appel spécifique aux fonctions membres :</mark>
 
 En C++, les fonctions membres sont appelées de manière particulière :
 
@@ -79,7 +81,7 @@ En C++, les fonctions membres sont appelées de manière particulière :
 
 ***
 
-#### <mark style="color:$success;">**3. Appels à des fonctions virtuelles (virtual calls) :**</mark>
+#### <mark style="color:green;">3. Appels à des fonctions virtuelles (virtual calls) :</mark>
 
 En C++, les **fonctions virtuelles** sont appelées de manière indirecte, via une **table virtuelle (vftable)**.
 
@@ -102,8 +104,6 @@ Pour comprendre quelle fonction est appelée, il faut retrouver la vtable associ
 
 En C++, une **fonction virtuelle** est une fonction qui peut être **redéfinie** dans une classe dérivée (héritage).\
 Elle permet d’avoir un **comportement différent selon le type réel de l’objet** utilisé, même si on le manipule via un pointeur ou une référence vers la classe de base.
-
-
 
 <mark style="color:green;">**📌 Exemple en C++ :**</mark>
 
@@ -186,7 +186,7 @@ ptr_vtable -----> [ fctVirt1 | fctVirt2 | fctVirt3 | ... ]
 
 ***
 
-#### <mark style="color:$success;">**4. Code utilisant STL et fonctions importées C++ :**</mark>
+#### <mark style="color:green;">4. Code utilisant STL et fonctions importées C++ :</mark>
 
 Un autre indice que le binaire est en C++ : **présence de fonctions liées à la STL (Standard Template Library)**. ", which can be determined via Imported functions or library signature identification such as IDA’s FLIRT:"
 
@@ -203,7 +203,7 @@ Outils comme **IDA Pro (FLIRT signatures)** peuvent aussi détecter les fonction
 
 ***
 
-<mark style="color:$success;">**Class Instance Layout**</mark>
+#### <mark style="color:green;">Class Instance Layout</mark>
 
 Avant d’aller plus loin, la personne qui fait du reverse engineering (l’analyste) doit aussi comprendre **comment les classes sont organisées en mémoire**.
 
@@ -331,7 +331,7 @@ public:
 };
 ```
 
-#### 🧱 Disposition mémoire de `Ex5` :
+🧱 Disposition mémoire de `Ex5` :
 
 ```
 class Ex5 taille(24) :
@@ -349,7 +349,7 @@ class Ex5 taille(24) :
 +---
 ```
 
-#### 📁 Tables virtuelles (vtables) de `Ex5` :
+📁 Tables virtuelles (vtables) de `Ex5` :
 
 **Vtable héritée de Ex2 (et enrichie) :**
 
@@ -390,7 +390,7 @@ Les prochaines sections expliqueront **comment déduire les relations entre ces 
 
 ***
 
-<mark style="color:$success;">**1) Identification des Constructeurs / Destructeurs**</mark>
+#### <mark style="color:green;">1) Identification des Constructeurs / Destructeurs</mark>
 
 Pour identifier des classes dans un binaire, il faut examiner **comment les objets de ces classes sont créés**.\
 La manière dont leur création est implémentée au niveau binaire **donne des indices** pour les repérer dans le désassemblage.
@@ -520,7 +520,7 @@ memory
 
 ***
 
-<mark style="color:$success;">**2) Identification des Classes Polymorphes via RTTI**</mark>
+#### <mark style="color:green;">2) Identification des Classes Polymorphes via RTTI</mark>
 
 Une autre façon d’identifier des classes (en particulier **les classes polymorphes**, c’est-à-dire avec des **fonctions virtuelles**) est d'utiliser le **RTTI (Run-Time Type Information)**.
 
@@ -537,7 +537,7 @@ Le **RTTI** est un mécanisme qui permet de connaître **le type d’un objet à
 
 ***
 
-#### 🔧 Astuce : Afficher la disposition mémoire des classes
+#### <mark style="color:green;">🔧 Astuce : Afficher la disposition mémoire des classes</mark>
 
 MSVC a un **switch de compilation** pour afficher la disposition mémoire des classes :
 
@@ -554,7 +554,7 @@ Cela génère un fichier `.layout` contenant :
 
 ***
 
-<mark style="color:$success;">**Structures utilisées pour le RTTI**</mark>
+#### <mark style="color:green;">Structures utilisées pour le RTTI</mark>
 
 Le compilateur stocke dans le binaire des **structures de métadonnées** pour chaque classe polymorphe.
 
@@ -572,7 +572,7 @@ C’est une structure qui contient des pointeurs vers deux autres structures :
 
 ***
 
-#### Exemple : disposition en mémoire
+#### <mark style="color:green;">Exemple : disposition en mémoire</mark>
 
 ```asm
 .rdata:00404128 dd offset ClassA_RTTICompleteObjectLocator
@@ -587,7 +587,7 @@ C’est une structure qui contient des pointeurs vers deux autres structures :
 
 ***
 
-#### Exemple de `RTTICompleteObjectLocator` :
+#### <mark style="color:green;">Exemple de</mark> <mark style="color:green;"></mark><mark style="color:green;">`RTTICompleteObjectLocator`</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
 ```asm
 .rdata:004045A4 ClassB_RTTICompleteObjectLocator
@@ -600,15 +600,15 @@ dd offset ClassB_RTTIClassHierarchyDescriptor
 
 ***
 
-<mark style="color:green;">**🔹 TypeDescriptor (Descripteur de type)**</mark>
+#### <mark style="color:green;">**🔹 TypeDescriptor (Descripteur de type)**</mark>
 
-#### ➤ C’est quoi ?
+➤ C’est quoi ?
 
 Le `TypeDescriptor` est une structure utilisée pour décrire **le type d'une classe**. Elle est pointée par le **4e champ (DWORD)** de la structure `RTTICompleteObjectLocator`.
 
 > Elle contient le **nom de la classe**, ce qui est très utile pour un reverseur, car cela lui donne une idée du rôle de la classe.
 
-#### 📦 Exemple réel :
+📦 Exemple réel :
 
 ```asm
 .data:0041A098 ClassA_TypeDescriptor
@@ -619,13 +619,13 @@ dd offset type_info_vftable     ; pointeur vers la vftable type_info
 
 ***
 
-<mark style="color:orange;">**🔹 RTTIClassHierarchyDescriptor**</mark>
+#### <mark style="color:green;">🔹 RTTIClassHierarchyDescriptor</mark>
 
-#### ➤ C’est quoi ?
+➤ C’est quoi ?
 
 Cette structure décrit la **hiérarchie d'héritage** d'une classe : combien de classes de base elle a, si l’héritage est multiple, virtuel, etc. Elle contient un **tableau de pointeurs vers des RTTIBaseClassDescriptor** (on y reviendra).
 
-#### 📑 Structure :
+📑 Structure :
 
 | Offset | Type  | Nom             | Description                                                 |
 | ------ | ----- | --------------- | ----------------------------------------------------------- |
@@ -636,7 +636,7 @@ Cette structure décrit la **hiérarchie d'héritage** d'une classe : combien de
 
 ***
 
-#### 📦 Exemple :
+📦 Exemple :
 
 ```cpp
 class ClassA { ... };
@@ -652,7 +652,7 @@ dd 3                       ; 3 classes de base (ClassG, ClassA, ClassE)
 dd offset ClassG_pBaseClassArray ; pointeur vers tableau
 ```
 
-#### 🔗 Tableau pointé :
+🔗 Tableau pointé :
 
 ```asm
 ClassG_pBaseClassArray:
@@ -663,9 +663,9 @@ dd offset RTTIBaseClassDescriptor@417920 ; ClassE
 
 ***
 
-<mark style="color:orange;">**🔹 RTTIBaseClassDescriptor**</mark>
+#### <mark style="color:green;">🔹 RTTIBaseClassDescriptor</mark>
 
-#### ➤ C’est quoi ?
+➤ C’est quoi ?
 
 C’est une structure contenant des infos sur **une classe de base**. Elle décrit :
 
@@ -674,7 +674,7 @@ C’est une structure contenant des infos sur **une classe de base**. Elle décr
 * Quelle est sa hiérarchie
 * Comment accéder à son `vfptr` s’il y en a un
 
-#### 📑 Structure :
+📑 Structure :
 
 | Offset | Type  | Nom               | Description                                           |
 | ------ | ----- | ----------------- | ----------------------------------------------------- |
@@ -688,17 +688,17 @@ C’est une structure contenant des infos sur **une classe de base**. Elle décr
 
 ***
 
-<mark style="color:orange;">**🔹 vbtable : Table d’héritage virtuel**</mark>
+#### <mark style="color:green;">🔹 vbtable : Table d’héritage virtuel</mark>
 
 Quand une classe hérite **virtuellement**, le compilateur crée une **vbtable** (virtual base table), qui contient les offsets nécessaires pour accéder aux classes de base virtuelles.
 
-#### 📘 Pourquoi ?
+📘 Pourquoi ?
 
 Parce qu’avec l’héritage virtuel, la position des classes de base dans la mémoire **n’est pas fixe**. Donc le programme a besoin d’un mécanisme pour savoir où elles se trouvent à l’exécution.
 
 ***
 
-#### 📦 Exemple de layout mémoire de `ClassG` :
+📦 Exemple de layout mémoire de `ClassG` :
 
 ```cpp
 class ClassG size(28):
@@ -717,7 +717,7 @@ class ClassG size(28):
 
 ***
 
-#### 📦 La vbtable générée pour `ClassG` :
+📦 La vbtable générée pour `ClassG` :
 
 ```asm
 ClassG::$vbtable@:
@@ -766,7 +766,7 @@ Résumé simple
 
 ### <mark style="color:blue;">Identifier la relation entre classes</mark>
 
-<mark style="color:orange;">**1. Relation de classes via l’analyse des constructeurs**</mark>
+#### <mark style="color:green;">1. Relation de classes via l’analyse des constructeurs</mark>
 
 Les constructeurs contiennent du code qui initialise l’objet, comme par exemple appeler les constructeurs des classes de base et configurer les vftables. Par conséquent, l’analyse des constructeurs peut nous donner une bonne idée de la relation de cette classe avec d’autres classes.
 
@@ -853,16 +853,11 @@ class D size(12):
 
 ***
 
-<mark style="color:green;">**2. Relation de classes polymorphes via la RTTI**</mark>
+#### <mark style="color:green;">**2. Relation de classes polymorphes via la RTTI**</mark>
 
 Comme nous l’avons évoqué dans la section II-B, les informations de type à l’exécution (RTTI, Run-Time Type Information) peuvent être utilisées pour identifier la relation de classes polymorphes. La structure de données associée à cela est le `RTTIClassHierarchyDescriptor`. Encore une fois, ci-dessous se trouvent les champs de `RTTIClassHierarchyDescriptor` à des fins d’illustration :
 
-| Décalage | Type | Nom             | Description                                            |
-| -------- | ---- | --------------- | ------------------------------------------------------ |
-| 0x00     | DW   | signature       | Toujours 0 ?                                           |
-| 0x04     | DW   | attributes      | Bit 0 – héritage multipleBit 1 – héritage virtuel      |
-| 0x08     | DW   | numBaseClasses  | Nombre de classes de base (inclut la classe elle-même) |
-| 0x0C     | DW   | pBaseClassArray | Tableau de `RTTIBaseClassDescriptor`                   |
+<table data-full-width="true"><thead><tr><th>Décalage</th><th>Type</th><th>Nom</th><th>Description</th></tr></thead><tbody><tr><td>0x00</td><td>DW</td><td>signature</td><td>Toujours 0 ?</td></tr><tr><td>0x04</td><td>DW</td><td>attributes</td><td>Bit 0 – héritage multipleBit 1 – héritage virtuel</td></tr><tr><td>0x08</td><td>DW</td><td>numBaseClasses</td><td>Nombre de classes de base (inclut la classe elle-même)</td></tr><tr><td>0x0C</td><td>DW</td><td>pBaseClassArray</td><td>Tableau de <code>RTTIBaseClassDescriptor</code></td></tr></tbody></table>
 
 Le `RTTIClassHierarchyDescriptor` contient un champ nommé `pBaseClassArray`, qui est un tableau de `RTTIBaseClassDescriptor` (BCD). Ces BCD pointeront ensuite vers le `TypeDescriptor` de la classe de base réelle.
 
