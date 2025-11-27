@@ -4,7 +4,9 @@
 
 ***
 
-Metasploit `modules` are prepared scripts with a specific purpose .The `exploit` category consists of so-called proof-of-concept (`POCs`) that can be used to exploit existing vulnerabilities in a largely automated manner.&#x20;
+Metasploit `modules` are prepared scripts with a specific purpose .
+
+The `exploit` category consists of so-called proof-of-concept (`POCs`) that can be used to exploit existing vulnerabilities in a largely automated manner.&#x20;
 
 <mark style="color:green;">**Syntax**</mark>
 
@@ -50,8 +52,6 @@ msf6 > help search
 Usage: search [<options>] [<keywords>:<value>]
 ```
 
-For example, we can try to find the `EternalRomance` exploit for older Windows operating systems. This could look something like this:
-
 ***
 
 <mark style="color:green;">**MSF - Searching for EternalRomance**</mark>
@@ -78,7 +78,9 @@ msf6 > search type:exploit platform:windows cve:2021 rank:excellent microsoft
 
 ### <mark style="color:red;">Module Selection</mark>
 
-To select our first module, we first need to find one. Let's suppose that we have a target running a version of SMB vulnerable to EternalRomance (MS17\_010) exploits. We have found that SMB server port 445 is open upon scanning the target.
+To select our first module, we first need to find one.&#x20;
+
+Let's suppose that we have a target running a version of SMB vulnerable to EternalRomance (MS17\_010) exploits. We have found that SMB server port 445 is open upon scanning the target.
 
 ```shell-session
 mrroboteLiot@htb[/htb]$ nmap -sV 10.10.10.40
@@ -92,13 +94,19 @@ We would boot up `msfconsole` and search for this exact exploit name.
 msf6 > search ms17_010
 ```
 
-Next, we want to select the appropriate module for this scenario. From the `Nmap` scan, we have detected the SMB service running on version `Microsoft Windows 7 - 10`. With some additional OS scanning, we can guess that this is a Windows 7 running a vulnerable instance of SMB. We then proceed to select the module with the `index no. 2` to test if the target is vulnerable.
+Next, we want to select the appropriate module for this scenario.
+
+&#x20;From the `Nmap` scan, we have detected the SMB service running on version `Microsoft Windows 7 - 10`. With some additional OS scanning, we can guess that this is a Windows 7 running a vulnerable instance of SMB. We then proceed to select the module with the `index no. 2` to test if the target is vulnerable.
 
 ***
 
 ### <mark style="color:red;">Using Modules</mark>
 
-Within the interactive modules, there are several options that we can specify. These are used to adapt the Metasploit module to the given environment. Because in most cases, we always need to scan or attack different IP addresses. Therefore, we require this kind of functionality to allow us to set our targets and fine-tune them. To check which options are needed to be set before the exploit can be sent to the target host, we can use the `show options` command. Everything required to be set before the exploitation can occur will have a `Yes` under the `Required` column.
+Within the interactive modules, there are several options that we can specify.&#x20;
+
+These are used to adapt the Metasploit module to the given environment. Because in most cases, we always need to scan or attack different IP addresses.&#x20;
+
+Therefore, we require this kind of functionality to allow us to set our targets and fine-tune them. To check which options are needed to be set before the exploit can be sent to the target host, we can use the `show options` command. Everything required to be set before the exploitation can occur will have a `Yes` under the `Required` column.
 
 <mark style="color:green;">**MSF - Select Module**</mark>
 
@@ -114,8 +122,6 @@ msf6 exploit(windows/smb/ms17_010_psexec) > options
 {% code fullWidth="true" %}
 ```shell-session
 msf6 exploit(windows/smb/ms17_010_psexec) > info
-
-------------------------------------------------
 ```
 {% endcode %}
 
@@ -128,11 +134,6 @@ After we are satisfied that the selected module is the right one for our purpose
 msf6 exploit(windows/smb/ms17_010_psexec) > set RHOSTS 10.10.10.40
 
 RHOSTS => 10.10.10.40
-
-
-msf6 exploit(windows/smb/ms17_010_psexec) > options
-
------
 ```
 {% endcode %}
 
@@ -144,14 +145,7 @@ In addition, there is the option `setg`, which specifies options selected by us 
 ```shell-session
 msf6 exploit(windows/smb/ms17_010_psexec) > setg RHOSTS 10.10.10.40
 
-RHOSTS => 10.10.10.40
-
-
-msf6 exploit(windows/smb/ms17_010_psexec) > options
-
-   Name                  Current Setting                          Required  Description
-   ----                  ---------------                          --------  -----------
-   
+RHOSTS => 10.10.10.40   
 ```
 {% endcode %}
 

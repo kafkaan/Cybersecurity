@@ -6,6 +6,8 @@ Le payload Meterpreter est un type spécifique de <mark style="color:orange;">**
 
 &#x20;Il peut nous aider à trouver diverses techniques d’escalade de privilèges, d’évasion des antivirus, à effectuer des recherches supplémentaires de vulnérabilités, à fournir un accès persistant, à pivoter, etc.
 
+***
+
 ### <mark style="color:blue;">Exécution de Meterpreter</mark>
 
 Pour exécuter Meterpreter, il suffit de sélectionner l’une de ses versions depuis la sortie de **`show payloads`**, en tenant compte du type de connexion et du système d’exploitation cible.
@@ -19,7 +21,7 @@ Lorsque l'exploit est terminé, les événements suivants se produisent :
 
 À chaque fois que le payload Meterpreter est envoyé et exécuté sur le système cible, nous obtenons un **shell Meterpreter**. Nous pouvons alors immédiatement utiliser la commande **`help`** pour voir toutes les capacités du shell Meterpreter.
 
-**MSF - Meterpreter Commands**
+<mark style="color:green;">**MSF - Meterpreter Commands**</mark>
 
 ```shell-session
 meterpreter > help
@@ -89,11 +91,13 @@ host         port  proto  name  state  info
 
 Next, we look up some information about the services running on this box. Specifically, we want to explore port 80 and what kind of web service is hosted there.
 
-&#x20; &#x20;
-
 <div align="left" data-full-width="false"><figure><img src="https://academy.hackthebox.com/storage/modules/39/S12_SS01.png" alt=""><figcaption></figcaption></figure></div>
 
-We notice it is an under-construction website—nothing web-related to see here. However, looking at both the end of the webpage and the result of the Nmap scan more closely, we notice that the server is running `Microsoft IIS httpd 6.0`. So we further our research in that direction, searching for common vulnerabilities for this version of IIS. After some searching, we find the following marker for a widespread vulnerability: `CVE-2017-7269`. It also has a Metasploit module developed for it.
+We notice it is an under-construction website—nothing web-related to see here.&#x20;
+
+However, looking at both the end of the webpage and the result of the Nmap scan more closely, we notice that the server is running `Microsoft IIS httpd 6.0`.&#x20;
+
+So we further our research in that direction, searching for common vulnerabilities for this version of IIS. After some searching, we find the following marker for a widespread vulnerability: `CVE-2017-7269`. It also has a Metasploit module developed for it.
 
 <mark style="color:orange;">**MSF - Searching for Exploit**</mark>
 

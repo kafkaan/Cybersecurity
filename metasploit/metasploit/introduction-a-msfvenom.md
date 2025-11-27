@@ -5,7 +5,9 @@ MSFVenom est un outil intégré à Metasploit qui résulte de la fusion des anci
 * **Avant MSFVenom** : Il fallait d'abord générer un **shellcode** avec MSFPayload, puis l'encoder avec MSFEncode.
 * **Aujourd’hui** : MSFVenom combine ces deux étapes, permettant de créer des payloads plus facilement pour différentes architectures et systèmes d’exploitation tout en offrant des options d'encodage.
 
-#### <mark style="color:orange;">**Création de Payloads**</mark>
+***
+
+#### <mark style="color:green;">Création de Payloads</mark>
 
 **Exemple de scénario :** Supposons qu'on trouve un serveur FTP avec un accès anonyme (ou avec de faibles identifiants) et qu’il soit lié à un service web accessible via HTTP.
 

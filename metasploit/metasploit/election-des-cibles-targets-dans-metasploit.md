@@ -2,9 +2,14 @@
 
 ## <mark style="color:red;">**Définition des cibles (Targets)**</mark>
 
-Les **cibles** sont des identifiants uniques de systèmes d'exploitation qui sont tirés des versions spécifiques de ces systèmes, adaptées aux modules d'exploitations sélectionnés. Chaque module d'exploit dans Metasploit peut être configuré pour attaquer une version particulière d'un système d'exploitation.
+Les **cibles** sont des identifiants uniques de systèmes d'exploitation qui sont tirés des versions spécifiques de ces systèmes, adaptées aux modules d'exploitations sélectionnés.&#x20;
 
-La commande `show targets` affichera toutes les cibles vulnérables disponibles pour un module d'exploit spécifique. Si cette commande est exécutée en dehors d'un module d'exploit, elle indiquera qu'il faut d'abord sélectionner un module.
+* Chaque module d'exploit dans Metasploit peut être configuré pour attaquer une version particulière d'un système d'exploitation.
+* La commande `show targets` affichera toutes les cibles vulnérables disponibles pour un module d'exploit spécifique.
+
+Si cette commande est exécutée en dehors d'un module d'exploit, elle indiquera qu'il faut d'abord sélectionner un module.
+
+***
 
 <mark style="color:green;">**Exemple de la commande**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`show targets`**</mark>
 
@@ -25,9 +30,13 @@ La commande `show targets` affichera toutes les cibles vulnérables disponibles 
     RPORT                 445               yes       The Target port (TCP)
     ```
 
-**Sélection d'une cible**
+***
 
-Lorsque vous choisissez un module d'exploitation, vous devez choisir la cible qui correspond à la version et aux caractéristiques du système que vous attaquez. Par exemple, dans le cas du module `ms12_063`, qui exploite une vulnérabilité d'Internet Explorer, les cibles peuvent être sélectionnées en fonction de la version de **Windows** et **Internet Explorer**.
+<mark style="color:green;">**Sélection d'une cible**</mark>
+
+Lorsque vous choisissez un module d'exploitation, vous devez choisir la cible qui correspond à la version et aux caractéristiques du système que vous attaquez.&#x20;
+
+* Par exemple, dans le cas du module `ms12_063`, qui exploite une vulnérabilité d'Internet Explorer, les cibles peuvent être sélectionnées en fonction de la version de **Windows** et **Internet Explorer**.
 
 <mark style="color:green;">**Exemple : Module MS12-063**</mark>
 
@@ -41,13 +50,9 @@ Exploit targets:
    0   Automatic
    1   IE 7 on Windows XP SP3
    2   IE 8 on Windows XP SP3
-   3   IE 7 on Windows Vista
-   4   IE 8 on Windows Vista
-   5   IE 8 on Windows 7
-   6   IE 9 on Windows 7
 ```
 
-**Changer de cible**
+<mark style="color:green;">**Changer de cible**</mark>
 
 Une fois que vous avez sélectionné un module, vous pouvez choisir une cible spécifique avec la commande `set target`. Par exemple :
 
@@ -91,7 +96,9 @@ Les adresses de retour sont généralement définies comme `jmp esp` (un saut ve
 
 Avant de commencer à exploiter une cible, il est conseillé d'utiliser la commande `info` pour obtenir plus d'informations sur le module d'exploitation, son fonctionnement et ses dépendances. Cela permet de mieux comprendre les spécificités de chaque exploit et de sécuriser l'environnement.
 
-#### Commandes principales :
+***
+
+Commandes principales :
 
 * **show targets** : Affiche les cibles disponibles pour le module d'exploit sélectionné.
 * **set target \<index>** : Sélectionne une cible spécifique dans la liste.

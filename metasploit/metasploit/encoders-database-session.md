@@ -96,7 +96,7 @@ Cela génère un payload qui passe par 10 itérations d'encodage, augmentant ain
 
 Les bases de données dans **msfconsole** permettent de suivre et organiser les résultats des tests d'évaluation, en particulier lors des analyses de machines complexes ou de réseaux entiers. Elles offrent un moyen efficace de gérer les informations issues des scans, des points d'entrée, des problèmes détectés, des identifiants découverts, etc. **msfconsole** utilise **PostgreSQL** comme système de base de données pour cette gestion.
 
-**1. Vérification du statut de PostgreSQL**
+<mark style="color:green;">**1. Vérification du statut de PostgreSQL**</mark>
 
 Avant d'utiliser les bases de données dans **msfconsole**, il est essentiel de s'assurer que le service PostgreSQL est en cours d'exécution. Utilisez la commande suivante pour vérifier le statut :
 
@@ -104,7 +104,7 @@ Avant d'utiliser les bases de données dans **msfconsole**, il est essentiel de 
 sudo service postgresql status
 ```
 
-**2. Démarrer PostgreSQL**
+<mark style="color:green;">**2. Démarrer PostgreSQL**</mark>
 
 Si PostgreSQL n'est pas démarré, lancez-le avec :
 
@@ -112,7 +112,7 @@ Si PostgreSQL n'est pas démarré, lancez-le avec :
 sudo systemctl start postgresql
 ```
 
-**3. Initialiser la base de données MSF**
+<mark style="color:green;">**3. Initialiser la base de données MSF**</mark>
 
 Pour configurer la base de données pour Metasploit, utilisez la commande suivante :
 
@@ -122,7 +122,7 @@ sudo msfdb init
 
 Si Metasploit n'est pas à jour, il peut y avoir une erreur. Il est recommandé de mettre à jour Metasploit avec `apt update` pour résoudre ce problème.
 
-**4. Vérifier le statut de la base de données**
+<mark style="color:green;">**4. Vérifier le statut de la base de données**</mark>
 
 Une fois la base de données initialisée, vous pouvez vérifier son statut :
 
@@ -130,7 +130,7 @@ Une fois la base de données initialisée, vous pouvez vérifier son statut :
 sudo msfdb status
 ```
 
-**5. Lancer MSFConsole avec la base de données**
+<mark style="color:green;">**5. Lancer MSFConsole avec la base de données**</mark>
 
 Après avoir configuré la base de données, lancez **msfconsole** et connectez-le à la base de données :
 
@@ -138,7 +138,7 @@ Après avoir configuré la base de données, lancez **msfconsole** et connectez-
 sudo msfdb run
 ```
 
-**6. Réinitialiser la base de données**
+<mark style="color:green;">**6. Réinitialiser la base de données**</mark>
 
 Si nécessaire, vous pouvez réinitialiser la base de données avec les commandes suivantes :
 
@@ -149,19 +149,19 @@ sudo service postgresql restart
 msfconsole -q
 ```
 
-**7. Commandes de base de données dans msfconsole**
+<mark style="color:green;">**7. Commandes de base de données dans msfconsole**</mark>
 
 Voici une liste des commandes pour interagir avec la base de données dans **msfconsole** :
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Commande</strong></td><td><strong>Description</strong></td></tr><tr><td><code>db_connect</code></td><td>Se connecter à une base de données existante.</td></tr><tr><td><code>db_disconnect</code></td><td>Se déconnecter de la base de données actuelle.</td></tr><tr><td><code>db_export</code></td><td>Exporter les résultats de la base de données dans un fichier.</td></tr><tr><td><code>db_import</code></td><td>Importer les résultats d'un fichier de scan.</td></tr><tr><td><code>db_nmap</code></td><td>Exécuter Nmap et enregistrer automatiquement les résultats.</td></tr><tr><td><code>db_rebuild_cache</code></td><td>Reconstruire le cache des modules stockés dans la base de données.</td></tr><tr><td><code>db_status</code></td><td>Afficher l'état actuel de la base de données.</td></tr><tr><td><code>hosts</code></td><td>Lister tous les hôtes dans la base de données.</td></tr><tr><td><code>loot</code></td><td>Lister tous les loot (données récoltées) dans la base de données.</td></tr><tr><td><code>notes</code></td><td>Lister toutes les notes dans la base de données.</td></tr><tr><td><code>services</code></td><td>Lister tous les services dans la base de données.</td></tr><tr><td><code>vulns</code></td><td>Lister toutes les vulnérabilités dans la base de données.</td></tr><tr><td><code>workspace</code></td><td>Gérer les espaces de travail dans la base de données.</td></tr></tbody></table>
 
-**8. Utilisation des Workspaces**
+<mark style="color:green;">**8. Utilisation des Workspaces**</mark>
 
 Les **workspaces** permettent d'organiser les résultats dans des "dossiers" pour mieux gérer les informations par IP, sous-réseau, ou domaine.
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Commande</strong></td><td><strong>Description</strong></td></tr><tr><td><code>workspace</code></td><td>Lister tous les workspaces.</td></tr><tr><td><code>workspace -a [nom]</code></td><td>Ajouter un workspace.</td></tr><tr><td><code>workspace -d [nom]</code></td><td>Supprimer un workspace.</td></tr><tr><td><code>workspace -r</code></td><td>Renommer un workspace.</td></tr><tr><td><code>workspace -v</code></td><td>Lister les workspaces de manière détaillée.</td></tr><tr><td><code>workspace [nom]</code></td><td>Changer de workspace.</td></tr></tbody></table>
 
-**9. Importer des Résultats de Scan**
+<mark style="color:green;">**9. Importer des Résultats de Scan**</mark>
 
 Pour importer un fichier de résultats d'un scan, comme un scan Nmap, utilisez la commande `db_import`. Exemple avec un fichier `Target.xml` :
 
@@ -171,7 +171,7 @@ db_import Target.xml
 
 Cela ajoutera les informations de l'hôte à la base de données. Vous pouvez ensuite utiliser les commandes `hosts` et `services` pour consulter les résultats importés.
 
-**10. Exemple de Scan Nmap**
+<mark style="color:green;">**10. Exemple de Scan Nmap**</mark>
 
 Exemple d'un scan Nmap importé avec `db_import` :
 
@@ -371,7 +371,7 @@ msf6 exploit(multi/handler) > exploit -j
 
 ***
 
-#### **Résumé**
+#### <mark style="color:green;">Résumé</mark>
 
 * **Sessions** : Elles permettent de gérer plusieurs modules simultanément tout en maintenant la communication avec les cibles.
 * **Interagir avec une session** : Vous pouvez entrer dans une session avec `sessions -i [ID]` et exécuter des modules supplémentaires.

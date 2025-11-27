@@ -51,7 +51,7 @@ Bien que toutes ces catégories ne portent pas forcément le terme **"politique 
 
 ✅ **La seule différence réside dans l'objet cible auquel elles s'appliquent**.
 
-#### **📌 Alors, comment associer les événements du réseau à ces règles pour que les actions soient appliquées ?**
+**📌 Alors, comment associer les événements du réseau à ces règles pour que les actions soient appliquées ?**
 
 Il existe plusieurs façons d’associer un événement ou un objet à une **entrée de politique de sécurité** :
 
@@ -64,6 +64,8 @@ Il existe plusieurs façons d’associer un événement ou un objet à une **ent
 #### <mark style="color:green;">La détection basée sur les signatures et les techniques de contournement</mark>
 
 La plupart des logiciels antivirus actuels, basés sur l'hôte, reposent principalement sur la **détection par signature** pour identifier les éléments de code malveillant présents dans un logiciel suspect. Ces signatures sont intégrées dans le moteur de l'antivirus, qui les utilise pour analyser l’espace de stockage et les processus en cours afin de détecter toute correspondance. Lorsqu'un logiciel inconnu est détecté et qu’il correspond à une signature, la plupart des antivirus le mettent en quarantaine et terminent le processus en cours.
+
+***
 
 #### <mark style="color:green;">Contourner la détection des antivirus</mark>
 
@@ -82,6 +84,8 @@ Pour en savoir plus sur cette attaque :
 La fonctionnalité de `msfconsole` pour maintenir des tunnels chiffrés en AES, combinée à l’exécution en mémoire de Meterpreter, renforce considérablement la capacité de contournement des défenses réseau. Toutefois, il reste un défi : une fois que la charge utile (payload) atteint la machine cible, elle peut être analysée pour sa signature, vérifiée dans la base de données, et bloquée, empêchant ainsi l’attaquant d’accéder à la cible.
 
 Les développeurs de logiciels antivirus ajoutent constamment de nouvelles signatures pour bloquer les charges utiles générées par des outils comme `msfconsole`. Cela signifie que la plupart des charges utiles par défaut sont rapidement neutralisées par les antivirus modernes.
+
+***
 
 #### <mark style="color:green;">Contournement avancé avec les modèles exécutables de msfvenom</mark>
 

