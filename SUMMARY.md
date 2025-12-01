@@ -133,6 +133,14 @@
   * [Fuzzing des Paramètres](attacking-with-ffuf/fuzzing/fuzzing-des-parametres.md)
 * [SKILLS ASSESSEMENT](attacking-with-ffuf/skills-assessement.md)
 
+## WEB FUZZING
+
+* [Web Fuzzing](web-fuzzing/web-fuzzing/README.md)
+  * [Directory & File Fuzzing](web-fuzzing/web-fuzzing/directory-and-file-fuzzing.md)
+  * [Fuzzing de Paramètres et Valeurs](web-fuzzing/web-fuzzing/fuzzing-de-parametres-et-valeurs.md)
+  * [Fuzzing VHost & Subdomains](web-fuzzing/web-fuzzing/fuzzing-vhost-and-subdomains.md)
+  * [Filtrage des Résultats de Fuzzing](web-fuzzing/web-fuzzing/filtrage-des-resultats-de-fuzzing.md)
+
 ## 👨‍💻 Login Brute Forcing  &#x20;
 
 * [Login Brute Forcing](login-brute-forcing/login-brute-forcing/README.md)
