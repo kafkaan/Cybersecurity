@@ -4,18 +4,22 @@
 
 ### <mark style="color:blue;">Introduction</mark>
 
-Linux fournit ptrace comme un outil de traçage de processus, qui peut intercepter les appels système à leurs points d'entrée et de sortie, effectués par un autre processus. ptrace fournit un mécanisme par lequel un processus parent peut observer et contrôler l'exécution d'un autre processus. Il peut examiner et modifier l'image mémoire centrale et les registres d'un processus enfant, et est principalement utilisé pour implémenter le débogage par points d'arrêt et le traçage d'appels système.
+Linux fournit ptrace comme un outil de traçage de processus, qui peut intercepter les appels système à leurs points d'entrée et de sortie, effectués par un autre processus.
+
+ptrace fournit un mécanisme par lequel un processus parent peut observer et contrôler l'exécution d'un autre processus. Il peut examiner et modifier l'image mémoire centrale et les registres d'un processus enfant, et est principalement utilisé pour implémenter le débogage par points d'arrêt et le traçage d'appels système.
 
 ### <mark style="color:blue;">Syntaxe de ptrace</mark>
 
 ptrace prend les arguments suivants :
 
+{% code fullWidth="true" %}
 ```c
 long ptrace(enum __ptrace_request request,
             pid_t pid,
             void *addr,
             void *data);
 ```
+{% endcode %}
 
 Où :
 
@@ -26,11 +30,15 @@ Où :
 
 <figure><img src="../../.gitbook/assets/Screenshot From 2025-09-07 18-42-00.png" alt=""><figcaption></figcaption></figure>
 
+***
+
 ### <mark style="color:blue;">Deux méthodes pour tracer un processus</mark>
 
 #### <mark style="color:green;">1. Méthode par processus enfant</mark>
 
-L'application tracée peut être exécutée comme un enfant, en exécutant fork() dans le processus parent, ou l'application traceur. Dans ce cas, l'application tracée doit appeler ptrace avec les paramètres suivants :
+L'application tracée peut être exécutée comme un enfant, en exécutant fork() dans le processus parent, ou l'application traceur.&#x20;
+
+Dans ce cas, l'application tracée doit appeler ptrace avec les paramètres suivants :
 
 ```c
 ptrace(PTRACE_TRACEME, 0, NULL, NULL);
@@ -46,13 +54,21 @@ Si une application est déjà en cours d'exécution et que nous voulons la trace
 ptrace(PTRACE_ATTACH, pid_of_traced_process, NULL, NULL);
 ```
 
-Dans ce cas, l'application tracée n'a pas besoin d'ajouter de code. Dans les deux cas, tout ce dont nous avons besoin est l'identifiant du processus ou pid pour tracer une application. Le pid d'un processus en cours d'exécution est obtenu en exécutant la commande `ps` sous Linux. Une fois tracée, l'application tracée devient un processus enfant de l'application traceur.
+Dans ce cas, l'application tracée n'a pas besoin d'ajouter de code. Dans les deux cas, tout ce dont nous avons besoin est l'identifiant du processus ou pid pour tracer une application.
+
+Le pid d'un processus en cours d'exécution est obtenu en exécutant la commande `ps` sous Linux. Une fois tracée, l'application tracée devient un processus enfant de l'application traceur.
+
+***
 
 ### <mark style="color:blue;">Fonctionnement du traçage</mark>
 
-Une fois qu'un processus est tracé, chaque fois que le processus tracé exécute un appel système ou revient d'un appel système, le contrôle d'exécution est transféré à l'application traceur. Alors l'application traceur peut vérifier les arguments de l'appel système ou faire d'autres choses, telles que regarder dans les registres, modifier les valeurs des registres, injecter du code dans le segment de code.
+Une fois qu'un processus est tracé, chaque fois que le processus tracé exécute un appel système ou revient d'un appel système, le contrôle d'exécution est transféré à l'application traceur.
+
+Alors l'application traceur peut vérifier les arguments de l'appel système ou faire d'autres choses, telles que regarder dans les registres, modifier les valeurs des registres, injecter du code dans le segment de code.
 
 De plus, les valeurs retournées par l'appel système peuvent être accessibles et modifiées de manière similaire. Une fois que l'application traceur a fini d'examiner l'appel système, l'application tracée peut continuer avec l'appel système.
+
+***
 
 ### <mark style="color:blue;">Exemple pratique</mark>
 
@@ -86,9 +102,16 @@ CLIENT: Please enter the message: Hello World
 CLIENT: I got your message
 ```
 
-Une fois que le client se connecte au serveur, il affiche quelques informations de base du socket. Par exemple, il affiche la taille du buffer et l'algorithme de contrôle de congestion utilisé pour cette connexion. Ensuite, le client demande le message à l'utilisateur, qui est plus tard transmis au serveur et affiché.
+Une fois que le client se connecte au serveur, il affiche quelques informations de base du socket.&#x20;
+
+Par exemple
+
+* Il affiche la taille du buffer et l'algorithme de contrôle de congestion utilisé pour cette connexion.
+* Ensuite, le client demande le message à l'utilisateur, qui est plus tard transmis au serveur et affiché.
 
 **Note :** Pour distinguer entre les sorties affichées par le client et l'application ptrace (intercepteur), qui est expliquée plus tard, les commandes d'affichage exécutées par le client commencent par `CLIENT:`. De même, les sorties de l'application intercepteur commencent par `INTERCEPTOR:`.
+
+***
 
 #### <mark style="color:green;">Exemple avec l'intercepteur</mark>
 
@@ -111,10 +134,13 @@ INTERCEPTOR: Exited
 
 Dans cet exemple, l'application cliente est passée comme argument (avec les propres arguments du client) à l'application intercepteur. Comme affiché, l'application intercepteur trace l'application cliente et piège l'appel système socket. Elle piège aussi l'appel système connect, et affiche l'adresse IP de destination et le numéro de port, qui ont été passés comme arguments à l'appel connect.
 
+***
+
 ### <mark style="color:blue;">Code de l'intercepteur</mark>
 
 Le segment de code suivant de l'application intercepteur décrit l'idée sur comment tracer une application :
 
+{% code fullWidth="true" %}
 ```c
 char *cmd[10];
 for(i = 0; i < argc-1; i++){
@@ -128,6 +154,7 @@ if(processid == 0){
     execvp(argv[1], cmd);
 }
 ```
+{% endcode %}
 
 #### <mark style="color:green;">Explication du code</mark>
 
@@ -135,6 +162,8 @@ if(processid == 0){
 2. **Création du processus enfant :** Ensuite, un processus enfant est créé en exécutant la commande fork. À ce point, le processus enfant est juste une image du processus parent (intercepteur), mais il ne fait rien de significatif.
 3. **Activation du traçage :** Avant d'exécuter réellement l'application cliente (qui est passée dans la liste de commandes), le traçage du processus enfant est démarré en appelant la fonction ptrace. Par conséquent, l'intercepteur piègera chaque appel système dès le début qui sera fait par ce processus enfant.
 4. **Exécution de l'application :** Une fois que le traçage est démarré, l'application cliente est exécutée par la commande execvp.
+
+***
 
 ### <mark style="color:blue;">Boucle de traçage</mark>
 
@@ -164,13 +193,13 @@ Cette technique est largement utilisée dans les débogueurs comme GDB, les outi
 
 ### <mark style="color:blue;">1. Les concepts de base</mark>
 
-#### Qu'est-ce qu'un processus ?
+#### <mark style="color:green;">Qu'est-ce qu'un processus ?</mark>
 
 * Un **processus** = un programme qui s'exécute en mémoire
 * Chaque processus a un **PID** (Process ID) unique
 * Un processus peut créer d'autres processus
 
-#### La relation parent-enfant
+#### <mark style="color:green;">La relation parent-enfant</mark>
 
 ```
 Processus Parent (PID: 1234)
@@ -180,13 +209,13 @@ Processus Parent (PID: 1234)
 
 ### <mark style="color:blue;">2. La fonction fork() - Comment créer un enfant</mark>
 
-#### Avant fork() :
+#### <mark style="color:green;">Avant fork() :</mark>
 
 ```
 [Processus A] - PID: 1234
 ```
 
-#### Après fork() :
+#### <mark style="color:green;">Après fork() :</mark>
 
 ```
 [Processus A - Parent] - PID: 1234
@@ -194,7 +223,7 @@ Processus Parent (PID: 1234)
     └── [Processus A - Enfant] - PID: 5678
 ```
 
-#### Code exemple de fork :
+#### <mark style="color:green;">Code exemple de fork :</mark>
 
 ```c
 pid_t processid = fork();
@@ -208,9 +237,11 @@ if (processid == 0) {
 }
 ```
 
+***
+
 ### <mark style="color:blue;">3. L'histoire complète avec ptrace</mark>
 
-#### Scénario : On veut tracer le programme "client"
+#### <mark style="color:green;">Scénario : On veut tracer le programme "client"</mark>
 
 **Étape 1 : Lancement de l'intercepteur**
 
@@ -274,6 +305,8 @@ while (1) {
     }
 }
 ```
+
+***
 
 ### <mark style="color:blue;">4. La communication parent-enfant avec ptrace</mark>
 
@@ -378,9 +411,9 @@ TN      enfant terminé - break        exit()
 
 ## <mark style="color:red;">Playing with ptrace() for fun and profit - Explications complète</mark>
 
-### Introduction : "Il était une fois..."
+### <mark style="color:blue;">Introduction : "Il était une fois..."</mark>
 
-#### Qu'est-ce que ptrace() ?
+#### <mark style="color:green;">Qu'est-ce que ptrace() ?</mark>
 
 Sous UNIX, **ptrace() est LE SEUL moyen officiel** de faire du débogage. Voici pourquoi c'est important :
 
@@ -395,7 +428,7 @@ Sous UNIX, **ptrace() est LE SEUL moyen officiel** de faire du débogage. Voici 
 
 ### <mark style="color:blue;">1. La fonction ptrace() en détail</mark>
 
-#### Prototype complet
+#### <mark style="color:green;">Prototype complet</mark>
 
 ```c
 #include <sys/ptrace.h>
@@ -481,7 +514,7 @@ printf("EAX = %ld, EBX = %ld\n", regs.eax, regs.ebx);
 
 ### <mark style="color:blue;">3. Gestion des signaux avec ptrace</mark>
 
-#### Le problème fondamental
+#### <mark style="color:green;">Le problème fondamental</mark>
 
 Quand un processus tracé reçoit **N'IMPORTE QUEL signal**, il s'arrête et le traceur est notifié. Mais le traceur ne sait pas quel signal c'était !
 
@@ -492,7 +525,7 @@ wait(&status);  // status indique "arrêté par signal"
 // Mais lequel ?
 ```
 
-#### La solution : PTRACE\_GETSIGINFO
+#### <mark style="color:green;">La solution : PTRACE\_GETSIGINFO</mark>
 
 ```c
 siginfo_t siginfo;
@@ -502,7 +535,7 @@ printf("Signal reçu: %d\n", siginfo.si_signo);  // SIGUSR1, SIGTRAP, etc.
 printf("Code: %d\n", siginfo.si_code);          // Origine du signal
 ```
 
-#### Structure siginfo\_t expliquée
+#### <mark style="color:green;">Structure siginfo\_t expliquée</mark>
 
 ```c
 typedef struct siginfo {
@@ -520,7 +553,7 @@ typedef struct siginfo {
 
 ### <mark style="color:blue;">4. Protection anti-ptrace() - Explications complètes</mark>
 
-#### Le code mystérieux expliqué
+#### <mark style="color:green;">Le code mystérieux expliqué</mark>
 
 ```c
 int stayalive;  // Variable de contrôle
