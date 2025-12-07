@@ -140,6 +140,8 @@
   * [Fuzzing de Paramètres et Valeurs](web-fuzzing/web-fuzzing/fuzzing-de-parametres-et-valeurs.md)
   * [Fuzzing VHost & Subdomains](web-fuzzing/web-fuzzing/fuzzing-vhost-and-subdomains.md)
   * [Filtrage des Résultats de Fuzzing](web-fuzzing/web-fuzzing/filtrage-des-resultats-de-fuzzing.md)
+  * [Validation des Résultats de Fuzzing Web](web-fuzzing/web-fuzzing/validation-des-resultats-de-fuzzing-web.md)
+  * [Les API Web (Web APIs)](web-fuzzing/web-fuzzing/les-api-web-web-apis.md)
 
 ## 👨‍💻 Login Brute Forcing  &#x20;
 

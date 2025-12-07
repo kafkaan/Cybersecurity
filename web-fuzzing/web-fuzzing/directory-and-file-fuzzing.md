@@ -40,7 +40,7 @@ Découvrir **répertoires, fichiers et endpoints cachés** d’une application w
 
 {% code fullWidth="true" %}
 ```
-ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://IP:PORT/FUZZ
+ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://94.237.55.124:34901/FUZZ
 ```
 {% endcode %}
 
@@ -49,14 +49,16 @@ ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt 
 
 #### <mark style="color:green;">Commande — file fuzzing avec extensions</mark>
 
+{% code fullWidth="true" %}
 ```
 ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://IP:PORT/w2ksvrus/FUZZ -e .php,.html,.txt,.bak,.js -v
 ```
+{% endcode %}
 
 * `-e` : tester plusieurs extensions (.php, .html, ...)
 * `-v` : verbose (plus d’info)
 
-#### Interpréter la sortie
+#### <mark style="color:green;">Interpréter la sortie</mark>
 
 * **Status 200** → ressource trouvée (page valide).
 * **Status 301/302** → redirection (peut indiquer un répertoire ou ressource déplacée).
@@ -64,9 +66,8 @@ ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://IP:PORT/w
 * **Size / Words / Lines** : utile pour repérer résultats anormaux (ex. page très courte = possible fichier intéressant).
 *   Exemple de résultat :
 
-    ```
-    dblclk.html [Status: 200, Size: 111] -> http://IP:PORT/w2ksvrus/dblclk.html
-    ```
+    <pre data-full-width="true"><code>dblclk.html [Status: 200, Size: 111] -> http://IP:PORT/w2ksvrus/dblclk.html
+    </code></pre>
 
 ***
 

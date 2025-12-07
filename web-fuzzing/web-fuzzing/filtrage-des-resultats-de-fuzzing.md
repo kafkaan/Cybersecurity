@@ -69,6 +69,7 @@ gobuster dir -u http://example.com/ -w wordlist.txt -s 200,301 --exclude-length 
 
 #### <mark style="color:green;">📝 Exemples Combinés FFUF</mark>
 
+{% code fullWidth="true" %}
 ```bash
 # Code 200, 427 mots, taille > 500 bytes
 mrrobotEliot_1@htb[/htb]$ ffuf -u http://example.com/FUZZ -w wordlist.txt -mc 200 -fw 427 -ms >500
@@ -82,6 +83,7 @@ mrrobotEliot_1@htb[/htb]$ ffuf -u http://example.com/FUZZ.bak -w wordlist.txt -f
 # Endpoints lents (> 500ms)
 mrrobotEliot_1@htb[/htb]$ ffuf -u http://example.com/FUZZ -w wordlist.txt -mt >500
 ```
+{% endcode %}
 
 ***
 
@@ -121,22 +123,24 @@ mrrobotEliot_1@htb[/htb]$ ffuf -u http://example.com/FUZZ -w wordlist.txt -mt >5
 
 #### <mark style="color:green;">📝 Exemples Combinés wenum</mark>
 
+{% code fullWidth="true" %}
 ```bash
 # Succès et redirections uniquement
-mrrobotEliot_1@htb[/htb]$ wenum -w wordlist.txt --sc 200,301,302 -u https://example.com/FUZZ
+wenum -w wordlist.txt --sc 200,301,302 -u https://example.com/FUZZ
 
 # Masquer erreurs communes
-mrrobotEliot_1@htb[/htb]$ wenum -w wordlist.txt --hc 404,400,500 -u https://example.com/FUZZ
+wenum -w wordlist.txt --hc 404,400,500 -u https://example.com/FUZZ
 
 # Messages courts (5-10 mots)
-mrrobotEliot_1@htb[/htb]$ wenum -w wordlist.txt --sw 5-10 -u https://example.com/FUZZ
+wenum -w wordlist.txt --sw 5-10 -u https://example.com/FUZZ
 
 # Masquer gros fichiers
-mrrobotEliot_1@htb[/htb]$ wenum -w wordlist.txt --hs 10000 -u https://example.com/FUZZ
+wenum -w wordlist.txt --hs 10000 -u https://example.com/FUZZ
 
 # Chercher "admin" OU "password"
-mrrobotEliot_1@htb[/htb]$ wenum -w wordlist.txt --sr "admin\|password" -u https://example.com/FUZZ
+wenum -w wordlist.txt --sr "admin\|password" -u https://example.com/FUZZ
 ```
+{% endcode %}
 
 ***
 
@@ -171,9 +175,11 @@ feroxbuster --url http://example.com -w wordlist.txt -s 200 -S 10240 -X "error"
 
 ### <mark style="color:blue;">🎓 Démonstration Pratique</mark>
 
+{% code overflow="wrap" fullWidth="true" %}
 ```bash
-mrrobotEliot_1@htb[/htb]$ ffuf -u http://IP:PORT/post.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "y=FUZZ" -w /usr/share/seclists/Discovery/Web-Content/common.txt -v -mc all
+ ffuf -u http://IP:PORT/post.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "y=FUZZ" -w /usr/share/seclists/Discovery/Web-Content/common.txt -v -mc all
 ```
+{% endcode %}
 
 **Résultat** : Inondé de 404 NOT FOUND ! 😵
 
