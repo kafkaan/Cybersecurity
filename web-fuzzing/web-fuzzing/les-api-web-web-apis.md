@@ -98,15 +98,15 @@ query {
 
 ### <mark style="color:blue;">Avantages des API Web</mark>
 
-#### 1. Standardisation
+#### <mark style="color:green;">1. Standardisation</mark>
 
 Fournissent des moyens standardisés pour que les clients accèdent et manipulent les données stockées sur le serveur.
 
-#### 2. Réutilisabilité du Code
+#### <mark style="color:green;">2. Réutilisabilité du Code</mark>
 
 Permettent aux développeurs d'exposer des fonctionnalités spécifiques à des utilisateurs externes ou d'autres applications.
 
-#### 3. Intégration de Services Tiers
+#### <mark style="color:green;">3. Intégration de Services Tiers</mark>
 
 Facilitent l'intégration de services externes :
 
@@ -114,7 +114,7 @@ Facilitent l'intégration de services externes :
 * Traitement sécurisé des paiements
 * Fonctionnalités de cartographie
 
-#### 4. Architecture Microservices
+#### <mark style="color:green;">4. Architecture Microservices</mark>
 
 Les API sont la **pierre angulaire** de l'architecture microservices :
 
@@ -468,7 +468,7 @@ Le fuzzing imite les actions d'acteurs malveillants, permettant d'identifier les
 
 ### <mark style="color:blue;">Types de Fuzzing d'API</mark>
 
-#### 1. Parameter Fuzzing (Fuzzing de Paramètres)
+#### <mark style="color:green;">1. Parameter Fuzzing (Fuzzing de Paramètres)</mark>
 
 **Technique principale** qui teste systématiquement différentes valeurs pour les paramètres de l'API.
 
@@ -484,7 +484,7 @@ Le fuzzing imite les actions d'acteurs malveillants, permettant d'identifier les
 * Cross-Site Scripting (XSS)
 * Falsification de paramètres (parameter tampering)
 
-#### 2. Data Format Fuzzing (Fuzzing de Format de Données)
+#### <mark style="color:green;">2. Data Format Fuzzing (Fuzzing de Format de Données)</mark>
 
 Cible les **formats de données structurés** comme JSON ou XML.
 
@@ -500,7 +500,7 @@ Cible les **formats de données structurés** comme JSON ou XML.
 * Buffer overflows
 * Mauvaise gestion des caractères spéciaux
 
-#### 3. Sequence Fuzzing (Fuzzing de Séquence)
+#### <mark style="color:green;">3. Sequence Fuzzing (Fuzzing de Séquence)</mark>
 
 Examine les **séquences de requêtes** vers des endpoints interconnectés.
 

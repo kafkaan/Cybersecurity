@@ -74,8 +74,6 @@ mrrobotEliot_1@htb[/htb]$ pipx runpip wenum install setuptools
 
 #### <mark style="color:green;">Exploration Manuelle</mark>
 
-Pour commencer, nous allons utiliser curl pour interagir manuellement avec le point de terminaison et mieux comprendre son comportement :
-
 ```bash
 mrrobotEliot_1@htb[/htb]$ curl http://IP:PORT/get.php
 ```
@@ -144,7 +142,7 @@ Cela indique que lorsque le paramètre `x` était défini sur la valeur "OA...",
 #### <mark style="color:green;">Exploration Manuelle</mark>
 
 ```bash
-mrrobotEliot_1@htb[/htb]$ curl -d "" http://IP:PORT/post.php
+curl -d "" http://IP:PORT/post.php
 ```
 
 **Réponse :**

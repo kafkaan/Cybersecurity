@@ -97,6 +97,57 @@ git log -p | grep -i "api"
 git checkout <commit_id> -- config.php
 ```
 
+{% code fullWidth="true" %}
+````shellscript
+git rev-list --all | xargs git -P grep --color -air "\.htb" | sort -u
+
+
+- Liste **tous les commits** de toutes les branches, tags, etc.
+- Sortie : une liste de hashes de commits (SHA)
+
+**Exemple de sortie :**
+```
+a1b2c3d4e5f6...
+f6e5d4c3b2a1...
+9876543210ab...
+```
+
+---
+
+### **Partie 2 : `| xargs git -P grep`**
+
+- `|` : pipe (envoie la sortie à la commande suivante)
+- `xargs` : prend chaque ligne et l'utilise comme argument pour la commande suivante
+- `git -P grep` : cherche du texte dans Git
+  - `-P` : désactive la pagination (affiche tout d'un coup)
+
+**Résultat** : Pour chaque commit, on va faire une recherche avec `grep`
+
+---
+
+### **Partie 3 : `--color -air "\.htb"`**
+
+Options de `git grep` :
+
+- `--color` : colore les résultats (met en surbrillance les correspondances)
+- `-a` : traite tous les fichiers comme du texte (même les binaires)
+- `-i` : insensible à la casse (ignore majuscules/minuscules)
+- `-r` : récursif (cherche dans tous les sous-dossiers)
+- `"\.htb"` : le pattern recherché
+  - `\.` : un point littéral (échappé)
+  - `htb` : les lettres "htb"
+  - **Cherche** : n'importe quoi contenant `.htb` (comme `domain.htb`, `test.htb`, etc.)
+
+---
+
+### **Partie 4 : `| sort -u`**
+
+- `sort` : trie les résultats
+- `-u` : unique (supprime les doublons)
+
+````
+{% endcode %}
+
 ***
 
 ### <mark style="color:red;">🛠 Outils spécialisés pour Git enumeration</mark>

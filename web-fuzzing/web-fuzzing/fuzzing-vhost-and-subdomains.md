@@ -56,7 +56,7 @@ gobuster vhost -u http://94.237.59.242:53195-w /usr/share/seclists/Discovery/Web
 * `-w /path/wordlist.txt` → Wordlist pour générer les noms
 * `--append-domain` → **CRUCIAL** : ajoute le domaine de base à chaque mot (ex: `admin.inlanefreight.htb`)
 
-#### 3. Exemple de sortie
+#### <mark style="color:green;">3. Exemple de sortie</mark>
 
 ```bash
 ===============================================================

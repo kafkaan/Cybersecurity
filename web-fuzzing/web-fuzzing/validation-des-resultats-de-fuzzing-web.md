@@ -21,11 +21,11 @@ La validation des résultats remplit plusieurs objectifs importants :
 
 La méthode la plus fiable pour valider une vulnérabilité potentielle est la **vérification manuelle** :
 
-#### 1. Reproduire la Requête
+#### <mark style="color:green;">1. Reproduire la Requête</mark>
 
 Utiliser un outil comme `curl` ou votre navigateur web pour envoyer manuellement la même requête qui a déclenché la réponse inhabituelle pendant le fuzzing.
 
-#### 2. Analyser la Réponse
+#### <mark style="color:green;">2. Analyser la Réponse</mark>
 
 Examiner attentivement la réponse pour confirmer si elle indique une vulnérabilité. Rechercher :
 
@@ -33,7 +33,7 @@ Examiner attentivement la réponse pour confirmer si elle indique une vulnérabi
 * Contenu inattendu
 * Comportement qui dévie de la norme attendue
 
-#### 3. Exploitation (avec précaution)
+#### <mark style="color:green;">3. Exploitation (avec précaution)</mark>
 
 Si le résultat semble prometteur, tenter d'exploiter la vulnérabilité dans un environnement contrôlé. Cette étape doit être effectuée avec prudence et **uniquement après autorisation appropriée**.
 
@@ -41,7 +41,7 @@ Si le résultat semble prometteur, tenter d'exploiter la vulnérabilité dans un
 
 ### <mark style="color:blue;">Approche Responsable</mark>
 
-#### Créer une Preuve de Concept (PoC)
+#### <mark style="color:green;">Créer une Preuve de Concept (PoC)</mark>
 
 Éviter les actions qui pourraient nuire au système de production ou compromettre des données sensibles. Se concentrer sur la création d'une PoC qui démontre l'existence de la vulnérabilité sans causer de dommages.
 
@@ -51,11 +51,11 @@ Si le résultat semble prometteur, tenter d'exploiter la vulnérabilité dans un
 
 ### <mark style="color:blue;">Exemple Pratique : Répertoire de Sauvegarde</mark>
 
-#### Scénario
+#### <mark style="color:green;">Scénario</mark>
 
 Votre fuzzer a découvert un répertoire `/backup/` avec un code de statut `200 OK`.
 
-#### Risques des Répertoires de Sauvegarde
+#### <mark style="color:green;">Risques des Répertoires de Sauvegarde</mark>
 
 Les fichiers de sauvegarde peuvent contenir :
 
@@ -63,7 +63,7 @@ Les fichiers de sauvegarde peuvent contenir :
 * **Fichiers de configuration** : Clés API, clés de chiffrement, paramètres sensibles
 * **Code source** : Révélation de vulnérabilités ou détails d'implémentation
 
-#### Validation avec curl
+#### <mark style="color:green;">Validation avec curl</mark>
 
 **Vérifier si le répertoire est accessible :**
 
@@ -92,14 +92,14 @@ Date: Wed, 12 Jun 2024 14:08:59 GMT
 Server: lighttpd/1.4.76
 ```
 
-#### Analyse des En-têtes
+#### <mark style="color:green;">Analyse des En-têtes</mark>
 
 * **Content-Type** : Indique le type de fichier (ex: `application/sql` pour un dump de base de données)
 * **Content-Length** :
   * Valeur > 0 : Fichier avec contenu réel (préoccupant)
   * Valeur = 0 : Fichier vide (potentiellement suspect mais pas nécessairement une vulnérabilité)
 
-#### Avantages de l'Approche par En-têtes
+#### <mark style="color:green;">Avantages de l'Approche par En-têtes</mark>
 
 En se concentrant sur les en-têtes, vous pouvez :
 

