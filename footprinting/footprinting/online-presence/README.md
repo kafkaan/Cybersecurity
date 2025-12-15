@@ -42,12 +42,9 @@ layout:
   * Utiliser <mark style="color:red;">**`crt.sh`**</mark> pour rechercher les journaux de transparence des certificats.
   *   Exemples de commandes:
 
-      {% code title="crt.sh" overflow="wrap" %}
-      ```bash
-      curl -s https://crt.sh/\?q\=inlanefreight.com\&output\=json | jq .
-      curl -s https://crt.sh/\?q\=inlanefreight.com\&output\=json | jq . | grep name | cut -d":" -f2 | grep -v "CN=" | cut -d'"' -f2 | sort -u
-      ```
-      {% endcode %}
+      <pre class="language-bash" data-title="crt.sh" data-overflow="wrap"><code class="lang-bash">curl -s https://crt.sh/\?q\=inlanefreight.com\&#x26;output\=json | jq .
+      curl -s https://crt.sh/\?q\=inlanefreight.com\&#x26;output\=json | jq . | grep name | cut -d":" -f2 | grep -v "CN=" | cut -d'"' -f2 | sort -u
+      </code></pre>
 
 {% hint style="info" %}
 1. <mark style="color:green;">**`curl`**</mark>
@@ -88,11 +85,8 @@ layout:
   * Utiliser les commandes `host` et `grep` pour identifier les adresses IP.
   *   Exemple de commande:
 
-      {% code title="Identification" overflow="wrap" %}
-      ```bash
-      for i in $(cat subdomainlist); do host $i | grep "has address" | grep inlanefreight.com | cut -d" " -f1,4; done
-      ```
-      {% endcode %}
+      <pre class="language-bash" data-title="Identification" data-overflow="wrap"><code class="lang-bash">for i in $(cat subdomainlist); do host $i | grep "has address" | grep inlanefreight.com | cut -d" " -f1,4; done
+      </code></pre>
 
 ***
 

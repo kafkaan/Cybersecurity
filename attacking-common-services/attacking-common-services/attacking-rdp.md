@@ -143,11 +143,8 @@ Voyons les concepts clés :
 * L'attaque consiste à **créer un service** qui va s'exécuter en tant que **LocalSystem**, et qui utilisera la commande `tscon.exe` pour se connecter à une session RDP d'un autre utilisateur.
 *   Exemple de commande pour créer un service Windows :
 
-    {% code overflow="wrap" %}
-    ```bash
-    sc.exe create sessionhijack binpath= "cmd.exe /k tscon 2 /dest:rdp-tcp#13"
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">sc.exe create sessionhijack binpath= "cmd.exe /k tscon 2 /dest:rdp-tcp#13"
+    </code></pre>
 
     * Cette commande crée un service nommé `sessionhijack` qui, une fois démarré, exécutera `tscon` pour se connecter à la session de l'utilisateur avec l'ID 2 (`rdp-tcp#14`), et rediriger cette session vers la session `rdp-tcp#13`.
 

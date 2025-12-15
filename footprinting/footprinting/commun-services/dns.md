@@ -194,11 +194,8 @@ Pour que la traduction inverse soit possible, le serveur DNS doit avoir un fichi
    * Le serveur DNS contient un fichier de recherche inverse où chaque adresse IP (dans le format "in-addr.arpa") est associée à un FQDN via un enregistrement PTR.
    *   Exemple d'un enregistrement PTR :
 
-       {% code title="" overflow="wrap" %}
-       ```bash
-       1.2.0.192.in-addr.arpa. IN PTR www.example.com.
-       ```
-       {% endcode %}
+       <pre class="language-bash" data-title="" data-overflow="wrap"><code class="lang-bash">1.2.0.192.in-addr.arpa. IN PTR www.example.com.
+       </code></pre>
 3. **Processus de Recherche Inverse** :
    * Lorsqu'un client ou un serveur veut connaître le nom de domaine associé à une adresse IP, il interroge le serveur DNS avec l'adresse IP convertie.
    * Le serveur DNS cherche dans son fichier de recherche inverse et renvoie le nom de domaine correspondant.
@@ -313,17 +310,14 @@ dig axfr domain.com @dns-server
 
 *   **Subdomain Brute Forcing**
 
-    {% code overflow="wrap" %}
-    ```bash
-    for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt); do
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt); do
         dig $sub.inlanefreight.htb @10.129.14.128 |
         grep -v ';\|SOA' |
         sed -r '/^\s*$/d' |
         grep $sub |
         tee -a subdomains.txt
     done
-    ```
-    {% endcode %}
+    </code></pre>
 
 {% hint style="warning" %}
 **1. `for sub in $(cat /opt/useful/SecLists/Discovery/DNS/subdomains-top1million-110000.txt); do`**

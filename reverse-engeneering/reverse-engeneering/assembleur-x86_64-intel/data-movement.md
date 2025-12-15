@@ -6,8 +6,7 @@
 
 Commencez avec les instructions de déplacement de données, qui sont parmi les instructions les plus fondamentales dans tout programme assembleur.
 
-* Nous utiliserons fréquemment ces instructions pour déplacer des données entre adresses, déplacer des données entre registres et adresses mémoire, et charger des données immédiates dans des registres ou adresses mémoire.\
-
+* Nous utiliserons fréquemment ces instructions pour déplacer des données entre adresses, déplacer des données entre registres et adresses mémoire, et charger des données immédiates dans des registres ou adresses mémoire.<br>
 * Les principales instructions de **déplacement de données** sont :
 
 <table data-full-width="true"><thead><tr><th>Instruction</th><th>Description</th><th>Exemple</th></tr></thead><tbody><tr><td><mark style="color:red;"><strong><code>mov</code></strong></mark></td><td>Déplacer des données ou charger des données immédiates</td><td><code>mov rax, 1</code> → <code>rax = 1</code></td></tr><tr><td><mark style="color:red;"><strong><code>lea</code></strong></mark></td><td>Charger une adresse pointant vers la valeur</td><td><code>lea rax, [rsp+5]</code> → <code>rax = rsp + 5</code></td></tr><tr><td><mark style="color:red;"><strong><code>xchg</code></strong></mark></td><td>Échanger des données entre deux registres ou adresses</td><td><code>xchg rax, rbx</code> → <code>rax = rbx, rbx = rax</code></td></tr></tbody></table>

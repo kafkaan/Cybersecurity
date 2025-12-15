@@ -20,18 +20,12 @@
 * **Commandes employées :**
   *   **Sub-Domain Fuzzing (échec) :**
 
-      {% code overflow="wrap" %}
-      ```bash
-      ffuf -w /SecLists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://FUZZ.academy.htb:PORT/
-      ```
-      {% endcode %}
+      <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">ffuf -w /SecLists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://FUZZ.academy.htb:PORT/
+      </code></pre>
   *   **VHost Fuzzing :**
 
-      {% code overflow="wrap" %}
-      ```bash
-      ffuf -w /SecLists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://academy.htb:PORT/ -H "Host: FUZZ.academy.htb" -fs 985
-      ```
-      {% endcode %}
+      <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">ffuf -w /SecLists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://academy.htb:PORT/ -H "Host: FUZZ.academy.htb" -fs 985
+      </code></pre>
 * **Réponse :** `test`, `archive`, `faculty`
 
 ***
@@ -43,11 +37,8 @@
 * **Ajout des sous-domaines au fichier `/etc/hosts`.**
 *   **Fuzzing des extensions sur les sous-domaines :**
 
-    {% code overflow="wrap" %}
-    ```bash
-    ffuf -w SecLists/Discovery/Web-Content/web-extensions.txt:FUZZ -u http://SUBDOMAIN.academy.htb:PORT/indexFUZZ
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">ffuf -w SecLists/Discovery/Web-Content/web-extensions.txt:FUZZ -u http://SUBDOMAIN.academy.htb:PORT/indexFUZZ
+    </code></pre>
 * **Réponse :** `.php`, `.php7`, `.phps`
 
 ***
@@ -58,11 +49,8 @@
 
 *   **Commande de fuzzing récursif :**
 
-    {% code overflow="wrap" %}
-    ```bash
-    ffuf -w SecLists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -u http://SUBDOMAIN.academy.htb:PORT/FUZZ -recursion -recursion-depth 1 -e .php,.php7,.phps -fs 287
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">ffuf -w SecLists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -u http://SUBDOMAIN.academy.htb:PORT/FUZZ -recursion -recursion-depth 1 -e .php,.php7,.phps -fs 287
+    </code></pre>
 * **Observation :**
   * La page d'intérêt est découverte sur `faculty.academy.htb/courses/linux-security.php7`.
 * **Réponse :** `http://faculty.academy.htb:PORT/courses/linux-security.php7`
@@ -75,11 +63,8 @@
 
 *   **Fuzzing des paramètres :**
 
-    {% code overflow="wrap" %}
-    ```bash
-    ffuf -w SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://faculty.academy.htb:PORT/courses/linux-security.php7 -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs 774
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">ffuf -w SecLists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://faculty.academy.htb:PORT/courses/linux-security.php7 -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs 774
+    </code></pre>
 * **Réponse :** `user`, `username`
 
 ***
@@ -90,18 +75,12 @@
 
 *   **Fuzzing des valeurs pour `username` :**
 
-    {% code overflow="wrap" %}
-    ```bash
-    ffuf -w SecLists/Usernames/xato-net-10-million-usernames.txt:FUZZ -u http://faculty.academy.htb:PORT/courses/linux-security.php7 -X POST -d 'username=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs 781
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">ffuf -w SecLists/Usernames/xato-net-10-million-usernames.txt:FUZZ -u http://faculty.academy.htb:PORT/courses/linux-security.php7 -X POST -d 'username=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs 781
+    </code></pre>
 *   **Validation de la réponse :**
 
-    {% code overflow="wrap" %}
-    ```bash
-    curl http://faculty.academy.htb:PORT/courses/linux-security.php7 -X POST -d 'username=harry' -H 'Content-Type: application/x-www-form-urlencoded'
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">curl http://faculty.academy.htb:PORT/courses/linux-security.php7 -X POST -d 'username=harry' -H 'Content-Type: application/x-www-form-urlencoded'
+    </code></pre>
 * **Réponse :** `HTB{w3b_fuzz1n6_m4573r}`
 
 ***

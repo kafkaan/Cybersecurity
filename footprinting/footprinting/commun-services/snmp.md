@@ -135,21 +135,15 @@ Le **footprinting** (cartographie) du SNMP est une technique utilisée pour iden
 * **Fonctionnalité** : `onesixtyone` est utilisé pour réaliser une attaque par force brute sur les noms des chaînes de communauté SNMP.
 *   **Exemple d'utilisation** :
 
-    {% code overflow="wrap" %}
-    ```bash
-    mrroboteLiot@htb[/htb]$ onesixtyone -c /opt/useful/SecLists/Discovery/SNMP/snmp.txt 10.129.14.128
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">mrroboteLiot@htb[/htb]$ onesixtyone -c /opt/useful/SecLists/Discovery/SNMP/snmp.txt 10.129.14.128
+    </code></pre>
 
     * **Résultat** :
       * Cet outil tente de deviner la chaîne de communauté en utilisant des listes de mots (wordlists). Si une chaîne valide est trouvée, des informations sur le système seront affichées.
       *   **Exemple de retour** :
 
-          {% code overflow="wrap" %}
-          ```plaintext
-          10.129.14.128 [public] Linux htb 5.11.0-37-generic #41~20.04.2-Ubuntu SMP Fri Sep 24 09:06:38 UTC 2021 x86_64
-          ```
-          {% endcode %}
+          <pre class="language-plaintext" data-overflow="wrap"><code class="lang-plaintext">10.129.14.128 [public] Linux htb 5.11.0-37-generic #41~20.04.2-Ubuntu SMP Fri Sep 24 09:06:38 UTC 2021 x86_64
+          </code></pre>
 
 <mark style="color:green;">**3. Braa**</mark>
 
@@ -164,8 +158,5 @@ Le **footprinting** (cartographie) du SNMP est une technique utilisée pour iden
       * L'outil retourne des informations sur le système en utilisant la chaîne de communauté trouvée.
       *   **Exemple de retour** :
 
-          {% code overflow="wrap" %}
-          ```plaintext
-          10.129.14.128:20ms:.1.3.6.1.2.1.1.1.0:Linux htb 5.11.0-34-generic #36~20.04.1-Ubuntu SMP Fri Aug 27 08:06:32 UTC 2021 x86_64
-          ```
-          {% endcode %}
+          <pre class="language-plaintext" data-overflow="wrap"><code class="lang-plaintext">10.129.14.128:20ms:.1.3.6.1.2.1.1.1.0:Linux htb 5.11.0-34-generic #36~20.04.1-Ubuntu SMP Fri Aug 27 08:06:32 UTC 2021 x86_64
+          </code></pre>

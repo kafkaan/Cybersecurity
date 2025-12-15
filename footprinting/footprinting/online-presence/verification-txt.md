@@ -48,11 +48,8 @@ Les enregistrements TXT (Text) sont un <mark style="color:orange;">**type de res
 * **Fonctionnement** : Les serveurs de réception vérifient si l'email passe les contrôles SPF et DKIM. Si l'email échoue, le serveur applique la politique DMARC (par exemple, rejeter ou mettre en quarantaine le mail).
 *   **Exemple d'enregistrement DMARC** :
 
-    {% code overflow="wrap" fullWidth="true" %}
-    ```perl
-    _dmarc.example.com IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@example.com; ruf=mailto:dmarc-failures@example.com"
-    ```
-    {% endcode %}
+    <pre class="language-perl" data-overflow="wrap" data-full-width="true"><code class="lang-perl">_dmarc.example.com IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@example.com; ruf=mailto:dmarc-failures@example.com"
+    </code></pre>
 
     * `v=DMARC1` : Version DMARC.
     * `p=reject` : Politique de rejet des emails qui échouent aux vérifications.

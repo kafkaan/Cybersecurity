@@ -13,12 +13,9 @@ There are several options available to us with the tool. Since the host is domai
 * **Utilisation** : Cet outil permet de réaliser une attaque de _password spraying_ sur un réseau où un attaquant a déjà un accès initial (souvent sur une machine jointe au domaine).
 *   **Commande Exemple** :
 
-    {% code overflow="wrap" %}
-    ```powershell
-    Import-Module .\DomainPasswordSpray.ps1
+    <pre class="language-powershell" data-overflow="wrap"><code class="lang-powershell">Import-Module .\DomainPasswordSpray.ps1
     Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
-    ```
-    {% endcode %}
+    </code></pre>
 * **Fonctionnement** : L’outil crée une liste d’utilisateurs à partir de l’Active Directory, exclut les utilisateurs sur le point d’être verrouillés et tente de se connecter en utilisant un mot de passe commun.
 
 <mark style="color:green;">**Mitigation des attaques de Password Spraying**</mark>

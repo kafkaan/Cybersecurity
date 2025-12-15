@@ -32,11 +32,8 @@
        ```
    *   Peut aussi utiliser une image :
 
-       {% code overflow="wrap" %}
-       ```html
-       <script>document.body.background = "https://www.hackthebox.eu/images/logo-htb.svg"</script>
-       ```
-       {% endcode %}
+       <pre class="language-html" data-overflow="wrap"><code class="lang-html">&#x3C;script>document.body.background = "https://www.hackthebox.eu/images/logo-htb.svg"&#x3C;/script>
+       </code></pre>
 2. **Titre de la page** :
    *   Utilisation de `document.title` pour changer le titre affiché sur l’onglet :
 
@@ -61,14 +58,11 @@
 
 *   Exemple de payload combinant plusieurs modifications :
 
-    {% code overflow="wrap" fullWidth="true" %}
-    ```html
-    <script>
+    <pre class="language-html" data-overflow="wrap" data-full-width="true"><code class="lang-html">&#x3C;script>
       document.body.style.background = "#141d2b";
       document.title = 'HackTheBox Academy';
-      document.getElementsByTagName('body')[0].innerHTML = '<center><h1 style="color: white">Cyber Security Training</h1><p style="color: white">by <img src="https://academy.hackthebox.com/images/logo-htb.svg" height="25px"></p></center>';
-    </script>
-    ```
-    {% endcode %}
+      document.getElementsByTagName('body')[0].innerHTML = '&#x3C;center>&#x3C;h1 style="color: white">Cyber Security Training&#x3C;/h1>&#x3C;p style="color: white">by &#x3C;img src="https://academy.hackthebox.com/images/logo-htb.svg" height="25px">&#x3C;/p>&#x3C;/center>';
+    &#x3C;/script>
+    </code></pre>
 
 ***

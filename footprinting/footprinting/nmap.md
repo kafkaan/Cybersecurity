@@ -267,8 +267,7 @@ sudo nmap 10.129.2.28 -p 445 --packet-trace -n --disable-arp-ping -Pn
 {% hint style="info" %}
 If we get an ICMP response with `error code 3` (port unreachable), we know that the port is indeed `closed`.
 
-For all other ICMP responses, the scanned ports are marked as (`open|filtered`).\
-
+For all other ICMP responses, the scanned ports are marked as (`open|filtered`).<br>
 {% endhint %}
 
 ***
@@ -471,11 +470,8 @@ Optimiser les performances des scans avec Nmap est crucial pour effectuer des an
     * Trouvé : 10 hôtes en 39.44 secondes.
 *   <mark style="color:green;">**Optimisation du Timeout**</mark>
 
-    {% code title="Optimisation" overflow="wrap" %}
-    ```bash
-    sudo nmap 10.129.2.0/24 -F --initial-rtt-timeout 50ms --max-rtt-timeout 100ms
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-title="Optimisation" data-overflow="wrap"><code class="lang-bash">sudo nmap 10.129.2.0/24 -F --initial-rtt-timeout 50ms --max-rtt-timeout 100ms
+    </code></pre>
 
     * Trouvé : 8 hôtes en 12.29 secondes.
     * Conclusion : Un timeout trop court peut faire manquer des hôtes.
@@ -627,11 +623,8 @@ Cependant, Nmap nous donne toujours un moyen de spécifier nous-mêmes les serve
     ```
 *   **Scan SYN depuis Port DNS** :
 
-    {% code title="" overflow="wrap" %}
-    ```bash
-    sudo nmap -p 50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-title="" data-overflow="wrap"><code class="lang-bash">sudo nmap -p 50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
+    </code></pre>
 *   **Connexion à un Port Filtré avec Ncat** :
 
     ```bash

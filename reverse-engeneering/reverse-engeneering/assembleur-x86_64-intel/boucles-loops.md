@@ -1,7 +1,6 @@
 # Boucles (Loops)
 
-Maintenant que nous avons couvert les instructions de base, nous pouvons commencer à apprendre les **instructions de contrôle de programme**.\
-
+Maintenant que nous avons couvert les instructions de base, nous pouvons commencer à apprendre les **instructions de contrôle de programme**.<br>
 
 * Comme nous le savons déjà, le code en assembleur est **exécuté ligne par ligne**, donc il regarde toujours **la ligne suivante** pour les instructions à traiter.
 

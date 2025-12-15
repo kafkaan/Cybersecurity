@@ -58,18 +58,12 @@ Basic Auth est une cible courante pour les attaques par force brute. **Hydra** e
 1.  **Télécharger une liste de mots de passe**\
     Si vous n'avez pas de liste, vous pouvez en télécharger une comme celle des mots de passe les plus utilisés :
 
-    {% code overflow="wrap" fullWidth="true" %}
-    ```bash
-    curl -s -O https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Passwords/Common-Credentials/2023-200_most_used_passwords.txt
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap" data-full-width="true"><code class="lang-bash">curl -s -O https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Passwords/Common-Credentials/2023-200_most_used_passwords.txt
+    </code></pre>
 2.  **Lancer une attaque brute-force avec Hydra** Voici un exemple de commande Hydra pour une cible utilisant Basic Auth :
 
-    {% code overflow="wrap" %}
-    ```bash
-    hydra -l basic-auth-user -P 2023-200_most_used_passwords.txt 127.0.0.1 http-get / -s 81
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">hydra -l basic-auth-user -P 2023-200_most_used_passwords.txt 127.0.0.1 http-get / -s 81
+    </code></pre>
 
 <mark style="color:green;">**Explication de la commande :**</mark>
 

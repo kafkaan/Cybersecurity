@@ -89,7 +89,7 @@ Restart-Service kdc
 
 ***
 
-#### Outils d’exploitation et détection
+#### <mark style="color:green;">Outils d’exploitation et détection</mark>
 
 * **Certipy** peut détecter la vulnérabilité ESC16 et aider à l’exploitation.
 * Exemple de commande pour vérifier vulnérabilité :
@@ -105,7 +105,7 @@ Pour **finaliser une exploitation ESC16** via un template de certificat dans AD 
 
 ***
 
-#### 1. **Flag CT\_FLAG\_ENROLLEE\_SUPPLIES\_SUBJECT**
+1\. **Flag CT\_FLAG\_ENROLLEE\_SUPPLIES\_SUBJECT**
 
 * **Doit être activé** dans le template.
 * Permet à l’utilisateur qui fait la demande (l’enrollee) de **fournir les informations du sujet (Subject)** dans la requête de certificat.
@@ -113,7 +113,7 @@ Pour **finaliser une exploitation ESC16** via un template de certificat dans AD 
 
 ***
 
-#### 2. **Attribut `userPrincipalName` modifiable par l’utilisateur**
+2\. **Attribut `userPrincipalName` modifiable par l’utilisateur**
 
 * Pour pouvoir **usurper un autre compte**, l’utilisateur doit avoir **le droit d’écrire sur son propre `userPrincipalName`**.
 * Cette permission est souvent désactivée par défaut.
@@ -121,14 +121,14 @@ Pour **finaliser une exploitation ESC16** via un template de certificat dans AD 
 
 ***
 
-#### 3. **Template compatible avec l’extension szOID\_NTDS\_CA\_SECURITY\_EXT**
+3\. **Template compatible avec l’extension szOID\_NTDS\_CA\_SECURITY\_EXT**
 
 * Normalement, cette extension est prise en compte **uniquement si le flag CT\_FLAG\_ENROLLEE\_SUPPLIES\_SUBJECT est activé**.
 * **Si la CA a désactivé cette extension (ESC16 activé),** alors la liaison forte est désactivée, permettant la validation faible.
 
 ***
 
-#### 4. **Pas de restrictions fortes sur le SAN**
+4\. **Pas de restrictions fortes sur le SAN**
 
 * Si la template ou la CA impose des restrictions strictes sur le **Subject Alternative Name (SAN)**, cela pourrait empêcher une usurpation via ESC16.
 * Il faut souvent que le SAN puisse être contrôlé par le demandeur (par exemple, via le flag CT\_FLAG\_ENROLLEE\_SUPPLIES\_SUBJECT).

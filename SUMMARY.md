@@ -352,7 +352,7 @@
     * [Credential Hunting](windows-privilege-escalation/windows-privilege-escalation/credential-theft/credential-hunting.md)
     * [Other Files](windows-privilege-escalation/windows-privilege-escalation/credential-theft/other-files.md)
     * [Further Credential Theft](windows-privilege-escalation/windows-privilege-escalation/credential-theft/further-credential-theft.md)
-    * [Élévation de privilèges via DPAPI (Data Protection API)](windows-privilege-escalation/windows-privilege-escalation/credential-theft/elevation-de-privileges-via-dpapi-data-protection-api.md)
+    * [DPAPI Exploit](windows-privilege-escalation/windows-privilege-escalation/credential-theft/dpapi-exploit.md)
   * [ADCS (Certificats)](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/README.md)
     * [KeyCredentialLink](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/keycredentiallink.md)
     * [Email Spoofing](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/email-spoofing.md)

