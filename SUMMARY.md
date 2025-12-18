@@ -279,6 +279,7 @@
   * [Read the GMSA Password](active-direcotry-attacks/ad-attacks/read-the-gmsa-password.md)
   * [Certificate Cracking (PFX/PEM)](active-direcotry-attacks/ad-attacks/certificate-cracking-pfx-pem.md)
   * [Pass-The-Certificate (PKINIT)](active-direcotry-attacks/ad-attacks/pass-the-certificate-pkinit.md)
+* [AD Recycle Bin](active-direcotry-attacks/ad-recycle-bin.md)
 * [RBCD](active-direcotry-attacks/rbcd.md)
 * [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints.md)
 * [Rubeus](active-direcotry-attacks/rubeus.md)

