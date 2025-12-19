@@ -1153,9 +1153,9 @@ Start-Job -ScriptBlock $sb
 
 Define a scriptblock and start the `chisel` client in the background
 
-<figure><img src="../.gitbook/assets/image (147).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (147).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (148).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (148).png" alt=""><figcaption></figcaption></figure>
 
 Reverse dynamic SOCKS proxy has been established
 

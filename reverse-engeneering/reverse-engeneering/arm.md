@@ -89,7 +89,7 @@ Il existe 4 types de piles :
 * _pile ascendante vide_ : tout comme la pile ascendante, la pile grandit vers les adresses hautes. Par contre, le registre _sp_ pointe sur une entrée vide de la pile ;
 * _pile descendante vide_ : fonctionne comme la pile descendante, sauf que le registre _sp_ pointe sur une entrée vide de la pile.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
 ***
 

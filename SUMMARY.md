@@ -225,6 +225,11 @@
 
 ## 🅰️ ACTIVE DIRECOTRY ATTACKS
 
+* [Introduction to Active Directory](active-direcotry-attacks/introduction-to-active-directory/README.md)
+  * [Structure d’Active Directory](active-direcotry-attacks/introduction-to-active-directory/structure-dactive-directory.md)
+  * [Terminologie Active Directory](active-direcotry-attacks/introduction-to-active-directory/terminologie-active-directory.md)
+  * [Active Directory Objects](active-direcotry-attacks/introduction-to-active-directory/active-directory-objects.md)
+  * [Fonctionnalité Active Directory](active-direcotry-attacks/introduction-to-active-directory/fonctionnalite-active-directory.md)
 * [AD ENUMERATION](active-direcotry-attacks/ad-enumeration/README.md)
   * [Introduction](active-direcotry-attacks/ad-enumeration/introduction.md)
   * [External Recon and Enumeration Principles](active-direcotry-attacks/ad-enumeration/external-recon-and-enumeration-principles.md)
@@ -279,12 +284,12 @@
   * [Read the GMSA Password](active-direcotry-attacks/ad-attacks/read-the-gmsa-password.md)
   * [Certificate Cracking (PFX/PEM)](active-direcotry-attacks/ad-attacks/certificate-cracking-pfx-pem.md)
   * [Pass-The-Certificate (PKINIT)](active-direcotry-attacks/ad-attacks/pass-the-certificate-pkinit.md)
-* [AD Recycle Bin](active-direcotry-attacks/ad-recycle-bin.md)
-* [RBCD](active-direcotry-attacks/rbcd.md)
-* [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints.md)
-* [Rubeus](active-direcotry-attacks/rubeus.md)
-* [Kerberos Tickets](active-direcotry-attacks/kerberos-tickets.md)
-* [PowerShell Active Directory](active-direcotry-attacks/powershell-active-directory.md)
+  * [AD Recycle Bin](active-direcotry-attacks/ad-attacks/ad-recycle-bin.md)
+  * [RBCD](active-direcotry-attacks/ad-attacks/rbcd.md)
+  * [Rubeus](active-direcotry-attacks/ad-attacks/rubeus.md)
+  * [Kerberos Tickets](active-direcotry-attacks/ad-attacks/kerberos-tickets.md)
+* [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints/README.md)
+  * [PowerShell Active Directory](active-direcotry-attacks/ad-and-windows-script-hints/powershell-active-directory.md)
 * [SKILLS ASSESSMENT I](active-direcotry-attacks/skills-assessment-i.md)
 * [SKILLS ASSESSMENT II](active-direcotry-attacks/skills-assessment-ii.md)
 
