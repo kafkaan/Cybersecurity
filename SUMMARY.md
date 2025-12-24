@@ -230,6 +230,8 @@
   * [Terminologie Active Directory](active-direcotry-attacks/introduction-to-active-directory/terminologie-active-directory.md)
   * [Active Directory Objects](active-direcotry-attacks/introduction-to-active-directory/active-directory-objects.md)
   * [Fonctionnalité Active Directory](active-direcotry-attacks/introduction-to-active-directory/fonctionnalite-active-directory.md)
+  * [Kerberos, DNS, LDAP, MSRPC](active-direcotry-attacks/introduction-to-active-directory/kerberos-dns-ldap-msrpc.md)
+  * [Authentification NTLM](active-direcotry-attacks/introduction-to-active-directory/authentification-ntlm.md)
 * [AD ENUMERATION](active-direcotry-attacks/ad-enumeration/README.md)
   * [Introduction](active-direcotry-attacks/ad-enumeration/introduction.md)
   * [External Recon and Enumeration Principles](active-direcotry-attacks/ad-enumeration/external-recon-and-enumeration-principles.md)
@@ -465,6 +467,8 @@
   * [EMPTY ENV VARIABLES AND LIBRARY HIJACKING](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/README.md)
     * [CVE-2024-48990-PoC](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/cve-2024-48990-poc.md)
   * [Terraform](linux-privilege-escalation/various-techniques/terraform.md)
+  * [Empoisonnement DNS](linux-privilege-escalation/various-techniques/empoisonnement-dns.md)
+  * [Forgerie de Certificats SSL](linux-privilege-escalation/various-techniques/forgerie-de-certificats-ssl.md)
 
 ## CYPHER INJECTION
 
