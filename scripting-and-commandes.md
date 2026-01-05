@@ -760,3 +760,26 @@ for i in range(10000):
             print("[-] Div .main-content non trouvée")
 ```
 {% endcode %}
+
+***
+
+## SMB KERBEROS CONNECTION
+
+```bash
+smbclient.py voleur.htb/ryan.naylor:HollowOct31Nyt@dc.voleur.htb -k
+Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
+
+[-] CCache file is not found. Skipping...
+Type help for list of commands
+# 
+```
+
+Or I can use `smbclient` (with the `krb5.conf` in place):
+
+{% code fullWidth="true" %}
+```
+smbclient -U 'voleur.htb/ryan.naylor%HollowOct31Nyt' --realm=voleur.htb //dc.voleur.htb/IT
+Try "help" to get a list of possible commands.
+smb: \> 
+```
+{% endcode %}

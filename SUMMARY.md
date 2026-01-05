@@ -290,6 +290,9 @@
   * [RBCD](active-direcotry-attacks/ad-attacks/rbcd.md)
   * [Rubeus](active-direcotry-attacks/ad-attacks/rubeus.md)
   * [Kerberos Tickets](active-direcotry-attacks/ad-attacks/kerberos-tickets.md)
+  * [Timeroasting](active-direcotry-attacks/ad-attacks/timeroasting.md)
+  * [CLSID Hijacking](active-direcotry-attacks/ad-attacks/clsid-hijacking.md)
+  * [GPO Abuse](active-direcotry-attacks/ad-attacks/gpo-abuse.md)
 * [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints/README.md)
   * [PowerShell Active Directory](active-direcotry-attacks/ad-and-windows-script-hints/powershell-active-directory.md)
 * [SKILLS ASSESSMENT I](active-direcotry-attacks/skills-assessment-i.md)
@@ -327,6 +330,7 @@
   * [Next.Js LFI](web-attacks/web-attacks/next.js-lfi.md)
   * [Server-Side Template Injection (SSTI)](web-attacks/web-attacks/server-side-template-injection-ssti.md)
   * [Django Cache Poisoning](web-attacks/web-attacks/django-cache-poisoning.md)
+  * [Désérialisation PHP et RCE](web-attacks/web-attacks/deserialisation-php-et-rce.md)
 
 ## 🪟 Windows Privilege Escalation
 
@@ -334,6 +338,7 @@
   * [Enumeration](windows-privilege-escalation/windows-privilege-escalation/enumeration/README.md)
     * [Initial Enumeration](windows-privilege-escalation/windows-privilege-escalation/enumeration/initial-enumeration.md)
     * [Communication with Processes](windows-privilege-escalation/windows-privilege-escalation/enumeration/communication-with-processes.md)
+    * [Windows Internals](windows-privilege-escalation/windows-privilege-escalation/enumeration/windows-internals.md)
   * [Windows User Privileges](windows-privilege-escalation/windows-privilege-escalation/windows-user-privileges/README.md)
     * [SeImpersonate and SeAssignPrimaryToken](windows-privilege-escalation/windows-privilege-escalation/windows-user-privileges/seimpersonate-and-seassignprimarytoken.md)
     * [SeDebugPrivilege](windows-privilege-escalation/windows-privilege-escalation/windows-user-privileges/sedebugprivilege.md)
@@ -360,11 +365,13 @@
       * [CVE-2021-1675/CVE-2021-34527 PrintNightmare](windows-privilege-escalation/windows-privilege-escalation/attacking-the-os/kernel-exploits/cve-2021-1675-cve-2021-34527-printnightmare.md)
       * [CVE-2020-0668](windows-privilege-escalation/windows-privilege-escalation/attacking-the-os/kernel-exploits/cve-2020-0668.md)
     * [DLL Injection](windows-privilege-escalation/windows-privilege-escalation/attacking-the-os/dll-injection.md)
+    * [CLSID Hijacking](windows-privilege-escalation/windows-privilege-escalation/attacking-the-os/clsid-hijacking.md)
   * [Credential Theft](windows-privilege-escalation/windows-privilege-escalation/credential-theft/README.md)
     * [Credential Hunting](windows-privilege-escalation/windows-privilege-escalation/credential-theft/credential-hunting.md)
     * [Other Files](windows-privilege-escalation/windows-privilege-escalation/credential-theft/other-files.md)
     * [Further Credential Theft](windows-privilege-escalation/windows-privilege-escalation/credential-theft/further-credential-theft.md)
     * [DPAPI Exploit](windows-privilege-escalation/windows-privilege-escalation/credential-theft/dpapi-exploit.md)
+    * [RecycleBin Forensics](windows-privilege-escalation/windows-privilege-escalation/credential-theft/recyclebin-forensics.md)
   * [ADCS (Certificats)](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/README.md)
     * [KeyCredentialLink](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/keycredentiallink.md)
     * [Email Spoofing](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/email-spoofing.md)
@@ -469,6 +476,7 @@
   * [Terraform](linux-privilege-escalation/various-techniques/terraform.md)
   * [Empoisonnement DNS](linux-privilege-escalation/various-techniques/empoisonnement-dns.md)
   * [Forgerie de Certificats SSL](linux-privilege-escalation/various-techniques/forgerie-de-certificats-ssl.md)
+  * [Escalade de privilèges via Below](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-below.md)
 
 ## CYPHER INJECTION
 

