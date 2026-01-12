@@ -381,6 +381,7 @@
     * [ESC3 - Certificate Request Agent Abuse](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc3-certificate-request-agent-abuse.md)
     * [ESC4](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc4.md)
     * [ESC9](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc9.md)
+    * [ESC10 - Weak Certificate Mapping](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc10-weak-certificate-mapping.md)
     * [ESC14](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc14.md)
     * [ESC14](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc14-1.md)
     * [ESC16](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc16.md)
