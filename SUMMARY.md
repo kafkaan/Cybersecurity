@@ -111,6 +111,7 @@
   * [Attacking RDP](attacking-common-services/attacking-common-services/attacking-rdp.md)
   * [Attacking DNS](attacking-common-services/attacking-common-services/attacking-dns.md)
   * [Attacking Email Services](attacking-common-services/attacking-common-services/attacking-email-services.md)
+  * [NATS (Messaging System)](attacking-common-services/attacking-common-services/nats-messaging-system.md)
 * [SKILLS ASSESSEMENT](attacking-common-services/skills-assessement.md)
 
 ## 🖨️ Using Web Proxies  &#x20;
@@ -293,6 +294,8 @@
   * [Timeroasting](active-direcotry-attacks/ad-attacks/timeroasting.md)
   * [CLSID Hijacking](active-direcotry-attacks/ad-attacks/clsid-hijacking.md)
   * [GPO Abuse](active-direcotry-attacks/ad-attacks/gpo-abuse.md)
+  * [Cross-Session Relay Attack](active-direcotry-attacks/ad-attacks/cross-session-relay-attack.md)
+  * [Manipulation des LogonHours](active-direcotry-attacks/ad-attacks/manipulation-des-logonhours.md)
 * [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints/README.md)
   * [PowerShell Active Directory](active-direcotry-attacks/ad-and-windows-script-hints/powershell-active-directory.md)
 * [SKILLS ASSESSMENT I](active-direcotry-attacks/skills-assessment-i.md)
