@@ -89,7 +89,7 @@ ici, nous pouvons dire que INLANEFREIGHT.LOCAL est le domaine racine et qu’il 
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
@@ -101,7 +101,7 @@ Il est souvent plus rapide et plus simple de créer une relation de confiance av
 
 ***
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <details>
 

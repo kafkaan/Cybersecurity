@@ -101,7 +101,7 @@ Une relation d’approbation crée un lien entre les systèmes d’authentificat
 
 #### <mark style="color:green;">Exemple de relations d’approbation</mark>
 
-<figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (10) (1).png" alt=""><figcaption></figcaption></figure>
 
 ***
 

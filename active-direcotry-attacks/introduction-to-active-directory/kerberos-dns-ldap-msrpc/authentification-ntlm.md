@@ -57,7 +57,7 @@ Les hachages NT LAN Manager (NTLM) sont utilisés sur les systèmes Windows mode
 * Le hachage NT est le **hachage MD4** de la valeur UTF-16 little-endian du mot de passe
 * Algorithme : `MD4(UTF-16-LE(password))`
 
-<figure><img src="../../.gitbook/assets/image (152).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (152).png" alt=""><figcaption></figcaption></figure>
 
 #### <mark style="color:green;">Forces et faiblesses</mark>
 

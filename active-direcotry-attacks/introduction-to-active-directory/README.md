@@ -28,10 +28,10 @@
 
 #### <mark style="color:green;">Composants principaux</mark>
 
-* **Forest** : ensemble logique (le plus haut niveau)
-* **Domain** : frontière de sécurité
-* **OU (Organizational Units)** : organisation logique
-* **Objects** :
+* <mark style="color:orange;">**Forest**</mark> : ensemble logique (le plus haut niveau)
+* <mark style="color:orange;">**Domain**</mark> : frontière de sécurité
+* <mark style="color:orange;">**OU**</mark>**&#x20;(Organizational Units)** : organisation logique
+* <mark style="color:orange;">**Objects**</mark> :
   * Users
   * Computers
   * Groups
@@ -211,7 +211,7 @@ Comprendre > outils
 
 ***
 
-### <mark style="color:blue;">🗓️ Timeline essentielle (à connaître en pentest)</mark>
+## <mark style="color:red;">🗓️ Timeline essentielle (à connaître en pentest)</mark>
 
 ***
 

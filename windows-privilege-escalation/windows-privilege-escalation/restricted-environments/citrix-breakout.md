@@ -39,7 +39,7 @@ Une fois qu'on a une **fenêtre de dialogue**, on peut essayer de **naviguer man
 🔹 **Technique utilisée** :\
 Dans la boîte de dialogue, on peut **taper directement** le chemin complet (par exemple `C:\Windows\System32\cmd.exe`) dans le **champ du nom de fichier** pour tenter d'ouvrir un programme même si l'accès est normalement restreint.
 
-<figure><img src="../../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (16) (1).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/image (17).png" alt=""><figcaption></figcaption></figure>
 

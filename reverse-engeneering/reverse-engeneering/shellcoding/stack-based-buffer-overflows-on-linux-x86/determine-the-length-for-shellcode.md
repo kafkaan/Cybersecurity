@@ -51,7 +51,7 @@ EIP      = "\x66" * 4
 
 ***
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
@@ -90,7 +90,7 @@ Program received signal SIGSEGV, Segmentation fault.
 
 ***
 
-<figure><img src="../../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <mark style="color:green;">**🔹 Exemple d’un NOP sled**</mark>
 

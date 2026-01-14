@@ -63,7 +63,7 @@ L'utilisateur présente le TGS au service, et s'il est valide, l'utilisateur est
 {% endstep %}
 {% endstepper %}
 
-<figure><img src="../../.gitbook/assets/image (149).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (149).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Le protocole Kerberos utilise le port 88 (TCP et UDP). Lors de l'énumération d'un environnement Active Directory, nous pouvons souvent localiser les contrôleurs de domaine en effectuant des analyses de ports à la recherche du port 88 ouvert à l'aide d'un outil tel que Nmap.
@@ -89,7 +89,7 @@ Si la base de données DNS ne dispose pas de l'adresse IP correcte pour un hôte
 
 Lorsqu'un client rejoint le réseau, il localise le contrôleur de domaine en envoyant une requête au service DNS, en récupérant un enregistrement SRV de la base de données DNS et en transmettant le nom d'hôte du contrôleur de domaine au client. Le client utilise ensuite ce nom d'hôte pour obtenir l'adresse IP du contrôleur de domaine. Le DNS utilise les ports TCP et UDP 53. Le port UDP 53 est la valeur par défaut, mais il bascule vers TCP lorsqu'il ne peut plus communiquer et que les messages DNS dépassent 512 octets.
 
-<figure><img src="../../.gitbook/assets/image (150).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (150).png" alt=""><figcaption></figcaption></figure>
 
 #### <mark style="color:green;">Recherche DNS directe</mark>
 
@@ -161,7 +161,7 @@ LDAP est configuré pour authentifier les identifiants auprès d'AD en utilisant
 
 Les messages d'authentification LDAP sont envoyés en texte clair par défaut, de sorte que n'importe qui peut intercepter les messages LDAP sur le réseau interne. Il est recommandé d'utiliser le chiffrement TLS ou similaire pour protéger ces informations en transit.
 
-<figure><img src="../../.gitbook/assets/image (151).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (151).png" alt=""><figcaption></figcaption></figure>
 
 ***
 

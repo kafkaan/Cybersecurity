@@ -7,7 +7,7 @@ This setting can be set via Local Group Policy by setting `Always install with e
 * `Computer Configuration\Administrative Templates\Windows Components\Windows Installer`
 * `User Configuration\Administrative Templates\Windows Components\Windows Installer`
 
-<figure><img src="../../../../.gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 <mark style="color:green;">**Enumerating Always Install Elevated Settings**</mark>
 
