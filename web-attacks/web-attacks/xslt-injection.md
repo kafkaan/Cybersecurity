@@ -1,6 +1,6 @@
 # XSLT INJECTION
 
-## XSLT INJECTION
+## <mark style="color:red;">XSLT INJECTION</mark>
 
 ### 📖 Table des matières
 
@@ -13,7 +13,7 @@
 
 ***
 
-### 1️⃣ INTRODUCTION À XML ET XSLT
+### <mark style="color:blue;">1️⃣ INTRODUCTION À XML ET XSLT</mark>
 
 #### 🔹 Qu'est-ce que XML ?
 
@@ -46,7 +46,7 @@
 
 ***
 
-#### 🔹 Qu'est-ce que XSLT ?
+#### <mark style="color:blue;">🔹 Qu'est-ce que XSLT ?</mark>
 
 **XSLT (eXtensible Stylesheet Language Transformations)** est un langage créé pour **transformer des documents XML** en d'autres formats (HTML, texte, XML différent, PDF, etc.).
 
@@ -151,7 +151,7 @@ Les processeurs XSLT sont les moteurs qui exécutent les transformations :
 
 ***
 
-### 2️⃣ COMPRENDRE XSLT INJECTION
+### <mark style="color:blue;">2️⃣ COMPRENDRE XSLT INJECTION</mark>
 
 #### 🎯 Qu'est-ce que XSLT Injection ?
 

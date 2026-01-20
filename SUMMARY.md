@@ -489,6 +489,7 @@
   * [Empoisonnement DNS](linux-privilege-escalation/various-techniques/empoisonnement-dns.md)
   * [Forgerie de Certificats SSL](linux-privilege-escalation/various-techniques/forgerie-de-certificats-ssl.md)
   * [Escalade de privilèges via Below](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-below.md)
+  * [FAILLE BASH ARITHMETIC EXPRESSION INJECTION](linux-privilege-escalation/various-techniques/faille-bash-arithmetic-expression-injection.md)
 
 ## CYPHER INJECTION
 
@@ -525,3 +526,13 @@
 ***
 
 * [SCRIPTING AND COMMANDES](scripting-and-commandes.md)
+
+## Introduction to Windows Command Line  &#x20;
+
+* [Introduction to Windows Command Line](introduction-to-windows-command-line/introduction-to-windows-command-line/README.md)
+  * [GETTING HELP - WINDOWS COMMAND PROMPT](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt.md)
+  * [System Navigation](introduction-to-windows-command-line/introduction-to-windows-command-line/system-navigation.md)
+  * [Working with Directories & Files](introduction-to-windows-command-line/introduction-to-windows-command-line/working-with-directories-and-files.md)
+  * [Gathering System Information](introduction-to-windows-command-line/introduction-to-windows-command-line/gathering-system-information.md)
+  * [Finding Files and Directories (CMD)](introduction-to-windows-command-line/introduction-to-windows-command-line/finding-files-and-directories-cmd.md)
+  * [Variables d'Environnement Windows](introduction-to-windows-command-line/introduction-to-windows-command-line/variables-denvironnement-windows.md)
