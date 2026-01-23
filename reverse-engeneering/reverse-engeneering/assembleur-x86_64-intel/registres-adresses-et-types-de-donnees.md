@@ -5,12 +5,12 @@
 ### <mark style="color:blue;">**Registres**</mark>
 
 Comme mentionné précédemment, chaque cœur de CPU possède un ensemble de **registres**.\
-<mark style="color:green;">**Les registres sont les composants les plus rapides dans un ordinateur, car ils sont construits à l’intérieur du cœur du CPU.**</mark>\
+<mark style="color:green;">**Les registres sont les composants les plus rapides dans un ordinateur, car ils sont construits à l’intérieur du cœur du CPU.**</mark>
+
+\
 Cependant, les registres sont **très limités en taille** et ne peuvent contenir que quelques octets de données à la fois.
 
-Il existe **de nombreux registres** dans l’architecture **x86**,\
-mais nous allons seulement nous concentrer sur ceux qui sont **nécessaires pour apprendre l’assembleur de base**,\
-et **essentiels pour l’exploitation binaire** à l’avenir.
+Il existe **de nombreux registres** dans l’architecture **x86**,mais nous allons seulement nous concentrer sur ceux qui sont **nécessaires pour apprendre l’assembleur de base**, et **essentiels pour l’exploitation binaire** à l’avenir.
 
 ***
 

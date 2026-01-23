@@ -342,6 +342,7 @@
   * [Server-Side Template Injection (SSTI)](web-attacks/web-attacks/server-side-template-injection-ssti.md)
   * [Django Cache Poisoning](web-attacks/web-attacks/django-cache-poisoning.md)
   * [Désérialisation PHP et RCE](web-attacks/web-attacks/deserialisation-php-et-rce.md)
+  * [PHP-CGI Argument Injection via Best-Fit Encoding](web-attacks/web-attacks/php-cgi-argument-injection-via-best-fit-encoding.md)
 
 ## 🪟 Windows Privilege Escalation
 
@@ -530,9 +531,16 @@
 ## Introduction to Windows Command Line  &#x20;
 
 * [Introduction to Windows Command Line](introduction-to-windows-command-line/introduction-to-windows-command-line/README.md)
-  * [GETTING HELP - WINDOWS COMMAND PROMPT](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt.md)
-  * [System Navigation](introduction-to-windows-command-line/introduction-to-windows-command-line/system-navigation.md)
-  * [Working with Directories & Files](introduction-to-windows-command-line/introduction-to-windows-command-line/working-with-directories-and-files.md)
-  * [Gathering System Information](introduction-to-windows-command-line/introduction-to-windows-command-line/gathering-system-information.md)
-  * [Finding Files and Directories (CMD)](introduction-to-windows-command-line/introduction-to-windows-command-line/finding-files-and-directories-cmd.md)
-  * [Variables d'Environnement Windows](introduction-to-windows-command-line/introduction-to-windows-command-line/variables-denvironnement-windows.md)
+  * [GETTING HELP - WINDOWS COMMAND PROMPT](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt/README.md)
+    * [System Navigation](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt/system-navigation.md)
+    * [Working with Directories & Files](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt/working-with-directories-and-files.md)
+    * [Gathering System Information](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt/gathering-system-information.md)
+    * [Finding Files and Directories (CMD)](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt/finding-files-and-directories-cmd.md)
+    * [Variables d'Environnement Windows](introduction-to-windows-command-line/introduction-to-windows-command-line/getting-help-windows-command-prompt/variables-denvironnement-windows.md)
+  * [Introduction : CMD vs PowerShell](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/README.md)
+    * [Cmdlets et Modules](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/cmdlets-et-modules.md)
+    * [User and Group Management](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/user-and-group-management.md)
+
+## Docker
+
+* [Exploitation de runc via Misconfiguration](docker/exploitation-de-runc-via-misconfiguration.md)

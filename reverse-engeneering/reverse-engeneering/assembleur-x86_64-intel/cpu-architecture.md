@@ -22,11 +22,11 @@ Chaque CPU possède une **vitesse d’horloge** qui indique sa vitesse globale.&
 
 Chaque **tick** de l’horloge exécute un **cycle d’horloge** qui traite une instruction de base, comme récupérer une adresse ou stocker une adresse. Ceci est spécifiquement effectué par la **CU ou l’ALU**.
 
+{% hint style="warning" %}
 La fréquence à laquelle les cycles se produisent est comptée en **cycles par seconde (Hertz)**. Si un CPU a une vitesse de **3.0 GHz**, il peut exécuter **3 milliards de cycles chaque seconde** (par cœur).
+{% endhint %}
 
 <figure><img src="../../../.gitbook/assets/assembly_clock_cycle_0.jpg" alt=""><figcaption></figcaption></figure>
-
-_(Diagramme d’un cycle d’horloge avec six phases étiquetées T1 à T6, montrant un motif d’onde répété.)_
 
 Les **processeurs modernes** ont une conception multi-cœurs, leur permettant d’avoir plusieurs cycles en même temps.
 
@@ -46,9 +46,9 @@ Un cycle d’instruction consiste en **quatre étapes** :
 
 Toutes les étapes dans le cycle d’instruction sont effectuées par l’**Unité de Contrôle**, sauf lorsque des instructions arithmétiques doivent être exécutées (`add`, `sub`, etc.), lesquelles sont exécutées par l’**ALU**.
 
+{% hint style="warning" %}
 Chaque cycle d’instruction prend **plusieurs cycles d’horloge** pour s’achever, selon l’architecture du CPU et la complexité de l’instruction. Une fois qu’un **cycle d’instruction** unique est terminé, la **CU passe à l’instruction suivante** et exécute le même cycle dessus, et ainsi de suite.
-
-_(Diagramme d’un cycle d’horloge avec six phases, T1 à T6. Les étapes incluent Fetch en rouge, Decode en orange, et Execute en vert, alignées avec le motif d’onde.)_
+{% endhint %}
 
 <figure><img src="../../../.gitbook/assets/assembly_clock_cycle_1.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -71,11 +71,13 @@ Elle passerait par un **cycle d’instruction** :
 
 ***
 
-Dans le passé, les processeurs **exécutaient les instructions de manière séquentielle**, ils devaient donc attendre qu’une instruction se termine pour commencer la suivante.\
-À l’inverse, les processeurs modernes peuvent **traiter plusieurs instructions en parallèle** en ayant plusieurs cycles d’instruction/cycles d’horloge **qui tournent en même temps**.\
-Cela est rendu possible grâce à une conception <mark style="color:orange;">**multi-thread et multi-cœur**</mark><mark style="color:orange;">.</mark>
+Dans le passé, les processeurs **exécutaient les instructions de manière séquentielle**, ils devaient donc attendre qu’une instruction se termine pour commencer la suivante.
 
-_(Diagramme d’un cycle d’horloge avec six phases, T1 à T6. Les étapes incluent Fetch 1, Decode 1, Execute 1, Fetch 2, Decode 2, Execute 2, etc., alignées avec le motif d’onde.)_
+\
+À l’inverse, les processeurs modernes peuvent **traiter plusieurs instructions en parallèle** en ayant plusieurs cycles d’instruction/cycles d’horloge **qui tournent en même temps**.
+
+\
+Cela est rendu possible grâce à une conception <mark style="color:orange;">**multi-thread et multi-cœur**</mark><mark style="color:orange;">.</mark>
 
 <figure><img src="../../../.gitbook/assets/assembly_clock_cycle_2.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -103,7 +105,9 @@ Comme nous pouvons le voir, le **même code machine** effectue une **instruction
 
 ***
 
+{% hint style="info" %}
 Cela est dû au fait que chaque type de processeur possède une **architecture assembleur bas niveau différente**, appelée <mark style="color:orange;">**Architecture de Jeu d’Instructions (ISA)**</mark>.
+{% endhint %}
 
 Par exemple, l’instruction `add rax, 1` vue plus haut est pour les processeurs **Intel x86 64 bits**.
 

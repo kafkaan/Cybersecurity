@@ -6,7 +6,9 @@
 
 ***
 
-Une <mark style="color:green;">I</mark><mark style="color:green;">**nstruction Set Architecture (ISA)**</mark> spécifie la syntaxe et la sémantique du langage assembleur sur chaque architecture.\
+Une <mark style="color:green;">I</mark><mark style="color:green;">**nstruction Set Architecture (ISA)**</mark> spécifie la syntaxe et la sémantique du langage assembleur sur chaque architecture.
+
+\
 Ce n’est pas seulement une syntaxe différente, mais cela est intégré dans la **conception fondamentale du processeur**, car cela affecte **la manière et l’ordre dans lequel les instructions sont exécutées**, ainsi que leur **niveau de complexité**.
 
 L’ISA se compose principalement des composants suivants :
@@ -18,12 +20,7 @@ L’ISA se compose principalement des composants suivants :
 
 ***
 
-| Composant            | Description                                                                                                       | Exemple                                  |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| **Instructions**     | L’instruction à être traitée dans le format `opcode operand_list`.                                                | `add rax, 1`, `mov rsp, rax`, `push rax` |
-| **Registres**        | Utilisés pour stocker des opérandes, des adresses ou des instructions temporairement.                             | `rax`, `rsp`, `rip`                      |
-| **Adresses mémoire** | L’adresse dans laquelle des données ou instructions sont stockées. Peut pointer vers la mémoire ou les registres. | `0xffffffffaa8a25ff`, `0x44d0`, `$rax`   |
-| **Types de données** | Le type de donnée stockée.                                                                                        | `byte`, `word`, `double word`            |
+<table data-full-width="true"><thead><tr><th>Composant</th><th>Description</th><th>Exemple</th></tr></thead><tbody><tr><td><strong>Instructions</strong></td><td>L’instruction à être traitée dans le format <code>opcode operand_list</code>.</td><td><code>add rax, 1</code>, <code>mov rsp, rax</code>, <code>push rax</code></td></tr><tr><td><strong>Registres</strong></td><td>Utilisés pour stocker des opérandes, des adresses ou des instructions temporairement.</td><td><code>rax</code>, <code>rsp</code>, <code>rip</code></td></tr><tr><td><strong>Adresses mémoire</strong></td><td>L’adresse dans laquelle des données ou instructions sont stockées. Peut pointer vers la mémoire ou les registres.</td><td><code>0xffffffffaa8a25ff</code>, <code>0x44d0</code>, <code>$rax</code></td></tr><tr><td><strong>Types de données</strong></td><td>Le type de donnée stockée.</td><td><code>byte</code>, <code>word</code>, <code>double word</code></td></tr></tbody></table>
 
 ***
 
@@ -66,9 +63,7 @@ Sans avoir à séparer ça en plusieurs instructions (comme récupérer `rax`, p
 
 ***
 
-Cependant, pour permettre au processeur d’exécuter ces instructions complexes, **la conception du processeur devient plus compliquée**,\
-car il est conçu pour exécuter un grand nombre d’instructions complexes différentes,\
-**chacune ayant sa propre unité d’exécution**.
+Cependant, pour permettre au processeur d’exécuter ces instructions complexes, **la conception du processeur devient plus compliquée**,car il est conçu pour exécuter un grand nombre d’instructions complexes différentes,**chacune ayant sa propre unité d’exécution**.
 
 ***
 
@@ -103,14 +98,11 @@ Serait décomposée comme suit :
 **Chaque étape** ci-dessus **prend un cycle complet** :\
 `Fetch → Decode → Execute → Store`
 
-Cela mène donc à un **plus grand nombre total d’instructions par programme**,\
-et donc un **code assembleur plus long**.
+Cela mène donc à un **plus grand nombre total d’instructions par programme**,et donc un **code assembleur plus long**.
 
 ***
 
-En ne prenant **pas en charge les types variés d’instructions complexes**,\
-les processeurs **RISC** ne prennent en charge **qu’un nombre limité d’instructions** (\~200),\
-comparé aux processeurs **CISC** (\~1500).
+En ne prenant **pas en charge les types variés d’instructions complexes**,les processeurs **RISC** ne prennent en charge **qu’un nombre limité d’instructions** (\~200),comparé aux processeurs **CISC** (\~1500).
 
 ➡️ Donc, pour exécuter une instruction complexe, cela doit être **fait par une combinaison d’instructions simples en assembleur**.
 
@@ -140,12 +132,9 @@ de sorte que **chaque étape du cycle d’instruction prenne exactement un cycle
 
 ***
 
-➡️ Le fait que chaque étape d’une instruction **s’exécute en un seul cycle**,\
-et que seules des instructions simples soient utilisées,\
-fait que **les processeurs RISC consomment beaucoup moins d’énergie** que les processeurs CISC.
+➡️ Le fait que chaque étape d’une instruction **s’exécute en un seul cycle**,et que seules des instructions simples soient utilisées,fait que **les processeurs RISC consomment beaucoup moins d’énergie** que les processeurs CISC.
 
-➡️ Cela les rend **idéaux pour les appareils fonctionnant sur batterie**,\
-comme les **smartphones** et **ordinateurs portables**.
+➡️ Cela les rend **idéaux pour les appareils fonctionnant sur batterie**,comme les **smartphones** et **ordinateurs portables**.
 
 ***
 
@@ -155,18 +144,13 @@ comme les **smartphones** et **ordinateurs portables**.
 
 ***
 
-Dans le passé, avoir un **code assembleur plus long** à cause du **plus grand nombre d’instructions** était un gros inconvénient pour RISC,\
-en raison des **ressources limitées en mémoire et stockage**.
+Dans le passé, avoir un **code assembleur plus long** à cause du **plus grand nombre d’instructions** était un gros inconvénient pour RISC,en raison des **ressources limitées en mémoire et stockage**.
 
-Mais aujourd’hui, **cela n’est plus vraiment un problème**,\
-car la **mémoire et le stockage sont bien moins chers et limités** qu’auparavant.
+Mais aujourd’hui, **cela n’est plus vraiment un problème**, car la **mémoire et le stockage sont bien moins chers et limités** qu’auparavant.
 
 ***
 
-De plus, avec de **nouveaux assembleurs et compilateurs** capables d’écrire du code extrêmement optimisé,\
-les processeurs **RISC deviennent plus rapides** que les **CISC**,\
-même dans l’exécution d’**applications lourdes**,\
-tout en **consommant beaucoup moins d’énergie**.
+De plus, avec de **nouveaux assembleurs et compilateurs** capables d’écrire du code extrêmement optimisé,les processeurs **RISC deviennent plus rapides** que les **CISC**, même dans l’exécution d’**applications lourdes**, tout en **consommant beaucoup moins d’énergie**.
 
 ***
 

@@ -83,7 +83,9 @@ La RAM est divisée en **quatre segments principaux** :
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Segment</strong></td><td><strong>Description</strong></td></tr><tr><td><strong>Stack</strong></td><td>Conçu en <strong>pile</strong> (LIFO), taille fixe, accès séquentiel par <code>push</code> et <code>pop</code>.</td></tr><tr><td><strong>Heap</strong></td><td>Structure hiérarchique, plus grande et flexible, permet accès aléatoire (plus lent).</td></tr><tr><td><strong>Data</strong></td><td>Contient les <strong>variables</strong> (<code>data</code>) et les <strong>variables non initialisées</strong> (<code>.bss</code>).</td></tr><tr><td><strong>Text</strong></td><td>Contient le <strong>code assembleur principal</strong> à exécuter par le CPU.</td></tr></tbody></table>
 
+{% hint style="info" %}
 Chaque application reçoit sa **propre mémoire virtuelle**, avec ses propres segments stack, heap, data et text.
+{% endhint %}
 
 <div data-full-width="true"><figure><img src="../../../.gitbook/assets/memory_structure.jpg" alt=""><figcaption></figcaption></figure></div>
 
