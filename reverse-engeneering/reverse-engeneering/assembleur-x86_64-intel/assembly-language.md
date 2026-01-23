@@ -78,7 +78,7 @@ Note: the actual `C` source code is much longer, but the above is the essence of
 
 The above `C` code uses the Linux `write` syscall, built-in for processes to write to the screen. The same syscall called in Assembly looks like the following:
 
-```nasm
+```asm
 mov rax, 1
 mov rdi, 1
 mov rsi, message

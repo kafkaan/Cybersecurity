@@ -540,6 +540,8 @@
   * [Introduction : CMD vs PowerShell](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/README.md)
     * [Cmdlets et Modules](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/cmdlets-et-modules.md)
     * [User and Group Management](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/user-and-group-management.md)
+  * [Gestion des services](introduction-to-windows-command-line/introduction-to-windows-command-line/gestion-des-services.md)
+  * [Page 1](introduction-to-windows-command-line/introduction-to-windows-command-line/page-1.md)
 
 ## Docker
 

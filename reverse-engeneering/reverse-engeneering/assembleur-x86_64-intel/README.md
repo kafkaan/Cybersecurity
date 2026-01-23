@@ -9,7 +9,7 @@
 ### <mark style="color:blue;">📌</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Structure d’un fichier ASM (.nasm)**</mark>
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 global _start          ; Point d’entrée
 ;-------------------------------------------------
 section .data          ; Déclaration des variables globaux
