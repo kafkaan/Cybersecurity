@@ -41,7 +41,7 @@ Au lieu de boucler avec `loop loopFib`, on va utiliser **`jmp loopFib`**.
 
 #### 📜 Code NASM (inchangé, sauf `loop → jmp`)
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -59,7 +59,7 @@ loopFib:
 
 ***
 
-### 🧪 Exécution dans GDB
+### <mark style="color:green;">🧪 Exécution dans GDB</mark>
 
 On assemble et on exécute comme d’habitude :
 
@@ -125,11 +125,11 @@ C’est parce que l’instruction `jmp` **ne tient pas compte** de `rcx` comme c
 
 ***
 
-### 🧹 Supprimer le breakpoint et observer
+### <mark style="color:blue;">🧹 Supprimer le breakpoint et observer</mark>
 
 On supprime le point d’arrêt avec `del 1`, puis on laisse le programme tourner :
 
-```gdb
+```asm
 gef➤  info break
 Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0x000000000040100e <loopFib>
@@ -141,9 +141,9 @@ Continuing.
 
 ***
 
-#### 💥 Le programme tourne à l’infini
+#### <mark style="color:green;">💥 Le programme tourne à l’infini</mark>
 
-```gdb
+```asm
 Program received signal SIGINT, Interrupt.
 0x000000000040100e in loopFib ()
 ──────────────────────────────────────────────────────── registers ────

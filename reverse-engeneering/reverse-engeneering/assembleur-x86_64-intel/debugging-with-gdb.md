@@ -10,8 +10,7 @@ Now that we have the general information about our program, we will start runnin
 
 ### <mark style="color:blue;">Break</mark>
 
-La première étape consiste à **poser un point d’arrêt**,\
-pour arrêter l’exécution **à un endroit précis** du programme.
+La première étape consiste à **poser un point d’arrêt**,pour arrêter l’exécution **à un endroit précis** du programme.
 
 Cela permet de :
 
@@ -19,7 +18,7 @@ Cela permet de :
 * Voir les **valeurs des registres**
 * **Exécuter instruction par instruction**
 
-```shell-session
+```asm
 gef➤  b _start
 
 Breakpoint 1 at 0x401000
@@ -28,7 +27,7 @@ Breakpoint 1 at 0x401000
 Now, in order to start our program, we can use the `run` or `r` command:
 
 {% code fullWidth="true" %}
-```armasm
+```asm
 gef➤  b _start
 Breakpoint 1 at 0x401000
 gef➤  r
@@ -69,20 +68,22 @@ $rip   : 0x0000000000401000  →  <_start+0> mov eax, 0x1
 ```
 {% endcode %}
 
+{% hint style="info" %}
 If we want to set a breakpoint at a certain address, like `_start+10`, we can either `b *_start+10` or `b *0x40100a`:
+{% endhint %}
 
-```shell-session
+{% code fullWidth="true" %}
+```asm
 gef➤  b *0x40100a
 Breakpoint 1 at 0x40100a
 ```
-
-The `*` tells `GDB` to break at the instruction stored in `0x40100a`.
+{% endcode %}
 
 If we want to see what breakpoints we have at any point of the execution, we can use the `info breakpoint` command.&#x20;
 
-We can also `disable`, `enable`, or `delete` any breakpoint.&#x20;
-
-Furthermore, GDB also supports setting conditional breaks that stop the execution when a specific condition is met.
+{% hint style="info" %}
+We can also `disable`, `enable`, or `delete` any breakpoint. Furthermore, GDB also supports setting conditional breaks that stop the execution when a specific condition is met.
+{% endhint %}
 
 ***
 
@@ -137,11 +138,14 @@ x/FMT ADRESSE
 
 <table data-full-width="true"><thead><tr><th>Argument</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>Count</code></td><td>The number of times we want to repeat the examine</td><td><code>2</code>, <code>3</code>, <code>10</code></td></tr><tr><td><code>Format</code></td><td>The format we want the result to be represented in</td><td><code>x(hex)</code>, <code>s(string)</code>, <code>i(instruction)</code></td></tr><tr><td><code>Size</code></td><td>The size of memory we want to examine</td><td><code>b(byte)</code>, <code>h(halfword)</code>, <code>w(word)</code>, <code>g(giant, 8 bytes)</code></td></tr></tbody></table>
 
+***
+
 <mark style="color:green;">**Instructions**</mark>
 
-For example, if we wanted to examine the next four instructions in line, we will have to examine the `$rip` register (which holds the address of the next instruction), and use `4` for the `count`, `i` for the `format`, and `g` for the `size` (for 8-bytes or 64-bits). So, the final examine command would be `x/4ig $rip`, as follows:
+For example, if we wanted to examine the next four instructions in line, we will have to examine the `$rip` register (which holds the address of the next instruction), and use `4` for the `count`, `i` for the `format`, and `g` for the `size` (for 8-bytes or 64-bits).
 
-```armasm
+{% code fullWidth="true" %}
+```asm
 gef➤  x/4ig $rip
 
 => 0x401000 <_start>:	mov    eax,0x1
@@ -149,6 +153,7 @@ gef➤  x/4ig $rip
    0x40100a <_start+10>:	movabs rsi,0x402000
    0x401014 <_start+20>:	mov    edx,0x12
 ```
+{% endcode %}
 
 <mark style="color:green;">**Strings**</mark>
 
@@ -158,33 +163,36 @@ We also see the upcoming command `movabs rsi, 0x402000`, so we may want to exami
 
 In this case, we will not put anything for the `Count`, as we only want one address (1 is the default), and will use `s` as the format to get it in a string format rather than in hex:
 
-```armasm
+{% code fullWidth="true" %}
+```asm
 gef➤  x/s 0x402000
 
 0x402000:	"Hello HTB Academy!"
 ```
-
-As we can see, we can see the string at this address represented as text rather than hex characters.
-
-Note: if we don't specify the `Size` or `Format`, it will default to the last one we used.
+{% endcode %}
 
 <mark style="color:green;">**Addresses**</mark>
 
 The most common format of examining is hex `x`. We often need to examine addresses and registers containing hex data, such as memory addresses, instructions, or binary data. Let us examine the same previous instruction, but in `hex` format, to see how it looks:
 
-```armasm
+{% code fullWidth="true" %}
+```bash
 gef➤  x/wx 0x401000
 
 0x401000 <_start>:	0x000001b8
 ```
+{% endcode %}
 
 We see instead of `mov eax,0x1`, we get `0x000001b8`, which is the hex representation of the `mov eax,0x1` machine code in little-endian formatting.
 
 * This is read as: `b8 01 00 00`.
 
-Try repeating the commands we used for examining strings using `x` to examine them in hex. We should see the same text but in hex format. We can also use `GEF` features to examine certain addresses. For example, at any point we can use the `registers` command to print out the current value of all registers:
+{% hint style="info" %}
+We can also use `GEF` features to examine certain addresses. For example, at any point we can use the `registers` command to print out the current value of all registers:
+{% endhint %}
 
-```armasm
+{% code fullWidth="true" %}
+```asm
 gef➤  registers
 $rax   : 0x0               
 $rbx   : 0x0               
@@ -197,6 +205,7 @@ $rdi   : 0x0
 $rip   : 0x0000000000401000  →  <_start+0> mov eax, 0x1
 ...SNIP...
 ```
+{% endcode %}
 
 ***
 
@@ -205,7 +214,7 @@ $rip   : 0x0000000000401000  →  <_start+0> mov eax, 0x1
 The third step of debugging is `stepping` through the program one instruction or line of code at a time. As we can see, we are currently at the very first instruction in our `helloWorld` program:
 
 {% code fullWidth="true" %}
-```armasm
+```asm
 ─────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
      0x400ffe                  add    BYTE PTR [rax], al
  →   0x401000 <_start+0>       mov    eax, 0x1
@@ -222,7 +231,7 @@ To move through the program, there are three different commands we can use: `ste
 The `stepi` or `si` command will step through the assembly instructions one by one, which is the smallest level of steps possible while debugging. Let us use the `si` command to see how we get to the next instruction:
 
 {% code fullWidth="true" %}
-```armasm
+```bash
 ─────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
 gef➤  si
 0x0000000000401005 in _start ()
@@ -236,14 +245,12 @@ gef➤  si
 ```
 {% endcode %}
 
-As we can see, we took exactly one step and stopped again at the `mov edi, 0x1` instruction.
-
 <mark style="color:green;">**Step Count**</mark>
 
 Similarly to examine, we can repeat the `si` command by adding a number after it. For example, if we wanted to move 3 steps to reach the `syscall` instruction, we can do so as follows:
 
 {% code fullWidth="true" %}
-```armasm
+```asm
 gef➤  si 3
 0x0000000000401019 in _start ()
 ─────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
@@ -261,7 +268,9 @@ gef➤  si 3
 
 As we can see, we stopped at the `syscall` instruction as expected.
 
+{% hint style="info" %}
 Tip: You can hit the `return`/`enter` empty in order to repeat the last command. Try hitting it at this stage, and you should make another 3 steps, and break at the other `syscall` instruction.
+{% endhint %}
 
 <mark style="color:green;">**Step**</mark>
 
@@ -270,7 +279,7 @@ The `step` or `s` command, on the other hand, will continue until the following 
 If there's a call to another function within this function, it'll break at the beginning of that function. Otherwise, it'll break after we exit this function after the program's end. Let us try using `s`, and see what happens:
 
 {% code fullWidth="true" %}
-```armasm
+```asm
 gef➤  step
 
 Single stepping until exit from function _start,
@@ -282,7 +291,20 @@ Hello HTB Academy!
 
 We see that the execution continued until we reached the exit from the `_start` function, so we reached the end of the program and `exited normally` without any errors. We also see that `GDB` printed the program's output `Hello HTB Academy!` as well.
 
-Note: There's also the `next` or `n` command, which will also continue until the next line, but will skip any functions called in the same line of code, instead of breaking at them like `step`. There's also the `nexti` or `ni`, which is similar to `si`, but skips functions calls, as we will see later on in the module.
+{% hint style="info" %}
+PS
+
+> **Note :** Il existe aussi la commande **`next`** (ou **`n`**), qui continue l’exécution jusqu’à la ligne suivante, **mais sans entrer dans les fonctions appelées sur cette ligne**, contrairement à **`step`** qui s’arrête à l’intérieur de ces fonctions.
+>
+> Il existe également la commande **`nexti`** (ou **`ni`**), qui est similaire à **`si`** (step instruction), **mais qui ignore les appels de fonctions**. Nous verrons son fonctionnement plus en détail plus tard dans le module.
+
+👉 En résumé rapide :
+
+* `step (s)` : entre dans les fonctions
+* `next (n)` : n’entre pas dans les fonctions
+* `si` : avance instruction par instruction (assembleur)
+* `ni` : avance instruction par instruction **sans entrer dans les appels de fonctions**
+{% endhint %}
 
 ***
 
@@ -294,7 +316,8 @@ The final step of debugging is `modifying` values in registers and addresses at 
 
 To modify values in GDB, we can use the `set` command. However, we will utilize the `patch` command in `GEF` to make this step much easier. Let's enter `help patch` in GDB to get its help menu:
 
-```shell-session
+{% code fullWidth="true" %}
+```asm
 gef➤  help patch
 
 Write specified values to the specified address.
@@ -302,12 +325,14 @@ Syntax: patch (qword|dword|word|byte) LOCATION VALUES
 patch string LOCATION "double-escaped string"
 ...SNIP...
 ```
+{% endcode %}
 
 As we can see, we have to provide the `type/size` of the new value, the `location` to be stored, and the `value` we want to use. So, let's try changing the string stored in the `.data` section (at address `0x402000` as we saw earlier) to the string `Patched!\n`.
 
 We will break at the first `syscall` at `0x401019`, and then do the patch, as follows:
 
-```shell-session
+{% code fullWidth="true" %}
+```asm
 gef➤  break *0x401019
 
 Breakpoint 1 at 0x401019
@@ -319,6 +344,7 @@ Continuing.
 Patched!
  Academy!
 ```
+{% endcode %}
 
 We see that we successfully modified the string and got `Patched!\n Academy!` instead of the old string. Notice how we used `\x0a` for adding a new line after our string.
 
@@ -328,7 +354,8 @@ We also note that we did not replace the entire string. This is because we only 
 
 To fix this, let's modify the value stored in `$rdx` to the length of our string, which is `0x9`. We will only patch a size of one byte. We will go into details of how `syscall` works later in the module. Let us demonstrate using `set` to modify `$rdx`, as follows:
 
-```shell-session
+{% code fullWidth="true" %}
+```asm
 gef➤  break *0x401019
 
 Breakpoint 1 at 0x401019
@@ -340,5 +367,6 @@ gef➤  c
 Continuing.
 Patched!
 ```
+{% endcode %}
 
 ***

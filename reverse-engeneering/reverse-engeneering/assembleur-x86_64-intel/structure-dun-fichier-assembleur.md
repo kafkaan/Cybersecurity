@@ -4,7 +4,7 @@
 
 #### <mark style="color:green;">💾</mark> <mark style="color:green;"></mark><mark style="color:green;">**Code (nasm)**</mark>
 
-```nasm
+```asm
 global  _start
 -------------------------------------------------------
 section .data
@@ -89,8 +89,7 @@ Quand on exécute le programme, **toutes les variables sont chargées en mémoir
 
 ***
 
-On verra plus tard dans le module que, au moment où l’on commence à exécuter les instructions à l’étiquette `_start`,\
-**toutes nos variables sont déjà chargées** en mémoire.
+On verra plus tard dans le module que, au moment où l’on commence à exécuter les instructions à l’étiquette `_start`, **toutes nos variables sont déjà chargées** en mémoire.
 
 ***
 
@@ -104,7 +103,7 @@ On peut aussi **étiqueter** nos variables pour les **référencer plus tard**.
 
 ***
 
-#### Exemples :
+#### <mark style="color:green;">Exemples :</mark>
 
 | Instruction                         | Description                                           |
 | ----------------------------------- | ----------------------------------------------------- |
@@ -122,7 +121,7 @@ Les étiquettes définies avec `equ` sont des **constantes** : **elles ne peuven
 
 #### <mark style="color:green;">Exemple :</mark>
 
-```nasm
+```asm
 section .data
     message db "Hello World!", 0x0a
     length  equ $-message

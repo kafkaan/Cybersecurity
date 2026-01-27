@@ -118,17 +118,6 @@ Il existe plusieurs **types d’adressage** (addressing modes) dans x86 :
 
 ***
 
-Dans ce tableau, **plus c’est bas**, **plus c’est lent**.\
-Moins la valeur est immédiate, **plus elle est lente à récupérer**.
-
-Même si **la vitesse n’est pas notre plus grande préoccupation** ici,\
-comprendre **où et comment chaque adresse est placée** est **crucial**.
-
-Cela nous aidera **plus tard en exploitation binaire**, par exemple pour les **buffer overflow**.\
-Cette compréhension est encore **plus importante pour les attaques avancées** comme le **ROP** ou l’exploitation du **Heap**.
-
-***
-
 ### <mark style="color:blue;">**Endianness des adresses**</mark>
 
 L’**Endianness** est **l’ordre des octets** dans lequel ils sont **stockés ou récupérés depuis la mémoire**.\
@@ -183,15 +172,11 @@ Adresse : `0x0011223344556677`
 
 ***
 
-Dans ce module, **nous utiliserons toujours le little-endian**,\
-car il est utilisé avec **Intel/AMD x86** sur la **plupart des OS modernes**.
-
-Donc, **le shellcode est toujours représenté de droite à gauche**.
+Dans ce module, **nous utiliserons toujours le little-endian**,car il est utilisé avec **Intel/AMD x86** sur la **plupart des OS modernes**.Donc, **le shellcode est toujours représenté de droite à gauche**.
 
 ***
 
-Ce qu’il faut **retenir absolument** :\
-**nos octets sont stockés en mémoire de droite à gauche**.
+Ce qu’il faut **retenir absolument**  **nos octets sont stockés en mémoire de droite à gauche**.
 
 ➡️ Donc si on pousse une adresse ou une chaîne de caractères, **on la pousse à l’envers**.
 
@@ -200,9 +185,7 @@ Exemple avec `"Hello"` → on pousse les octets dans cet ordre :\
 
 ***
 
-Cela peut sembler **contre-intuitif**,\
-car nous avons **l’habitude de lire de gauche à droite**,\
-mais cela offre **des avantages importants** :
+Cela peut sembler **contre-intuitif**,car nous avons **l’habitude de lire de gauche à droite**, mais cela offre **des avantages importants** :
 
 * Accès rapide aux sous-registres
 * Calculs arithmétiques en bon ordre (droite → gauche)
@@ -211,8 +194,7 @@ mais cela offre **des avantages importants** :
 
 ### <mark style="color:blue;">**Types de Données**</mark>
 
-Enfin, l’architecture x86 supporte **différentes tailles de données**,\
-utilisables avec diverses instructions.
+Enfin, l’architecture x86 supporte **différentes tailles de données**,utilisables avec diverses instructions.
 
 Voici les **types les plus courants** :
 

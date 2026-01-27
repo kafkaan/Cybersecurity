@@ -20,7 +20,7 @@ Il faut charger les valeurs initiales F0 = 0 et F1 = 1 dans `rax` et `rbx` respe
 
 Code à copier dans `fib.s` :
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -32,7 +32,7 @@ _start:
 Assemblons et exécutons avec `gdb` pour voir `mov` en action :
 
 {% code fullWidth="true" %}
-```
+```asm
 $ ./assembler.sh fib.s -g
 gef➤  b _start
 Breakpoint 1 at 0x401000
@@ -71,7 +71,8 @@ Exemple : `mov al, 1` charge 0x01, ce qui est plus compact.
 
 Comparaison avec `objdump` :
 
-```nasm
+{% code fullWidth="true" %}
+```asm
 global  _start
 
 section .text
@@ -80,14 +81,17 @@ _start:
     mov rbx, 1
     mov bl, 1
 ```
+{% endcode %}
 
-```
+{% code fullWidth="true" %}
+```asm
 $ nasm -f elf64 fib.s && objdump -M intel -d fib.o
 0000000000000000 <_start>:
    0:    b8 00 00 00 00        mov    eax,0x0
    5:    bb 01 00 00 00        mov    ebx,0x1
    a:    b3 01                 mov    bl,0x1
 ```
+{% endcode %}
 
 La première instruction prend plus du double de l’espace comparée à la dernière.
 
@@ -97,7 +101,7 @@ La première instruction prend plus du double de l’espace comparée à la dern
 
 Code optimisé :
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -110,8 +114,7 @@ _start:
 
 #### <mark style="color:green;">**Instruction**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`xchg`**</mark>
 
-`xchg` échange les données entre deux registres.\
-Ajoutez `xchg rax, rbx` à la fin, assemblez et lancez avec `gdb` pour voir le résultat.
+`xchg` échange les données entre deux registres. Ajoutez `xchg rax, rbx` à la fin, assemblez et lancez avec `gdb` pour voir le résultat.
 
 ***
 
@@ -122,7 +125,7 @@ C’est typiquement le cas avec `rsp`, `rbp`, `rip`, etc.
 
 Exemple avec `gdb` sur `fib` :
 
-```gdb
+```asm
 gdb -q ./fib
 gef➤  b _start
 Breakpoint 1 at 0x401000
@@ -142,7 +145,7 @@ $rip   : 0x0000000000401000  →  <_start+0> mov eax, 0x0
 
 Exemple :
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -153,7 +156,7 @@ _start:
 
 Avec `gdb` on observe :
 
-```
+```asm
  → mov rax, rsp
 $rax = 0x00007fffffffe490  → 0x1
 …
@@ -174,14 +177,19 @@ $rax = 0x1
 Utile pour manipuler des données trop volumineuses pour un registre, notamment pour les appels systèmes (ex. `write`).
 
 * `mov rax, rsp` ou `lea rax, [rsp]` stockent l’adresse.
+
+{% hint style="info" %}
+Remarque
+
 * `lea` est indispensable pour charger une adresse avec offset : `lea rax, [rsp+10]`.
 * `mov rax, [rsp+10]` chargerait la **valeur** à cette adresse, pas l’adresse.
+{% endhint %}
 
 ***
 
 **Exemple :**
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -192,7 +200,7 @@ _start:
 
 **Gdb :**
 
-```
+```asm
  → lea rax, [rsp+0xa]
 $rax = 0x00007fffffffe49a
 …

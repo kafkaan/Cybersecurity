@@ -29,7 +29,7 @@ Prenons l’exemple suivant :
 
 **📜 Code NASM :**
 
-```nasm
+```asm
 exampleLoop:
     instruction 1
     instruction 2
@@ -57,7 +57,7 @@ Pour illustrer cela, reprenons notre code `fib.s` :
 
 **📜 Code NASM :**
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -90,13 +90,13 @@ On suppose :
 🧠 Remarque :\
 On a le résultat dans `rax`, l'ancien dans `rbx`, donc pour **échanger les deux**, on utilise :
 
-```nasm
+```asm
 xchg rax, rbx
 ```
 
 Avant d’entrer dans une boucle, on initialise `rcx` :
 
-```nasm
+```asm
 mov rcx, 10
 ```
 
@@ -104,7 +104,8 @@ mov rcx, 10
 
 #### <mark style="color:green;">📜 Code complet :</mark>
 
-```nasm
+{% code fullWidth="true" %}
+```asm
 global  _start
 
 section .text
@@ -118,6 +119,7 @@ loopFib:
     xchg rax, rbx   ; échanger les valeurs
     loop loopFib    ; répéter jusqu’à rcx == 0
 ```
+{% endcode %}
 
 ***
 
@@ -131,7 +133,7 @@ Breakpoint 1 at 0x40100e
 gef➤  r
 ```
 
-```gdb
+```asm
 ────────────────────────────────────────────────────────────── registers ────
 $rax   : 0x0
 $rbx   : 0x1
@@ -142,7 +144,7 @@ $rcx   : 0xa
 
 ➡️ Appuie sur `c` pour continuer une itération :
 
-```gdb
+```asm
 ────────────────────────────────────────────────────────────── registers ────
 $rax   : 0x1
 $rbx   : 0x1
@@ -151,7 +153,7 @@ $rcx   : 0x9
 
 Encore une fois :
 
-```gdb
+```asm
 ────────────────────────────────────────────────────────────── registers ────
 $rax   : 0x1
 $rbx   : 0x2
@@ -160,7 +162,7 @@ $rcx   : 0x8
 
 Encore 3 itérations :
 
-```gdb
+```asm
 ────────────────────────────────────────────────────────────── registers ────
 $rax   : 0x2
 $rbx   : 0x3
@@ -179,13 +181,13 @@ $rcx   : 0x5
 
 On voit bien que le programme calcule la **suite de Fibonacci** :
 
-```
+```asm
 0, 1, 1, 2, 3, 5, 8, ...
 ```
 
 À la dernière itération, on obtient `rbx = 0x37`, soit 55 en décimal :
 
-```gdb
+```asm
 ────────────────────────────────────────────────────────────── registers ────
 $rax   : 0x22
 $rbx   : 0x37
@@ -194,7 +196,7 @@ $rcx   : 0x1
 
 Vérification :
 
-```gdb
+```asm
 gef➤  p/d $rbx
 $3 = 55
 ```

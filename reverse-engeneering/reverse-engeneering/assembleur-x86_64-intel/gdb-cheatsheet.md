@@ -108,22 +108,7 @@ patch (qword|dword|word|byte) ADRESSE VALEUR
 
 ### <mark style="color:red;">🛠️ Résumé rapide des commandes essentielles</mark>
 
-| Catégorie   | Commande            | Description                                    |
-| ----------- | ------------------- | ---------------------------------------------- |
-| **Break**   | `b _start`          | Break à la fonction `_start`                   |
-|             | `b *0x40100a`       | Break à une **adresse mémoire précise**        |
-|             | `info breakpoints`  | Liste tous les breakpoints                     |
-|             | `c` / `continue`    | Reprend l’exécution                            |
-|             | `r` / `run`         | Lance depuis le début                          |
-| **Examine** | `x/4i $rip`         | Affiche 4 instructions à partir de `$rip`      |
-|             | `x/s 0x402000`      | Affiche la chaîne située à cette adresse       |
-|             | `x/wx 0x401000`     | Affiche le mot mémoire en hex (opcode)         |
-|             | `registers`         | Liste tous les registres (GEF)                 |
-| **Step**    | `si` / `stepi`      | Exécute une instruction assembleur             |
-|             | `s` / `step`        | Exécute une ligne complète (entre dans appels) |
-|             | `ni` / `n`          | Ignore les appels de fonction                  |
-| **Modify**  | `set $rdx = 0x9`    | Modifie la valeur du registre `rdx`            |
-|             | `patch string addr` | Patch une string en RAM                        |
+<table data-full-width="true"><thead><tr><th>Catégorie</th><th>Commande</th><th>Description</th></tr></thead><tbody><tr><td><strong>Break</strong></td><td><code>b _start</code></td><td>Break à la fonction <code>_start</code></td></tr><tr><td></td><td><code>b *0x40100a</code></td><td>Break à une <strong>adresse mémoire précise</strong></td></tr><tr><td></td><td><code>info breakpoints</code></td><td>Liste tous les breakpoints</td></tr><tr><td></td><td><code>c</code> / <code>continue</code></td><td>Reprend l’exécution</td></tr><tr><td></td><td><code>r</code> / <code>run</code></td><td>Lance depuis le début</td></tr><tr><td><strong>Examine</strong></td><td><code>x/4i $rip</code></td><td>Affiche 4 instructions à partir de <code>$rip</code></td></tr><tr><td></td><td><code>x/s 0x402000</code></td><td>Affiche la chaîne située à cette adresse</td></tr><tr><td></td><td><code>x/wx 0x401000</code></td><td>Affiche le mot mémoire en hex (opcode)</td></tr><tr><td></td><td><code>registers</code></td><td>Liste tous les registres (GEF)</td></tr><tr><td><strong>Step</strong></td><td><code>si</code> / <code>stepi</code></td><td>Exécute une instruction assembleur</td></tr><tr><td></td><td><code>s</code> / <code>step</code></td><td>Exécute une ligne complète (entre dans appels)</td></tr><tr><td></td><td><code>ni</code> / <code>n</code></td><td>Ignore les appels de fonction</td></tr><tr><td><strong>Modify</strong></td><td><code>set $rdx = 0x9</code></td><td>Modifie la valeur du registre <code>rdx</code></td></tr><tr><td></td><td><code>patch string addr</code></td><td>Patch une string en RAM</td></tr></tbody></table>
 
 ***
 

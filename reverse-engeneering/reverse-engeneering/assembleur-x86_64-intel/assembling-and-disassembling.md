@@ -2,7 +2,9 @@
 
 ***
 
-Toute la structure de fichier que nous avons apprise dans la section précédente est **basée sur la structure de fichier `nasm`**.\
+Toute la structure de fichier que nous avons apprise dans la section précédente est **basée sur la structure de fichier `nasm`**.
+
+\
 Lorsque nous assemblons notre code avec `nasm`, il **comprend les différentes parties du fichier** et les **assemble correctement** pour qu’elles puissent être exécutées **durant l’exécution** du programme.
 
 Après avoir assemblé notre code avec `nasm`, nous pouvons **le lier** en utilisant `ld` pour utiliser les différentes fonctionnalités et bibliothèques du système d’exploitation.
@@ -23,7 +25,7 @@ Tout d’abord, nous allons copier le code ci-dessous dans un fichier appelé **
 
 #### <mark style="color:green;">📄 Code (nasm)</mark>
 
-```nasm
+```asm
 global _start
 
 section .data
@@ -219,15 +221,6 @@ Contents of section .data:
 ```
 
 On voit bien la chaîne `"Hello HTB Academy!"` stockée à l’adresse `0x402000`.
-
-***
-
-<mark style="color:green;">✅</mark> <mark style="color:green;"></mark><mark style="color:green;">**Conclusion**</mark>
-
-* On a assemblé (`nasm`), lié (`ld`), exécuté (`./helloWorld`)
-* On a désassemblé (`objdump`)
-* On a compris la conversion entre assembleur, code machine, et sections mémoire (`.text`, `.data`)
-* On est prêt pour le **debugging et l’exploitation binaire**
 
 ***
 

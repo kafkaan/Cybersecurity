@@ -73,7 +73,7 @@ Maintenant, les **instructions arithmétiques binaires**. Voici les principales 
 
 ***
 
-#### ➕ Exercice avec `add`
+#### <mark style="color:green;">➕ Exercice avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`add`</mark>
 
 L’addition est **la base** de la suite de Fibonacci : `Fn = Fn-1 + Fn-2`.
 
@@ -81,7 +81,7 @@ On ajoute `add rax, rbx` à la fin du fichier `fib.s` :
 
 **📜 Code NASM :**
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -145,7 +145,7 @@ Très utile pour **mettre à 0 un registre** ! `xor rax, rax` → `rax = 0`, car
 
 #### <mark style="color:green;">📜 Version optimisée de fib.s avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`xor`</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -160,6 +160,7 @@ _start:
 
 #### <mark style="color:green;">🧪 Exécution dans gdb :</mark>
 
+{% code fullWidth="true" %}
 ```bash
 gdb
 $ ./assembler.sh fib.s -g
@@ -183,6 +184,7 @@ $rbx   : 0x0
 $rax   : 0x1
 $rbx   : 0x1
 ```
+{% endcode %}
 
 🧠 Ici, `rax` et `rbx` sont mis à `0` via `xor`, ensuite `rbx` est incrémenté, et on ajoute `rax` + `rbx`.
 

@@ -93,7 +93,7 @@ Once `GDB` is started, we can use the `info` command to view general information
 
 To start, we will use the `info` command to check which `functions` are defined within the binary:
 
-```nasm
+```asm
 gef➤  info functions
 
 All defined functions:
@@ -108,7 +108,7 @@ As we can see, we found our main `_start` function.
 
 We can also use the `info variables` command to view all available variables within the program:
 
-```nasm
+```asm
 gef➤  info variables
 
 All defined variables:
@@ -128,7 +128,7 @@ As we can see, we find the `message`, along with some other default variables th
 
 To view the instructions within a specific function, we can use the `disassemble` or `disas` command along with the function name, as follows:
 
-```nasm
+```asm
 gef➤  disas _start
 
 Dump of assembler code for function _start:
