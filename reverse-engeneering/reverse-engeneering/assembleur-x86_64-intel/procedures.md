@@ -29,7 +29,7 @@ De plus, on peut utiliser les procédures pour **diviser un code plus grand et p
 
 ### <mark style="color:blue;">🔙 Revenons à notre code :</mark>
 
-```nasm
+```asm
 global  _start
 
 section .data
@@ -65,9 +65,7 @@ On remarque que notre code fait plusieurs choses en **un seul gros bloc** :
 * Calcule les nombres suivants avec une boucle
 * Quitte le programme
 
-La **boucle** est déjà définie sous un **label** (`loopFib`),\
-mais les **trois autres parties** peuvent être **transformées en procédures**,\
-pour **améliorer la lisibilité et l’efficacité du code**.
+La **boucle** est déjà définie sous un **label** (`loopFib`),mais les **trois autres parties** peuvent être **transformées en procédures**,pour **améliorer la lisibilité et l’efficacité du code**.
 
 ***
 
@@ -76,7 +74,7 @@ pour **améliorer la lisibilité et l’efficacité du code**.
 Première étape :\
 On ajoute un **label au-dessus de chaque bloc** de code qu’on veut transformer en procédure :
 
-```nasm
+```asm
 global  _start
 
 section .data
@@ -131,7 +129,7 @@ Ensuite, la procédure se termine avec l’instruction **`ret`**,qui **retire l�
 
 ### <mark style="color:blue;">🧠 Appliquer</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`call`</mark> <mark style="color:blue;"></mark><mark style="color:blue;">dans le code</mark>
 
-```nasm
+```asm
 global  _start
 
 section .data
@@ -175,19 +173,16 @@ Exit:
 
 ### <mark style="color:red;">✅ Résultat</mark>
 
-Ce code **exécute exactement la même chose qu’avant**,\
-mais :
+Ce code **exécute exactement la même chose qu’avant**,mais :
 
 * plus **propre**
 * plus **modulaire**
 * plus **facile à modifier**
 
-Par exemple, si on veut modifier uniquement `printMessage`,\
-on n’a **pas besoin de relire tout le fichier**.
+Par exemple, si on veut modifier uniquement `printMessage`,on n’a **pas besoin de relire tout le fichier**.
 
 > Remarque :\
-> La procédure `Exit` ne contient **pas de `ret`**,\
-> car on **ne veut pas revenir** après un `exit`.
+> La procédure `Exit` ne contient **pas de `ret`**,car on **ne veut pas revenir** après un `exit`.
 
 ***
 

@@ -121,7 +121,7 @@ Donc, `write()` attend :
 Mais on ne peut pas stocker une longue chaîne directement dans un registre.\
 👉 On la définit dans la section `.data` :
 
-```nasm
+```asm
 section .data
     message db "Fibonacci Sequence:", 0x0a
 ```
@@ -132,7 +132,7 @@ section .data
 
 ### <mark style="color:blue;">✅ Code complet :</mark>
 
-```nasm
+```asm
 global _start
 
 section .data
@@ -238,7 +238,7 @@ syscall
 
 ### <mark style="color:blue;">🔁 Code final :</mark>
 
-```nasm
+```asm
 global _start
 
 section .data

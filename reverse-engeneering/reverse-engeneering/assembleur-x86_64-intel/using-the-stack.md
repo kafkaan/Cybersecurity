@@ -64,8 +64,7 @@ ou `pop` pour retirer la valeur en haut de la pile dans `rax`.
 
 ### <mark style="color:red;">🧰 Utilisation avec les fonctions ou les appels système (syscalls)</mark>
 
-En général, **avant d’appeler une fonction ou une syscall**, on **pousse les registres importants** sur la pile,\
-puis **on les restaure** après l’appel.\
+En général, **avant d’appeler une fonction ou une syscall**, on **pousse les registres importants** sur la pile,puis **on les restaure** après l’appel.\
 Pourquoi ?\
 → Parce que les fonctions ou les syscalls utilisent ces registres et peuvent en modifier le contenu.
 
@@ -90,7 +89,7 @@ Ainsi, on peut **exécuter la syscall** ET **garder intact la valeur originale d
 
 Code assembleur :
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -151,14 +150,14 @@ si
 
 Tu observeras dans la pile :
 
-```
+```asm
 $rax = 0x0
 $rbx = 0x1
 ```
 
 Et dans la pile :
 
-```
+```asm
 0x00007fffffffe410│+0x0000: 0x0000000000000001  ← $rsp (valeur de rbx)
 0x00007fffffffe418│+0x0008: 0x0000000000000000  (valeur de rax)
 ```

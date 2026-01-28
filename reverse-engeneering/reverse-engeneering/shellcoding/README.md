@@ -7,7 +7,7 @@
 Un **shellcode** est <mark style="color:orange;">**la représentation hexadécimale du code machine exécutable d’un binaire**</mark><mark style="color:orange;">.</mark>
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 global _start
 
 section .data
@@ -292,7 +292,7 @@ run_shellcode(unhex(sys.argv[1])).interactive()
 Utilisation :
 
 ```bash
-python3 loader.py '4831db66bb79215348bb422041636164656d5348bb48656c6c6f204854534889e64831c0b0014831ff40b7014831d2b2120f054831c0043c4030ff0f05'
+python3 loader.py '4831db6120f054831c0043c4030ff0f05'
 ```
 
 ***
@@ -325,10 +325,12 @@ os.chmod(sys.argv[2], stat.S_IEXEC)
 
 Utilisation :
 
+{% code fullWidth="true" %}
 ```bash
-python3 assembler.py '4831db66bb79215348bb422041636164656d5348bb48656c6c6f204854534889e64831c0b0014831ff40b7014831d2b2120f054831c0043c4030ff0f05' helloworld
+python3 assembler.py '4831db66bb79215348bb422041636164656d534814831ff40b7014831d2b2120f054831c0043c4030ff0f05' helloworld
 ./helloworld
 ```
+{% endcode %}
 
 Debug avec GDB :
 
@@ -365,6 +367,14 @@ Si erreur, compiler avec options :
 gcc helloworld.c -o helloworld -fno-stack-protector -z execstack -Wl,--omagic -g --static
 ```
 {% endcode %}
+
+| Option                 | Effet            | Pourquoi         |
+| ---------------------- | ---------------- | ---------------- |
+| `-fno-stack-protector` | Supprime canary  | BOF exploitable  |
+| `-z execstack`         | Stack exécutable | Shellcode        |
+| `-Wl,--omagic`         | Segments RWX     | Exploit facilité |
+| `-g`                   | Debug symbols    | GDB lisible      |
+| `--static`             | Binaire statique | Stabilité        |
 
 Exécution :
 

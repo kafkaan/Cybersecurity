@@ -450,6 +450,7 @@
   * [Shellcoding](reverse-engeneering/reverse-engeneering/shellcoding/README.md)
     * [Shellcoding Techniques](reverse-engeneering/reverse-engeneering/shellcoding/shellcoding-techniques.md)
     * [Outils de Shellcoding](reverse-engeneering/reverse-engeneering/shellcoding/outils-de-shellcoding.md)
+    * [Shellcoding CHEATSHEET](reverse-engeneering/reverse-engeneering/shellcoding/shellcoding-cheatsheet.md)
     * [Stack-Based Buffer Overflows on Linux x86](reverse-engeneering/reverse-engeneering/shellcoding/stack-based-buffer-overflows-on-linux-x86/README.md)
       * [Stack-Based Buffer Overflow](reverse-engeneering/reverse-engeneering/shellcoding/stack-based-buffer-overflows-on-linux-x86/stack-based-buffer-overflow.md)
       * [CPU Registers](reverse-engeneering/reverse-engeneering/shellcoding/stack-based-buffer-overflows-on-linux-x86/cpu-registers.md)
@@ -548,6 +549,9 @@
     * [Recherche et Filtrage dans PowerShell](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/recherche-et-filtrage-dans-powershell.md)
     * [Gestion des Services PowerShell](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/gestion-des-services-powershell.md)
     * [Working with the Registry](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/working-with-the-registry.md)
+    * [Working with the Windows Event Log](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/working-with-the-windows-event-log.md)
+    * [Networking Management from The CLI](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/networking-management-from-the-cli.md)
+    * [Interaction avec le Web via PowerShell](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/interaction-avec-le-web-via-powershell.md)
 
 ## Docker
 

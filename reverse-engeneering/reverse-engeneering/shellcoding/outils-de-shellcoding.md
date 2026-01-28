@@ -16,7 +16,7 @@ Pour cela, nous pouvons utiliser l’appel système `execve` avec le **numéro d
 mrroboteLiot_1@htb[/htb]$ man -s 2 execve
 ```
 
-```
+```c
 int execve(const char *pathname, char *const argv[], char *const envp[]);
 ```
 
@@ -37,7 +37,7 @@ Nous allons donc initialiser nos arguments comme suit :
 
 En utilisant les concepts vus précédemment pour effectuer un syscall, le code assembleur suivant exécute le syscall requis :
 
-```nasm
+```asm
 global _start
 
 section .text
@@ -56,7 +56,7 @@ _start:
 
 On remarque que ce code **contient des octets NULL**, donc il **ne produira pas un shellcode fonctionnel**.
 
-```
+```asm
 Stack (mémoire):
                      
 0x7fffffffdfe0: │ 0x7fffffffdff0 │ ← rsi pointe ici (argv[0])
@@ -88,7 +88,7 @@ execve(pathname, argv[], envp[])
 
 We can zero-out `rdx` with `xor`, and then push it for string terminators instead of pushing `0`:Code: nasm
 
-```nasm
+```asm
 _start:
     mov al, 59          ; execve syscall number
     xor rdx, rdx        ; set env to NULL

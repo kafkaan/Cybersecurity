@@ -157,7 +157,7 @@ somme7:
 
 #### <mark style="color:green;">Retour d'entier simple</mark>
 
-```nasm
+```asm
 get_answer:
     push rbp
     mov rbp, rsp

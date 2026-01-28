@@ -14,6 +14,39 @@ Une instruction de saut conditionnel prend plusieurs formes sous le nom de `Jcc`
 
 <table data-full-width="true"><thead><tr><th>Instruction</th><th>Condition</th><th>Description</th></tr></thead><tbody><tr><td><code>jz</code></td><td>D = 0</td><td>Destination est égale à zéro</td></tr><tr><td><code>jnz</code></td><td>D ≠ 0</td><td>Destination n’est pas égale à zéro</td></tr><tr><td><code>js</code></td><td>D &#x3C; 0</td><td>Destination est négative</td></tr><tr><td><code>jns</code></td><td>D ≥ 0</td><td>Destination n’est pas négative (0 ou positif)</td></tr><tr><td><code>jg</code></td><td>D > S</td><td>Destination supérieure à Source</td></tr><tr><td><code>jge</code></td><td>D ≥ S</td><td>Destination supérieure ou égale à Source</td></tr><tr><td><code>jl</code></td><td>D &#x3C; S</td><td>Destination inférieure à Source</td></tr><tr><td><code>jle</code></td><td>D ≤ S</td><td>Destination inférieure ou égale à Source</td></tr></tbody></table>
 
+{% hint style="info" %}
+MEMO
+
+* `j` = **jump**
+* `n` = **not** (négation de la condition)
+* `z` = **zero**
+* `s` = **sign** (négatif)
+* `g` = **greater** (“grand”)
+* `l` = **less** (“low”)
+* `e` = **equal** (inclut l’égalité)
+
+Du coup tu mémorises surtout **`n` et `e`** :
+
+* `n` inverse (NOT)
+* `e` rend la comparaison inclusive (≥ ou ≤)
+* `jz` = _jump if zero_
+* `jnz` = _jump if not zero_
+* `js` = _jump if sign_ (résultat négatif)
+* `jns` = _jump if not sign_ (0 ou positif)
+* `jg` = _jump if greater_
+* `jge` = _jump if greater or equal_
+
+Même logique pour le reste :
+
+* `jl` = less
+* `jle` = less or equal
+
+**N = NOT** (inverse)\
+**E = Equal** (inclut égal)\
+**G = Greater**, **L = Less**\
+**Z = Zero**, **S = Sign**
+{% endhint %}
+
 ***
 
 {% hint style="warning" %}
@@ -254,7 +287,7 @@ Après l’instruction `SUB`, les flags sont mis à jour :
 
 L’instruction `loop` vue précédemment est **équivalente à** :
 
-```nasm
+```asm
 dec rcx
 jnz loopFib
 ```
@@ -265,7 +298,7 @@ Mais `loop` est juste une optimisation de syntaxe.
 
 #### <mark style="color:green;">📜 Nouveau code avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`jnz`</mark>
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -293,7 +326,7 @@ gef➤  r
 ```
 
 {% code fullWidth="true" %}
-```gdb
+```asm
 ──────────────────────────────────────────────────── registers ────
 $rax   : 0x0
 $rbx   : 0x1
@@ -342,7 +375,7 @@ js  loopFib    ; saute si résultat < 0
 
 #### <mark style="color:green;">📜 Nouveau code avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`cmp`</mark> <mark style="color:green;"></mark><mark style="color:green;">et</mark> <mark style="color:green;"></mark><mark style="color:green;">`js`</mark>
 
-```nasm
+```asm
 global  _start
 
 section .text
@@ -386,7 +419,7 @@ $eflags: [zero CARRY parity ADJUST SIGN ...]
 
 On peut utiliser **breakpoint conditionnel** pour arrêter quand `rbx > 10`.
 
-```gdb
+```asm
 gef➤  del 1
 gef➤  disas loopFib
 → 0x401012 : js 0x401009

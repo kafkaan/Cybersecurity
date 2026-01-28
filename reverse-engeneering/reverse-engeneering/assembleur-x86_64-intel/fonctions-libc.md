@@ -144,7 +144,7 @@ loopFib:
 
 Avec tout cela en place, notre code final complet devrait ressembler à ceci :
 
-```nasm
+```asm
 global  _start
 extern  printf, scanf
 

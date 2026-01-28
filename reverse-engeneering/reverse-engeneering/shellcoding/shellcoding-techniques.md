@@ -9,14 +9,16 @@ Comme nous l'avons brièvement mentionné dans la section précédente, tous les
 C’est parce qu’un shellcode doit répondre à certaines **exigences spécifiques**, sinon il ne sera pas désassemblé correctement à l’exécution.
 {% endhint %}
 
+{% code fullWidth="true" %}
 ```bash
 $ pwn disasm '48be0020400000000000bf01000000ba12000000b8010000000f05b83c000000bf000000000f05' -c 'amd64'
 ```
+{% endcode %}
 
 Résultat :
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 0:  48 be 00 20 40 00 00     movabs rsi,  0x402000
 7:  00 00 00
 a:  bf 01 00 00 00           mov    edi,  0x1
@@ -68,13 +70,13 @@ Donc tout le shellcode doit être **dans la section `.text`**.
 
 Exemple :
 
-```nasm
+```asm
 mov rsi, 'Academy!'         ; Pas assez si > 8 caractères
 ```
 
 Donc mieux : **pusher la chaîne en morceaux** sur la stack, puis pointer `rsi` sur `rsp` :
 
-```nasm
+```asm
 push 'y!'
 push 'B Academ'
 push 'Hello HT'
@@ -83,7 +85,7 @@ mov rsi, rsp
 
 Mais les `push` immédiats sont limités à 4 bytes (`dword`) → donc on utilise :
 
-```nasm
+```asm
 mov rbx, 'y!'
 push rbx
 mov rbx, 'B Academ'
@@ -177,14 +179,14 @@ b001
 
 #### <mark style="color:green;">🧼 Exemple avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`rbx`</mark> <mark style="color:green;"></mark><mark style="color:green;">:</mark>
 
-```nasm
+```asm
 xor rbx, rbx
 mov bx, 'y!'
 ```
 
 Même technique appliquée au reste :
 
-```nasm
+```asm
 xor rax, rax
 mov al, 1
 xor rdi, rdi
@@ -211,7 +213,7 @@ ssize\_t write(int fd, const void \*buf, size\_t count);
 | `buf`    | `rsi`                      |
 | `count`  | `rdx`                      |
 
-```nasm
+```asm
 global _start
 
 section .text

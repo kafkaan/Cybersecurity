@@ -97,7 +97,7 @@ On va créer une **procédure `printFib`** pour contenir l’appel à la fonctio
 
 Première étape : **sauvegarder `rax` et `rbx`** (qu’on utilise) :
 
-```nasm
+```asm
 printFib:
     push rax
     push rbx
@@ -145,7 +145,7 @@ section .data
 
 #### <mark style="color:green;">🔧 Définir les registres</mark>
 
-```nasm
+```asm
 printFib:
     push rax
     push rbx
@@ -183,7 +183,7 @@ Mais dans notre cas, **2 push + 1 call + 1 ret** = total 32 octets → ✅ déj�
 
 ### <mark style="color:blue;">🔁</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Appel de fonction réel**</mark>
 
-```nasm
+```asm
 printFib:
     push rax
     push rbx
@@ -214,7 +214,7 @@ loopFib:
 ### <mark style="color:blue;">🧩</mark> <mark style="color:blue;"></mark><mark style="color:blue;">**Code complet**</mark>
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 global _start
 extern printf
 

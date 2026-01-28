@@ -123,7 +123,15 @@ indique un binaire sans canari, sans PIE, avec NX et RELRO partiel.
 
 ### <mark style="color:blue;">Débordement de tampon (buffer overflow)</mark>
 
-Un dépassement de tampon se produit lorsqu’un programme écrit plus de données qu’il ne peut en stocker dans un buffer, généralement situé sur la pile. En informatique, c’est un bug où « un processus écrit à l’extérieur de l’espace alloué au tampon, écrasant ainsi des informations nécessaires au processus » . En pratique, cela veut dire qu’on peut écraser les variables locales situées juste après le buffer en mémoire. Sur la pile d’appel, les variables locales sont suivies par la sauvegarde du pointeur de pile (EBP/RBP) et enfin l’adresse de retour de la fonction. Écraser cette adresse de retour détourne le flux d’exécution : quand la fonction fait `ret`, le processeur saute vers l’adresse écrasée au lieu de continuer normalement. Comme l’explique la documentation, « l’attaquant peut ainsi contrôler le pointeur d’instruction après le retour de la fonction, et lui faire exécuter des instructions arbitraires » .
+Un dépassement de tampon se produit lorsqu’un programme écrit plus de données qu’il ne peut en stocker dans un buffer, généralement situé sur la pile.&#x20;
+
+En informatique, c’est un bug où « un processus écrit à l’extérieur de l’espace alloué au tampon, écrasant ainsi des informations nécessaires au processus » .&#x20;
+
+En pratique, cela veut dire qu’on peut écraser les variables locales situées juste après le buffer en mémoire.&#x20;
+
+Sur la pile d’appel, les variables locales sont suivies par la sauvegarde du pointeur de pile (EBP/RBP) et enfin l’adresse de retour de la fonction.&#x20;
+
+Écraser cette adresse de retour détourne le flux d’exécution : quand la fonction fait `ret`, le processeur saute vers l’adresse écrasée au lieu de continuer normalement. Comme l’explique la documentation, « l’attaquant peut ainsi contrôler le pointeur d’instruction après le retour de la fonction, et lui faire exécuter des instructions arbitraires » .
 
 Par exemple, dans votre `test.c` la fonction `vuln()` déclare un buffer de `0x20` octets et lit ensuite `0x100` octets de l’entrée standard :
 
@@ -132,7 +140,9 @@ char buffer[0x20];
 fgets(buffer, 0x100, stdin);
 ```
 
-Ici, il est évident que l’appel `fgets` lit jusqu’à 256 octets dans un espace qui n’en contient que 32. Les octets au-delà écraseront la pile au-delà du buffer. Comme le montre l’exemple de la page Wikipédia, si l’on copie 32 octets ou plus dans un buffer de 32 octets (puisque `fgets` n’arrête pas après 32), « la fonction `strcpy` continuera à copier le contenu de la chaîne au-delà de la zone allouée… c’est ainsi que les informations stockées dans la pile (incluant l’adresse de retour) pourront être écrasées » . Dans le cas de votre programme, dès qu’on envoie `0x28` (40) octets à `fgets`, on atteint l’adresse de retour (32 octets de buffer + 8 octets pour RBP sauvegardé), ce qui provoque un plantage (“segfault”) et permettrait d’écraser la valeur de retour. En envoyant un peu plus d’octets on peut même écrire à l’emplacement de retour et forcer le `ret` de `vuln()` à sauter vers une adresse arbitraire (par exemple l’adresse de `gg()` ).
+Ici, il est évident que l’appel `fgets` lit jusqu’à 256 octets dans un espace qui n’en contient que 32. Les octets au-delà écraseront la pile au-delà du buffer. Comme le montre l’exemple de la page Wikipédia, si l’on copie 32 octets ou plus dans un buffer de 32 octets (puisque `fgets` n’arrête pas après 32), « la fonction `strcpy` continuera à copier le contenu de la chaîne au-delà de la zone allouée… c’est ainsi que les informations stockées dans la pile (incluant l’adresse de retour) pourront être écrasées » .&#x20;
+
+Dans le cas de votre programme, dès qu’on envoie `0x28` (40) octets à `fgets`, on atteint l’adresse de retour (32 octets de buffer + 8 octets pour RBP sauvegardé), ce qui provoque un plantage (“segfault”) et permettrait d’écraser la valeur de retour. En envoyant un peu plus d’octets on peut même écrire à l’emplacement de retour et forcer le `ret` de `vuln()` à sauter vers une adresse arbitraire (par exemple l’adresse de `gg()` ).
 
 Dans l’exemple pris de Wikipédia, on voit qu’en mettant 32 octets de “A” plus l’adresse de la pile, l’attaquant peut placer du code malveillant sur la pile et faire en sorte que le processeur l’exécute après le retour. Concrètement, il suffit de déterminer le décalage exact à l’adresse de retour (ici `0x28`) et d’y écrire l’adresse d’une fonction de son choix. Votre exercice a montré qu’après 40 (`0x28`) octets de « A » envoyés, le programme crashait, ce qui confirme que l’on a écrasé l’adresse de retour
 

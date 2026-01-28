@@ -169,7 +169,7 @@ esp+0xc -> \[envp] <- Troisième argument (variables d'environnement)
 {% endhint %}
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 student@nix-bow:~$ gdb ./bow32 -q
 
 Reading symbols from bow...(no debugging symbols found)...done.
@@ -229,7 +229,7 @@ echo 'set disassembly-flavor intel' > ~/.gdbinit
 ```
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 Dump of assembler code for function bowfunc:
    0x08049176 <+0>:	push   ebp
    0x08049177 <+1>:	mov    ebp,esp
