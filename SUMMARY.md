@@ -98,6 +98,7 @@
   * [(PtT) from Linux](password-attacks/password-attacks/ptt-from-linux.md)
   * [Fichiers Protégés](password-attacks/password-attacks/fichiers-proteges.md)
   * [Archives Protégées](password-attacks/password-attacks/archives-protegees.md)
+  * [Password Cracking PBKDF2](password-attacks/password-attacks/password-cracking-pbkdf2.md)
 * [SKILLS ASSESSEMENT](password-attacks/skills-assessement.md)
 
 ## 🏹 Attacking Common Services  &#x20;
@@ -307,6 +308,7 @@
   * [Manipulation des LogonHours](active-direcotry-attacks/ad-attacks/manipulation-des-logonhours.md)
   * [Kerberos Ticket Harvesting via MSSQL Linked Server](active-direcotry-attacks/ad-attacks/kerberos-ticket-harvesting-via-mssql-linked-server.md)
   * [WCF Service Exploitation](active-direcotry-attacks/ad-attacks/wcf-service-exploitation.md)
+  * [Exploitation DMSA (CVE-2025-33073)](active-direcotry-attacks/ad-attacks/exploitation-dmsa-cve-2025-33073.md)
 * [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints/README.md)
   * [PowerShell Active Directory](active-direcotry-attacks/ad-and-windows-script-hints/powershell-active-directory.md)
 * [SKILLS ASSESSMENT I](active-direcotry-attacks/skills-assessment-i.md)
