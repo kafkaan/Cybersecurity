@@ -348,6 +348,7 @@
   * [Django Cache Poisoning](web-attacks/web-attacks/django-cache-poisoning.md)
   * [Désérialisation PHP et RCE](web-attacks/web-attacks/deserialisation-php-et-rce.md)
   * [PHP-CGI Argument Injection via Best-Fit Encoding](web-attacks/web-attacks/php-cgi-argument-injection-via-best-fit-encoding.md)
+  * [Mass Assignment Vulnerability](web-attacks/web-attacks/mass-assignment-vulnerability.md)
 
 ## 🪟 Windows Privilege Escalation
 
@@ -499,6 +500,7 @@
   * [Forgerie de Certificats SSL](linux-privilege-escalation/various-techniques/forgerie-de-certificats-ssl.md)
   * [Escalade de privilèges via Below](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-below.md)
   * [FAILLE BASH ARITHMETIC EXPRESSION INJECTION](linux-privilege-escalation/various-techniques/faille-bash-arithmetic-expression-injection.md)
+  * [Escalade de Privilèges via Facter (Puppet)](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-facter-puppet.md)
 
 ## CYPHER INJECTION
 
@@ -561,3 +563,7 @@
 ## Docker
 
 * [Exploitation de runc via Misconfiguration](docker/exploitation-de-runc-via-misconfiguration.md)
+
+## ☁️ Cloud
+
+* [AWS](cloud/aws.md)

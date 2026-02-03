@@ -16,7 +16,7 @@ Outre les comptes utilisateurs standard et admin liés à un utilisateur spécif
 
 Une organisation de 1 000 employés pourrait avoir 1 200 comptes utilisateurs actifs ou plus ! Nous pouvons également voir des organisations avec des centaines de comptes désactivés d'anciens employés, d'employés temporaires/saisonniers, de stagiaires, etc. Certaines entreprises doivent conserver des enregistrements de ces comptes à des fins d'audit, elles les désactiveront donc (et supprimeront espérons-le tous les privilèges) une fois l'employé licencié, mais elles ne les supprimeront pas. Il est courant de voir une OU telle que `ANCIENS EMPLOYÉS` qui contiendra de nombreux comptes désactivés.
 
-<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 Comme nous le verrons plus tard dans ce module, les comptes utilisateurs peuvent se voir octroyer de nombreux droits dans Active Directory.&#x20;
 
