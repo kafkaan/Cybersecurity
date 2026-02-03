@@ -503,6 +503,28 @@ decrypted = xor_bytes(encrypted, b'K')  # Retourne b'Hello'
 
 **Usage cyber :** Cracking de hashs, analyse de malware, crypto challenges
 
+#### <mark style="color:green;">CISCO ROUTER PASS DECRYPTE</mark>
+
+```python
+#!/usr/bin/env python3
+
+import sys
+from binascii import unhexlify
+
+if len(sys.argv) != 2:
+    print(f"Usage: {sys.argv[0]} [level 7 hash]")
+    exit()
+
+static_key = "tfd;kfoA,.iyewrkldJKD"
+enc = sys.argv[1]
+start = int(enc[:2], 16) - 1
+enc = unhexlify(enc[2:])
+key = static_key[start:] + static_key[:start]
+
+plain = ''.join([chr(x ^ ord(key[i % len(key)]))  for i, x in enumerate(enc)])
+print(plain)
+```
+
 ***
 
 ### <mark style="color:red;">8. Web Scraping et Parsing</mark>

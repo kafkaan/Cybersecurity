@@ -392,6 +392,7 @@
     * [DPAPI Exploit](windows-privilege-escalation/windows-privilege-escalation/credential-theft/dpapi-exploit.md)
     * [RecycleBin Forensics](windows-privilege-escalation/windows-privilege-escalation/credential-theft/recyclebin-forensics.md)
     * [Fuite de hash NTLM via fichiers .library-ms](windows-privilege-escalation/windows-privilege-escalation/credential-theft/fuite-de-hash-ntlm-via-fichiers-.library-ms.md)
+    * [EXTRACTION DE CREDENTIALS FIREFOX SUR WINDOWS](windows-privilege-escalation/windows-privilege-escalation/credential-theft/extraction-de-credentials-firefox-sur-windows.md)
   * [ADCS (Certificats)](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/README.md)
     * [KeyCredentialLink](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/keycredentiallink.md)
     * [Email Spoofing](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/email-spoofing.md)

