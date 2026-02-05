@@ -6,7 +6,9 @@
 
 Les registres sont les composants essentiels d'un CPU. Presque tous les registres offrent une petite quantité d'espace de stockage où les données peuvent être temporairement stockées. Cependant, certains d'entre eux ont une fonction particulière.
 
-Ces registres sont divisés en **registres généraux**, **registres de contrôle** et **registres de segment**. Les registres les plus critiques dont nous avons besoin sont les **registres généraux**. Dans ceux-ci, il y a d'autres subdivisions en registres de données, registres de pointeurs et registres d'index.
+Ces registres sont divisés en **registres généraux**, **registres de contrôle** et **registres de segment**. Les registres les plus critiques dont nous avons besoin sont les **registres généraux**.&#x20;
+
+Dans ceux-ci, il y a d'autres subdivisions en registres de données, registres de pointeurs et registres d'index.
 
 ***
 
@@ -37,7 +39,7 @@ Puisque la mémoire de la pile est construite sur une structure de données **La
 #### <mark style="color:green;">Code Assembleur Complet avec Commentaires Ligne par Ligne :</mark>
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 (gdb) disas bowfunc 
 
 Dump of assembler code for function bowfunc:
@@ -123,7 +125,7 @@ bow64: ELF 64-bit LSB shared object
 #### <mark style="color:$success;">Code Assembleur 64-bit avec Commentaires :</mark>
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 student@nix-bow:~$ gdb -q bow64
 (gdb) disas main
 
@@ -188,7 +190,7 @@ L'instruction **call** est utilisée pour appeler une fonction et effectue deux 
 #### <mark style="color:green;">Exemple d'Analyse GDB - Syntaxe Intel :</mark>
 
 {% code fullWidth="true" %}
-```nasm
+```asm
 student@nix-bow:~$ gdb ./bow32 -q
 (gdb) disassemble main
 

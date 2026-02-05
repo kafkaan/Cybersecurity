@@ -9,7 +9,7 @@ Progressivement, ce concept a été transféré à d’autres fichiers, et maint
 De tels caractères réservés existent également dans les applications, mais ils n’apparaissent pas toujours et ne sont pas toujours les mêmes.\
 Ces caractères réservés, aussi appelés **mauvais caractères (bad characters)**, peuvent varier, mais souvent nous verrons des caractères comme ceux-ci :
 
-```
+```asm
 \x00 - Octet nul
 \x0A - Saut de ligne
 \x0D - Retour chariot
@@ -50,7 +50,7 @@ Cette chaîne fait **256 octets**. Nous devons donc recalculer notre buffer.
 
 ### <mark style="color:red;">**Notes**</mark>
 
-```
+```asm
 Buffer  = "\x55" * (1040 - 256 - 4) = 780
 CHARS   = "\x00\x01\x02\x03\x04\x05...<SNIP>...\xfd\xfe\xff"
 EIP     = "\x66" * 4
@@ -68,7 +68,7 @@ Donc, nous allons définir un **breakpoint** à la fonction correspondante afin 
 
 Désassemblage de `main` :
 
-```nasm
+```asm
 (gdb) disas main
 Dump of assembler code for function main:
    0x56555582 <+0>:    lea    ecx,[esp+0x4]
@@ -137,7 +137,7 @@ On inspecte la mémoire :
 <SNIP>
 ```
 
-```
+```asm
 <SNIP>
 0xffffd5aa:	0x55	0x55	0x55	0x55	0x55	0x55	0x55	0x55
 0xffffd5b2:	0x55	0x55	0x55	0x55	0x55	0x55	0x55	0x55
@@ -175,7 +175,7 @@ Chaque fois qu’on trouve un caractère problématique (comme ici `\x00` puis `
 ⚠️ Ce processus doit être répété **jusqu’à ce que tous les mauvais caractères soient identifiés et éliminés**.
 
 {% code fullWidth="true" %}
-```
+```asm
 (gdb) run $(python -c 'print "\x55" * (1040 - 255 - 4) + "\x01\x02\x03\x04\x05...<SNIP>...\xfc\xfd\xfe\xff" + "\x66" * 4')
 
 The program being debugged has been started already.

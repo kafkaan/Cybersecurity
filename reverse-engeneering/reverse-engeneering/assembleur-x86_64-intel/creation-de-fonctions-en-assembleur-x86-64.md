@@ -259,7 +259,7 @@ fonction_simple:
 
 #### <mark style="color:green;">Allocation sur le stack</mark>
 
-```nasm
+```asm
 fonction_avec_variables:
     push rbp
     mov rbp, rsp

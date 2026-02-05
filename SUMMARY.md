@@ -560,6 +560,7 @@
     * [Working with the Windows Event Log](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/working-with-the-windows-event-log.md)
     * [Networking Management from The CLI](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/networking-management-from-the-cli.md)
     * [Interaction avec le Web via PowerShell](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/interaction-avec-le-web-via-powershell.md)
+    * [Script PowerShell et Automatisation](introduction-to-windows-command-line/introduction-to-windows-command-line/introduction-cmd-vs-powershell/script-powershell-et-automatisation.md)
 
 ## Docker
 

