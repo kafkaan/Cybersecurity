@@ -20,6 +20,8 @@ En C++, les **fonctions membres des classes** utilisent un pointeur spécial app
 .text:004019EB call sub_401120 ; Appel d'une fonction membre
 ```
 
+<figure><img src="../../.gitbook/assets/image (153).png" alt=""><figcaption></figcaption></figure>
+
 Ici, la valeur de `esi` (probablement l’adresse d’un objet) est copiée dans `ecx` avant l’appel d’une fonction&#x20;
 
 →  **signe qu’on appelle une méthode d’objet (fonction membre)**.
@@ -55,6 +57,8 @@ mov eax, [ecx+4]  ; lit un champ de l'objet (ex: this->some_field)
 .text:00401111 sub_4010D0 endp
 ```
 
+<figure><img src="../../.gitbook/assets/image (154).png" alt=""><figcaption></figcaption></figure>
+
 Dans cette fonction, on utilise `ecx` directement sans l’avoir initialisé dans la fonction → **ça suggère que `ecx` est passé automatiquement par l’appelant, typique d’une fonction membre.**
 
 ***
@@ -79,6 +83,8 @@ En C++, les fonctions membres sont appelées de manière particulière :
 * Ce pointeur est ensuite mis dans `ecx`,
 * Puis on appelle le **constructeur** de la classe (`ClassA_ctor`).
 
+<figure><img src="../../.gitbook/assets/image (155).png" alt=""><figcaption></figcaption></figure>
+
 ***
 
 #### <mark style="color:green;">3. Appels à des fonctions virtuelles (virtual calls) :</mark>
@@ -98,6 +104,8 @@ En C++, les **fonctions virtuelles** sont appelées de manière indirecte, via u
 * Et on appelle une fonction virtuelle indirectement : `call [eax]`.
 
 Pour comprendre quelle fonction est appelée, il faut retrouver la vtable associée à la classe.
+
+<figure><img src="../../.gitbook/assets/image (156).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="warning" %}
 ***
@@ -426,6 +434,7 @@ Pour identifier :
 
 <mark style="color:orange;">**Exemple (Désassemblage) :**</mark>
 
+{% code fullWidth="true" %}
 ```asm
 Here’s an example:
 .text:00401060 sub_401060 proc near
@@ -456,6 +465,7 @@ Here’s an example:
 .text:004010D5 lea ecx, [ebp+var_4]
 .text:004010D8 call sub_401020
 ```
+{% endcode %}
 
 ***
 
@@ -535,6 +545,8 @@ Le **RTTI** est un mécanisme qui permet de connaître **le type d’un objet à
 ⚠️ Sur **MSVC 6.0**, le RTTI est **désactivé par défaut**.\
 ✔️ Sur **MSVC 2005**, il est **activé par défaut**.
 
+<figure><img src="../../.gitbook/assets/image (157).png" alt=""><figcaption></figcaption></figure>
+
 ***
 
 #### <mark style="color:green;">🔧 Astuce : Afficher la disposition mémoire des classes</mark>
@@ -562,13 +574,7 @@ Le compilateur stocke dans le binaire des **structures de métadonnées** pour c
 
 C’est une structure qui contient des pointeurs vers deux autres structures :
 
-| Offset | Type | Nom                       | Description                          |
-| ------ | ---- | ------------------------- | ------------------------------------ |
-| 0x00   | DW   | signature                 | Toujours 0 ?                         |
-| 0x04   | DW   | offset                    | Offset de la vftable dans la classe  |
-| 0x08   | DW   | cdOffset                  | Inconnu ici                          |
-| 0x0C   | DW   | pTypeDescriptor           | Pointeur vers infos de la classe     |
-| 0x10   | DW   | pClassHierarchyDescriptor | Infos sur la hiérarchie de la classe |
+<table data-full-width="true"><thead><tr><th>Offset</th><th>Type</th><th>Nom</th><th>Description</th></tr></thead><tbody><tr><td>0x00</td><td>DW</td><td>signature</td><td>Toujours 0 ?</td></tr><tr><td>0x04</td><td>DW</td><td>offset</td><td>Offset de la vftable dans la classe</td></tr><tr><td>0x08</td><td>DW</td><td>cdOffset</td><td>Inconnu ici</td></tr><tr><td>0x0C</td><td>DW</td><td>pTypeDescriptor</td><td>Pointeur vers infos de la classe</td></tr><tr><td>0x10</td><td>DW</td><td>pClassHierarchyDescriptor</td><td>Infos sur la hiérarchie de la classe</td></tr></tbody></table>
 
 ***
 
@@ -623,7 +629,7 @@ dd offset type_info_vftable     ; pointeur vers la vftable type_info
 
 ➤ C’est quoi ?
 
-Cette structure décrit la **hiérarchie d'héritage** d'une classe : combien de classes de base elle a, si l’héritage est multiple, virtuel, etc. Elle contient un **tableau de pointeurs vers des RTTIBaseClassDescriptor** (on y reviendra).
+Cette structure décrit la **hiérarchie d'héritage** d'une classe : combien de classes de base elle a, si l’héritage est multiple, virtuel, etc. Elle contient un **tableau de pointeurs vers des&#x20;**<mark style="color:orange;">**RTTIBaseClassDescriptor**</mark> (on y reviendra).
 
 📑 Structure :
 
