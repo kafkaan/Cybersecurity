@@ -565,6 +565,8 @@
 ## Docker
 
 * [Exploitation de runc via Misconfiguration](docker/exploitation-de-runc-via-misconfiguration.md)
+* [Escape Container : Docker Desktop API (CVE-2025-9074)](docker/escape-container-docker-desktop-api-cve-2025-9074.md)
+* [Analyse Technique Exhaustive de l'Évasion de Conteneurs Docker](docker/analyse-technique-exhaustive-de-levasion-de-conteneurs-docker.md)
 
 ## ☁️ Cloud
 
