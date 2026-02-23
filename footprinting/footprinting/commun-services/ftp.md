@@ -5,23 +5,6 @@ description: >-
   la pile de protocoles TCP/IP. Il se situe donc au m
 cover: ../../../.gitbook/assets/mainimage-1.jpg
 coverY: -27.41454020221473
-layout:
-  width: default
-  cover:
-    visible: true
-    size: full
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
 # FTP

@@ -2,26 +2,9 @@
 cover: >-
   https://www.shutterstock.com/image-illustration/illustration-kerberos-mystical-creature-legendary-260nw-745336948.jpg
 coverY: 81.5566037735849
-layout:
-  width: default
-  cover:
-    visible: true
-    size: full
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
-# KEBEROS TICKETS
+# Kerberos Tickets
 
 ## <mark style="color:red;">Kerberos et les Types de Tickets</mark>
 

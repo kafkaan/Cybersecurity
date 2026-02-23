@@ -1,23 +1,6 @@
 ---
 cover: ../../.gitbook/assets/que-sont-dns.png
 coverY: 12.39622641509434
-layout:
-  width: default
-  cover:
-    visible: true
-    size: hero
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
 # DNS

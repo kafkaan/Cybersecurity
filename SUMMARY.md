@@ -309,6 +309,7 @@
   * [Kerberos Ticket Harvesting via MSSQL Linked Server](active-direcotry-attacks/ad-attacks/kerberos-ticket-harvesting-via-mssql-linked-server.md)
   * [WCF Service Exploitation](active-direcotry-attacks/ad-attacks/wcf-service-exploitation.md)
   * [Exploitation DMSA (CVE-2025-33073)](active-direcotry-attacks/ad-attacks/exploitation-dmsa-cve-2025-33073.md)
+  * [🔑 PWM — Capture de credentials LDAP via Responder](active-direcotry-attacks/ad-attacks/pwm-capture-de-credentials-ldap-via-responder.md)
 * [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints/README.md)
   * [PowerShell Active Directory](active-direcotry-attacks/ad-and-windows-script-hints/powershell-active-directory.md)
 * [SKILLS ASSESSMENT I](active-direcotry-attacks/skills-assessment-i.md)
@@ -407,6 +408,7 @@
     * [ESC14](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc14-1.md)
     * [ESC16](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc16.md)
     * [ESC15](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc15.md)
+    * [ESC6 + ESC16](windows-privilege-escalation/windows-privilege-escalation/adcs-certificats/esc6-+-esc16.md)
   * [Restricted Environments](windows-privilege-escalation/windows-privilege-escalation/restricted-environments/README.md)
     * [Citrix Breakout](windows-privilege-escalation/windows-privilege-escalation/restricted-environments/citrix-breakout.md)
   * [Additional Techniques](windows-privilege-escalation/windows-privilege-escalation/additional-techniques/README.md)
@@ -501,7 +503,8 @@
   * [Forgerie de Certificats SSL](linux-privilege-escalation/various-techniques/forgerie-de-certificats-ssl.md)
   * [Escalade de privilèges via Below](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-below.md)
   * [FAILLE BASH ARITHMETIC EXPRESSION INJECTION](linux-privilege-escalation/various-techniques/faille-bash-arithmetic-expression-injection.md)
-  * [Escalade de Privilèges via Facter (Puppet)](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-facter-puppet.md)
+  * [Escalade de Privilèges via Facter](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-facter.md)
+  * [NFS UID Spoofing](linux-privilege-escalation/various-techniques/nfs-uid-spoofing.md)
 
 ## CYPHER INJECTION
 
@@ -567,6 +570,7 @@
 * [Exploitation de runc via Misconfiguration](docker/exploitation-de-runc-via-misconfiguration.md)
 * [Escape Container : Docker Desktop API (CVE-2025-9074)](docker/escape-container-docker-desktop-api-cve-2025-9074.md)
 * [Analyse Technique Exhaustive de l'Évasion de Conteneurs Docker](docker/analyse-technique-exhaustive-de-levasion-de-conteneurs-docker.md)
+* [Docker Escape via Certificats TLS Forgés](docker/docker-escape-via-certificats-tls-forges.md)
 
 ## ☁️ Cloud
 

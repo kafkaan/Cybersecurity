@@ -3,23 +3,6 @@ description: Domain Name System (DNS) is an integral part of the Internet.
 cover: >-
   https://images.unsplash.com/photo-1531956656798-56686eeef3d4?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxOTcwMjR8MHwxfHNlYXJjaHw2fHxkbnN8ZW58MHx8fHwxNzQwNDgwMjM2fDA&ixlib=rb-4.0.3&q=85
 coverY: 0
-layout:
-  width: default
-  cover:
-    visible: true
-    size: full
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
 # DNS

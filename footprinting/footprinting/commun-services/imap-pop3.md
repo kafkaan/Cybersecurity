@@ -2,23 +2,6 @@
 description: https://www.mailenable.com/kb/content/article.asp?ID=ME020711
 cover: ../../../.gitbook/assets/pop-imap2.png
 coverY: 107.33333333333333
-layout:
-  width: default
-  cover:
-    visible: true
-    size: hero
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
 # IMAP / POP3

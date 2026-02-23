@@ -2,23 +2,6 @@
 description: https://faresbltagy.gitbook.io/footprintinglabs/footprinting-labs/lab-hard
 cover: ../../.gitbook/assets/foot.jpg
 coverY: 96.23430962343096
-layout:
-  width: default
-  cover:
-    visible: true
-    size: full
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
 # Footprinting
