@@ -10,11 +10,11 @@
 
 ### <mark style="color:blue;">Architecture AWS S3</mark>
 
-#### Concepts de Base
+#### <mark style="color:green;">Concepts de Base</mark>
 
 **Bucket :** Conteneur de stockage (équivalent d'un dossier racine)
 
-```
+```shellscript
 randomfacts/
 ├── images/
 │   ├── logo.png
@@ -94,7 +94,7 @@ Contrôle d'accès au niveau du bucket :
 
 ### <mark style="color:blue;">Découverte et Énumération</mark>
 
-#### Phase 1 : Identification du Service
+#### <mark style="color:green;">Phase 1 : Identification du Service</mark>
 
 **Scan de Ports**
 
@@ -188,7 +188,7 @@ Panneau Admin → Settings → AWS Configuration
 
 ### <mark style="color:blue;">Configuration AWS CLI</mark>
 
-#### Installation
+#### <mark style="color:green;">Installation</mark>
 
 ```bash
 # Debian/Ubuntu
@@ -206,7 +206,7 @@ aws --version
 # aws-cli/1.44.29 Python/3.13.7
 ```
 
-#### Configuration du Profil
+#### <mark style="color:green;">Configuration du Profil</mark>
 
 ```bash
 # Configuration interactive
@@ -237,7 +237,7 @@ region = us-east-1
 output = json
 ```
 
-#### Configuration Manuelle
+#### <mark style="color:green;">Configuration Manuelle</mark>
 
 ```bash
 # Créer les fichiers manuellement
@@ -480,7 +480,7 @@ cat ~/.ssh/id_rsa.pub | aws s3 cp - s3://internal/.ssh/authorized_keys
 
 ### <mark style="color:blue;">Cas Pratique : HackTheBox "Facts"</mark>
 
-#### Scénario d'Exploitation
+#### <mark style="color:green;">Scénario d'Exploitation</mark>
 
 **1. Reconnaissance initiale**
 
@@ -770,7 +770,7 @@ aws s3api put-bucket-notification-configuration \
 
 ### <mark style="color:blue;">Outils de Reconnaissance</mark>
 
-#### S3Scanner
+#### <mark style="color:green;">S3Scanner</mark>
 
 ```bash
 # Installation
@@ -783,7 +783,7 @@ python3 s3scanner.py --bucket my-bucket
 python3 s3scanner.py --bucket-file buckets.txt
 ```
 
-#### CloudBrute
+#### <mark style="color:green;">CloudBrute</mark>
 
 ```bash
 # Installation

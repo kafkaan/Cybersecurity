@@ -2,28 +2,31 @@
 
 ## <mark style="color:red;">Analyse Technique Exhaustive de l'Évasion de Conteneurs Docker</mark>&#x20;
 
-L'essor de la conteneurisation a radicalement transformé le cycle de vie du développement logiciel, offrant une agilité et une efficacité sans précédent. Cependant, cette technologie repose sur une abstraction de l'isolation qui, contrairement à la virtualisation matérielle, partage le même noyau que l'hôte. L'évasion de conteneur, souvent désignée sous le terme de "Docker Escape" ou "Container Breakout", représente l'ultime compromission d'un environnement conteneurisé, permettant à un acteur malveillant de franchir les barrières logicielles pour accéder aux ressources du système hôte ou à d'autres conteneurs adjacents. Cette analyse approfondie explore les mécanismes fondamentaux de l'isolation Linux, les phases critiques d'énumération, l'exploitation des mauvaises configurations, ainsi que les vulnérabilités du noyau et du runtime documentées jusqu'en 2026.
+L'essor de la conteneurisation a radicalement transformé le cycle de vie du développement logiciel, offrant une agilité et une efficacité sans précédent.&#x20;
+
+Cependant, cette technologie repose sur une abstraction de l'isolation qui, contrairement à la virtualisation matérielle, partage le même noyau que l'hôte.&#x20;
+
+L'évasion de conteneur, souvent désignée sous le terme de "Docker Escape" ou "Container Breakout", représente l'ultime compromission d'un environnement conteneurisé, permettant à un acteur malveillant de franchir les barrières logicielles pour accéder aux ressources du système hôte ou à d'autres conteneurs adjacents.&#x20;
 
 ***
 
 ### <mark style="color:blue;">Fondements de l'Isolation et Architecture des Conteneurs</mark>
 
-Pour comprendre les vecteurs d'évasion, il est impératif d'analyser les piliers de l'isolation Linux sur lesquels Docker s'appuie. L'isolation n'est pas une barrière physique mais une construction logique orchestrée par plusieurs primitives du noyau.
+Pour comprendre les vecteurs d'évasion, il est impératif d'analyser les piliers de l'isolation Linux sur lesquels Docker s'appuie.&#x20;
+
+L'isolation n'est pas une barrière physique mais une construction logique orchestrée par plusieurs primitives du noyau.
 
 #### <mark style="color:green;">Les Espaces de Nommage (Namespaces)</mark>
 
-Les espaces de nommage définissent la vision qu'un processus a du système. Ils compartimentent les ressources globales en instances isolées. Le tableau suivant récapitule les principaux types d'espaces de nommage et leur rôle dans la sécurité des conteneurs.
+Les espaces de nommage définissent la vision qu'un processus a du système.&#x20;
 
-| **Type de Namespace** | **Ressource Isolée**                                | **Impact en cas de Partage avec l'Hôte**                   |
-| --------------------- | --------------------------------------------------- | ---------------------------------------------------------- |
-| PID                   | Arbre des processus                                 | Visibilité et interaction avec les processus de l'hôte     |
-| NET                   | Pile réseau (interfaces, tables de routage)         | Capacité de reniflage et d'attaque sur le réseau de l'hôte |
-| MNT                   | Points de montage du système de fichiers            | Accès direct aux fichiers et répertoires de l'hôte         |
-| UTS                   | Nom d'hôte et nom de domaine NIS                    | Usurpation d'identité réseau                               |
-| IPC                   | Communication inter-processus (mémoire partagée)    | Interception de communications sensibles                   |
-| USER                  | Identifiants d'utilisateurs et de groupes (UID/GID) | Escalade de privilèges vers le root de l'hôte              |
+Ils compartimentent les ressources globales en instances isolées.&#x20;
 
-L'absence d'activation des espaces de nommage utilisateur (User Namespaces) dans les configurations par défaut de nombreuses distributions Docker signifie que le compte root à l'intérieur d'un conteneur possède le même identifiant (UID 0) que le root sur l'hôte, augmentant considérablement le risque en cas de faille de cloisonnement.
+Le tableau suivant récapitule les principaux types d'espaces de nommage et leur rôle dans la sécurité des conteneurs.
+
+<table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td><strong>Type de Namespace</strong></td><td><strong>Ressource Isolée</strong></td><td><strong>Impact en cas de Partage avec l'Hôte</strong></td></tr><tr><td>PID</td><td>Arbre des processus</td><td>Visibilité et interaction avec les processus de l'hôte</td></tr><tr><td>NET</td><td>Pile réseau (interfaces, tables de routage)</td><td>Capacité de reniflage et d'attaque sur le réseau de l'hôte</td></tr><tr><td>MNT</td><td>Points de montage du système de fichiers</td><td>Accès direct aux fichiers et répertoires de l'hôte</td></tr><tr><td>UTS</td><td>Nom d'hôte et nom de domaine NIS</td><td>Usurpation d'identité réseau</td></tr><tr><td>IPC</td><td>Communication inter-processus (mémoire partagée)</td><td>Interception de communications sensibles</td></tr><tr><td>USER</td><td>Identifiants d'utilisateurs et de groupes (UID/GID)</td><td>Escalade de privilèges vers le root de l'hôte</td></tr></tbody></table>
+
+L'absence d'activation des espaces de nommage utilisateur (User Namespaces) dans les configurations par défaut de nombreuses distributions Docker signifie que le compte root à l'intérieur d'un conteneur possède le même identifiant (UID 0) que le root sur l'hôte, augmentantconsidérablement le risque en cas de faille de cloisonnement.
 
 ***
 
@@ -45,7 +48,11 @@ L'énumération est la première étape critique d'une tentative d'évasion. Ell
 
 #### <mark style="color:green;">Identification de la Plateforme et du Runtime</mark>
 
-L'attaquant cherche d'abord à confirmer la présence d'un environnement conteneurisé. Des indicateurs classiques incluent l'existence du fichier `.dockerenv` à la racine ou l'analyse des entrées dans `/proc/1/cgroup` qui contiennent souvent l'identifiant unique du conteneur. L'utilisation de commandes telles que `uname -a` permet d'identifier l'architecture de l'hôte (x64, ARM) et la version du noyau, guidant ainsi le choix des exploits potentiels.
+L'attaquant cherche d'abord à confirmer la présence d'un environnement conteneurisé.&#x20;
+
+Des indicateurs classiques incluent l'existence du fichier `.dockerenv` à la racine ou l'analyse des entrées dans `/proc/1/cgroup` qui contiennent souvent l'identifiant unique du conteneur.&#x20;
+
+L'utilisation de commandes telles que `uname -a` permet d'identifier l'architecture de l'hôte (x64, ARM) et la version du noyau, guidant ainsi le choix des exploits potentiels.
 
 #### <mark style="color:green;">Audit des Capacités et Privilèges</mark>
 
@@ -70,7 +77,11 @@ La majorité des évasions réussies ne proviennent pas de vulnérabilités "zer
 
 #### <mark style="color:green;">Le Risque du Mode Privilégié</mark>
 
-L'exécution d'un conteneur avec l'option `--privileged` désactive pratiquement toutes les protections de sécurité du noyau. Le conteneur reçoit toutes les capacités Linux et un accès direct aux périphériques de l'hôte via `/dev`. Dans ce mode, l'évasion est triviale : l'attaquant peut simplement monter la partition racine de l'hôte à l'intérieur du conteneur et accéder à l'intégralité du système de fichiers de l'hôte.
+L'exécution d'un conteneur avec l'option `--privileged` désactive pratiquement toutes les protections de sécurité du noyau.&#x20;
+
+Le conteneur reçoit toutes les capacités Linux et un accès direct aux périphériques de l'hôte via `/dev`.&#x20;
+
+Dans ce mode, l'évasion est triviale : l'attaquant peut simplement monter la partition racine de l'hôte à l'intérieur du conteneur et accéder à l'intégralité du système de fichiers de l'hôte.
 
 #### <mark style="color:green;">Montage du Socket Docker (</mark><mark style="color:green;">`docker.sock`</mark><mark style="color:green;">)</mark>
 
@@ -98,7 +109,7 @@ L'astuce cruciale réside dans la détermination du chemin d'accès au script su
 
 Comme les conteneurs partagent le noyau de l'hôte, toute vulnérabilité de type élévation de privilèges locaux (LPE) dans le noyau peut être utilisée pour briser l'isolation.
 
-#### Dirty Pipe (CVE-2022-0847)
+#### <mark style="color:green;">Dirty Pipe (CVE-2022-0847)</mark>
 
 Dirty Pipe est l'une des vulnérabilités les plus marquantes de ces dernières années, affectant les noyaux 5.8 et supérieurs. Elle permet à un processus non privilégié d'écrire dans n'importe quel fichier lisible, en exploitant une faille dans la gestion du cache de page (page cache) par les tubes (pipes) Linux.
 
@@ -108,11 +119,11 @@ Dans un contexte de conteneur, un attaquant peut utiliser Dirty Pipe pour :
 * Modifier `/etc/passwd` pour ajouter un utilisateur root.
 * Injecter du code malveillant dans le binaire `runc` utilisé par l'hôte, déclenchant l'exécution de code lors de la prochaine interaction avec un conteneur.
 
-#### La Technique DirtyCred
+#### <mark style="color:green;">La Technique DirtyCred</mark>
 
 DirtyCred n'est pas une vulnérabilité unique, mais une technique d'exploitation générique ciblant les structures de données du noyau. Elle utilise des vulnérabilités de type Use-After-Free (UAF) pour échanger des structures `cred` (identifiants de privilèges) ou des structures de fichiers sur le tas (heap) du noyau. Cette approche est particulièrement redoutable car elle est agnostique de la version du noyau et contourne de nombreuses protections modernes comme KASLR ou SMEP en se concentrant sur la manipulation de données légitimes plutôt que sur l'exécution de code malveillant direct.
 
-#### Failles Speculative Execution (Spectre/Meltdown)
+#### <mark style="color:green;">Failles Speculative Execution (Spectre/Meltdown)</mark>
 
 Bien que moins fréquentes dans les rapports d'attaques immédiates, les vulnérabilités matérielles liées à l'exécution spéculative (Spectre, Meltdown, L1TF) constituent une menace de fond pour l'isolation. Elles permettent d'extraire des données sensibles de la mémoire du noyau ou d'autres conteneurs via des canaux auxiliaires (side-channels). Les recherches récentes en 2025 mettent en avant des variantes capables de contourner les isolations logicielles des invités avec une grande fiabilité.
 
@@ -122,7 +133,7 @@ Bien que moins fréquentes dans les rapports d'attaques immédiates, les vulnér
 
 Le runtime de conteneur (runc, containerd) est le logiciel responsable de la création et de la gestion des conteneurs selon les spécifications OCI. Ses vulnérabilités sont critiques car elles affectent les mécanismes fondamentaux de création de l'isolation.
 
-#### Leaky Vessels (CVE-2024-21626)
+#### <mark style="color:green;">Leaky Vessels (CVE-2024-21626)</mark>
 
 Cette faille majeure dans `runc` (versions <= 1.1.11) est due à une fuite de descripteur de fichier lors du traitement de la directive `WORKDIR` dans un Dockerfile. Lors de l'initialisation du processus du conteneur, `runc` change de répertoire de travail (`fchdir`) avant de fermer certains descripteurs de fichiers privilégiés pointant vers le système de fichiers de l'hôte.
 
@@ -146,14 +157,14 @@ Ces vulnérabilités sont particulièrement dangereuses dans les environnements 
 
 Au-delà des CVEs classiques, la communauté de la sécurité offensive a développé des méthodes ingénieuses pour exploiter les moindres faiblesses structurelles des conteneurs.
 
-#### Injection de Processus via CAP\_SYS\_PTRACE
+#### <mark style="color:green;">Injection de Processus via CAP\_SYS\_PTRACE</mark>
 
 Si un conteneur dispose de la capacité `CAP_SYS_PTRACE` et partage le namespace PID avec l'hôte (`--pid=host`), l'évasion devient un exercice de manipulation de mémoire. L'attaquant peut lister les processus de l'hôte avec `ps aux`, identifier un processus root (comme `init` ou un terminal) et utiliser des outils de débogage pour injecter un code shell (shellcode) directement dans l'espace mémoire de ce processus. Le code injecté s'exécutera avec les privilèges du processus cible sur l'hôte, ouvrant souvent un shell inverse (reverse shell).
 
-#### Détournement du `core_pattern`
+#### <mark style="color:green;">Détournement du</mark> <mark style="color:green;"></mark><mark style="color:green;">`core_pattern`</mark>
 
 La gestion des dumps de mémoire (coredumps) par le noyau est un vecteur d'évasion puissant. Le fichier `/proc/sys/kernel/core_pattern` définit le programme exécuté par le noyau lorsqu'un processus plante. Si un conteneur peut écrire dans ce fichier (via une capacité excessive ou une faille de runtime), il peut y spécifier le chemin d'un binaire malveillant situé dans le conteneur. En provoquant délibérément un plantage (segmentation fault), l'attaquant force le noyau de l'hôte à exécuter son payload avec les privilèges root de l'hôte.
 
-#### Évasions Réseau et API SSRF
+#### <mark style="color:green;">Évasions Réseau et API SSRF</mark>
 
 Des vulnérabilités récentes comme la faille CVE-2025-9074 sur Docker Desktop démontrent que l'évasion peut aussi passer par des services mal sécurisés sur le réseau interne. Dans ce cas précis, une interface API Docker Engine non authentifiée était exposée sur le réseau virtuel. Un attaquant, via une simple requête HTTP POST depuis l'intérieur d'un conteneur, pouvait demander au démon Docker de l'hôte de créer un nouveau conteneur avec un accès complet au disque `C:` de l'hôte, rendant l'isolation totalement inopérante.
