@@ -407,6 +407,219 @@ r'(?i)api[_-]?key["\']?\s*[:=]\s*["\']?([a-z0-9]{32,})'
 r'(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?'
 ```
 
+{% hint style="info" %}
+Les regex expliquées — symboles de base d'abord
+
+Avant tout, les symboles qui reviennent partout :
+
+```
+\d        = un chiffre (0-9)
+\w        = une lettre, chiffre ou _ 
+\b        = frontière de mot (début ou fin)
+.         = n'importe quel caractère
++         = 1 ou plusieurs fois
+*         = 0 ou plusieurs fois
+?         = 0 ou 1 fois (optionnel)
+{3}       = exactement 3 fois
+{1,3}     = entre 1 et 3 fois
+[abc]     = un caractère parmi a, b ou c
+[a-z]     = une lettre minuscule
+(?:...)   = groupe sans capturer
+(...)     = groupe en capturant
+```
+
+***
+
+1\. IPv4
+
+```python
+r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
+```
+
+```
+\b              → frontière de mot (évite de matcher au milieu d'un mot)
+(?:\d{1,3}\.)   → 1 à 3 chiffres suivis d'un point  →  "192."
+{3}             → répété 3 fois                      →  "192.168.1."
+\d{1,3}         → 1 à 3 chiffres finaux              →  "42"
+\b              → frontière de fin
+
+Résultat : matche   192.168.1.42
+           matche   10.0.0.1
+           rate     999.999.999.999  (syntaxe ok mais IP invalide — regex ne vérifie pas ≤255)
+```
+
+***
+
+2\. Email
+
+```python
+r'[\w.-]+@[\w.-]+\.\w+'
+```
+
+```
+[\w.-]+    → lettres/chiffres/points/tirets    →  "john.doe"
+@          → le @ littéral                     →  "@"
+[\w.-]+    → même chose pour le domaine        →  "gmail"
+\.         → un point littéral (\ pour échapper le .)
+\w+        → l'extension                       →  "com"
+
+Résultat : matche   john.doe@gmail.com
+           matche   user-123@sub.domain.fr
+```
+
+***
+
+3\. URL
+
+```python
+r'https?://[^\s<>"]+|www\.[^\s<>"]+'
+```
+
+```
+https?        → "http" ou "https" (le ? rend le s optionnel)
+://           → littéral
+[^\s<>"]+     → tout sauf espace, <, >, "  (^ = SAUF ces caractères)
+
+|             → OU
+
+www\.         → "www." littéral
+[^\s<>"]+     → suite de l'URL
+
+Résultat : matche   https://google.com/search?q=test
+           matche   http://10.10.14.13:8000
+           matche   www.example.com
+```
+
+***
+
+4\. Hash MD5
+
+```python
+r'\b[a-f0-9]{32}\b'
+```
+
+```
+\b          → frontière de mot
+[a-f0-9]    → un caractère hexadécimal (0-9 ou a-f)
+{32}        → exactement 32 fois
+\b          → frontière de fin
+
+Résultat : matche   5d41402abc4b2a76b9719d911017c592
+           rate     5d41402abc4b2a76b9719d911017c59   (31 chars)
+           rate     5D41402ABC4B2A76B9719D911017C592   (majuscules → utiliser (?i))
+```
+
+***
+
+5\. Hash SHA256
+
+```python
+r'\b[a-f0-9]{64}\b'
+```
+
+```
+Identique au MD5 mais {64} au lieu de {32}
+
+MD5    = 32 caractères hex
+SHA1   = 40 caractères hex
+SHA256 = 64 caractères hex
+SHA512 = 128 caractères hex
+
+Résultat : matche   e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+```
+
+***
+
+6\. JWT Token
+
+```python
+r'eyJ[A-Za-z0-9-_]+\.eyJ[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+'
+```
+
+Un JWT ressemble toujours à ça :
+
+```
+eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4ifQ.abc123
+└─── header ────────┘└──── payload ──────────┘└─ signature ─┘
+```
+
+```
+eyJ               → tout JWT commence par "eyJ" (base64 de {"  )
+[A-Za-z0-9-_]+   → caractères base64url jusqu'au point
+\.                → le point séparateur
+eyJ               → le payload commence aussi par "eyJ"
+[A-Za-z0-9-_]+   → suite du payload
+\.                → deuxième point
+[A-Za-z0-9-_]+   → la signature
+
+Résultat : matche uniquement les vrais JWT (3 parties séparées par des points)
+```
+
+***
+
+7\. API Key
+
+```python
+r'(?i)api[_-]?key["\']?\s*[:=]\s*["\']?([a-z0-9]{32,})'
+```
+
+```
+(?i)          → insensible à la casse (Api, API, api...)
+api           → le mot "api"
+[_-]?         → optionnellement un _ ou -      →  "api_key" ou "apikey"
+key           → le mot "key"
+["\']?        → optionnellement un " ou '
+\s*           → espaces optionnels
+[:=]          → un : ou un =                   →  "api_key = " ou "api_key:"
+\s*           → espaces optionnels
+["\']?        → optionnellement un " ou '
+([a-z0-9]{32,}) → capture la clé (32 chars minimum)
+
+Résultat : matche   api_key = "a1b2c3d4e5f6..."
+           matche   API-KEY: a1b2c3d4e5f6...
+           matche   ApiKey="a1b2c3d4e5f6..."
+```
+
+***
+
+8\. Base64
+
+```python
+r'(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?'
+```
+
+Le base64 encode les données par **blocs de 4 caractères**, avec `=` pour compléter :
+
+```
+(?:[A-Za-z0-9+/]{4})*     → blocs complets de 4 chars, répétés
+                             "SGVs" "bG8g" "V29y" ...
+
+(?:                        → puis UNE des deux fins possibles :
+  [A-Za-z0-9+/]{2}==      →   2 chars + "=="  (2 octets de padding)
+  |
+  [A-Za-z0-9+/]{3}=       →   3 chars + "="   (1 octet de padding)
+)?                         → ou rien (longueur multiple de 4)
+
+Résultat : matche   SGVsbG8gV29ybGQ=   (= "Hello World")
+           matche   eyJhbGciOiJIUzI1NiJ9
+```
+
+***
+
+Résumé en une ligne chacun
+
+```
+IPv4    → X.X.X.X  avec 1-3 chiffres par bloc
+Email   → trucs@domaine.ext
+URL     → http(s):// ou www. suivi de n'importe quoi sauf espaces
+MD5     → exactement 32 caractères hex
+SHA256  → exactement 64 caractères hex
+JWT     → eyJ...eyJ...  en 3 parties base64
+API Key → cherche "api_key =" ou "api-key:" suivi d'une longue chaîne
+Base64  → blocs de 4 chars avec = ou == à la fin
+```
+{% endhint %}
+
 #### <mark style="color:green;">Groupes et lookahead/lookbehind</mark>
 
 ```python

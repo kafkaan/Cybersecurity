@@ -135,9 +135,8 @@ class Program {
 1. **LFI ou téléchargement** → récupération de `web.config`
 2.  **Extraction** de :
 
-    ```xml
-    <machineKey validationKey="..." decryptionKey="..." validation="HMACSHA256" decryption="AES" />
-    ```
+    <pre class="language-xml" data-full-width="true"><code class="lang-xml">&#x3C;machineKey validationKey="..." decryptionKey="..." validation="HMACSHA256" decryption="AES" />
+    </code></pre>
 3. **Analyse** des paramètres de la cible :
    * Requêtes contenant `__VIEWSTATE`, `__VIEWSTATEGENERATOR`, `__EVENTVALIDATION`
 4. **Test** de signature avec `Blacklist3r` ou `AspDotNetWrapper`

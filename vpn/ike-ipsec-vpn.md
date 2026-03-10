@@ -1,6 +1,6 @@
 # IKE/IPsec VPN
 
-#### <mark style="color:blue;">📚 Concepts fondamentaux</mark>
+### <mark style="color:blue;">📚 Concepts fondamentaux</mark>
 
 <mark style="color:orange;">**Qu'est-ce qu'IKE ?**</mark>
 
@@ -42,9 +42,11 @@
 * Admin configure le serveur VPN : `PSK = SuperSecret2024!`
 * Tous les clients doivent utiliser la même PSK pour se connecter
 
-#### <mark style="color:green;">🎯 Vulnérabilité : Mode Agressif (Aggressive Mode)</mark>
+***
 
-**Différence Mode Principal vs Mode Agressif**
+#### <mark style="color:blue;">🎯 Vulnérabilité : Mode Agressif (Aggressive Mode)</mark>
+
+<mark style="color:orange;">**Différence Mode Principal vs Mode Agressif**</mark>
 
 | Critère  | Mode Principal | Mode Agressif  |
 | -------- | -------------- | -------------- |
@@ -54,7 +56,7 @@
 | Hash PSK | Protégé        | **Capturable** |
 | Sécurité | ✅ Sécurisé     | ❌ Vulnérable   |
 
-**Pourquoi Mode Agressif est vulnérable ?**
+<mark style="color:orange;">**Pourquoi Mode Agressif est vulnérable ?**</mark>
 
 En mode agressif, le serveur envoie :
 
@@ -70,7 +72,9 @@ En mode agressif, le serveur envoie :
 
 🚨 **Impact :** Si on capture ce hash, on peut tester des PSK candidates **hors ligne** (comme cracker un hash MD5).
 
-#### 🔧 Exploitation avec ike-scan
+***
+
+### <mark style="color:blue;">🔧 Exploitation avec ike-scan</mark>
 
 **Installation**
 

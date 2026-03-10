@@ -6,7 +6,7 @@ L'essor de la conteneurisation a radicalement transformé le cycle de vie du dé
 
 Cependant, cette technologie repose sur une abstraction de l'isolation qui, contrairement à la virtualisation matérielle, partage le même noyau que l'hôte.&#x20;
 
-L'évasion de conteneur, souvent désignée sous le terme de "Docker Escape" ou "Container Breakout", représente l'ultime compromission d'un environnement conteneurisé, permettant à un acteur malveillant de franchir les barrières logicielles pour accéder aux ressources du système hôte ou à d'autres conteneurs adjacents.&#x20;
+> L'évasion de conteneur, souvent désignée sous le terme de "Docker Escape" ou "Container Breakout", représente l'ultime compromission d'un environnement conteneurisé, permettant à un acteur malveillant de franchir les barrières logicielles pour accéder aux ressources du système hôte ou à d'autres conteneurs adjacents.&#x20;
 
 ***
 
@@ -26,7 +26,7 @@ Le tableau suivant récapitule les principaux types d'espaces de nommage et leur
 
 <table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td><strong>Type de Namespace</strong></td><td><strong>Ressource Isolée</strong></td><td><strong>Impact en cas de Partage avec l'Hôte</strong></td></tr><tr><td>PID</td><td>Arbre des processus</td><td>Visibilité et interaction avec les processus de l'hôte</td></tr><tr><td>NET</td><td>Pile réseau (interfaces, tables de routage)</td><td>Capacité de reniflage et d'attaque sur le réseau de l'hôte</td></tr><tr><td>MNT</td><td>Points de montage du système de fichiers</td><td>Accès direct aux fichiers et répertoires de l'hôte</td></tr><tr><td>UTS</td><td>Nom d'hôte et nom de domaine NIS</td><td>Usurpation d'identité réseau</td></tr><tr><td>IPC</td><td>Communication inter-processus (mémoire partagée)</td><td>Interception de communications sensibles</td></tr><tr><td>USER</td><td>Identifiants d'utilisateurs et de groupes (UID/GID)</td><td>Escalade de privilèges vers le root de l'hôte</td></tr></tbody></table>
 
-L'absence d'activation des espaces de nommage utilisateur (User Namespaces) dans les configurations par défaut de nombreuses distributions Docker signifie que le compte root à l'intérieur d'un conteneur possède le même identifiant (UID 0) que le root sur l'hôte, augmentantconsidérablement le risque en cas de faille de cloisonnement.
+L'absence d'activation des espaces de nommage utilisateur (User Namespaces) dans les configurations par défaut de nombreuses distributions Docker signifie que le compte root à l'intérieur d'un conteneur possède le même identifiant (UID 0) que le root sur l'hôte, augmentant considérablement le risque en cas de faille de cloisonnement.
 
 ***
 
@@ -119,6 +119,67 @@ Dans un contexte de conteneur, un attaquant peut utiliser Dirty Pipe pour :
 * Modifier `/etc/passwd` pour ajouter un utilisateur root.
 * Injecter du code malveillant dans le binaire `runc` utilisé par l'hôte, déclenchant l'exécution de code lors de la prochaine interaction avec un conteneur.
 
+{% hint style="info" %}
+Un **pipe** est un mécanisme de communication entre processus. Quand tu fais `ls | grep foo`, le shell crée un pipe : `ls` écrit dedans, `grep` lit depuis. Internalement, Linux gère ça via des **pages mémoire** dans le **page cache**.
+
+Le page cache est une zone mémoire où le noyau garde temporairement le contenu des fichiers pour éviter de relire le disque à chaque fois.
+
+***
+
+**La faille précise**
+
+Lors de la création d'une entrée dans le buffer d'un pipe, le noyau alloue une structure `pipe_buffer` qui contient un **flag** indiquant si la page peut être modifiée. Ce flag s'appelle `PIPE_BUF_FLAG_CAN_MERGE`.
+
+Le bug : ce flag **n'était pas réinitialisé** lors de la réutilisation d'un `pipe_buffer`. Une page qui avait été marquée "modifiable" gardait ce flag même quand elle pointait vers une page en lecture seule du page cache.
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    Page Cache                        │
+│                                                      │
+│  /etc/passwd ──► [page mémoire] ◄── FLAG: read-only │
+└─────────────────────────────────────────────────────┘
+                          ▲
+                          │ splice() connecte le pipe
+                          │ à cette page
+┌─────────────────────────────────────────────────────┐
+│                  Pipe Buffer                         │
+│  pipe_buffer { flag: CAN_MERGE ← pas réinitialisé } │
+│                          │                           │
+│  write() dans le pipe ───┘ écrase directement       │
+│                            la page du cache !        │
+└─────────────────────────────────────────────────────┘
+```
+
+**L'exploitation étape par étape**
+
+````c
+// 1. Créer un pipe et le remplir pour initialiser les flags
+int pfd[2];
+pipe(pfd);
+write(pfd[1], "AAAA", 4);  // remplit, initialise CAN_MERGE
+
+// 2. Vider le pipe (mais le flag reste !)
+read(pfd[0], buf, 4);
+
+// 3. Ouvrir le fichier cible en LECTURE SEULE (même /etc/passwd)
+int fd = open("/etc/passwd", O_RDONLY);
+
+// 4. splice() : connecte une page du fichier au pipe
+// La page read-only du cache est maintenant référencée par le pipe
+splice(fd, &offset, pfd[1], NULL, 1, 0);
+
+// 5. write() dans le pipe → le noyau voit CAN_MERGE=true
+// → il écrit DIRECTEMENT dans la page du cache
+// → /etc/passwd est modifié en mémoire, sans passer par le disque !
+write(pfd[1], "root:x:0:0...", payload_size);
+```
+
+### Impact dans un conteneur
+
+Si l'hôte monte un fichier en `read-only` dans le conteneur, le fichier reste lisible dep
+````
+{% endhint %}
+
 #### <mark style="color:green;">La Technique DirtyCred</mark>
 
 DirtyCred n'est pas une vulnérabilité unique, mais une technique d'exploitation générique ciblant les structures de données du noyau. Elle utilise des vulnérabilités de type Use-After-Free (UAF) pour échanger des structures `cred` (identifiants de privilèges) ou des structures de fichiers sur le tas (heap) du noyau. Cette approche est particulièrement redoutable car elle est agnostique de la version du noyau et contourne de nombreuses protections modernes comme KASLR ou SMEP en se concentrant sur la manipulation de données légitimes plutôt que sur l'exécution de code malveillant direct.
@@ -139,7 +200,7 @@ Cette faille majeure dans `runc` (versions <= 1.1.11) est due à une fuite de de
 
 Un attaquant peut spécifier un chemin malveillant tel que `/proc/self/fd/7/../../../../` dans l'instruction `WORKDIR`. Cela permet au conteneur de démarrer avec un répertoire de travail situé directement sur le système de fichiers de l'hôte, brisant instantanément l'isolation `chroot` et permettant la modification de n'importe quel fichier sur l'hôte.
 
-#### Les Vulnérabilités runc de fin 2025
+#### <mark style="color:green;">Les Vulnérabilités runc de fin 2025</mark>
 
 En novembre 2025, trois nouvelles vulnérabilités critiques ont été révélées, soulignant la persistance des risques de conditions de course (race conditions) et de manipulations de liens symboliques.
 

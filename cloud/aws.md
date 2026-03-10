@@ -137,7 +137,7 @@ X-Amz-Request-Id: 18901CE643E51405
 </Error>
 ```
 
-#### Phase 2 : Récupération des Credentials
+#### <mark style="color:green;">Phase 2 : Récupération des Credentials</mark>
 
 **Sources Communes**
 
@@ -340,7 +340,9 @@ aws --profile htb \
   s3 cp ./webshell/ s3://randomfacts/public/ --recursive
 ```
 
-#### Exploration Systématique
+***
+
+#### <mark style="color:green;">Exploration Systématique</mark>
 
 **Script d'Énumération**
 
@@ -793,7 +795,7 @@ go install github.com/0xsha/CloudBrute@latest
 CloudBrute -d target.com -k keyword -m storage -o results.txt
 ```
 
-#### Bucket Stream
+#### <mark style="color:green;">Bucket Stream</mark>
 
 ```bash
 # Installation
