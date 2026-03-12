@@ -2,7 +2,7 @@
 
 ***
 
-### <mark style="color:red;">🧩 Concepts clés</mark>
+### <mark style="color:blue;">🧩 Concepts clés</mark>
 
 #### <mark style="color:green;">1. Les acteurs</mark>
 
@@ -35,21 +35,21 @@ Client (navigateur) → Vérifie la signature remonte bien à une Root CA de con
 
 ***
 
-### <mark style="color:red;">🔐 Cycle de vie d’un certificat (avec OpenSSL)</mark>
+### <mark style="color:blue;">🔐 Cycle de vie d’un certificat (avec OpenSSL)</mark>
 
-#### 1. Générer une clé privée
+#### <mark style="color:green;">1. Générer une clé privée</mark>
 
 ```bash
 openssl genrsa -out server.key 2048
 ```
 
-#### 2. Créer une CSR (demande de signature)
+#### <mark style="color:green;">2. Créer une CSR (demande de signature)</mark>
 
 ```bash
 openssl req -new -key server.key -out server.csr -subj "/CN=match.sorcery.htb"
 ```
 
-#### 3. Signer avec une CA
+#### <mark style="color:green;">3. Signer avec une CA</mark>
 
 **a) Déchiffrer une clé CA protégée**
 
@@ -67,7 +67,7 @@ openssl x509 -req -in server.csr -CA RootCA.crt -CAkey RootCA-unenc.key -CAcreat
 ```
 {% endcode %}
 
-#### 4. Combiner en fichier PEM (clé privée + certificat)
+#### <mark style="color:green;">4. Combiner en fichier PEM (clé privée + certificat)</mark>
 
 ```bash
 cat server.key server.crt > server.pem
@@ -75,11 +75,22 @@ cat server.key server.crt > server.pem
 
 ➡️ Utile pour configurer Apache, Nginx, stunnel, etc.
 
+#### Résumé ultra simple
+
+| Fichier      | C'est quoi                         | Secret ?                        |
+| ------------ | ---------------------------------- | ------------------------------- |
+| `server.key` | Ta clé privée                      | ✅ oui, ne jamais partager       |
+| `server.csr` | Ta demande de certificat           | ❌ non, tu l'envoies à la CA     |
+| `RootCA.key` | Clé privée de la CA                | ✅ oui (bruteforcée ici)         |
+| `RootCA.crt` | Certificat public de la CA         | ❌ non, tout le monde le voit    |
+| `server.crt` | Ton certificat signé               | ❌ non, tu le donnes aux clients |
+| `server.pem` | `server.key` + `server.crt` collés | ✅ oui (contient la clé privée)  |
+
 ***
 
-### <mark style="color:red;">🛠 Commandes OpenSSL utiles en pentest/CTF</mark>
+### <mark style="color:blue;">🛠 Commandes OpenSSL utiles en pentest/CTF</mark>
 
-#### 🔎 Inspection
+#### <mark style="color:green;">🔎 Inspection</mark>
 
 * Lire un certificat :
 
@@ -100,7 +111,7 @@ openssl x509 -noout -modulus -in server.crt | openssl md5
 openssl rsa -noout -modulus -in server.key | openssl md5
 ```
 
-#### 🔑 Attaques / Exfiltration
+#### <mark style="color:green;">🔑 Attaques / Exfiltration</mark>
 
 * Bruteforce passphrase d’une clé :
 
@@ -129,7 +140,7 @@ echo | openssl s_client -connect target:443 2>/dev/null | openssl x509 -text
 
 ***
 
-### <mark style="color:red;">🎯 Exemple d’exploitation en CTF (ton cas)</mark>
+### <mark style="color:blue;">🎯 Exemple d’exploitation en CTF (ton cas)</mark>
 
 1. Récupération de `RootCA.key` (protégé par passphrase).
 2. Bruteforce → passphrase = `password`.
