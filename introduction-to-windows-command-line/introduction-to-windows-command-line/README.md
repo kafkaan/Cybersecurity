@@ -6,21 +6,21 @@
 
 ### <mark style="color:blue;">**📋 I. INTRODUCTION À CMD.EXE**</mark>
 
-#### **Définition**
+#### <mark style="color:green;">**Définition**</mark>
 
 * **Nom complet** : Command Prompt (Invite de commandes)
 * **Exécutable** : `cmd.exe`
 * **Origine** : Basé sur `COMMAND.COM` de DOS
 * **Fonction** : Interpréteur de ligne de commande par défaut de Windows
 
-#### **Caractéristiques**
+#### <mark style="color:green;">**Caractéristiques**</mark>
 
 * Présent sur **toutes les versions de Windows**
 * Permet d'exécuter des commandes directement interprétées par l'OS
 * **Consomme moins de ressources** que les programmes graphiques
 * Toujours pertinent malgré l'existence de PowerShell
 
-#### **Avantages**
+#### <mark style="color:green;">**Avantages**</mark>
 
 ✅ Une seule commande peut accomplir des tâches complexes (changer un mot de passe, vérifier l'état du réseau)\
 ✅ Utilisation réduite du CPU et de la mémoire\
@@ -88,7 +88,7 @@ Rechercher "cmd" ou "Invite de commandes"
 
 ### <mark style="color:blue;">**🖥️ III. UTILISATION DE BASE**</mark>
 
-#### **A. Interface de CMD**
+#### <mark style="color:green;">**A. Interface de CMD**</mark>
 
 **Apparence typique :**
 
@@ -107,7 +107,7 @@ C:\Users\htb>
 
 ***
 
-#### **B. Navigation dans le Système de Fichiers**
+#### <mark style="color:green;">**B. Navigation dans le Système de Fichiers**</mark>
 
 **Analogie :** Se déplacer dans CMD = marcher dans un couloir avec des portes (répertoires)
 
@@ -148,7 +148,7 @@ C:\Users\htb\Desktop> dir
 
 ***
 
-#### **C. Modèle Request-Response**
+#### <mark style="color:green;">**C. Modèle Request-Response**</mark>
 
 **Fonctionnement :**
 
@@ -169,7 +169,7 @@ RESPONSE: Liste des fichiers et dossiers
 
 ### <mark style="color:blue;">**🔧 IV. CAS D'USAGE AVANCÉS**</mark>
 
-#### **A. Windows Recovery Mode**
+#### <mark style="color:green;">**A. Windows Recovery Mode**</mark>
 
 **Contexte :** En cas de verrouillage ou problème technique
 
@@ -187,7 +187,7 @@ RESPONSE: Liste des fichiers et dossiers
 
 ***
 
-#### **B. Exploitation de Sticky Keys (Exemple de risque de sécurité)**
+#### <mark style="color:green;">**B. Exploitation de Sticky Keys (Exemple de risque de sécurité)**</mark>
 
 **Technique (Windows 7 et antérieurs) :**
 

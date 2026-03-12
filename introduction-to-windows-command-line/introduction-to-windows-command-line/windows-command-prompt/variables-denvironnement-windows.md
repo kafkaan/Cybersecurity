@@ -11,13 +11,13 @@ Les **variables d'environnement** sont des paramètres globaux du système acces
 * Faciliter l'exécution de scripts
 * Référencer des données communes
 
-#### 📝 Syntaxe de Référence
+#### <mark style="color:$success;">📝 Syntaxe de Référence</mark>
 
 ```cmd
 %NOM_VARIABLE%
 ```
 
-#### ⚠️ Règles de Nommage
+#### <mark style="color:$success;">⚠️ Règles de Nommage</mark>
 
 ✅ **Autorisé** :
 
@@ -75,7 +75,7 @@ Environment variable %SECRET% not defined
 
 ### <mark style="color:blue;">🛠️ Commandes de Gestion des Variables</mark>
 
-#### 📋 1. VISUALISER les Variables
+#### <mark style="color:green;">📋 1. VISUALISER les Variables</mark>
 
 **Commande `set`**
 
@@ -205,7 +205,7 @@ C:\> echo %DCIP%
 
 ### <mark style="color:blue;">🎓 Exemples Pratiques</mark>
 
-#### 🔎 Énumération Complète
+#### <mark style="color:green;">🔎 Énumération Complète</mark>
 
 ```cmd
 # Afficher toutes les variables
@@ -221,7 +221,7 @@ echo %SYSTEMROOT%
 echo %PATH%
 ```
 
-#### 🎯 Création Variable Custom
+#### <mark style="color:green;">🎯 Création Variable Custom</mark>
 
 ```cmd
 # Temporaire (tests)
@@ -231,14 +231,14 @@ set TARGET=10.10.10.5
 setx C2_SERVER 192.168.1.100
 ```
 
-#### 🧹 Nettoyage
+#### <mark style="color:green;">🧹 Nettoyage</mark>
 
 ```cmd
 # Supprimer trace
 setx C2_SERVER ""
 ```
 
-#### 🔍 Vérification Domaine vs Workgroup
+#### <mark style="color:green;">🔍 Vérification Domaine vs Workgroup</mark>
 
 ```cmd
 C:\> echo %LOGONSERVER%
@@ -248,7 +248,7 @@ C:\> echo %LOGONSERVER%
 \\MACHINE01       → Workgroup (serveur = machine locale)
 ```
 
-#### 🏗️ Identifier Architecture
+#### <mark style="color:green;">🏗️ Identifier Architecture</mark>
 
 ```cmd
 # Si cette variable existe → système x64

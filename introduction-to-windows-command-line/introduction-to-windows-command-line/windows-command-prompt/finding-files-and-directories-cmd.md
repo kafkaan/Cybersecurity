@@ -18,11 +18,11 @@ En situation réelle (attaque ou admin) :
 
 ***
 
-## <mark style="color:blue;">🔎 Recherche de fichiers avec CMD</mark>
+## <mark style="color:red;">🔎 Recherche de fichiers avec CMD</mark>
 
-### 📌 1️⃣ La commande `where`
+### <mark style="color:blue;">📌 1️⃣ La commande</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`where`</mark>
 
-#### 🟢 À quoi sert `where` ?
+#### <mark style="color:$success;">🟢 À quoi sert</mark> <mark style="color:$success;"></mark><mark style="color:$success;">`where`</mark> <mark style="color:$success;"></mark><mark style="color:$success;">?</mark>
 
 * Trouver **l’emplacement exact** d’un fichier ou exécutable
 * Fonctionne sur :
@@ -31,7 +31,7 @@ En situation réelle (attaque ou admin) :
 
 ***
 
-#### 🔹 Recherche simple
+#### <mark style="color:green;">🔹 Recherche simple</mark>
 
 ```cmd
 where calc.exe
@@ -41,7 +41,7 @@ where calc.exe
 
 ***
 
-#### 🔹 Fichier non trouvé
+#### <mark style="color:green;">🔹 Fichier non trouvé</mark>
 
 ```cmd
 where bio.txt
@@ -51,7 +51,7 @@ where bio.txt
 
 ***
 
-#### 🔹 Recherche récursive (`/R`)
+#### <mark style="color:green;">🔹 Recherche récursive (</mark><mark style="color:green;">`/R`</mark><mark style="color:green;">)</mark>
 
 ```cmd
 where /R C:\Users\student\ bio.txt
@@ -61,7 +61,7 @@ where /R C:\Users\student\ bio.txt
 
 ***
 
-#### 🔹 Recherche avec wildcard
+#### <mark style="color:green;">🔹 Recherche avec wildcard</mark>
 
 ```cmd
 where /R C:\Users\student\ *.csv
@@ -88,14 +88,14 @@ where /R C:\Users\student\ *.csv
 
 ### <mark style="color:blue;">📌 2️⃣ La commande</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`find`</mark>
 
-#### 🟢 À quoi sert `find` ?
+#### <mark style="color:$success;">🟢 À quoi sert</mark> <mark style="color:$success;"></mark><mark style="color:$success;">`find`</mark> <mark style="color:$success;"></mark><mark style="color:$success;">?</mark>
 
 * Chercher une **chaîne de caractères** dans un fichier
 * Recherche **ligne par ligne**
 
 ***
 
-#### 🔹 Recherche basique
+#### <mark style="color:$success;">🔹 Recherche basique</mark>
 
 ```cmd
 find "password" C:\Users\student\not-passwords.txt
@@ -105,7 +105,7 @@ find "password" C:\Users\student\not-passwords.txt
 
 ***
 
-#### 🔹 Modificateurs utiles
+#### <mark style="color:$success;">🔹 Modificateurs utiles</mark>
 
 | Option | Rôle                                         |
 | ------ | -------------------------------------------- |
@@ -115,7 +115,7 @@ find "password" C:\Users\student\not-passwords.txt
 
 ***
 
-#### 🔹 Exemple avancé
+#### <mark style="color:$success;">🔹 Exemple avancé</mark>
 
 ```cmd
 find /N /I /V "IP Address" example.txt
@@ -129,7 +129,7 @@ find /N /I /V "IP Address" example.txt
 
 ***
 
-#### ⚠️ Limite de `find`
+#### <mark style="color:green;">⚠️ Limite de</mark> <mark style="color:green;"></mark><mark style="color:green;">`find`</mark>
 
 ❌ Pas de regex\
 ❌ Peu flexible
@@ -140,7 +140,7 @@ find /N /I /V "IP Address" example.txt
 
 ### <mark style="color:blue;">📌 3️⃣ La commande</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`findstr`</mark> <mark style="color:blue;"></mark><mark style="color:blue;">(grep de Windows)</mark>
 
-#### 🟢 À quoi sert `findstr` ?
+#### <mark style="color:green;">🟢 À quoi sert</mark> <mark style="color:green;"></mark><mark style="color:green;">`findstr`</mark> <mark style="color:green;"></mark><mark style="color:green;">?</mark>
 
 * Recherche **avancée**
 * Supporte :
@@ -153,7 +153,7 @@ find /N /I /V "IP Address" example.txt
 
 ***
 
-#### 🔹 Exemple simple
+#### <mark style="color:green;">🔹 Exemple simple</mark>
 
 ```cmd
 findstr "password" *.txt
@@ -161,7 +161,7 @@ findstr "password" *.txt
 
 ***
 
-#### 🔹 Regex (exemple)
+#### <mark style="color:green;">🔹 Regex (exemple)</mark>
 
 ```cmd
 findstr /R "[Pp]ass(word)?" secrets.txt
@@ -169,7 +169,7 @@ findstr /R "[Pp]ass(word)?" secrets.txt
 
 ***
 
-#### 🔹 Recherche récursive
+#### <mark style="color:green;">🔹 Recherche récursive</mark>
 
 ```cmd
 findstr /S /I "password" C:\Users\
@@ -185,14 +185,14 @@ findstr /S /I "password" C:\Users\
 
 ### <mark style="color:blue;">📌 4️⃣</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`comp`</mark> <mark style="color:blue;"></mark><mark style="color:blue;">— comparaison binaire</mark>
 
-#### 🟢 À quoi sert `comp` ?
+#### <mark style="color:$success;">🟢 À quoi sert</mark> <mark style="color:$success;"></mark><mark style="color:$success;">`comp`</mark> <mark style="color:$success;"></mark><mark style="color:$success;">?</mark>
 
 * Compare **byte par byte**
 * Détecte toute modification
 
 ***
 
-#### 🔹 Comparaison simple
+#### <mark style="color:$success;">🔹 Comparaison simple</mark>
 
 ```cmd
 comp file-1.md file-2.md
@@ -200,7 +200,7 @@ comp file-1.md file-2.md
 
 ***
 
-#### 🔹 Comparaison ASCII
+#### <mark style="color:$success;">🔹 Comparaison ASCII</mark>
 
 ```cmd
 comp file-1.md file-2.md /A
@@ -210,7 +210,7 @@ comp file-1.md file-2.md /A
 
 ***
 
-#### 🔹 Résultat typique
+#### <mark style="color:$success;">🔹 Résultat typique</mark>
 
 ```
 Compare error at OFFSET 2
@@ -220,7 +220,7 @@ file2 = b
 
 ***
 
-#### 🧠 Cas d’usage
+#### <mark style="color:green;">🧠 Cas d’usage</mark>
 
 * Détecter un binaire modifié
 * Vérifier intégrité de scripts
@@ -230,7 +230,7 @@ file2 = b
 
 ### <mark style="color:blue;">📌 5️⃣</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`fc`</mark> <mark style="color:blue;"></mark><mark style="color:blue;">— File Compare (plus lisible)</mark>
 
-#### 🟢 Différence avec `comp`
+#### <mark style="color:green;">🟢 Différence avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`comp`</mark>
 
 * Compare **ligne par ligne**
 * Sortie plus compréhensible
@@ -238,7 +238,7 @@ file2 = b
 
 ***
 
-#### 🔹 Exemple
+#### <mark style="color:green;">🔹 Exemple</mark>
 
 ```cmd
 fc passwords.txt modded.txt /N
@@ -252,7 +252,7 @@ fc passwords.txt modded.txt /N
 
 ***
 
-#### 🧠 Cas d’usage
+#### <mark style="color:green;">🧠 Cas d’usage</mark>
 
 * Comparer wordlists
 * Vérifier fichiers de config
@@ -262,9 +262,9 @@ fc passwords.txt modded.txt /N
 
 ## <mark style="color:$danger;">🔢 Trier et nettoyer des données</mark>
 
-### 📌 6️⃣ `sort`
+### <mark style="color:green;">📌 6️⃣</mark> <mark style="color:green;"></mark><mark style="color:green;">`sort`</mark>
 
-#### 🟢 À quoi sert `sort` ?
+#### <mark style="color:green;">🟢 À quoi sert</mark> <mark style="color:green;"></mark><mark style="color:green;">`sort`</mark> <mark style="color:green;"></mark><mark style="color:green;">?</mark>
 
 * Trier des données
 * Nettoyer des listes
@@ -272,7 +272,7 @@ fc passwords.txt modded.txt /N
 
 ***
 
-#### 🔹 Trier un fichier
+#### <mark style="color:green;">🔹 Trier un fichier</mark>
 
 ```cmd
 sort file-1.md /O sorted.md
@@ -280,7 +280,7 @@ sort file-1.md /O sorted.md
 
 ***
 
-#### 🔹 Supprimer les doublons
+#### <mark style="color:green;">🔹 Supprimer les doublons</mark>
 
 ```cmd
 sort sorted.md /unique
@@ -319,7 +319,7 @@ type users.txt | sort | findstr admin
 
 ***
 
-## 📋 Tableau Récapitulatif Complet - Commandes CMD de Recherche et Analyse
+## <mark style="color:red;">📋 Tableau Récapitulatif Complet - Commandes CMD de Recherche et Analyse</mark>
 
 <table data-full-width="true"><thead><tr><th>Commande</th><th width="273">Syntaxe Complète</th><th width="132">Paramètres</th><th>Explication des Paramètres</th><th>Exemple</th><th>Cas d'Usage</th></tr></thead><tbody><tr><td><strong>WHERE</strong></td><td><code>where &#x3C;fichier></code></td><td>Aucun</td><td>Recherche un fichier dans le PATH système uniquement</td><td><code>where calc.exe</code></td><td>Trouver l'emplacement d'un exécutable système</td></tr><tr><td><strong>WHERE</strong></td><td><code>where /R &#x3C;chemin> &#x3C;fichier></code></td><td><strong>/R</strong></td><td><strong>Recherche Récursive</strong> - Parcourt tous les sous-dossiers du chemin spécifié</td><td><code>where /R C:\Users\student\ bio.txt</code></td><td>Localiser un fichier spécifique dans toute une arborescence</td></tr><tr><td><strong>WHERE</strong></td><td><code>where /R &#x3C;chemin> &#x3C;pattern></code></td><td><strong>/R</strong> + <strong>wildcard</strong></td><td>Recherche récursive avec motif (*) pour trouver plusieurs fichiers correspondants</td><td><code>where /R C:\Users\ *.csv</code></td><td>Trouver tous les fichiers CSV, logs, ou exports dans un répertoire</td></tr><tr><td><strong>FIND</strong></td><td><code>find "texte" &#x3C;fichier></code></td><td>Aucun</td><td>Recherche une chaîne de caractères exacte, ligne par ligne (sensible à la casse)</td><td><code>find "password" secrets.txt</code></td><td>Trouver une chaîne précise dans un fichier</td></tr><tr><td><strong>FIND</strong></td><td><code>find /I "texte" &#x3C;fichier></code></td><td><strong>/I</strong></td><td><strong>Ignore la casse</strong> - Ne fait pas de différence entre majuscules et minuscules</td><td><code>find /I "Password" secrets.txt</code></td><td>Recherche insensible à la casse</td></tr><tr><td><strong>FIND</strong></td><td><code>find /N "texte" &#x3C;fichier></code></td><td><strong>/N</strong></td><td><strong>Numéros de ligne</strong> - Affiche le numéro de chaque ligne contenant le texte</td><td><code>find /N "admin" users.txt</code></td><td>Localiser précisément où se trouve l'information</td></tr><tr><td><strong>FIND</strong></td><td><code>find /V "texte" &#x3C;fichier></code></td><td><strong>/V</strong></td><td><strong>Inversion</strong> - Affiche les lignes qui NE contiennent PAS le texte recherché</td><td><code>find /V "IP Address" example.txt</code></td><td>Filtrer/exclure certaines lignes</td></tr><tr><td><strong>FIND</strong></td><td><code>find /I /N /V "texte" &#x3C;fichier></code></td><td><strong>/I /N /V</strong></td><td>Combinaison : ignore casse + numéros ligne + inversion</td><td><code>find /N /I /V "IP Address" example.txt</code></td><td>Recherche complexe avec plusieurs critères</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr "texte" &#x3C;fichier></code></td><td>Aucun</td><td>Recherche simple dans un fichier (plus puissant que find)</td><td><code>findstr "password" file.txt</code></td><td>Recherche basique améliorée</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr "texte" *.ext</code></td><td><strong>wildcard</strong></td><td>Recherche dans tous les fichiers d'une extension donnée</td><td><code>findstr "admin" *.txt</code></td><td>Scanner tous les fichiers d'un type</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr /I "texte" &#x3C;fichier></code></td><td><strong>/I</strong></td><td><strong>Ignore la casse</strong> - Insensible aux majuscules/minuscules</td><td><code>findstr /I "Password" secrets.txt</code></td><td>Recherche flexible sur la casse</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr /S "texte" &#x3C;chemin></code></td><td><strong>/S</strong></td><td><strong>Sous-dossiers</strong> - Recherche récursive dans toute l'arborescence</td><td><code>findstr /S "password" C:\Users\</code></td><td>Scan complet d'un répertoire</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr /R "regex" &#x3C;fichier></code></td><td><strong>/R</strong></td><td><strong>Expressions Régulières</strong> - Active les patterns regex pour recherches avancées</td><td><code>findstr /R "[Pp]ass(word)?" secrets.txt</code></td><td>Recherche avec patterns complexes</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr /S /I "texte" &#x3C;chemin></code></td><td><strong>/S /I</strong></td><td>Combinaison : récursif + ignore casse</td><td><code>findstr /S /I "password" C:\</code></td><td>Scan complet insensible à la casse</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr /N "texte" &#x3C;fichier></code></td><td><strong>/N</strong></td><td><strong>Numéros de ligne</strong> - Affiche les numéros de ligne</td><td><code>findstr /N "error" log.txt</code></td><td>Localiser précisément les erreurs</td></tr><tr><td><strong>FINDSTR</strong></td><td><code>findstr /M "texte" *.txt</code></td><td><strong>/M</strong></td><td><strong>Noms de fichiers seulement</strong> - Affiche uniquement les noms des fichiers contenant le texte</td><td><code>findstr /M "admin" *.log</code></td><td>Lister rapidement les fichiers concernés</td></tr><tr><td><strong>COMP</strong></td><td><code>comp &#x3C;fichier1> &#x3C;fichier2></code></td><td>Aucun</td><td>Compare deux fichiers <strong>byte par byte</strong> (comparaison binaire stricte)</td><td><code>comp file1.exe file2.exe</code></td><td>Détecter toute modification binaire</td></tr><tr><td><strong>COMP</strong></td><td><code>comp &#x3C;fichier1> &#x3C;fichier2> /A</code></td><td><strong>/A</strong></td><td><strong>ASCII</strong> - Affiche les différences en caractères ASCII lisibles</td><td><code>comp file1.txt file2.txt /A</code></td><td>Voir les différences de caractères</td></tr><tr><td><strong>COMP</strong></td><td><code>comp &#x3C;fichier1> &#x3C;fichier2> /N=&#x3C;n></code></td><td><strong>/N=nombre</strong></td><td>Limite la comparaison aux <strong>N premières lignes</strong></td><td><code>comp file1.md file2.md /N=10</code></td><td>Comparer seulement le début des fichiers</td></tr><tr><td><strong>COMP</strong></td><td><code>comp &#x3C;fichier1> &#x3C;fichier2> /L</code></td><td><strong>/L</strong></td><td><strong>Numéros de ligne</strong> - Affiche les numéros de ligne des différences</td><td><code>comp file1.txt file2.txt /L</code></td><td>Localiser précisément les différences</td></tr><tr><td><strong>FC</strong></td><td><code>fc &#x3C;fichier1> &#x3C;fichier2></code></td><td>Aucun</td><td>Compare deux fichiers <strong>ligne par ligne</strong> (plus lisible que comp)</td><td><code>fc passwords.txt backup.txt</code></td><td>Comparaison lisible de fichiers texte</td></tr><tr><td><strong>FC</strong></td><td><code>fc &#x3C;fichier1> &#x3C;fichier2> /N</code></td><td><strong>/N</strong></td><td><strong>Numéros de ligne</strong> - Affiche les numéros de ligne dans la comparaison</td><td><code>fc config1.ini config2.ini /N</code></td><td>Identifier précisément les lignes modifiées</td></tr><tr><td><strong>FC</strong></td><td><code>fc &#x3C;fichier1> &#x3C;fichier2> /C</code></td><td><strong>/C</strong></td><td><strong>Ignore la casse</strong> - Ne tient pas compte des majuscules/minuscules</td><td><code>fc file1.txt file2.txt /C</code></td><td>Comparaison insensible à la casse</td></tr><tr><td><strong>FC</strong></td><td><code>fc &#x3C;fichier1> &#x3C;fichier2> /W</code></td><td><strong>/W</strong></td><td><strong>Ignore espaces</strong> - Ignore les espaces blancs et tabulations</td><td><code>fc script1.ps1 script2.ps1 /W</code></td><td>Comparer la logique sans se soucier du formatage</td></tr><tr><td><strong>FC</strong></td><td><code>fc &#x3C;fichier1> &#x3C;fichier2> /LBn</code></td><td><strong>/LB=nombre</strong></td><td><strong>Buffer de lignes</strong> - Définit le nombre de lignes consécutives différentes à tolérer</td><td><code>fc log1.txt log2.txt /LB5</code></td><td>Comparaison avec tolérance de différences</td></tr><tr><td><strong>FC</strong></td><td><code>fc /B &#x3C;fichier1> &#x3C;fichier2></code></td><td><strong>/B</strong></td><td><strong>Binaire</strong> - Force la comparaison binaire byte par byte (comme comp)</td><td><code>fc /B file1.exe file2.exe</code></td><td>Comparaison binaire stricte</td></tr><tr><td><strong>SORT</strong></td><td><code>sort &#x3C;fichier></code></td><td>Aucun</td><td>Trie les lignes d'un fichier par ordre alphabétique croissant (A→Z)</td><td><code>sort users.txt</code></td><td>Organiser une liste</td></tr><tr><td><strong>SORT</strong></td><td><code>sort &#x3C;fichier> /O &#x3C;sortie></code></td><td><strong>/O=fichier</strong></td><td><strong>Output</strong> - Enregistre le résultat trié dans un fichier de sortie spécifié</td><td><code>sort data.txt /O sorted.txt</code></td><td>Sauvegarder le tri dans un fichier</td></tr><tr><td><strong>SORT</strong></td><td><code>sort &#x3C;fichier> /R</code></td><td><strong>/R</strong></td><td><strong>Reverse</strong> - Tri inversé, ordre décroissant (Z→A, 9→0)</td><td><code>sort scores.txt /R</code></td><td>Trier du plus grand au plus petit</td></tr><tr><td><strong>SORT</strong></td><td><code>sort &#x3C;fichier> /UNIQUE</code></td><td><strong>/UNIQUE</strong></td><td><strong>Supprime les doublons</strong> - Ne garde qu'une occurrence de chaque ligne identique</td><td><code>sort ips.txt /UNIQUE</code></td><td>Nettoyer une liste (IPs, users, etc.)</td></tr><tr><td><strong>SORT</strong></td><td><code>sort &#x3C;fichier> /+n</code></td><td><strong>/+nombre</strong></td><td><strong>Colonne de tri</strong> - Commence le tri à partir de la colonne n (séparateur = espace)</td><td><code>sort data.csv /+2</code></td><td>Trier selon une colonne spécifique</td></tr><tr><td><strong>SORT</strong></td><td><code>sort &#x3C;fichier> /M &#x3C;ko></code></td><td><strong>/M=mémoire</strong></td><td><strong>Mémoire</strong> - Définit la quantité de mémoire (en Ko) à utiliser pour le tri</td><td><code>sort bigfile.txt /M 1024</code></td><td>Optimiser le tri de gros fichiers</td></tr></tbody></table>
 

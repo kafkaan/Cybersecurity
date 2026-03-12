@@ -4,17 +4,15 @@
 
 ***
 
-***
-
 ### <mark style="color:blue;">1️⃣ Lister un répertoire :</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`dir`</mark>
 
-#### 📌 Commande
+#### <mark style="color:green;">📌 Commande</mark>
 
 ```cmd
 dir
 ```
 
-#### 🧠 Rôle
+#### <mark style="color:green;">🧠 Rôle</mark>
 
 Affiche le contenu du répertoire courant :
 
@@ -24,7 +22,7 @@ Affiche le contenu du répertoire courant :
 * dates
 * espace disque disponible
 
-#### 📎 Exemple
+#### <mark style="color:green;">📎 Exemple</mark>
 
 ```cmd
 C:\Users\htb\Desktop> dir
@@ -50,17 +48,17 @@ dir /?
 
 ### <mark style="color:blue;">2️⃣ Savoir où l’on se trouve :</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`cd`</mark> <mark style="color:blue;"></mark><mark style="color:blue;">/</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`chdir`</mark>
 
-#### 📌 Commande
+#### <mark style="color:green;">📌 Commande</mark>
 
 ```cmd
 cd
 ```
 
-#### 🧠 Rôle
+#### <mark style="color:green;">🧠 Rôle</mark>
 
 Affiche le **répertoire de travail actuel** (Current Working Directory).
 
-#### 📎 Exemple
+#### <mark style="color:green;">📎 Exemple</mark>
 
 ```cmd
 C:\htb> cd
@@ -74,7 +72,7 @@ Tous les fichiers ou commandes sans chemin précisé s’exécutent **depuis ce 
 
 ### <mark style="color:blue;">3️⃣ Se déplacer dans le système :</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`cd`</mark>
 
-#### 📌 Commande générale
+#### <mark style="color:green;">📌 Commande générale</mark>
 
 ```cmd
 cd <chemin>
@@ -84,7 +82,7 @@ cd <chemin>
 
 ### <mark style="color:blue;">4️⃣ Comprendre la racine du système (Root)</mark>
 
-#### 📌 Racine Windows
+#### <mark style="color:green;">📌 Racine Windows</mark>
 
 ```
 C:\
@@ -101,7 +99,7 @@ C:\
 
 ***
 
-#### 🔹 Chemin absolu
+#### <mark style="color:green;">🔹 Chemin absolu</mark>
 
 📌 Défini **depuis la racine (`C:\`)**
 
@@ -113,7 +111,7 @@ cd C:\Users\htb\Pictures
 
 ***
 
-#### 🔹 Chemin relatif
+#### <mark style="color:green;">🔹 Chemin relatif</mark>
 
 📌 Défini **par rapport au répertoire courant**
 
@@ -130,7 +128,7 @@ cd .\Pictures
 
 ***
 
-#### 📎 Exemple combiné
+#### <mark style="color:green;">📎 Exemple combiné</mark>
 
 Répertoire actuel :
 
@@ -150,17 +148,17 @@ cd ..\..\..\
 
 ### <mark style="color:blue;">6️⃣ Explorer l’arborescence :</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`tree`</mark>
 
-#### 📌 Commande
+#### 📌 <mark style="color:green;">Commande</mark>
 
 ```cmd
 tree
 ```
 
-#### 🧠 Rôle
+#### 🧠 <mark style="color:green;">Rôle</mark>
 
 Affiche la structure complète des dossiers sous forme d’arbre.
 
-#### 📎 Exemple
+#### <mark style="color:green;">📎 Exemple</mark>
 
 ```cmd
 C:\Users\htb> tree
@@ -168,7 +166,7 @@ C:\Users\htb> tree
 
 ***
 
-#### 🔹 Voir aussi les fichiers : `/F`
+#### <mark style="color:green;">🔹 Voir aussi les fichiers :</mark> <mark style="color:green;"></mark><mark style="color:green;">`/F`</mark>
 
 ```cmd
 tree /F
@@ -186,7 +184,7 @@ tree /F
 
 ### <mark style="color:blue;">7️⃣ Vision attaquant : répertoires intéressants</mark>
 
-#### 📌 Répertoires souvent abusés en cybersécurité
+#### <mark style="color:green;">📌 Répertoires souvent abusés en cybersécurité</mark>
 
 | Nom                   | Chemin                               | Intérêt                                            |
 | --------------------- | ------------------------------------ | -------------------------------------------------- |
@@ -205,7 +203,7 @@ tree /F
 
 ***
 
-### 8️⃣ Résumé rapide (à mémoriser)
+### <mark style="color:blue;">8️⃣ Résumé rapide (à mémoriser)</mark>
 
 | Action                | Commande      |
 | --------------------- | ------------- |

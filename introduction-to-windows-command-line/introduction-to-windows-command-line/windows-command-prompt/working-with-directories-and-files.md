@@ -6,7 +6,7 @@
 
 ### <mark style="color:blue;">📁 1. Les dossiers (Directories)</mark>
 
-#### 📌 Définition
+#### <mark style="color:$success;">📌 Définition</mark>
 
 Un **directory** est un dossier contenant :
 
@@ -22,7 +22,7 @@ Un **directory** est un dossier contenant :
 
 ***
 
-#### 📋 Lister les dossiers
+#### <mark style="color:green;">📋 Lister les dossiers</mark>
 
 | Commande  | Description               |
 | --------- | ------------------------- |
@@ -32,7 +32,7 @@ Un **directory** est un dossier contenant :
 
 ***
 
-#### ➕ Créer un dossier
+#### <mark style="color:green;">➕ Créer un dossier</mark>
 
 ```cmd
 md nom_du_dossier
@@ -43,7 +43,7 @@ mkdir nom_du_dossier
 
 ***
 
-#### ❌ Supprimer un dossier
+#### <mark style="color:green;">❌ Supprimer un dossier</mark>
 
 | Commande        | Usage                      |
 | --------------- | -------------------------- |
@@ -55,7 +55,7 @@ mkdir nom_du_dossier
 
 ***
 
-#### 🔄 Déplacer / Copier des dossiers
+#### <mark style="color:green;">🔄 Déplacer / Copier des dossiers</mark>
 
 **🔁 move**
 
@@ -81,7 +81,7 @@ xcopy source destination /E
 
 ***
 
-#### 🚀 robocopy (avancé)
+#### <mark style="color:green;">🚀 robocopy (avancé)</mark>
 
 ```cmd
 robocopy source destination
@@ -113,7 +113,7 @@ robocopy source destination
 
 ### <mark style="color:blue;">📄 2. Les fichiers (Files)</mark>
 
-#### 📋 Lister les fichiers
+#### <mark style="color:green;">📋 Lister les fichiers</mark>
 
 ```cmd
 dir
@@ -122,7 +122,7 @@ tree /F
 
 ***
 
-#### 👀 Lire le contenu d’un fichier
+#### <mark style="color:green;">👀 Lire le contenu d’un fichier</mark>
 
 **🧾 type**
 
@@ -148,7 +148,7 @@ commande | more
 
 ***
 
-#### ✍️ Créer / modifier un fichier
+#### <mark style="color:green;">✍️ Créer / modifier un fichier</mark>
 
 **echo**
 
@@ -178,20 +178,20 @@ rename ancien.txt nouveau.txt
 
 ### <mark style="color:blue;">🔁 3. Redirections & Pipes (I/O)</mark>
 
-#### ➡️ Sortie vers fichier
+#### <mark style="color:green;">➡️ Sortie vers fichier</mark>
 
 ```cmd
 commande > fichier.txt
 commande >> fichier.txt
 ```
 
-#### ⬅️ Entrée depuis fichier
+#### <mark style="color:green;">⬅️ Entrée depuis fichier</mark>
 
 ```cmd
 commande < fichier.txt
 ```
 
-#### 🔗 Pipe
+#### <mark style="color:green;">🔗 Pipe</mark>
 
 ```cmd
 commande1 | commande2
@@ -205,7 +205,7 @@ ipconfig /all | find "IPv4"
 
 ***
 
-#### ⛓️ Enchaîner des commandes
+#### <mark style="color:green;">⛓️ Enchaîner des commandes</mark>
 
 | Symbole | Signification              |
 | ------- | -------------------------- |
@@ -217,14 +217,14 @@ ipconfig /all | find "IPv4"
 
 ### <mark style="color:blue;">🗑️ 4. Supprimer des fichiers</mark>
 
-#### ❌ del / erase
+#### <mark style="color:green;">❌ del / erase</mark>
 
 ```cmd
 del fichier.txt
 erase fichier.txt
 ```
 
-#### 🧹 Supprimer par attribut
+#### <mark style="color:green;">🧹 Supprimer par attribut</mark>
 
 | Attribut | Signification |
 | -------- | ------------- |
@@ -244,7 +244,7 @@ del /A:R *      (supprimer read-only)
 
 ### <mark style="color:blue;">📦 5. Copier / déplacer des fichiers</mark>
 
-#### 📋 copy
+#### <mark style="color:green;">📋 copy</mark>
 
 ```cmd
 copy source destination
@@ -256,7 +256,7 @@ Option :
 /V   (vérification après copie)
 ```
 
-#### 🚚 move
+#### <mark style="color:green;">🚚 move</mark>
 
 ```cmd
 move source destination
@@ -286,7 +286,7 @@ move source destination
 
 ***
 
-### ✅ À retenir (ultra résumé)
+### <mark style="color:blue;">✅ À retenir</mark>&#x20;
 
 * `dir`, `tree` → voir
 * `md`, `rd` → créer / supprimer dossiers

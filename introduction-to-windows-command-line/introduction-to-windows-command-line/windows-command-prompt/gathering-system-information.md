@@ -21,7 +21,7 @@ L’énumération système (host enumeration) consiste à :
 
 ### <mark style="color:blue;">🗂️ Types d’informations à collecter</mark>
 
-#### 1️⃣ Informations système générales
+#### <mark style="color:green;">1️⃣ Informations système générales</mark>
 
 📌 Données sur l’OS et la machine
 
@@ -33,7 +33,7 @@ L’énumération système (host enumeration) consiste à :
 
 ***
 
-#### 2️⃣ Informations réseau
+#### <mark style="color:green;">2️⃣ Informations réseau</mark>
 
 📌 Comment la machine communique
 
@@ -46,7 +46,7 @@ L’énumération système (host enumeration) consiste à :
 
 ***
 
-#### 3️⃣ Informations de domaine (si AD)
+#### <mark style="color:green;">3️⃣ Informations de domaine (si AD)</mark>
 
 📌 Intégration Active Directory
 
@@ -57,13 +57,13 @@ L’énumération système (host enumeration) consiste à :
 
 ***
 
-#### 4️⃣ Informations utilisateur
+#### <mark style="color:green;">4️⃣ Informations utilisateur</mark>
 
 📌 Ce que **notre compte** peut faire
 
 * Utilisateur courant
 * Groupes
-* Privilèges
+* Privilèges&#x20;
 * Autres utilisateurs
 * Tâches, services, partages accessibles
 
@@ -83,13 +83,13 @@ Pose-toi toujours ces questions :
 
 ***
 
-### <mark style="color:blue;">🧾 Commandes essentielles CMD</mark>
+## <mark style="color:red;">Commandes essentielles CMD</mark>
 
 ***
 
-### 🖥️ Informations système
+### <mark style="color:blue;">🖥️ Informations système</mark>
 
-#### 🔹 systeminfo (commande clé)
+#### <mark style="color:green;">🔹 systeminfo (commande clé)</mark>
 
 ```cmd
 systeminfo
@@ -109,7 +109,7 @@ systeminfo
 
 ***
 
-#### 🔹 hostname
+#### <mark style="color:green;">🔹 hostname</mark>
 
 ```cmd
 hostname
@@ -119,7 +119,7 @@ hostname
 
 ***
 
-#### 🔹 ver
+#### <mark style="color:green;">🔹 ver</mark>
 
 ```cmd
 ver
@@ -131,7 +131,7 @@ ver
 
 ### <mark style="color:blue;">🌐 Informations réseau</mark>
 
-#### 🔹 ipconfig
+#### <mark style="color:green;">🔹 ipconfig</mark>
 
 ```cmd
 ipconfig
@@ -145,7 +145,7 @@ Affiche :
 
 ***
 
-#### 🔹 ipconfig /all
+#### <mark style="color:green;">🔹 ipconfig /all</mark>
 
 ```cmd
 ipconfig /all
@@ -160,7 +160,7 @@ ipconfig /all
 
 ***
 
-#### 🔹 arp /a
+#### <mark style="color:green;">🔹 arp /a</mark>
 
 ```cmd
 arp /a
@@ -177,7 +177,7 @@ arp /a
 
 ### <mark style="color:blue;">👤 Informations utilisateur</mark>
 
-#### 🔹 whoami
+#### <mark style="color:green;">🔹 whoami</mark>
 
 ```cmd
 whoami
@@ -187,7 +187,7 @@ whoami
 
 ***
 
-#### 🔹 whoami /priv
+#### <mark style="color:green;">🔹 whoami /priv</mark>
 
 ```cmd
 whoami /priv
@@ -203,7 +203,7 @@ whoami /priv
 
 ***
 
-#### 🔹 whoami /groups
+#### <mark style="color:green;">🔹 whoami /groups</mark>
 
 ```cmd
 whoami /groups
@@ -217,7 +217,7 @@ whoami /groups
 
 ***
 
-#### 🔹 whoami /all
+#### <mark style="color:green;">🔹 whoami /all</mark>
 
 ```cmd
 whoami /all
@@ -229,7 +229,7 @@ whoami /all
 
 ### <mark style="color:blue;">👥 Autres utilisateurs & groupes</mark>
 
-#### 🔹 net user
+#### <mark style="color:green;">🔹 net user</mark>
 
 ```cmd
 net user
@@ -239,7 +239,7 @@ net user
 
 ***
 
-#### 🔹 net user
+#### <mark style="color:green;">🔹 net user</mark>
 
 ```cmd
 net user bob
@@ -249,7 +249,7 @@ net user bob
 
 ***
 
-#### 🔹 net localgroup
+#### <mark style="color:green;">🔹 net localgroup</mark>
 
 ```cmd
 net localgroup
@@ -259,7 +259,7 @@ net localgroup
 
 ***
 
-#### 🔹 net group
+#### <mark style="color:green;">🔹 net group</mark>
 
 ```cmd
 net group
@@ -271,7 +271,7 @@ net group
 
 ### <mark style="color:blue;">📁 Ressources réseau & partages</mark>
 
-#### 🔹 net share
+#### <mark style="color:green;">🔹 net share</mark>
 
 ```cmd
 net share
@@ -285,7 +285,7 @@ net share
 
 ***
 
-#### 🔹 net view
+#### <mark style="color:green;">🔹 net view</mark>
 
 ```cmd
 net view

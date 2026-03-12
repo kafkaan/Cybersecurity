@@ -204,7 +204,7 @@ Extraire des informations par des questions VRAI/FAUX lorsque l'application ne r
 **Processus pour extraire "financial" :**
 
 {% code fullWidth="true" %}
-```
+```graphql
 (&(idprinter=HPLaserJet2100)(department=a*))   → FALSE
 (&(idprinter=HPLaserJet2100)(department=f*))   → TRUE
 (&(idprinter=HPLaserJet2100)(department=fa*))  → FALSE

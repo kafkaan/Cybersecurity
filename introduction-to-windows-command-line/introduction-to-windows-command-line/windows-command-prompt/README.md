@@ -1,4 +1,4 @@
-# GETTING HELP - WINDOWS COMMAND PROMPT
+# WINDOWS COMMAND PROMPT
 
 ## &#x20;<mark style="color:red;">**GETTING HELP - WINDOWS COMMAND PROMPT**</mark>
 
@@ -6,7 +6,7 @@
 
 ### <mark style="color:blue;">**📋 I. SYSTÈME D'AIDE INTÉGRÉ**</mark>
 
-#### **A. Commande `help` de Base**
+#### <mark style="color:green;">**A. Commande**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`help`**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**de Base**</mark>
 
 **Syntaxe :**
 
@@ -41,7 +41,7 @@ CHKDSK         Checks a disk and displays a status report.
 
 ***
 
-#### **B. Aide Détaillée sur une Commande Spécifique**
+#### <mark style="color:green;">**B. Aide Détaillée sur une Commande Spécifique**</mark>
 
 **Syntaxe :**
 
@@ -76,7 +76,7 @@ current time, without prompting for a new time.
 
 ***
 
-#### **C. Modificateur `/?` - Alternative**
+#### <mark style="color:green;">**C. Modificateur**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`/?`**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**- Alternative**</mark>
 
 **Problème avec certaines commandes :** Toutes les commandes ne sont pas supportées par `help`
 
@@ -107,7 +107,7 @@ help <commande>     → Pour commandes built-in
 
 ### <mark style="color:blue;">**❓ II. POURQUOI UTILISER L'AIDE INTÉGRÉE ?**</mark>
 
-#### **A. Scénario Réel**
+#### <mark style="color:green;">**A. Scénario Réel**</mark>
 
 **Situation :**
 
@@ -123,52 +123,9 @@ help <commande>     → Pour commandes built-in
 
 ***
 
-#### **B. Réponses aux Questions Fondamentales**
-
-**1. Pourquoi l'utilitaire d'aide existe-t-il ?**
-
-**Réponse :**
-
-* 📖 **Manuel hors-ligne** pour CMD et commandes DOS/Windows
-* 🔌 **Fonctionne sans réseau** (offline)
-* 🐧 **Équivalent aux Man Pages** sur Linux
-
-**Avantages :**
-
-* Autonomie complète
-* Pas de dépendance externe
-* Disponibilité garantie
-
-***
-
-**2. Quelle utilité aujourd'hui avec Internet omniprésent ?**
-
-**Situations où l'aide intégrée est cruciale :**
-
-**A. Environnements restreints :**
-
-* 🔒 Réseau isolé (air-gapped)
-* 🚫 Firewall bloquant le trafic sortant
-* 📡 Pas de connexion réseau disponible
-* 🎯 Environnement de production critique
-
-**B. Contextes de pentest/red team :**
-
-* 🕵️ Éviter la détection (pas de requêtes DNS suspectes)
-* ⚡ Rapidité (pas d'attente de chargement)
-* 🎭 Discrétion (pas de logs de recherches web)
-
-**C. Situations d'urgence :**
-
-* 🔥 Panne réseau
-* ⏱️ Temps de réponse critique
-* 🛠️ Mode de récupération/réparation
-
-***
-
 ### <mark style="color:blue;">**🌐 III. RESSOURCES EXTERNES**</mark>
 
-#### **A. Documentation Microsoft Officielle**
+#### <mark style="color:green;">**A. Documentation Microsoft Officielle**</mark>
 
 **URL :** [Microsoft Docs - Command-Line Reference](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands)
 
@@ -183,7 +140,7 @@ help <commande>     → Pour commandes built-in
 
 ***
 
-#### **B. SS64.com**
+#### <mark style="color:green;">**B. SS64.com**</mark>
 
 **URL :** [ss64.com](https://ss64.com/)
 
@@ -200,20 +157,9 @@ help <commande>     → Pour commandes built-in
 
 ***
 
-#### **C. Autres Ressources**
-
-* Stack Overflow (questions/réponses)
-* GitHub (scripts et exemples)
-* Forums techniques Windows
-* Blogs de cybersécurité
-
-**⚠️ Important :** Ces ressources sont excellentes **SI** vous avez accès Internet
-
-***
-
 ### <mark style="color:blue;">**🛠️ IV. TRUCS & ASTUCES ESSENTIELS**</mark>
 
-#### **A. Nettoyer l'Écran - `cls`**
+#### <mark style="color:green;">**A. Nettoyer l'Écran -**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`cls`**</mark>
 
 **Problème :**
 
@@ -247,7 +193,7 @@ C:\htb>
 
 ***
 
-#### **B. Historique des Commandes**
+#### <mark style="color:green;">**B. Historique des Commandes**</mark>
 
 **1. Qu'est-ce que l'Historique ?**
 
@@ -314,25 +260,13 @@ doskey /history
 
 ***
 
-#### **C. Navigation dans l'Historique - Touches Clavier**
+#### <mark style="color:green;">**C. Navigation dans l'Historique - Touches Clavier**</mark>
 
-| **Touche/Commande** | **Fonction**                                              |
-| ------------------- | --------------------------------------------------------- |
-| `↑` (Flèche Haut)   | Commande précédente (remonte dans l'historique)           |
-| `↓` (Flèche Bas)    | Commande suivante (descend dans l'historique)             |
-| `Page Up`           | **Première** commande de l'historique                     |
-| `Page Down`         | **Dernière** commande de l'historique                     |
-| `→` (Flèche Droite) | Retape la commande précédente **caractère par caractère** |
-| `←` (Flèche Gauche) | N/A (pas de fonction spéciale)                            |
-| `F3`                | Retape **toute** la commande précédente                   |
-| `F5`                | Cycle à travers les commandes précédentes                 |
-| `F7`                | Ouvre une **liste interactive** des commandes             |
-| `F9`                | Entre une commande par son **numéro** dans l'historique   |
-| `doskey /history`   | Affiche l'historique complet en texte                     |
+<table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Touche/Commande</strong></td><td><strong>Fonction</strong></td></tr><tr><td><code>↑</code> (Flèche Haut)</td><td>Commande précédente (remonte dans l'historique)</td></tr><tr><td><code>↓</code> (Flèche Bas)</td><td>Commande suivante (descend dans l'historique)</td></tr><tr><td><code>Page Up</code></td><td><strong>Première</strong> commande de l'historique</td></tr><tr><td><code>Page Down</code></td><td><strong>Dernière</strong> commande de l'historique</td></tr><tr><td><code>→</code> (Flèche Droite)</td><td>Retape la commande précédente <strong>caractère par caractère</strong></td></tr><tr><td><code>←</code> (Flèche Gauche)</td><td>N/A (pas de fonction spéciale)</td></tr><tr><td><code>F3</code></td><td>Retape <strong>toute</strong> la commande précédente</td></tr><tr><td><code>F5</code></td><td>Cycle à travers les commandes précédentes</td></tr><tr><td><code>F7</code></td><td>Ouvre une <strong>liste interactive</strong> des commandes</td></tr><tr><td><code>F9</code></td><td>Entre une commande par son <strong>numéro</strong> dans l'historique</td></tr><tr><td><code>doskey /history</code></td><td>Affiche l'historique complet en texte</td></tr></tbody></table>
 
 ***
 
-**Exemples Pratiques**
+<mark style="color:orange;">**Exemples Pratiques**</mark>
 
 **Scénario 1 : Réexécuter la dernière commande**
 
@@ -366,7 +300,7 @@ C:\htb> ipconfig /all  [commande #2 chargée]
 
 ***
 
-#### **D. Interrompre un Processus - `Ctrl+C`**
+#### <mark style="color:$success;">**D. Interrompre un Processus -**</mark><mark style="color:$success;">**&#x20;**</mark><mark style="color:$success;">**`Ctrl+C`**</mark>
 
 **Situations**
 

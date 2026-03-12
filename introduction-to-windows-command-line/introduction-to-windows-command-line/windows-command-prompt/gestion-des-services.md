@@ -155,7 +155,7 @@ Access is denied.
 
 👉 Certaines protections (Defender) **ne peuvent être arrêtées que par SYSTEM**.
 
-#### ⚠️ Leçon Red Team
+#### <mark style="color:green;">⚠️ Leçon Red Team</mark>
 
 * Tester à l’aveugle déclenche des logs
 * Cela attire l’attention du blue team
@@ -234,7 +234,7 @@ Windows Update dépend de :
 
 ***
 
-#### Vérifier leur état
+#### <mark style="color:green;">Vérifier leur état</mark>
 
 ```cmd
 sc query wuauserv
@@ -243,7 +243,7 @@ sc query bits
 
 ***
 
-#### Arrêter BITS
+#### <mark style="color:green;">Arrêter BITS</mark>
 
 ```cmd
 sc stop bits
@@ -251,7 +251,7 @@ sc stop bits
 
 ***
 
-#### Désactiver les services
+#### <mark style="color:green;">Désactiver les services</mark>
 
 ```cmd
 sc config wuauserv start= disabled
@@ -262,7 +262,7 @@ sc config bits start= disabled
 
 ***
 
-#### Vérification
+#### <mark style="color:$success;">Vérification</mark>
 
 ```cmd
 sc start wuauserv
@@ -292,7 +292,7 @@ The service cannot be started because it is disabled
 
 ***
 
-### 🧾 `tasklist /svc`
+### <mark style="color:blue;">🧾</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`tasklist /svc`</mark>
 
 ```cmd
 tasklist /svc
@@ -308,7 +308,7 @@ Affiche :
 
 ***
 
-### ⚡ `net start`
+### <mark style="color:blue;">⚡</mark> <mark style="color:blue;"></mark><mark style="color:blue;">`net start`</mark>
 
 ```cmd
 net start
@@ -324,7 +324,7 @@ Autres commandes :
 
 ***
 
-### 🧰 WMIC (déprécié)
+### <mark style="color:blue;">🧰 WMIC (déprécié)</mark>
 
 ```cmd
 wmic service list brief
@@ -341,3 +341,28 @@ Affiche :
 ⚠️ **WMIC est déprécié** → éviter en production moderne
 
 ***
+
+| Commande                             | Description                                  |
+| ------------------------------------ | -------------------------------------------- |
+| `sc`                                 | Affiche l'aide et les commandes disponibles  |
+| `sc query type= service`             | Lister tous les services actifs              |
+| `sc query windefend`                 | Vérifier si Windows Defender est actif       |
+| `sc stop windefend`                  | Tenter d'arrêter Windows Defender            |
+| `sc query Spooler`                   | Vérifier l'état du Print Spooler             |
+| `sc stop Spooler`                    | Arrêter le Print Spooler                     |
+| `sc start Spooler`                   | Démarrer le Print Spooler                    |
+| `sc query wuauserv`                  | Vérifier l'état de Windows Update            |
+| `sc query bits`                      | Vérifier l'état du service BITS              |
+| `sc stop bits`                       | Arrêter le service BITS                      |
+| `sc config wuauserv start= disabled` | Désactiver Windows Update                    |
+| `sc config bits start= disabled`     | Désactiver le service BITS                   |
+| `sc start wuauserv`                  | Tenter de démarrer Windows Update (test)     |
+| `sc start bits`                      | Tenter de démarrer BITS (test)               |
+| `tasklist /svc`                      | Afficher processus + PID + services associés |
+| `net start`                          | Lister tous les services actifs              |
+| `net stop`                           | Arrêter un service                           |
+| `net pause`                          | Mettre en pause un service                   |
+| `net continue`                       | Reprendre un service en pause                |
+| `wmic service list brief`            | Lister les services (déprécié)               |
+
+> 💡 Rappel syntaxe `sc` : toujours un espace après le `=` → `start= disabled` ✅ et non `start=disabled` ❌

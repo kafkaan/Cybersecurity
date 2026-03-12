@@ -1,4 +1,4 @@
-# Introduction : CMD vs PowerShell
+# CMD vs PowerShell
 
 ### <mark style="color:blue;">Introduction : CMD vs PowerShell</mark>
 
@@ -8,7 +8,7 @@ PowerShell est le successeur moderne de CMD (invite de commandes) sur Windows. V
 
 <table data-full-width="true"><thead><tr><th>Caractéristique</th><th>CMD</th><th>PowerShell</th></tr></thead><tbody><tr><td><strong>Langage</strong></td><td>Commandes Batch et CMD uniquement</td><td>Interprète Batch, CMD, cmdlets PowerShell et alias</td></tr><tr><td><strong>Sortie des commandes</strong></td><td>Texte uniquement</td><td>Objets structurés (plus puissant)</td></tr><tr><td><strong>Enchaînement</strong></td><td>Impossible de passer directement la sortie d'une commande à une autre</td><td>Passage d'objets entre commandes possible</td></tr><tr><td><strong>Exécution parallèle</strong></td><td>Une commande à la fois</td><td>Peut exécuter plusieurs commandes en parallèle</td></tr></tbody></table>
 
-#### Pourquoi choisir PowerShell ?
+#### <mark style="color:green;">Pourquoi choisir PowerShell ?</mark>
 
 PowerShell est essentiel pour :
 
@@ -16,7 +16,7 @@ PowerShell est essentiel pour :
 * **Professionnels de la sécurité** : Tests de pénétration et analyse
 * **Gestion Windows** : Serveurs, Azure, Microsoft 365
 
-**Cas d'usage courants :**
+<mark style="color:green;">**Cas d'usage courants :**</mark>
 
 * Création de comptes utilisateurs Active Directory
 * Gestion des permissions
@@ -28,7 +28,7 @@ PowerShell est essentiel pour :
 
 ### <mark style="color:blue;">Accéder à PowerShell</mark>
 
-#### Méthodes pour ouvrir PowerShell :
+#### <mark style="color:green;">Méthodes pour ouvrir PowerShell :</mark>
 
 1. **Recherche Windows** : Tapez "PowerShell"
 2. **Windows Terminal** : Application moderne permettant plusieurs interfaces
@@ -88,7 +88,7 @@ Update-Help
 
 ### <mark style="color:blue;">Navigation dans le Système de Fichiers</mark>
 
-#### 1. Get-Location - Où suis-je ?
+#### <mark style="color:green;">1. Get-Location - Où suis-je ?</mark>
 
 ```powershell
 Get-Location
@@ -106,7 +106,7 @@ C:\Users\DLarusso
 
 ***
 
-#### 2. Get-ChildItem - Lister le contenu
+#### <mark style="color:green;">2. Get-ChildItem - Lister le contenu</mark>
 
 ```powershell
 Get-ChildItem
@@ -132,7 +132,7 @@ d-r---         9/18/2022  12:35 PM                Desktop
 
 ***
 
-#### 3. Set-Location - Changer de répertoire
+#### <mark style="color:green;">3. Set-Location - Changer de répertoire</mark>
 
 ```powershell
 Set-Location .\Documents\
@@ -151,7 +151,7 @@ Set-Location C:\Users\DLarusso\Documents
 
 ***
 
-#### 4. Get-Content - Afficher le contenu d'un fichier
+#### <mark style="color:green;">4. Get-Content - Afficher le contenu d'un fichier</mark>
 
 ```powershell
 Get-Content Readme.md
@@ -172,7 +172,7 @@ PowerShell Core is a cross-platform automation tool...
 
 ### <mark style="color:blue;">Commandes Avancées de Recherche</mark>
 
-#### 1. Get-Command - Trouver des commandes
+#### <mark style="color:green;">1. Get-Command - Trouver des commandes</mark>
 
 **Lister toutes les commandes :**
 
@@ -228,7 +228,7 @@ Cmdlet          Disable-WindowsOptionalFeature
 
 ### <mark style="color:blue;">Historique des Commandes</mark>
 
-#### 1. Get-History - Historique de session
+#### <mark style="color:green;">1. Get-History - Historique de session</mark>
 
 ```powershell
 Get-History
@@ -257,15 +257,19 @@ r 4    # Réexécute la commande n°4 (ipconfig /all)
 
 **Emplacement du fichier :**
 
+{% code fullWidth="true" %}
 ```
 C:\Users\[Utilisateur]\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 ```
+{% endcode %}
 
 **Afficher l'historique complet :**
 
+{% code fullWidth="true" %}
 ```powershell
 Get-Content C:\Users\DLarusso\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 ```
+{% endcode %}
 
 **Fonctionnalité de sécurité :** PSReadLine filtre automatiquement les entrées contenant :
 
@@ -376,7 +380,7 @@ cls
 
 ### <mark style="color:blue;">Exemples Pratiques Complets</mark>
 
-#### Exemple 1 : Navigation de base
+#### <mark style="color:green;">Exemple 1 : Navigation de base</mark>
 
 ```powershell
 # Où suis-je ?
@@ -394,7 +398,7 @@ Get-Location
 
 ***
 
-#### Exemple 2 : Recherche de commandes
+#### <mark style="color:green;">Exemple 2 : Recherche de commandes</mark>
 
 ```powershell
 # Trouver toutes les commandes "Get"
@@ -409,7 +413,7 @@ Get-Help Get-Process -Examples
 
 ***
 
-#### Exemple 3 : Manipulation de fichiers
+#### <mark style="color:green;">Exemple 3 : Manipulation de fichiers</mark>
 
 ```powershell
 # Lister les fichiers .txt
