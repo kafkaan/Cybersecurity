@@ -6,19 +6,19 @@
 
 Les services Windows sont des composants qui s'exécutent en arrière-plan pour gérer et maintenir les processus nécessaires aux applications. Ils ne nécessitent généralement pas d'interaction utilisateur et n'ont pas d'interface visible.
 
-#### Types de services Windows
+#### <mark style="color:green;">Types de services Windows</mark>
 
 * **Local Services** - Services locaux
 * **Network Services** - Services réseau
 * **System Services** - Services système
 
-#### États possibles
+#### <mark style="color:green;">États possibles</mark>
 
 * **Running** - En cours d'exécution
 * **Stopped** - Arrêté
 * **Paused** - En pause
 
-#### Modes de démarrage
+#### <mark style="color:green;">Modes de démarrage</mark>
 
 * **Manual** - Démarrage manuel (interaction utilisateur)
 * **Automatic** - Démarrage automatique (au démarrage système)
@@ -29,7 +29,7 @@ Les services Windows sont des composants qui s'exécutent en arrière-plan pour 
 
 ### <mark style="color:blue;">🔍 Commandes de Base</mark>
 
-#### 1. Obtenir l'aide sur les cmdlets de services
+#### <mark style="color:green;">1. Obtenir l'aide sur les cmdlets de services</mark>
 
 ```powershell
 Get-Help *-Service
@@ -55,7 +55,7 @@ Suspend-Service       Cmdlet    Microsoft.PowerShell.Man…    …
 
 ### <mark style="color:blue;">📊 Lister les Services</mark>
 
-#### 2. Lister tous les services avec nom d'affichage et état
+#### <mark style="color:green;">2. Lister tous les services avec nom d'affichage et état</mark>
 
 ```powershell
 Get-Service | ft DisplayName,Status
@@ -110,7 +110,7 @@ Count
 
 ### <mark style="color:blue;">🔎 Filtrer les Services</mark>
 
-#### 4. Rechercher des services spécifiques (Defender)
+#### <mark style="color:green;">4. Rechercher des services spécifiques (Defender)</mark>
 
 ```powershell
 Get-Service | where DisplayName -like '*Defender*' | ft DisplayName,ServiceName,Status
@@ -137,7 +137,7 @@ Microsoft Defender Antivirus Service                    WinDefend    Stopped
 
 ### <mark style="color:blue;">▶️ Démarrer un Service</mark>
 
-#### 5. Démarrer un service arrêté
+#### <mark style="color:$success;">5. Démarrer un service arrêté</mark>
 
 ```powershell
 Start-Service WinDefend
@@ -152,7 +152,7 @@ Start-Service WinDefend
 
 ***
 
-#### <mark style="color:blue;">6. Vérifier qu'un service est démarré</mark>
+#### <mark style="color:$success;">6. Vérifier qu'un service est démarré</mark>
 
 ```powershell
 Get-Service WinDefend
@@ -175,7 +175,7 @@ Running  WinDefend          Microsoft Defender Antivirus Service
 
 ### <mark style="color:blue;">⏹️ Arrêter un Service</mark>
 
-#### 7. Arrêter un service en cours d'exécution
+#### <mark style="color:$success;">7. Arrêter un service en cours d'exécution</mark>
 
 ```powershell
 Stop-Service Spooler
@@ -185,7 +185,7 @@ Stop-Service Spooler
 
 ***
 
-#### 8. Vérifier l'arrêt du service
+#### <mark style="color:green;">8. Vérifier l'arrêt du service</mark>
 
 ```powershell
 Get-Service Spooler
@@ -203,7 +203,7 @@ Stopped  spooler            Totally still used for Print Spooli...
 
 ### <mark style="color:blue;">⚙️ Modifier la Configuration d'un Service</mark>
 
-#### 9. Afficher les propriétés détaillées d'un service
+#### <mark style="color:green;">9. Afficher les propriétés détaillées d'un service</mark>
 
 ```powershell
 Get-Service spooler | Select-Object -Property Name, StartType, Status, DisplayName
@@ -224,7 +224,7 @@ spooler Automatic  Stopped Totally still used for Print Spooling...
 
 ***
 
-#### 10. Modifier le type de démarrage d'un service
+#### <mark style="color:green;">10. Modifier le type de démarrage d'un service</mark>
 
 ```powershell
 Set-Service -Name Spooler -StartType Disabled
@@ -234,7 +234,7 @@ Set-Service -Name Spooler -StartType Disabled
 
 ***
 
-#### 11. Vérifier la modification
+#### <mark style="color:green;">11. Vérifier la modification</mark>
 
 ```powershell
 Get-Service -Name Spooler | Select-Object -Property StartType
@@ -259,7 +259,7 @@ Disabled
 
 ### <mark style="color:blue;">🌐 Gestion des Services à Distance</mark>
 
-#### 12. Interroger les services d'un hôte distant
+#### <mark style="color:green;">12. Interroger les services d'un hôte distant</mark>
 
 ```powershell
 Get-Service -ComputerName ACADEMY-ICL-DC
@@ -286,7 +286,7 @@ Stopped  BITS               Background Intelligent Transfer Ser...
 
 ***
 
-#### 13. Filtrer les services distants par état
+#### <mark style="color:green;">13. Filtrer les services distants par état</mark>
 
 ```powershell
 Get-Service -ComputerName ACADEMY-ICL-DC | Where-Object {$_.Status -eq "Running"}
@@ -315,7 +315,7 @@ Running  DFSR               DFS Replication
 
 ***
 
-#### 14. Interroger plusieurs hôtes simultanément avec Invoke-Command
+#### <mark style="color:green;">14. Interroger plusieurs hôtes simultanément avec Invoke-Command</mark>
 
 {% code fullWidth="true" %}
 ```powershell
@@ -343,7 +343,7 @@ Running  windefend   Windows Defender Antivirus Service     ACADEMY-ICL-DC
 
 ### <mark style="color:blue;">🔄 Autres Commandes Utiles</mark>
 
-#### 15. Redémarrer un service
+#### <mark style="color:green;">15. Redémarrer un service</mark>
 
 ```powershell
 Restart-Service -Name WinDefend
@@ -353,7 +353,7 @@ Restart-Service -Name WinDefend
 
 ***
 
-#### 16. Mettre en pause un service
+#### <mark style="color:green;">16. Mettre en pause un service</mark>
 
 ```powershell
 Suspend-Service -Name ServiceName
@@ -363,7 +363,7 @@ Suspend-Service -Name ServiceName
 
 ***
 
-#### 17. Reprendre un service en pause
+#### <mark style="color:green;">17. Reprendre un service en pause</mark>
 
 ```powershell
 Resume-Service -Name ServiceName
@@ -375,19 +375,19 @@ Resume-Service -Name ServiceName
 
 ### <mark style="color:blue;">📝 Notes Importantes</mark>
 
-#### Permissions requises
+#### <mark style="color:green;">Permissions requises</mark>
 
 * **Lecture** : Aucune permission spéciale nécessaire
 * **Modification** : Droits d'administrateur local ou permissions du domaine
 * **Astuce** : Ouvrir PowerShell en tant qu'administrateur (clic droit → "Exécuter en tant qu'administrateur")
 
-#### Suppression de services
+#### <mark style="color:green;">Suppression de services</mark>
 
 * `Remove-Service` : Disponible uniquement dans **PowerShell 7+**
 * PowerShell par défaut : **Version 5.1**
 * Alternative : Utiliser `sc.exe delete NomDuService`
 
-#### Propriétés importantes
+#### <mark style="color:green;">Propriétés importantes</mark>
 
 * **Name** : Nom du service (utilisé dans les commandes)
 * **DisplayName** : Nom d'affichage (visible pour l'utilisateur)
@@ -422,3 +422,5 @@ Invoke-Command -ComputerName $servers -ScriptBlock {
 ```
 
 ***
+
+<table data-full-width="true"><thead><tr><th width="75">#</th><th width="800">Commande</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td><code>Get-Help *-Service</code></td><td>Liste toutes les cmdlets liées aux services</td></tr><tr><td>2</td><td><code>Get-Service | ft DisplayName,Status</code></td><td>Liste tous les services avec nom et état</td></tr><tr><td>3</td><td><code>Get-Service | measure</code></td><td>Compte le nombre total de services</td></tr><tr><td>4</td><td><code>Get-Service | where DisplayName -like '*Defender*' | ft DisplayName,ServiceName,Status</code></td><td>Recherche les services contenant "Defender"</td></tr><tr><td>5</td><td><code>Start-Service WinDefend</code></td><td>Démarre un service arrêté</td></tr><tr><td>6</td><td><code>Get-Service WinDefend</code></td><td>Vérifie l'état d'un service</td></tr><tr><td>7</td><td><code>Stop-Service Spooler</code></td><td>Arrête un service</td></tr><tr><td>8</td><td><code>Get-Service spooler | Select-Object -Property Name, StartType, Status, DisplayName</code></td><td>Affiche les propriétés détaillées d'un service</td></tr><tr><td>9</td><td><code>Set-Service -Name Spooler -StartType Disabled</code></td><td>Modifie le type de démarrage</td></tr><tr><td>10</td><td><code>Get-Service -Name Spooler | Select-Object -Property StartType</code></td><td>Vérifie le type de démarrage</td></tr><tr><td>11</td><td><code>Get-Service -ComputerName ACADEMY-ICL-DC</code></td><td>Liste les services d'un hôte distant</td></tr><tr><td>12</td><td><code>Get-Service -ComputerName ACADEMY-ICL-DC | Where-Object {$_.Status -eq "Running"}</code></td><td>Filtre les services distants par état</td></tr><tr><td>13</td><td><code>Invoke-Command -ComputerName PC1,PC2 -ScriptBlock {Get-Service -Name 'windefend'}</code></td><td>Interroge plusieurs hôtes en même temps</td></tr><tr><td>14</td><td><code>Restart-Service -Name WinDefend</code></td><td>Redémarre un service</td></tr><tr><td>15</td><td><code>Suspend-Service -Name ServiceName</code></td><td>Met un service en pause</td></tr><tr><td>16</td><td><code>Resume-Service -Name ServiceName</code></td><td>Reprend un service en pause</td></tr></tbody></table>

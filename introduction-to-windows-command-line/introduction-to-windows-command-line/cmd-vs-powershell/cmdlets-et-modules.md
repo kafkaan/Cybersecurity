@@ -6,11 +6,11 @@
 
 ### <mark style="color:blue;">1. Qu'est-ce qu'un Cmdlet ?</mark>
 
-#### Définition
+#### <mark style="color:green;">Définition</mark>
 
 Un **cmdlet** est une commande à fonction unique qui manipule des objets dans PowerShell.
 
-#### Structure : Verbe-Nom
+#### <mark style="color:green;">Structure : Verbe-Nom</mark>
 
 ```
 Test-WSMan
@@ -18,13 +18,13 @@ Test-WSMan
 Verbe  Nom
 ```
 
-#### Caractéristiques des Cmdlets
+#### <mark style="color:green;">Caractéristiques des Cmdlets</mark>
 
 * **Séparés par un tiret (-)** : `Get-Command`, `Set-Location`
 * **Écrits en C#** (pas en PowerShell) puis compilés
 * **Suivent une convention claire** : Action + Objet
 
-#### Exemples de Cmdlets Courants
+#### <mark style="color:green;">Exemples de Cmdlets Courants</mark>
 
 | Cmdlet            | Verbe  | Nom        | Description           |
 | ----------------- | ------ | ---------- | --------------------- |
@@ -37,11 +37,11 @@ Verbe  Nom
 
 ### <mark style="color:blue;">2. Qu'est-ce qu'un Module PowerShell ?</mark>
 
-#### Définition
+#### <mark style="color:green;">Définition</mark>
 
 Un **module** est du code PowerShell structuré, facile à utiliser et à partager.
 
-#### Composition d'un Module
+#### <mark style="color:green;">Composition d'un Module</mark>
 
 Un module peut contenir :
 
@@ -55,12 +55,11 @@ Un module peut contenir :
 
 #### <mark style="color:$success;">Types de Fichiers de Module</mark>
 
-**A. Fichier Manifest (.psd1)**
+<mark style="color:orange;">**A. Fichier Manifest (.psd1)**</mark>
 
 **Exemple : PowerSploit.psd1**
 
-**Contenu typique :**
-
+{% code fullWidth="true" %}
 ```powershell
 @{
     ModuleVersion = '3.0.0.0'
@@ -72,6 +71,7 @@ Un module peut contenir :
     CmdletsToExport = '*'
 }
 ```
+{% endcode %}
 
 **Ce que contient un fichier .psd1 :**
 
@@ -86,13 +86,15 @@ Un module peut contenir :
 
 ***
 
-**B. Fichier Script Module (.psm1)**
+<mark style="color:orange;">**B. Fichier Script Module (.psm1)**</mark>
 
 **Exemple : PowerSploit.psm1**
 
+{% code fullWidth="true" %}
 ```powershell
 Get-ChildItem $PSScriptRoot | ? { $_.PSIsContainer -and !('Tests','docs' -contains $_.Name) } | % { Import-Module $_.FullName -DisableNameChecking }
 ```
+{% endcode %}
 
 **Explication ligne par ligne :**
 
@@ -138,7 +140,7 @@ Script     2.0.0      PSReadline                          {Get-PSReadLineKeyHand
 
 ***
 
-#### B. Lister Tous les Modules Disponibles
+#### <mark style="color:green;">B. Lister Tous les Modules Disponibles</mark>
 
 ```powershell
 Get-Module -ListAvailable
@@ -173,7 +175,7 @@ Script     2.0.0      PSReadline                          {Get-PSReadLineKeyHand
 
 ***
 
-#### C. Importer un Module
+#### <mark style="color:green;">C. Importer un Module</mark>
 
 **Obtenir de l'Aide sur Import-Module**
 
@@ -204,7 +206,7 @@ SYNTAX
 
 ***
 
-**Exemple Pratique : Importer PowerSploit**
+<mark style="color:orange;">**Exemple Pratique : Importer PowerSploit**</mark>
 
 **Avant l'importation :**
 
@@ -268,7 +270,7 @@ WS01         Users                               Users are prevented from making
 
 ***
 
-#### D. Chemin des Modules par Défaut
+#### <mark style="color:green;">D. Chemin des Modules par Défaut</mark>
 
 ```powershell
 PS C:\Users\htb-student> $env:PSModulePath
@@ -484,7 +486,7 @@ Function        Get-GPPPassword                                    3.0.0.0    Po
 
 ### <mark style="color:blue;">6. PowerShell Gallery</mark>
 
-#### A. Qu'est-ce que PowerShell Gallery ?
+#### <mark style="color:green;">A. Qu'est-ce que PowerShell Gallery ?</mark>
 
 🌐 **PowerShell Gallery** = Dépôt central de modules PowerShell
 
@@ -497,7 +499,7 @@ Function        Get-GPPPassword                                    3.0.0.0    Po
 
 ***
 
-#### B. Module PowerShellGet
+#### <mark style="color:green;">B. Module PowerShellGet</mark>
 
 **Voir les commandes disponibles :**
 
@@ -539,7 +541,7 @@ Function        Update-ScriptFileInfo                              1.0.0.1    Po
 
 ***
 
-#### C. Rechercher un Module
+#### <mark style="color:green;">C. Rechercher un Module</mark>
 
 ```powershell
 PS C:\htb> Find-Module -Name AdminToolbox
@@ -572,7 +574,7 @@ Find-Module -Name Admin*
 
 ***
 
-#### D. Installer un Module
+#### <mark style="color:green;">D. Installer un Module</mark>
 
 **Méthode 1 : Installation directe**
 
@@ -619,7 +621,7 @@ Install-Module -Name AdminToolbox -Force -Scope CurrentUser
 
 ***
 
-#### E. Vérifier les Modules Installés
+#### <mark style="color:green;">E. Vérifier les Modules Installés</mark>
 
 ```powershell
 Get-InstalledModule
@@ -636,7 +638,7 @@ Version    Name                                Repository           InstalledDat
 
 ***
 
-#### F. Mettre à Jour un Module
+#### <mark style="color:green;">F. Mettre à Jour un Module</mark>
 
 ```powershell
 Update-Module -Name AdminToolbox
@@ -646,7 +648,7 @@ Update-Module -Name AdminToolbox
 
 ***
 
-#### G. Désinstaller un Module
+#### <mark style="color:green;">G. Désinstaller un Module</mark>
 
 ```powershell
 Uninstall-Module -Name AdminToolbox
@@ -672,7 +674,7 @@ Uninstall-Module -Name AdminToolbox
 
 ***
 
-#### Descriptions Détaillées
+#### <mark style="color:green;">Descriptions Détaillées</mark>
 
 **1. AdminToolbox**
 
@@ -752,7 +754,7 @@ Invoke-BloodHound -CollectionMethod All
 
 ### <mark style="color:blue;">8. Récapitulatif des Commandes Principales</mark>
 
-#### Gestion des Modules
+#### <mark style="color:green;">Gestion des Modules</mark>
 
 ```powershell
 # Voir les modules chargés
@@ -773,7 +775,7 @@ Remove-Module NomDuModule
 
 ***
 
-#### Execution Policy
+#### <mark style="color:green;">Execution Policy</mark>
 
 ```powershell
 # Vérifier la politique

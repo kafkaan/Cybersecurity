@@ -30,6 +30,7 @@ Get-LocalUser administrator | Get-Member
 
 **Sortie détaillée :**
 
+{% code fullWidth="true" %}
 ```powershell
 TypeName: Microsoft.PowerShell.Commands.LocalUser
 
@@ -55,6 +56,7 @@ PrincipalSource        Property   System.Nullable[Microsoft.PowerShell.Commands.
 SID                    Property   System.Security.Principal.SecurityIdentifier SID {get;set;}
 UserMayChangePassword  Property   bool UserMayChangePassword {get;set;}
 ```
+{% endcode %}
 
 **Explication :**
 
@@ -223,7 +225,7 @@ Container           :
 
 Le **Pipeline** permet de chaîner des commandes. La sortie d'une commande devient l'entrée de la suivante.
 
-#### Syntaxes Valides
+#### <mark style="color:green;">Syntaxes Valides</mark>
 
 **Format 1 - Une seule ligne :**
 
@@ -247,7 +249,7 @@ Get-Process | Where-Object CPU | Where-Object Path | Get-Item
 
 ***
 
-#### Exemple Pratique : Compter les Processus Uniques
+#### <mark style="color:green;">Exemple Pratique : Compter les Processus Uniques</mark>
 
 ```powershell
 Get-Process | Sort-Object | Get-Unique | Measure-Object
@@ -269,7 +271,7 @@ Count             : 113
 
 ***
 
-### <mark style="color:green;">🔗 Opérateurs de Chaîne ( && et || )</mark>
+### <mark style="color:blue;">🔗 Opérateurs de Chaîne ( && et || )</mark>
 
 ⚠️ **Important** : Nécessite PowerShell 7+, pas disponible dans Windows PowerShell 5.1
 
@@ -504,9 +506,9 @@ Get-Clipboard
 
 ***
 
-### 🎓 Scénario Complet de Pentest
+### <mark style="color:blue;">🎓 Scénario Complet de Pentest</mark>
 
-#### Objectif : Trouver des Credentials
+#### <mark style="color:green;">Objectif : Trouver des Credentials</mark>
 
 **Étape 1 - Chercher des fichiers intéressants :**
 
@@ -546,22 +548,11 @@ Get-ChildItem -Path C:\Users\ -Filter "*.ovpn" -Recurse -ErrorAction SilentlyCon
 
 ### <mark style="color:blue;">📊 Tableau Récapitulatif des Cmdlets Clés</mark>
 
-| Cmdlet           | Alias        | Usage Principal          | Exemple                |
-| ---------------- | ------------ | ------------------------ | ---------------------- |
-| `Get-Member`     | `gm`         | Voir propriétés/méthodes | \`Get-Process          |
-| `Select-Object`  | `select`     | Choisir des propriétés   | \`Get-Process          |
-| `Where-Object`   | `where`, `?` | Filtrer les objets       | \`Get-Service          |
-| `Sort-Object`    | `sort`       | Trier les résultats      | \`Get-Process          |
-| `Group-Object`   | `group`      | Grouper par propriété    | \`Get-Service          |
-| `Measure-Object` | `measure`    | Compter, calculer        | \`Get-Process          |
-| `Select-String`  | `sls`        | Chercher dans le contenu | \`Get-Content file.txt |
-| `Get-Unique`     | -            | Supprimer les doublons   | \`Get-Process          |
+<table data-full-width="true"><thead><tr><th>Cmdlet</th><th>Alias</th><th>Usage Principal</th><th>Exemple</th></tr></thead><tbody><tr><td><code>Get-Member</code></td><td><code>gm</code></td><td>Voir propriétés/méthodes</td><td>`Get-Process</td></tr><tr><td><code>Select-Object</code></td><td><code>select</code></td><td>Choisir des propriétés</td><td>`Get-Process</td></tr><tr><td><code>Where-Object</code></td><td><code>where</code>, <code>?</code></td><td>Filtrer les objets</td><td>`Get-Service</td></tr><tr><td><code>Sort-Object</code></td><td><code>sort</code></td><td>Trier les résultats</td><td>`Get-Process</td></tr><tr><td><code>Group-Object</code></td><td><code>group</code></td><td>Grouper par propriété</td><td>`Get-Service</td></tr><tr><td><code>Measure-Object</code></td><td><code>measure</code></td><td>Compter, calculer</td><td>`Get-Process</td></tr><tr><td><code>Select-String</code></td><td><code>sls</code></td><td>Chercher dans le contenu</td><td>`Get-Content file.txt</td></tr><tr><td><code>Get-Unique</code></td><td>-</td><td>Supprimer les doublons</td><td>`Get-Process</td></tr></tbody></table>
 
 ***
 
 ### <mark style="color:blue;">💡 Tips et Astuces Avancées</mark>
-
-#### Rendre les Commandes Plus Lisibles
 
 **Utiliser le backtick (\`) pour les sauts de ligne :**
 
@@ -587,3 +578,7 @@ $files = Get-ChildItem -Path C:\Users\MTanaka\ -File -Recurse
 $files | Where-Object {$_.Name -like "*.txt"}
 $files | Select-String "password"
 ```
+
+***
+
+<table data-full-width="true"><thead><tr><th width="56">#</th><th width="800">Commande</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td><code>Get-LocalUser administrator | Get-Member</code></td><td>Voir toutes les propriétés et méthodes d'un objet</td></tr><tr><td>2</td><td><code>Get-LocalUser administrator | Select-Object -Property *</code></td><td>Afficher TOUTES les propriétés d'un objet</td></tr><tr><td>3</td><td><code>Get-LocalUser * | Select-Object -Property Name,PasswordLastSet</code></td><td>Sélectionner des propriétés spécifiques</td></tr><tr><td>4</td><td><code>Get-LocalUser * | Sort-Object -Property Name | Group-Object -Property Enabled</code></td><td>Trier et grouper les objets</td></tr><tr><td>5</td><td><code>Get-Service | Where-Object DisplayName -like '*Defender*'</code></td><td>Filtrer les services par nom</td></tr><tr><td>6</td><td><code>Get-Service | Where-Object DisplayName -like '*Defender*' | Select-Object -Property *</code></td><td>Filtrage avancé avec toutes les propriétés</td></tr><tr><td>7</td><td><code>Get-Process | Sort-Object | Get-Unique | Measure-Object</code></td><td>Compter les processus uniques</td></tr><tr><td>8</td><td><code>Get-Content '.\test.txt' &#x26;&#x26; ping 8.8.8.8</code></td><td>Exécuter la 2ème commande si la 1ère réussit</td></tr><tr><td>9</td><td><code>Get-Content '.\test.txt' || ping 8.8.8.8</code></td><td>Exécuter la 2ème commande si la 1ère échoue</td></tr><tr><td>10</td><td><code>Get-ChildItem -Path C:\Users\MTanaka\ -Filter "*.txt" -Recurse -File | Select-String "Password","credential","key"</code></td><td>Rechercher des mots-clés dans les fichiers .txt</td></tr><tr><td>11</td><td><code>Get-ChildItem -Path C:\Users\MTanaka\ -File -Recurse -ErrorAction SilentlyContinue | Where-Object {($_.Name -like "*.txt" -or $_.Name -like "*.py" -or $_.Name -like "*.ps1")}</code></td><td>Rechercher dans plusieurs types de fichiers</td></tr><tr><td>12</td><td><code>Get-ChildItem -Path C:\Users\MTanaka\ -File -Recurse -ErrorAction SilentlyContinue | Where-Object {($_.Name -like "*.txt")} | Select-String "Password","credential","key","UserName"</code></td><td>Recherche combinée fichiers + contenu</td></tr><tr><td>13</td><td><code>Get-ChildItem -Path C:\Users\MTanaka\ -Hidden -Recurse</code></td><td>Chercher les fichiers cachés</td></tr><tr><td>14</td><td><code>Get-Content (Get-PSReadlineOption).HistorySavePath</code></td><td>Lire l'historique PowerShell</td></tr><tr><td>15</td><td><code>Get-Clipboard</code></td><td>Voir le contenu du presse-papiers</td></tr><tr><td>16</td><td><code>Get-Content (Get-PSReadlineOption).HistorySavePath | Select-String "password","credential"</code></td><td>Chercher des credentials dans l'historique</td></tr><tr><td>17</td><td><code>Get-ChildItem -Path C:\Users\ -Filter "*.key" -Recurse -ErrorAction SilentlyContinue</code></td><td>Chercher les clés SSH/VPN (.key, .pem, .ovpn)</td></tr></tbody></table>

@@ -216,8 +216,6 @@ Nice. Now that we have the module, we can get started with AD `User` and `Group`
 
 <mark style="color:green;">**Get-ADUser**</mark>
 
-User and Group Management
-
 ```bash
 PS C:\htb> Get-ADUser -Filter *
 
@@ -306,6 +304,7 @@ UserPrincipalName :
 
 <mark style="color:green;">**New ADUser**</mark>
 
+{% code fullWidth="true" %}
 ```powershell
 PS C:\htb> New-ADUser -Name "MTanaka" -Surname "Tanaka" -GivenName "Mori" -Office "Security" -OtherAttributes @{'title'="Sensei";'mail'="MTanaka@greenhorn.corp"} -Accountpassword (Read-Host -AsSecureString "AccountPassword") -Enabled $true 
 
@@ -316,6 +315,7 @@ Name    Enabled GivenName Surname Title  Office   Mail
 ----    ------- --------- ------- -----  ------   ----
 MTanaka    True Mori      Tanaka  Sensei Security MTanaka@greenhorn.corp
 ```
+{% endcode %}
 
 Ok, a lot is going on here. It may look daunting but let us dissect it. The `first` portion of the output above is creating our user:
 
@@ -359,7 +359,7 @@ UserPrincipalName :
 
 ***
 
-### 🧾 User & Group Management – Tableau récapitulatif des commandes
+### <mark style="color:blue;">🧾 User & Group Management – Tableau récapitulatif des commandes</mark>
 
 #### 🔹 Utilisateurs locaux
 

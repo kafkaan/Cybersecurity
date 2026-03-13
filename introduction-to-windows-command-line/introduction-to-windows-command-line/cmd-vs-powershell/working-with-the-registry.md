@@ -60,7 +60,28 @@ For a detailed list of all Registry Hives and their supporting files within the 
 
 #### <mark style="color:green;">What Are Values</mark>
 
-`Values` represent data in the form of objects that pertain to that specific Key. These values consist of a name, a type specification, and the required data to identify what it's for. The image below visually represents `Values` as the data between the `Orange` lines. Those values are nested within the Installer key, which is, in turn, inside another key.
+Les **Valeurs** sont les données stockées à l'intérieur des clés du registre.
+
+***
+
+#### Une Valeur est composée de 3 éléments :
+
+| Élément     | Description                | Exemple                  |
+| ----------- | -------------------------- | ------------------------ |
+| **Nom**     | L'identifiant de la valeur | `Version`                |
+| **Type**    | Le format de la donnée     | `REG_SZ`, `REG_DWORD`... |
+| **Données** | Le contenu réel            | `1.0.0`                  |
+
+***
+
+#### Analogie simple :
+
+Imagine le registre comme une **armoire** :
+
+Armoire = Registre\
+Tiroir = Clé (Key)\
+Sous-tiroir = Sous-clé (SubKey)\
+Étiquette = Valeur (Value) ← c'est ça dont on parle
 
 **Values**
 
@@ -72,11 +93,19 @@ We can reference the complete list of Registry Key Values [HERE](https://docs.mi
 
 #### <mark style="color:green;">Registry Hives</mark>
 
-Each Windows host has a set of predefined Registry keys that maintain the host and settings required for use. Below is a breakdown of each hive and what can be found referenced within.
+Chaque hôte Windows possède un ensemble de clés de registre prédéfinies. Voici le détail de chaque ruche :
 
-**Hive Breakdown**
+<table data-full-width="true"><thead><tr><th>Nom</th><th>Abréviation</th><th>Contenu</th></tr></thead><tbody><tr><td><code>HKEY_LOCAL_MACHINE</code></td><td><strong>HKLM</strong></td><td>Contient les infos sur l'<strong>état physique</strong> de l'ordinateur : matériel, système d'exploitation, types de bus, mémoire, pilotes de périphériques, etc.</td></tr><tr><td><code>HKEY_CURRENT_CONFIG</code></td><td><strong>HKCC</strong></td><td>Contient les enregistrements du <strong>profil matériel actuel</strong> de l'hôte. Montre les différences entre la configuration actuelle et celle par défaut. C'est une redirection vers la clé <code>CurrentControlSet</code> de HKLM.</td></tr><tr><td><code>HKEY_CLASSES_ROOT</code></td><td><strong>HKCR</strong></td><td>Définit les <strong>types de fichiers</strong>, les extensions d'interface utilisateur et les paramètres de compatibilité ascendante (ex: quelle application ouvre quel fichier).</td></tr><tr><td><code>HKEY_CURRENT_USER</code></td><td><strong>HKCU</strong></td><td>Contient les paramètres <strong>OS et logiciels spécifiques à l'utilisateur connecté</strong>. Les préférences utilisateur et les paramètres de profil itinérant (<strong>Roaming Profile</strong>) sont stockés ici.</td></tr><tr><td><code>HKEY_USERS</code></td><td><strong>HKU</strong></td><td>Contient le profil utilisateur <strong>par défaut</strong> et les paramètres de configuration de <strong>tous les utilisateurs</strong> du PC local.</td></tr></tbody></table>
 
-<table data-header-hidden data-full-width="true"><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td><strong>Name</strong></td><td><strong>Abbreviation</strong></td><td><strong>Description</strong></td></tr><tr><td>HKEY_LOCAL_MACHINE</td><td><code>HKLM</code></td><td>This subtree contains information about the computer's <code>physical state</code>, such as hardware and operating system data, bus types, memory, device drivers, and more.</td></tr><tr><td>HKEY_CURRENT_CONFIG</td><td><code>HKCC</code></td><td>This section contains records for the host's <code>current hardware profile</code>. (shows the variance between current and default setups) Think of this as a redirection of the <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc739525(v=ws.10)">HKLM</a> CurrentControlSet profile key.</td></tr><tr><td>HKEY_CLASSES_ROOT</td><td><code>HKCR</code></td><td>Filetype information, UI extensions, and backward compatibility settings are defined here.</td></tr><tr><td>HKEY_CURRENT_USER</td><td><code>HKCU</code></td><td>Value entries here define the specific OS and software settings for each specific user. <code>Roaming profile</code> settings, including user preferences, are stored under HKCU.</td></tr><tr><td>HKEY_USERS</td><td><code>HKU</code></td><td>The <code>default</code> User profile and current user configuration settings for the local computer are defined under HKU.</td></tr></tbody></table>
+***
+
+#### Moyen mémo-technique simple :
+
+* **HKLM** → la **Machine** (matériel + OS)
+* **HKCC** → la **Config actuelle** du matériel
+* **HKCR** → les **types de fichiers** (.pdf, .exe, .txt...)
+* **HKCU** → l'utilisateur **connecté maintenant**
+* **HKU** → **tous** les utilisateurs du PC
 
 There are other predefined keys for the Registry, but they are specific to certain versions and regional settings in Windows. For more information on those entries and Registry keys in general, check out the documentation provided by [Microsoft](https://learn.microsoft.com/en-us/windows/win32/sysinfo/predefined-keys)
 
@@ -229,14 +258,34 @@ We queried the `HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip` key with Reg.exe, which provi
 
 ### <mark style="color:blue;">Finding Info In The Registry</mark>
 
-For us as pentesters and administrators, finding data within the Registry is a must-have skill. This is where `Reg.exe` really shines for us. We can use it to search for keywords and strings like `Password` and `Username` through key and value names or the data contained. Before we put it to use, let's break down the use of `Reg Query`. We will look at the command string `REG QUERY HKCU /F "password" /t REG_SZ /S /K`.
+Pour les pentesters et administrateurs, chercher des données dans le registre est une compétence essentielle. C'est là que `Reg.exe` est très utile, notamment pour chercher des mots-clés comme `Password` ou `Username`.
 
-* `Reg query`: We are calling on Reg.exe and specifying that we want to query data.
-* `HKCU`: This portion is setting the path to search. In this instance, we are looking in all of HKey\_Current\_User.
-* `/f "password"`: /f sets the pattern we are searching for. In this instance, we are looking for "Password".
-* `/t REG_SZ`: /t is setting the value type to search. If we do not specify, reg query will search through every type.
-* `/s`: /s says to search through all subkeys and values recursively.
-* `/k`: /k narrows it down to only searching through Key names.
+***
+
+La commande complète :
+
+```
+REG QUERY HKCU /F "password" /t REG_SZ /S /K
+```
+
+***
+
+Décomposition :
+
+| Partie          | Rôle                                                                                                       |
+| --------------- | ---------------------------------------------------------------------------------------------------------- |
+| `Reg Query`     | Appelle Reg.exe et lui dit qu'on veut **chercher** des données                                             |
+| `HKCU`          | Définit **où chercher** → ici dans tout `HKEY_CURRENT_USER`                                                |
+| `/f "password"` | Définit **ce qu'on cherche** → le mot "password"                                                           |
+| `/t REG_SZ`     | Définit le **type de valeur** à chercher → REG\_SZ = texte simple. Sans ça, il cherche dans tous les types |
+| `/s`            | Cherche **récursivement** dans toutes les sous-clés                                                        |
+| `/k`            | Limite la recherche **uniquement aux noms de clés**                                                        |
+
+***
+
+En une phrase :
+
+> Cette commande **parcourt tout HKCU** à la recherche du mot **"password"** uniquement dans les **noms de clés**, en descendant dans **tous les sous-dossiers**, en ne regardant que les valeurs de type **texte**. 🔍
 
 **Searching With Reg Query**
 
@@ -254,11 +303,52 @@ End of search: 2 match(es) found.
 
 #### <mark style="color:green;">Creating and Modifying Registry Keys and Values</mark>
 
-When dealing with the modification or creation of `new keys and values`, we can use standard PowerShell cmdlets like `New-Item`, `Set-Item`, `New-ItemProperty`, and `Set-ItemProperty` or utilize `Reg.exe` again to make the changes we need.&#x20;
+{% hint style="info" %}
+***
 
-Let's try and create a new Registry Key below. For our example, we will create a new test key in the RunOnce hive `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce` named `TestKey`. By placing the key and value in RunOnce, after it executes, it will be deleted.
+Les outils disponibles :
+{% endhint %}
 
-Scenario: We have landed on a host and can add a new registry key for persistence. We need to set a key named `TestKey` and a value of `C:\Users\htb-student\Downloads\payload.exe` that tells RunOnce to run our payload we leave on the host the next time the user logs in. This will ensure that if the host restarts or we lose access, the next time the user logs in, we will get a new shell.
+| Outil          | Cmdlets                                                        |
+| -------------- | -------------------------------------------------------------- |
+| **PowerShell** | `New-Item`, `Set-Item`, `New-ItemProperty`, `Set-ItemProperty` |
+| **Reg.exe**    | `REG ADD`, `REG DELETE`...                                     |
+
+{% hint style="info" %}
+Le Scénario (Pentest) :
+
+Tu as accès à une machine et tu veux **maintenir ton accès** (persistence). L'objectif est de faire exécuter ton payload automatiquement à la prochaine connexion de l'utilisateur.
+
+
+
+Pourquoi `RunOnce` ?
+
+```
+HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+```
+
+> `RunOnce` = **exécute une fois** la valeur au prochain démarrage/connexion, puis la **supprime automatiquement** ← très discret pour un attaquant
+
+***
+
+Ce qu'on veut créer :
+
+```
+RunOnce\                                         ← KEY existante
+  TestKey → C:\Users\htb-student\Downloads\payload.exe   ← VALUE à créer
+```
+
+***
+
+Ce qui se passe concrètement :
+
+1. Tu crées la clé **TestKey** dans RunOnce
+2. Tu mets comme valeur le **chemin de ton payload**
+3. L'utilisateur se reconnecte → Windows lit RunOnce → **exécute ton payload**
+4. La clé se **supprime toute seule** → difficile à détecter 🔴
+
+> C'est une technique classique de **persistence** en pentest : si tu perds l'accès, le payload se relance automatiquement à la prochaine session utilisateur. 🎯
+{% endhint %}
 
 **New Registry Key**
 
@@ -316,3 +406,6 @@ PS C:\htb> Get-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersio
 ```
 {% endcode %}
 
+***
+
+<table data-full-width="true"><thead><tr><th width="62">#</th><th width="531">Commande</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td><code>Get-Item -Path Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run | Select-Object -ExpandProperty Property</code></td><td>Affiche les noms des valeurs d'une clé</td></tr><tr><td>2</td><td><code>Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion -Recurse</code></td><td>Liste toutes les sous-clés et valeurs récursivement</td></tr><tr><td>3</td><td><code>Get-ItemProperty -Path Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code></td><td>Affiche les valeurs d'une clé de façon lisible</td></tr><tr><td>4</td><td><code>reg query HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip</code></td><td>Interroge une clé avec Reg.exe</td></tr><tr><td>5</td><td><code>REG QUERY HKCU /F "Password" /t REG_SZ /S /K</code></td><td>Cherche le mot "Password" dans les noms de clés de HKCU</td></tr><tr><td>6</td><td><code>Get-ChildItem C:\Windows\System32\config\</code></td><td>Liste les fichiers de ruches du registre</td></tr><tr><td>7</td><td><code>New-Item -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\ -Name TestKey</code></td><td>Crée une nouvelle clé dans le registre</td></tr><tr><td>8</td><td><code>New-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\TestKey -Name "access" -PropertyType String -Value "C:\...\payload.exe"</code></td><td>Crée une nouvelle valeur dans une clé</td></tr><tr><td>9</td><td><code>reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce\TestKey" /v access /t REG_SZ /d "C:\...\payload.exe"</code></td><td>Crée une valeur avec Reg.exe</td></tr><tr><td>10</td><td><code>Remove-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\TestKey -Name "access"</code></td><td>Supprime une valeur du registre</td></tr><tr><td>11</td><td><code>Get-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce\TestKey</code></td><td>Vérifie le contenu d'une clé après modification</td></tr></tbody></table>
