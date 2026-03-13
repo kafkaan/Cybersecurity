@@ -68,7 +68,7 @@ Maintenant que nous avons notre répertoire, nous pouvons créer le module. Disc
 
 ***
 
-### Manifeste du Module
+### <mark style="color:blue;">Manifeste du Module</mark>
 
 Un manifeste de module est un simple fichier .psd1 qui contient une table de hachage. Les clés et valeurs dans la table de hachage effectuent les fonctions suivantes :
 
@@ -383,7 +383,7 @@ Export-ModuleMember -Function Get-Recon -Variable Hostname
 
 Lorsqu'on traite avec des scripts, la session PowerShell et comment les choses sont reconnues à la ligne de commande, le concept de Portée entre en jeu. La portée, en essence, est comment PowerShell reconnaît et protège les objets dans la session contre l'accès ou la modification non autorisés. PowerShell utilise actuellement trois niveaux de Portée différents :
 
-#### Niveaux de Portée
+#### <mark style="color:green;">Niveaux de Portée</mark>
 
 | Portée | Description                                                                                                                                                                                                                                                                                              |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -399,7 +399,7 @@ Cela nous importe si nous ne voulons pas que quoi que ce soit en dehors de la po
 
 Maintenant que nous avons parcouru et créé nos pièces et parties, voyons tout ensemble.
 
-#### Produit Final
+#### <mark style="color:$success;">Produit Final</mark>
 
 ```powershell
 import-module ActiveDirectory

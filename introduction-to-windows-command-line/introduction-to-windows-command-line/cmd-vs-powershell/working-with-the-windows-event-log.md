@@ -104,7 +104,7 @@ Les deux wevtutil et Get-WinEvent peuvent être utilisés pour interroger les Jo
 
 L'utilitaire en ligne de commande wevtutil peut être utilisé pour récupérer des informations sur les journaux d'événements. Il peut également être utilisé pour exporter, archiver et effacer les journaux, entre autres commandes.
 
-#### Wevtutil sans Paramètres
+#### <mark style="color:$success;">Wevtutil sans Paramètres</mark>
 
 ```powershell
 C:\htb> wevtutil /?
@@ -161,7 +161,7 @@ General Logging
 HardwareEvents
 ```
 
-#### Collecte d'Informations sur les Journaux
+#### <mark style="color:$success;">Collecte d'Informations sur les Journaux</mark>
 
 Avec le paramètre `gl`, nous pouvons afficher les informations de configuration pour un journal spécifique, notamment si le journal est activé ou non, la taille maximale, les permissions et où le journal est stocké sur le système.
 
@@ -328,3 +328,7 @@ PS C:\htb> Get-WinEvent -FilterHashTable @{LogName='System';Level='1'} | select-
 Le système a redémarré sans s'être arrêté proprement au préalable. Cette erreur pourrait se produire si le système a cessé de répondre, s'est planté ou a perdu l'alimentation de manière inattendue.
 ```
 {% endcode %}
+
+***
+
+<table data-full-width="true"><thead><tr><th width="103.8477783203125">#</th><th width="717.1875">Commande</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td><code>ls C:\Windows\System32\winevt\logs</code></td><td>Liste les fichiers journaux (.evtx)</td></tr><tr><td>2</td><td><code>wevtutil /?</code></td><td>Affiche l'aide de wevtutil</td></tr><tr><td>3</td><td><code>wevtutil el</code></td><td>Liste tous les journaux présents sur le système</td></tr><tr><td>4</td><td><code>wevtutil gl "Windows PowerShell"</code></td><td>Affiche la configuration d'un journal spécifique</td></tr><tr><td>5</td><td><code>wevtutil gli "Windows PowerShell"</code></td><td>Affiche les infos d'état d'un journal (taille, dates, nombre d'enregistrements)</td></tr><tr><td>6</td><td><code>wevtutil qe Security /c:5 /rd:true /f:text</code></td><td>Affiche les 5 derniers événements du journal Sécurité en texte</td></tr><tr><td>7</td><td><code>wevtutil epl System C:\system_export.evtx</code></td><td>Exporte le journal Système dans un fichier .evtx</td></tr><tr><td>8</td><td><code>Get-WinEvent -ListLog *</code></td><td>Liste tous les journaux avec leur nombre d'enregistrements</td></tr><tr><td>9</td><td><code>Get-WinEvent -ListLog Security</code></td><td>Affiche les détails du journal Sécurité</td></tr><tr><td>10</td><td><code>Get-WinEvent -LogName 'Security' -MaxEvents 5 | Select-Object -ExpandProperty Message</code></td><td>Affiche les 5 derniers événements du journal Sécurité</td></tr><tr><td>11</td><td><code>Get-WinEvent -FilterHashTable @{LogName='Security';ID='4625'}</code></td><td>Filtre les événements par ID (ici échecs de connexion)</td></tr><tr><td>12</td><td><code>Get-WinEvent -FilterHashTable @{LogName='System';Level='1'} | Select-Object -ExpandProperty Message</code></td><td>Filtre les événements par niveau de gravité</td></tr></tbody></table>

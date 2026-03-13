@@ -198,7 +198,7 @@ PowerShell possède plusieurs cmdlets intégrés puissants conçus pour gérer l
 
 Nous n'allons pas montrer chaque cmdlet en utilisation, mais il serait prudent de fournir une référence rapide pour votre utilisation. Tout d'abord, nous commencerons avec Get-NetIPInterface.
 
-#### Get-NetIPInterface
+#### <mark style="color:green;">Get-NetIPInterface</mark>
 
 {% code fullWidth="true" %}
 ```powershell
@@ -231,7 +231,7 @@ ifIndex InterfaceAlias                  AddressFamily NlMtu(Bytes) InterfaceMetr
 
 Cette liste nous montre nos interfaces disponibles sur l'hôte d'une manière un peu alambiquée. Nous recevons beaucoup de métriques, mais les adaptateurs sont répartis par AddressFamily. Nous voyons donc des entrées pour chaque adaptateur deux fois si IPv4 et IPv6 sont activés sur cette interface particulière. Les propriétés ifindex et InterfaceAlias sont particulièrement utiles. Ces propriétés facilitent notre utilisation des autres cmdlets fournis par le module NetTCPIP.
 
-#### Get-NetIPAddress
+#### <mark style="color:$success;">Get-NetIPAddress</mark>
 
 Obtenons les informations de l'adaptateur pour notre connexion Wi-Fi à ifIndex 25 en utilisant le cmdlet Get-NetIPAddress.
 
@@ -267,9 +267,11 @@ SkipAsSource      : False
 PolicyStore       : ActiveStore
 ```
 
-Ce cmdlet a également renvoyé pas mal d'informations. Remarquez comment nous avons utilisé le numéro ifIndex pour demander l'information ? Nous pouvons faire la même chose avec l'InterfaceAlias également. Ce cmdlet renvoie pas mal d'informations, telles que l'index, l'alias, l'état DHCP, le type d'interface et d'autres métriques. Cela reflète la plupart de ce que nous verrions si nous exécutions l'exécutable IPconfig depuis l'invite de commande.
+Ce cmdlet a également renvoyé pas mal d'informations. Remarquez comment nous avons utilisé le numéro ifIndex pour demander l'information ? Nous pouvons faire la même chose avec l'InterfaceAlias également.&#x20;
 
-#### Set-NetIPInterface et Set-NetIPAddress
+Ce cmdlet renvoie pas mal d'informations, telles que l'index, l'alias, l'état DHCP, le type d'interface et d'autres métriques. Cela reflète la plupart de ce que nous verrions si nous exécutions l'exécutable IPconfig depuis l'invite de commande.
+
+#### <mark style="color:green;">Set-NetIPInterface et Set-NetIPAddress</mark>
 
 Maintenant, que se passe-t-il si nous voulons modifier un paramètre sur l'interface ? Nous pouvons le faire avec les cmdlets Set-NetIPInterface et Set-NetIPAddress. Dans cet exemple, disons que nous voulons changer l'état DHCP de l'interface d'activé à désactivé, et changer l'IP d'une IP automatiquement attribuée par DHCP à une IP que nous choisissons et définissons manuellement. Nous accomplirions cela comme suit :
 
@@ -299,7 +301,7 @@ ifIndex InterfaceAlias     Dhcp
 
 La commande ci-dessus définit maintenant notre adresse IP à 10.10.100.54 et le PrefixLength (également connu sous le nom de masque de sous-réseau) à 24. En regardant nos vérifications, nous pouvons voir que ces paramètres sont en place. Pour être en sécurité, redémarrons notre adaptateur réseau et testons notre connexion pour voir si cela persiste.
 
-#### Restart-NetAdapter
+#### <mark style="color:$success;">Restart-NetAdapter</mark>
 
 ```powershell
 PS C:\htb> Restart-NetAdapter -Name 'Ethernet 3'
@@ -307,7 +309,7 @@ PS C:\htb> Restart-NetAdapter -Name 'Ethernet 3'
 
 Tant que rien ne se passe mal, vous ne recevrez pas de sortie. Donc, en ce qui concerne Restart-NetAdapter, pas de nouvelles, bonnes nouvelles. Le moyen le plus simple de dire au cmdlet quelle interface redémarrer est avec la propriété Name, qui est la même que l'InterfaceAlias des commandes précédentes que nous avons exécutées.
 
-#### Test-NetConnection
+#### <mark style="color:$success;">Test-NetConnection</mark>
 
 Maintenant, pour nous assurer que nous avons toujours une connexion, nous pouvons utiliser le cmdlet Test-NetConnection.
 
@@ -440,7 +442,7 @@ Windows Remote Management (WinRM) peut être configuré en utilisant des cmdlets
 
 En raison de la demande croissante de la capacité de gérer à distance et d'automatiser les tâches sur les systèmes Windows, nous verrons probablement WinRM activé sur de plus en plus de systèmes d'exploitation de bureau Windows (Windows 10 et Windows 11) également. Lorsque WinRM est activé sur une cible Windows, il écoute sur les ports logiques 5985 et 5986.
 
-#### Activation et Configuration de WinRM
+#### <mark style="color:green;">Activation et Configuration de WinRM</mark>
 
 WinRM peut être activé sur une cible Windows en utilisant les commandes suivantes :
 
@@ -546,3 +548,4 @@ PSRemotingProtocolVersion      2.3
 SerializationVersion           1.1.0.1
 ```
 
+<table data-full-width="true"><thead><tr><th width="171.70703125">#</th><th>Commande</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td><code>ipconfig</code></td><td>Affiche les paramètres réseau de base (IP, masque, passerelle)</td></tr><tr><td>2</td><td><code>ipconfig /all</code></td><td>Affiche tous les paramètres réseau détaillés (DHCP, DNS, MAC...)</td></tr><tr><td>3</td><td><code>arp -a</code></td><td>Affiche les entrées ARP (IP ↔ adresses physiques connues)</td></tr><tr><td>4</td><td><code>nslookup ACADEMY-ICL-DC</code></td><td>Résout un nom DNS en adresse IP</td></tr><tr><td>5</td><td><code>netstat -an</code></td><td>Affiche toutes les connexions et ports ouverts en format numérique</td></tr><tr><td>6</td><td><code>Get-NetIPInterface</code></td><td>Liste toutes les interfaces réseau disponibles</td></tr><tr><td>7</td><td><code>Get-NetIPAddress -ifIndex 25</code></td><td>Affiche les infos d'une interface spécifique par son index</td></tr><tr><td>8</td><td><code>Set-NetIPInterface -InterfaceIndex 25 -Dhcp Disabled</code></td><td>Désactive le DHCP sur une interface</td></tr><tr><td>9</td><td><code>Set-NetIPAddress -InterfaceIndex 25 -IPAddress 10.10.100.54 -PrefixLength 24</code></td><td>Définit une adresse IP statique sur une interface</td></tr><tr><td>10</td><td><code>Restart-NetAdapter -Name 'Ethernet 3'</code></td><td>Redémarre un adaptateur réseau</td></tr><tr><td>11</td><td><code>Test-NetConnection</code></td><td>Teste la connectivité réseau de base</td></tr><tr><td>12</td><td><code>Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'</code></td><td>Vérifie si OpenSSH est installé</td></tr><tr><td>13</td><td><code>Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0</code></td><td>Installe le client OpenSSH</td></tr><tr><td>14</td><td><code>Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0</code></td><td>Installe le serveur OpenSSH</td></tr><tr><td>15</td><td><code>Start-Service sshd</code></td><td>Démarre le service SSH</td></tr><tr><td>16</td><td><code>Set-Service -Name sshd -StartupType 'Automatic'</code></td><td>Configure SSH pour démarrer automatiquement</td></tr><tr><td>17</td><td><code>ssh htb-student@10.129.224.248</code></td><td>Se connecte à un hôte distant via SSH</td></tr><tr><td>18</td><td><code>winrm quickconfig</code></td><td>Active et configure WinRM pour l'accès distant</td></tr><tr><td>19</td><td><code>Test-WSMan -ComputerName "10.129.224.248"</code></td><td>Teste si WinRM est en cours d'exécution (non authentifié)</td></tr><tr><td>20</td><td><code>Test-WSMan -ComputerName "10.129.224.248" -Authentication Negotiate</code></td><td>Teste WinRM avec authentification</td></tr><tr><td>21</td><td><code>Enter-PSSession -ComputerName 10.129.224.248 -Credential htb-student -Authentication Negotiate</code></td><td>Établit une session PowerShell distante</td></tr></tbody></table>
