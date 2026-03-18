@@ -1,4 +1,4 @@
-# 🔑 PWM — Capture de credentials LDAP via Responder
+# Capture de credentials LDAP via Responder
 
 ## <mark style="color:red;">🔑 PWM — Capture de credentials LDAP via Responder</mark>
 

