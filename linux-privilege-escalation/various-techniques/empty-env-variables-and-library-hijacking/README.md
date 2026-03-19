@@ -138,7 +138,7 @@ cp libxcb.so.1 /opt/app/static/assets/images/
 
 ### <mark style="color:blue;">Vecteurs d'attaque communs</mark>
 
-#### Applications vulnérables typiques
+#### <mark style="color:green;">Applications vulnérables typiques</mark>
 
 * **ImageMagick** : `MAGICK_CONFIGURE_PATH`, `LD_LIBRARY_PATH`
 * **Python** : `PYTHONPATH`

@@ -2,7 +2,7 @@
 
 ### <mark style="color:red;">Empoisonnement DNS</mark>
 
-#### 🎯 Concept
+#### <mark style="color:green;">🎯 Concept</mark>
 
 L'empoisonnement DNS consiste à modifier les résolutions DNS pour rediriger le trafic vers un serveur malveillant.
 
@@ -12,7 +12,7 @@ L'empoisonnement DNS consiste à modifier les résolutions DNS pour rediriger le
 Utilisateur → DNS empoisonné → Serveur malveillant (au lieu du serveur légitime)
 ```
 
-#### 💡 Fichiers impliqués
+#### <mark style="color:green;">💡 Fichiers impliqués</mark>
 
 **Structure DNS dans le conteneur :**
 
@@ -24,7 +24,7 @@ Utilisateur → DNS empoisonné → Serveur malveillant (au lieu du serveur lég
 └── entries/           # Fichiers générés pour dnsmasq
 ```
 
-#### 🛠️ Étapes d'exploitation
+#### <mark style="color:green;">🛠️ Étapes d'exploitation</mark>
 
 **1. Modification des entrées DNS**
 
@@ -47,7 +47,7 @@ nslookup match.sorcery.htb
 # Devrait retourner 10.10.14.10
 ```
 
-#### 📝 Script convert.sh
+#### <mark style="color:green;">📝 Script convert.sh</mark>
 
 ```bash
 #!/bin/bash
@@ -62,7 +62,7 @@ while read line; do
 done < /tmp/all_hosts
 ```
 
-#### 🔒 Prévention
+#### <mark style="color:green;">🔒 Prévention</mark>
 
 * Restreindre l'accès en écriture aux fichiers DNS
 * Utiliser DNSSEC pour valider les réponses

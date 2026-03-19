@@ -2,11 +2,11 @@
 
 ## <mark style="color:red;">Forgerie de Certificats SSL</mark>
 
-#### 🎯 Concept
+#### <mark style="color:green;">🎯 Concept</mark>
 
 La forgerie de certificat SSL permet de créer des certificats signés par une Autorité de Certification (CA) compromise pour intercepter du trafic HTTPS.
 
-#### 🔍 Architecture PKI
+#### <mark style="color:green;">🔍 Architecture PKI</mark>
 
 ```
 Root CA (compromis)
@@ -16,7 +16,7 @@ Certificat match.sorcery.htb (forgé)
 Serveur malveillant (mitmproxy)
 ```
 
-#### 💡 Processus de forgerie
+#### <mark style="color:green;">💡 Processus de forgerie</mark>
 
 **1. Récupération des fichiers CA**
 

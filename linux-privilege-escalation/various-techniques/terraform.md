@@ -46,7 +46,7 @@ variable "instance_type" {
 
 ### <mark style="color:blue;">🛠️ Commandes Importantes</mark>
 
-#### Commandes de Base
+#### <mark style="color:green;">Commandes de Base</mark>
 
 | Commande             | Description                                                     |
 | -------------------- | --------------------------------------------------------------- |
@@ -82,7 +82,7 @@ terraform state show aws_instance.example
 
 ### <mark style="color:blue;">📂 Structure des Fichiers</mark>
 
-#### Fichiers Principaux
+#### <mark style="color:green;">Fichiers Principaux</mark>
 
 * **`main.tf`** : Configuration principale
 * **`variables.tf`** : Définitions des variables
@@ -91,7 +91,7 @@ terraform state show aws_instance.example
 * **`.terraformrc`** : Configuration utilisateur de Terraform
 * **`.terraform/`** : Répertoire des plugins et providers
 
-#### Exemple de Configuration
+#### <mark style="color:green;">Exemple de Configuration</mark>
 
 ```hcl
 # main.tf

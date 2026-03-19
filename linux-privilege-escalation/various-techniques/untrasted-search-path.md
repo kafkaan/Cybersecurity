@@ -31,7 +31,7 @@
 
 ### <mark style="color:red;">📂 Exemple PoC CTF</mark>
 
-#### Code malveillant `expkoit.c` (reverse shell)
+#### <mark style="color:green;">Code malveillant</mark> <mark style="color:green;"></mark><mark style="color:green;">`expkoit.c`</mark> <mark style="color:green;"></mark><mark style="color:green;">(reverse shell)</mark>
 
 ```c
 #include <unistd.h>
@@ -43,13 +43,13 @@ int main() {
 }
 ```
 
-#### Compilation
+#### <mark style="color:green;">Compilation</mark>
 
 ```bash
 x86_64-linux-gnu-gcc -o nvme expkoit.c -static
 ```
 
-#### Déploiement
+#### <mark style="color:green;">Déploiement</mark>
 
 ```bash
 # Sur la machine attaquante

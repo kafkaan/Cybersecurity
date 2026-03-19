@@ -1,4 +1,4 @@
-# Escalade de Privilèges via Facter (Puppet)
+# Escalade de Privilèges via Facter
 
 ## <mark style="color:red;">Escalade de Privilèges via Facter (Puppet)</mark>
 
@@ -46,7 +46,7 @@ if $facts['os']['family'] == 'Debian' {
 }
 ```
 
-#### Custom Facts
+#### <mark style="color:green;">Custom Facts</mark>
 
 Facter permet de créer des **custom facts** via des scripts Ruby ou exécutables :
 
@@ -78,7 +78,7 @@ facter --custom-dir=/path/to/facts
 
 ### <mark style="color:blue;">Vulnérabilité</mark>
 
-#### Le Problème
+#### <mark style="color:green;">Le Problème</mark>
 
 Quand Facter est exécutable en `sudo` sans mot de passe :
 
@@ -97,7 +97,7 @@ User trivia may run the following commands on facts:
 4. Le code s'exécute avec les privilèges root
 ```
 
-#### Pourquoi C'est Dangereux ?
+#### <mark style="color:green;">Pourquoi C'est Dangereux ?</mark>
 
 **Facter exécute le code Ruby des custom facts dans son propre processus :**
 
@@ -121,7 +121,7 @@ end
 
 ### <mark style="color:blue;">Exploitation Pratique</mark>
 
-#### Méthode 1 : SUID sur Bash
+#### <mark style="color:green;">Méthode 1 : SUID sur Bash</mark>
 
 **Objectif :** Donner les permissions SUID à `/bin/bash` pour obtenir un shell root
 

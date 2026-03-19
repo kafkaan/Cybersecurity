@@ -203,7 +203,7 @@ shmid = shmget(key % 0xfffff, 0x400, 0x3b6);
 
 **Problème :** N'importe quel utilisateur peut écrire dans ce segment !
 
-#### 4.3 Visualisation de l'Attaque
+#### <mark style="color:green;">4.3 Visualisation de l'Attaque</mark>
 
 ```
 Temps   | Processus check_leak           | Processus attaquant
@@ -332,6 +332,7 @@ snprintf(h_shm, 0x400, "Leaked hash detected at whenever > '; cp /bin/bash /tmp/
 
 #### <mark style="color:$success;">8.1 Structure de l'Exploit</mark>
 
+{% code fullWidth="true" %}
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -406,5 +407,6 @@ int main() {
     return 0;
 }
 ```
+{% endcode %}
 
 ***

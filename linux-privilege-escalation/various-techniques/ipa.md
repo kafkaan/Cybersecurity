@@ -52,7 +52,7 @@ ipa hbacrule-find
 
 ***
 
-#### 🔑 Manipulation (si accès admin ou creds volés)
+#### <mark style="color:green;">🔑 Manipulation (si accès admin ou creds volés)</mark>
 
 * Ajouter un user à un groupe :
 
@@ -80,7 +80,7 @@ ipa user-mod hacker --sshpubkey="ssh-rsa AAAAB3Nza..."
 
 ***
 
-### <mark style="color:red;">🎯 Exemple d’escalade en CTF (ton cas)</mark>
+### <mark style="color:red;">🎯 Exemple d’escalade en CTF</mark>
 
 1️⃣ **Énumération avec pspy**
 
@@ -140,35 +140,6 @@ sudo su -
 
 ***
 
-### <mark style="color:red;">📚 Vecteurs d’attaque offensifs FreeIPA</mark>
-
-#### 1. **Password recovery / capture**
-
-* Commandes `ipa user-mod` vues via `pspy` ou `strace` → mot de passe en clair.
-* LDAP bind avec comptes en clair stockés dans `/etc/sssd/sssd.conf`.
-
-#### 2. **Abus de sudo rules**
-
-* Règles mal configurées (ex: `allow_sudo` donnant `ALL=(ALL) ALL`).
-* Ajout de soi-même à ces règles = **root domain-wide**.
-
-#### 3. **Abus de groupes**
-
-* Ajout à `admins` ou `sysadmins`.
-* Exploitation de `ipa group-add-member` si tu as déjà un compte semi-privilégié.
-
-#### 4. **Kerberos abuse**
-
-* Dump tickets Kerberos (`klist`, `kinit`).
-* Récupération de TGT/TGS → Pass-the-ticket.
-* Si tu as `krbtgt` ou clé de la CA IPA → full domain compromise.
-
-#### 5. **SSSD restart abuse**
-
-* Si `sudo -l` autorise `systemctl restart sssd` → tu peux injecter des modifs IPA et les appliquer immédiatement.
-
-***
-
 ### <mark style="color:red;">🔎 Différences clés avec Active Directory</mark>
 
 * IPA = open source, intégré au monde Linux.
@@ -185,22 +156,5 @@ sudo su -
 * Vérifier les règles sudo IPA → éviter les `ALL` trop larges.
 * Activer **2FA / OTP** pour comptes admins.
 * Surveiller les ajouts suspects à des groupes critiques (`admins`, `sysadmins`).
-
-***
-
-### <mark style="color:red;">📚 Références</mark>
-
-* [FreeIPA official docs](https://www.freeipa.org/)
-* CWE-732: Incorrect Permission Assignment
-* CWE-250: Execution with Unnecessary Privileges
-* MITRE ATT\&CK T1078: Valid Accounts
-
-***
-
-✅ En résumé :
-
-* FreeIPA = AD du monde Linux (LDAP + Kerberos + sudo central).
-* Outil `ipa` = couteau suisse pour énumérer, modifier, escalader.
-* Vecteurs classiques en CTF : mots de passe captés par pspy/strace, abus sudo rules, ajout dans sysadmins, redémarrage de `sssd`.
 
 ***

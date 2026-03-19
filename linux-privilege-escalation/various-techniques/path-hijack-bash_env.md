@@ -11,12 +11,12 @@
 
 ### <mark style="color:red;">Concepts clés</mark>
 
-#### Shell interactif vs non interactif
+#### <mark style="color:green;">Shell interactif vs non interactif</mark>
 
 * **Interactif** : Utilisateur tape les commandes en direct dans un terminal (bash charge `~/.bashrc`).
 * **Non interactif** : Bash exécute un script ou une commande sans interaction (bash ne charge pas par défaut `~/.bashrc`).
 
-#### Rôle de `BASH_ENV`
+#### <mark style="color:green;">Rôle de</mark> <mark style="color:green;"></mark><mark style="color:green;">`BASH_ENV`</mark>
 
 * En mode **non interactif**, bash cherche à charger le fichier pointé par la variable d’environnement `BASH_ENV`.
 * Cela permet d’exécuter un script avant la commande principale, même en mode non interactif.

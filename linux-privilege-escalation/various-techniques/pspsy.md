@@ -50,13 +50,13 @@ Watching directories: [/usr /tmp /etc /home /var /opt]
 
 ### <mark style="color:red;">🔎 Options utiles</mark>
 
-#### 1. Lister uniquement les commandes exécutées
+#### <mark style="color:green;">1. Lister uniquement les commandes exécutées</mark>
 
 ```bash
 ./pspy64 -c
 ```
 
-#### 2. Limiter la profondeur de scan
+#### <mark style="color:green;">2. Limiter la profondeur de scan</mark>
 
 ```bash
 ./pspy64 -p 2
@@ -64,7 +64,7 @@ Watching directories: [/usr /tmp /etc /home /var /opt]
 
 ➡️ Moins bruyant, utile sur machines chargées.
 
-#### 3. Observer avec timestamps détaillés
+#### <mark style="color:green;">3. Observer avec timestamps détaillés</mark>
 
 ```bash
 ./pspy64 -f
@@ -74,7 +74,7 @@ Watching directories: [/usr /tmp /etc /home /var /opt]
 
 ### <mark style="color:red;">🎯 Cas d’usage offensifs</mark>
 
-#### 1. Détection de cron jobs root
+#### <mark style="color:green;">1. Détection de cron jobs root</mark>
 
 Exemple affichage :
 
@@ -86,7 +86,7 @@ Exemple affichage :
 
 ***
 
-#### 2. Détection de services vulnérables
+#### <mark style="color:green;">2. Détection de services vulnérables</mark>
 
 ```
 CMD: UID=0    PID=1542  | /usr/bin/python3 /opt/update.py
@@ -96,7 +96,7 @@ CMD: UID=0    PID=1542  | /usr/bin/python3 /opt/update.py
 
 ***
 
-#### 3. Observation d’utilisateurs
+#### <mark style="color:green;">3. Observation d’utilisateurs</mark>
 
 ```
 CMD: UID=1001 PID=4321  | sshd: devuser@pts/1

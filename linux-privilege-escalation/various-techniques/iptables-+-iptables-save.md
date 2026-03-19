@@ -2,7 +2,7 @@
 
 Cette technique consiste à détourner deux commandes sudo accessibles (`iptables`, `iptables-save`) pour **injecter une clé SSH dans `/root/.ssh/authorized_keys`**, sans besoin d’accès root direct.
 
-* Cela permet de **créer une backdoor SSH persistante** pour l’utilisateur root sans mot de passe.
+Cela permet de **créer une backdoor SSH persistante** pour l’utilisateur root sans mot de passe.
 
 ***
 
