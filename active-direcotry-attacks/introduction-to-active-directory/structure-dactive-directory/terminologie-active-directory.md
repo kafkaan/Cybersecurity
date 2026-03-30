@@ -97,7 +97,7 @@ Cette valeur GUID est unique dans toute l'entreprise, similaire à une adresse M
 
 Chaque objet créé par Active Directory se voit attribuer un GUID, pas seulement les objets utilisateur et groupe.
 
-Le GUID est stocké dans l'attribut ObjectGUID.&#x20;
+Le GUID est stocké dans l'attribut **ObjectGUID**.&#x20;
 
 Lors de l'interrogation d'un objet AD (tel qu'un utilisateur, un groupe, un ordinateur, un domaine, un contrôleur de domaine, etc.), nous pouvons interroger sa valeur objectGUID à l'aide de PowerShell ou le rechercher en spécifiant son nom distinctif, son GUID, son SID ou son nom de compte SAM.&#x20;
 
@@ -113,7 +113,9 @@ La spécification de la valeur ObjectGUID lors de l'énumération AD garantira q
 
 Les principaux de sécurité sont tout ce que le système d'exploitation peut authentifier, y compris les utilisateurs, les comptes d'ordinateur, ou même les threads/processus qui s'exécutent dans le contexte d'un compte d'utilisateur ou d'ordinateur (c'est-à-dire une application telle que Tomcat s'exécutant dans le contexte d'un compte de service au sein du domaine).&#x20;
 
-Dans AD, les principaux de sécurité sont des objets de domaine qui peuvent gérer l'accès à d'autres ressources dans le domaine. Nous pouvons également avoir des comptes d'utilisateurs locaux et des groupes de sécurité utilisés pour contrôler l'accès aux ressources uniquement sur cet ordinateur spécifique. Ceux-ci ne sont pas gérés par AD mais plutôt par le Gestionnaire de comptes de sécurité (SAM).
+Dans AD, les principaux de sécurité sont des objets de domaine qui peuvent gérer l'accès à d'autres ressources dans le domaine.&#x20;
+
+Nous pouvons également avoir des comptes d'utilisateurs locaux et des groupes de sécurité utilisés pour contrôler l'accès aux ressources uniquement sur cet ordinateur spécifique. Ceux-ci ne sont pas gérés par AD mais plutôt par le Gestionnaire de comptes de sécurité (SAM).
 
 ***
 
@@ -171,7 +173,9 @@ L'attribut userPrincipalName est une autre façon d'identifier les utilisateurs 
 
 ### <mark style="color:blue;">Rôles FSMO</mark>
 
-Aux débuts d'AD, si vous aviez plusieurs DC dans un environnement, ils se disputaient pour savoir quel DC pouvait effectuer des modifications, et parfois les modifications n'étaient pas effectuées correctement. Microsoft a alors implémenté "le dernier qui écrit gagne", ce qui pouvait introduire ses propres problèmes si la dernière modification cassait des choses.&#x20;
+Aux débuts d'AD, si vous aviez plusieurs DC dans un environnement, ils se disputaient pour savoir quel DC pouvait effectuer des modifications, et parfois les modifications n'étaient pas effectuées correctement.&#x20;
+
+Microsoft a alors implémenté "le dernier qui écrit gagne", ce qui pouvait introduire ses propres problèmes si la dernière modification cassait des choses.&#x20;
 
 Ils ont ensuite introduit un modèle dans lequel un seul DC "maître" pouvait appliquer des modifications au domaine tandis que les autres se contentaient de répondre aux demandes d'authentification.&#x20;
 

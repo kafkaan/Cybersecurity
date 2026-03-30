@@ -308,26 +308,26 @@ Comprendre > outils
 
 ### <mark style="color:blue;">🔴 2018 – Attaques avancées & trusts</mark>
 
-#### 🔹 Printer Bug / SpoolSample
+🔹 Printer Bug / SpoolSample
 
 * Forcer une authentification machine
 * Coercion NTLM
 
-#### 🔹 Rubeus
+🔹 Rubeus
 
 * Toolkit Kerberos
 * Tickets, delegation, roasting
 
-#### 🔹 DCShadow
+🔹 DCShadow
 
 * Faux DC
 * Injection de changements AD
 
-#### 🔹 Attaques cross-forest trusts
+🔹 Attaques cross-forest trusts
 
 * “Not a Security Boundary”
 
-#### 🔹 PingCastle
+🔹 PingCastle
 
 * Audit défensif AD
 * Détection de misconfigs
@@ -336,12 +336,12 @@ Comprendre > outils
 
 ### <mark style="color:blue;">🔴 2019 – Délégation moderne</mark>
 
-#### 🔹 RBCD (Resource-Based Constrained Delegation)
+🔹 RBCD (Resource-Based Constrained Delegation)
 
 * Abus de msDS-AllowedToAct
 * Très fréquent en lab & réel
 
-#### 🔹 Kerberoasting revisité
+🔹 Kerberoasting revisité
 
 * Nouvelles techniques d’opsec
 
@@ -349,7 +349,7 @@ Comprendre > outils
 
 ### <mark style="color:blue;">🔴 2020 – Catastrophe totale</mark>
 
-#### 🔹 Zerologon
+🔹 Zerologon
 
 * Compromission DC
 * Pas de credentials
@@ -359,17 +359,17 @@ Comprendre > outils
 
 ### <mark style="color:blue;">🔴 2021 – L’enfer</mark>
 
-#### 🔹 PrintNightmare
+🔹 PrintNightmare
 
 * RCE via Print Spooler
 * Compromission massive
 
-#### 🔹 Shadow Credentials
+🔹 Shadow Credentials
 
 * Ajout de clés sur comptes AD
 * Login sans mot de passe
 
-#### 🔹 noPac
+🔹 noPac
 
 * Chaînage de failles
 * Domain Admin depuis simple user
@@ -414,7 +414,7 @@ Tu dois connaître :
 
 ***
 
-### 🧾 Résumé ultra court
+### <mark style="color:blue;">🧾 Résumé ultra court</mark>
 
 ```
 AD est attaqué depuis 10+ ans
@@ -425,7 +425,7 @@ Les outils reflètent la recherche
 
 ***
 
-### 🧠 Phrase à retenir (exam / interview)
+### <mark style="color:blue;">🧠 Phrase à retenir (exam / interview)</mark>
 
 > “Active Directory n’est pas cassé par un bug unique,\
 > mais par l’accumulation de choix historiques et de mauvaises configurations.”
