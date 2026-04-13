@@ -49,7 +49,7 @@ Nous pouvons considérer chaque domaine comme une ville différente au sein d'un
 
 ### <mark style="color:blue;">Forêt</mark>
 
-Une forêt est une collection de domaines Active Directory.&#x20;
+> Une forêt est une collection de domaines Active Directory.&#x20;
 
 C'est le conteneur le plus haut et contient tous les objets AD présentés ci-dessous, y compris mais sans s'y limiter les domaines, les utilisateurs, les groupes, les ordinateurs et les objets de stratégie de groupe.&#x20;
 
@@ -63,7 +63,7 @@ Chaque forêt fonctionne indépendamment mais peut avoir diverses relations d'ap
 
 ### <mark style="color:blue;">Arborescence</mark>
 
-Une arborescence est une collection de domaines Active Directory qui commence à un seul domaine racine.&#x20;
+> Une arborescence est une collection de domaines Active Directory qui commence à un seul domaine racine.&#x20;
 
 Une forêt est une collection d'arborescences AD.&#x20;
 
@@ -91,7 +91,7 @@ Les objets feuilles ne contiennent pas d'autres objets et se trouvent à la fin 
 
 ### <mark style="color:blue;">Identificateur Unique Global (GUID)</mark>
 
-Un GUID est une valeur unique de 128 bits attribuée lors de la création d'un utilisateur ou d'un groupe de domaine.&#x20;
+> Un GUID est une valeur unique de 128 bits attribuée lors de la création d'un utilisateur ou d'un groupe de domaine.&#x20;
 
 Cette valeur GUID est unique dans toute l'entreprise, similaire à une adresse MAC.&#x20;
 
@@ -111,7 +111,7 @@ La spécification de la valeur ObjectGUID lors de l'énumération AD garantira q
 
 ### <mark style="color:blue;">Principaux de sécurité</mark>
 
-Les principaux de sécurité sont tout ce que le système d'exploitation peut authentifier, y compris les utilisateurs, les comptes d'ordinateur, ou même les threads/processus qui s'exécutent dans le contexte d'un compte d'utilisateur ou d'ordinateur (c'est-à-dire une application telle que Tomcat s'exécutant dans le contexte d'un compte de service au sein du domaine).&#x20;
+> Les principaux de sécurité sont tout ce que le système d'exploitation peut authentifier, y compris les utilisateurs, les comptes d'ordinateur, ou même les threads/processus qui s'exécutent dans le contexte d'un compte d'utilisateur ou d'ordinateur (c'est-à-dire une application telle que Tomcat s'exécutant dans le contexte d'un compte de service au sein du domaine).&#x20;
 
 Dans AD, les principaux de sécurité sont des objets de domaine qui peuvent gérer l'accès à d'autres ressources dans le domaine.&#x20;
 
@@ -121,7 +121,7 @@ Nous pouvons également avoir des comptes d'utilisateurs locaux et des groupes d
 
 ### <mark style="color:blue;">Identificateur de Sécurité (SID)</mark>
 
-Un identificateur de sécurité, ou SID, est utilisé comme identifiant unique pour un principal de sécurité ou un groupe de sécurité.&#x20;
+> Un identificateur de sécurité, ou SID, est utilisé comme identifiant unique pour un principal de sécurité ou un groupe de sécurité.&#x20;
 
 Chaque compte, groupe ou processus possède son propre SID unique, qui, dans un environnement AD, est émis par le contrôleur de domaine et stocké dans une base de données sécurisée.&#x20;
 
@@ -139,7 +139,7 @@ Il existe également des SID bien connus qui sont utilisés pour identifier des 
 
 ### <mark style="color:blue;">Nom Distinctif (DN)</mark>
 
-Un Nom Distinctif (DN) décrit le chemin complet vers un objet dans AD (tel que cn=bjones, ou=IT, ou=Employees, dc=inlanefreight, dc=local).&#x20;
+> Un Nom Distinctif (DN) décrit le chemin complet vers un objet dans AD (tel que cn=bjones, ou=IT, ou=Employees, dc=inlanefreight, dc=local).&#x20;
 
 Dans cet exemple, l'utilisateur bjones travaille dans le département informatique de l'entreprise Inlanefreight, et son compte est créé dans une Unité Organisationnelle (OU) qui contient les comptes des employés de l'entreprise.&#x20;
 
@@ -149,7 +149,7 @@ Le Nom Commun (CN) bjones n'est qu'une façon dont l'objet utilisateur peut êtr
 
 ### <mark style="color:blue;">Nom Distinctif Relatif (RDN)</mark>
 
-Un Nom Distinctif Relatif (RDN) est un composant unique du Nom Distinctif qui identifie l'objet comme unique par rapport aux autres objets au niveau actuel dans la hiérarchie de nommage.&#x20;
+> Un Nom Distinctif Relatif (RDN) est un composant unique du Nom Distinctif qui identifie l'objet comme unique par rapport aux autres objets au niveau actuel dans la hiérarchie de nommage.&#x20;
 
 Dans notre exemple, bjones est le Nom Distinctif Relatif de l'objet. AD ne permet pas à deux objets d'avoir le même nom sous le même conteneur parent, mais il peut y avoir deux objets avec les mêmes RDN qui sont toujours uniques dans le domaine car ils ont des DN différents.&#x20;
 
@@ -161,7 +161,7 @@ Par exemple, l'objet cn=bjones,dc=dev,dc=inlanefreight,dc=local serait reconnu c
 
 ### <mark style="color:blue;">sAMAccountName</mark>
 
-Le sAMAccountName est le nom de connexion de l'utilisateur. Ici, ce serait simplement bjones. Il doit s'agir d'une valeur unique et de 20 caractères ou moins.
+> Le sAMAccountName est le nom de connexion de l'utilisateur. Ici, ce serait simplement bjones. Il doit s'agir d'une valeur unique et de 20 caractères ou moins.
 
 ***
 
@@ -172,6 +172,8 @@ L'attribut userPrincipalName est une autre façon d'identifier les utilisateurs 
 ***
 
 ### <mark style="color:blue;">Rôles FSMO</mark>
+
+<figure><img src="../../../.gitbook/assets/image (158).png" alt=""><figcaption></figcaption></figure>
 
 Aux débuts d'AD, si vous aviez plusieurs DC dans un environnement, ils se disputaient pour savoir quel DC pouvait effectuer des modifications, et parfois les modifications n'étaient pas effectuées correctement.&#x20;
 
@@ -185,30 +187,38 @@ Pour résoudre ce modèle de point de défaillance unique, Microsoft a séparé 
 
 Ceux-ci donnent aux Contrôleurs de Domaine (DC) la capacité de continuer à authentifier les utilisateurs et à accorder des autorisations sans interruption (autorisation et authentification).
 
+{% hint style="info" %}
 Il existe cinq rôles FSMO : Maître de schéma et Maître de nommage de domaine (un de chaque par forêt), Maître d'ID Relatif (RID) (un par domaine), Émulateur de Contrôleur de Domaine Principal (PDC) (un par domaine) et Maître d'infrastructure (un par domaine).&#x20;
+{% endhint %}
 
 Les cinq rôles sont attribués au premier DC dans le domaine racine de la forêt dans une nouvelle forêt AD. Chaque fois qu'un nouveau domaine est ajouté à une forêt, seuls les rôles de Maître RID, Émulateur PDC et Maître d'infrastructure sont attribués au nouveau domaine.&#x20;
 
 Les rôles FSMO sont généralement définis lors de la création des contrôleurs de domaine, mais les administrateurs système peuvent transférer ces rôles si nécessaire. Ces rôles aident la réplication dans AD à fonctionner correctement et garantissent que les services critiques fonctionnent correctement. Nous examinerons chacun de ces rôles en détail plus tard dans cette section.
 
+<figure><img src="../../../.gitbook/assets/image (159).png" alt=""><figcaption></figcaption></figure>
+
 ***
 
 ### <mark style="color:blue;">Catalogue Global</mark>
 
-Un catalogue global (GC) est un contrôleur de domaine qui stocke des copies de TOUS les objets dans une forêt Active Directory.&#x20;
+> Un catalogue global (GC) est un contrôleur de domaine qui stocke des copies de TOUS les objets dans une forêt Active Directory.&#x20;
 
 Le GC stocke une copie complète de tous les objets dans le domaine actuel et une copie partielle des objets appartenant à d'autres domaines de la forêt.&#x20;
+
+<figure><img src="../../../.gitbook/assets/image (160).png" alt=""><figcaption></figcaption></figure>
 
 Les contrôleurs de domaine standard détiennent une réplique complète des objets appartenant à son domaine mais pas ceux de différents domaines dans la forêt. Le GC permet aux utilisateurs et aux applications de trouver des informations sur tous les objets dans N'IMPORTE QUEL domaine de la forêt. Le GC est une fonctionnalité qui est activée sur un contrôleur de domaine et effectue les fonctions suivantes :
 
 * **Authentification** (fournit l'autorisation pour tous les groupes auxquels un compte utilisateur appartient, qui est inclus lors de la génération d'un jeton d'accès)
 * **Recherche d'objets** (rend la structure du répertoire au sein d'une forêt transparente, permettant d'effectuer une recherche dans tous les domaines d'une forêt en fournissant un seul attribut sur un objet.)
 
+<figure><img src="../../../.gitbook/assets/image (161).png" alt=""><figcaption></figcaption></figure>
+
 ***
 
 ### <mark style="color:blue;">Contrôleur de Domaine en Lecture Seule (RODC)</mark>
 
-Un Contrôleur de Domaine en Lecture Seule (RODC) possède une base de données Active Directory en lecture seule.&#x20;
+> Un Contrôleur de Domaine en Lecture Seule (RODC) possède une base de données Active Directory en lecture seule.&#x20;
 
 Aucun mot de passe de compte AD n'est mis en cache sur un RODC (autre que le compte ordinateur RODC et les mots de passe KRBTGT RODC). Aucune modification n'est diffusée via la base de données AD, SYSVOL ou DNS d'un RODC. Les RODC incluent également un serveur DNS en lecture seule, permettent la séparation des rôles d'administrateur, réduisent le trafic de réplication dans l'environnement et empêchent les modifications SYSVOL d'être répliquées vers d'autres DC.
 
@@ -216,21 +226,29 @@ Aucun mot de passe de compte AD n'est mis en cache sur un RODC (autre que le com
 
 ### <mark style="color:blue;">Réplication</mark>
 
-La réplication se produit dans AD lorsque les objets AD sont mis à jour et transférés d'un Contrôleur de Domaine à un autre. Chaque fois qu'un DC est ajouté, des objets de connexion sont créés pour gérer la réplication entre eux. Ces connexions sont établies par le service Knowledge Consistency Checker (KCC), qui est présent sur tous les DC. La réplication garantit que les modifications sont synchronisées avec tous les autres DC d'une forêt, aidant à créer une sauvegarde au cas où un contrôleur de domaine tombe en panne.
+La réplication se produit dans AD lorsque les objets AD sont mis à jour et transférés d'un Contrôleur de Domaine à un autre.&#x20;
+
+Chaque fois qu'un DC est ajouté, des objets de connexion sont créés pour gérer la réplication entre eux.&#x20;
+
+Ces connexions sont établies par le service Knowledge Consistency Checker (KCC), qui est présent sur tous les DC. La réplication garantit que les modifications sont synchronisées avec tous les autres DC d'une forêt, aidant à créer une sauvegarde au cas où un contrôleur de domaine tombe en panne.
+
+<figure><img src="../../../.gitbook/assets/image (162).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
 ### <mark style="color:blue;">Nom Principal de Service (SPN)</mark>
 
-Un Nom Principal de Service (SPN) identifie de manière unique une instance de service. Ils sont utilisés par l'authentification Kerberos pour associer une instance d'un service à un compte de connexion, permettant à une application cliente de demander au service d'authentifier un compte sans avoir besoin de connaître le nom du compte.
+> Un Nom Principal de Service (SPN) identifie de manière unique une instance de service. Ils sont utilisés par l'authentification Kerberos pour associer une instance d'un service à un compte de connexion, permettant à une application cliente de demander au service d'authentifier un compte sans avoir besoin de connaître le nom du compte.
 
 ***
 
 ### <mark style="color:blue;">Objet de Stratégie de Groupe (GPO)</mark>
 
-Les Objets de Stratégie de Groupe (GPO) sont des collections virtuelles de paramètres de stratégie. Chaque GPO possède un GUID unique.&#x20;
+> Les Objets de Stratégie de Groupe (GPO) sont des collections virtuelles de paramètres de stratégie. Chaque GPO possède un GUID unique.&#x20;
 
 Un GPO peut contenir des paramètres de système de fichiers local ou des paramètres Active Directory. Les paramètres GPO peuvent être appliqués aux objets utilisateur et ordinateur. Ils peuvent être appliqués à tous les utilisateurs et ordinateurs du domaine ou définis de manière plus granulaire au niveau de l'OU.
+
+<figure><img src="../../../.gitbook/assets/image (163).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
@@ -252,6 +270,8 @@ Les DACL définissent quels principaux de sécurité se voient accorder ou refus
 
 Si un objet n'a PAS de DACL, alors le système accordera un accès complet à tout le monde, mais si la DACL n'a pas d'entrées ACE, le système refusera toutes les tentatives d'accès. Les ACE dans la DACL sont vérifiés dans l'ordre jusqu'à ce qu'une correspondance soit trouvée qui autorise les droits demandés ou jusqu'à ce que l'accès soit refusé.
 
+<figure><img src="../../../.gitbook/assets/image (164).png" alt=""><figcaption></figcaption></figure>
+
 ***
 
 ### <mark style="color:blue;">Listes de Contrôle d'Accès Système (SACL)</mark>
@@ -271,6 +291,8 @@ Il est écrit avec le nom d'hôte et le nom de domaine au format \[nom d'hôte].
 ### <mark style="color:blue;">Tombstone</mark>
 
 Un tombstone est un objet conteneur dans AD qui contient les objets AD supprimés.&#x20;
+
+<figure><img src="../../../.gitbook/assets/image (165).png" alt=""><figcaption></figcaption></figure>
 
 Lorsqu'un objet est supprimé d'AD, l'objet reste pendant une période définie connue sous le nom de Durée de vie Tombstone, et l'attribut isDeleted est défini sur TRUE.&#x20;
 
@@ -292,7 +314,9 @@ Si cela n'est pas spécifié, l'objet sera restaurable pour une valeur par défa
 
 ### <mark style="color:blue;">SYSVOL</mark>
 
-Le dossier SYSVOL, ou partage, stocke des copies de fichiers publics dans le domaine tels que les stratégies système, les paramètres de Stratégie de Groupe, les scripts de connexion/déconnexion, et contient souvent d'autres types de scripts qui sont exécutés pour effectuer diverses tâches dans l'environnement AD. Le contenu du dossier SYSVOL est répliqué sur tous les DC de l'environnement à l'aide des Services de Réplication de Fichiers (FRS).
+> Le dossier SYSVOL, ou partage, stocke des copies de fichiers publics dans le domaine tels que les stratégies système, les paramètres de Stratégie de Groupe, les scripts de connexion/déconnexion, et contient souvent d'autres types de scripts qui sont exécutés pour effectuer diverses tâches dans l'environnement AD.&#x20;
+
+Le contenu du dossier SYSVOL est répliqué sur tous les DC de l'environnement à l'aide des Services de Réplication de Fichiers (FRS).
 
 ***
 
@@ -325,6 +349,8 @@ L'attribut adminCount détermine si le processus SDProp protège ou non un utili
 ### <mark style="color:blue;">Utilisateurs et Ordinateurs Active Directory (ADUC)</mark>
 
 ADUC est une console GUI couramment utilisée pour gérer les utilisateurs, les groupes, les ordinateurs et les contacts dans AD. Les modifications effectuées dans ADUC peuvent également être effectuées via PowerShell.
+
+<figure><img src="../../../.gitbook/assets/image (166).png" alt=""><figcaption></figcaption></figure>
 
 ***
 

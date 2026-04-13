@@ -22,17 +22,21 @@ Nous pouvons aider à équilibrer la balance en utilisant les fonctionnalités i
 
 #### <mark style="color:green;">LAPS (Microsoft Local Administrator Password Solution)</mark>
 
-La solution Microsoft Local Administrator Password Solution (LAPS) est utilisée pour randomiser et faire tourner les mots de passe des administrateurs locaux sur les hôtes Windows et prévenir les mouvements latéraux.
+> La solution Microsoft Local Administrator Password Solution (LAPS) est utilisée pour randomiser et faire tourner les mots de passe des administrateurs locaux sur les hôtes Windows et prévenir les mouvements latéraux.
 
 Les comptes peuvent être configurés pour que leur mot de passe soit changé à intervalle fixe (par exemple, 12 heures, 24 heures, etc.). Cet outil gratuit peut être bénéfique pour réduire l'impact d'un hôte individuel compromis dans un environnement AD.
 
 Les organisations ne devraient pas se fier uniquement à des outils comme celui-ci. Néanmoins, lorsqu'il est combiné avec d'autres mesures de renforcement et meilleures pratiques de sécurité, il peut être un outil très efficace pour la gestion des mots de passe des comptes administrateurs locaux.
+
+***
 
 #### <mark style="color:green;">Paramètres de Politique d'Audit (Journalisation et Surveillance)</mark>
 
 Chaque organisation doit avoir une journalisation et une surveillance configurées pour détecter et réagir aux changements ou activités inattendus qui peuvent indiquer une attaque.
 
 Une journalisation et une surveillance efficaces peuvent être utilisées pour détecter un attaquant ou un employé non autorisé ajoutant un utilisateur ou un ordinateur, modifiant un objet dans AD, changeant un mot de passe de compte, accédant à un système de manière non autorisée ou non standard, effectuant une attaque telle que le password spraying, ou des attaques plus avancées telles que les attaques Kerberos modernes.
+
+***
 
 #### <mark style="color:green;">Paramètres de Sécurité de la Stratégie de Groupe</mark>
 
@@ -133,6 +137,8 @@ Les organisations devraient également effectuer périodiquement des audits de c
 
 Il est important d'auditer les droits d'administrateur local, le nombre de Domain Admins (avons-nous vraiment besoin de 30 d'entre eux ?), et les Enterprise Admins pour limiter la surface d'attaque, l'accès aux partages de fichiers, les droits utilisateur (c'est-à-dire l'appartenance à certains groupes de sécurité privilégiés), et plus encore.
 
+***
+
 #### <mark style="color:green;">Politiques d'Audit et Journalisation</mark>
 
 La visibilité dans le domaine est indispensable. Une organisation peut y parvenir par une journalisation robuste, puis en utilisant des règles pour détecter une activité anormale (telle que de nombreuses tentatives de connexion échouées qui pourraient indiquer une attaque de password spraying) ou des indicateurs qu'une attaque Kerberoasting est tentée.
@@ -154,6 +160,8 @@ Il est important de ne pas installer de rôles supplémentaires sur des hôtes s
 Cela augmenterait la surface d'attaque du contrôleur de domaine, et ce type de rôle devrait être installé sur un serveur web autonome séparé. Quelques autres exemples seraient de ne pas héberger d'applications web sur un serveur de messagerie Exchange et de séparer les serveurs web et les serveurs de base de données sur différents hôtes.
 
 Ce type de séparation de rôles peut aider à réduire l'impact d'une attaque réussie.
+
+***
 
 #### <mark style="color:green;">Limitation des Droits d'Administrateur Local et RDP</mark>
 

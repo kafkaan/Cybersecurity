@@ -15,11 +15,13 @@
 * les serveurs et les postes de travail
 * ainsi que les relations de confiance.
 
+{% hint style="info" %}
 AD fournit des fonctions d’authentification et d’autorisation dans un environnement de domaine Windows.
 
 Un service d’annuaire, tel qu’Active Directory Domain Services (AD DS), offre à une organisation des moyens de stocker les données de l’annuaire et de les rendre disponibles à la fois aux utilisateurs standards et aux administrateurs sur le même réseau.
 
-AD DS stocke des informations telles que les noms d’utilisateur et les mots de passe et gère les droits nécessaires pour permettre aux utilisateurs autorisés d’accéder à ces informations.
+AD DS stocke des informations telles que les noms d’utilisateur et les mots de passe et gère les droits nécessaires pour permettre aux utilisateurs autorisés d’accéder à ces informations
+{% endhint %}
 
 ***
 

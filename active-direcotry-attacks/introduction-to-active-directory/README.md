@@ -41,10 +41,10 @@
 
 ### <mark style="color:blue;">🔐 Rôle principal d’AD</mark>
 
-* **Authentification**
+* <mark style="color:orange;">**Authentification**</mark>
   * Kerberos
   * NTLM (legacy)
-* **Autorisation**
+* <mark style="color:orange;">**Autorisation**</mark>
   * Groupes
   * ACL
   * GPO
@@ -88,7 +88,7 @@
 * **Kerberoasting**
 * **ADCS abuses (ESC1 → ESC15)**
 
-🎯 Objectif attaquant :
+<mark style="color:orange;">**🎯 Objectif attaquant :**</mark>
 
 * Mouvement latéral
 * Escalade de privilèges
@@ -323,11 +323,11 @@ Comprendre > outils
 * Faux DC
 * Injection de changements AD
 
-🔹 Attaques cross-forest trusts
+#### <mark style="color:green;">🔹 Attaques cross-forest trusts</mark>
 
 * “Not a Security Boundary”
 
-🔹 PingCastle
+#### <mark style="color:green;">🔹 PingCastle</mark>
 
 * Audit défensif AD
 * Détection de misconfigs

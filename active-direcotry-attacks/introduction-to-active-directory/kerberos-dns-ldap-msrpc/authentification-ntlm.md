@@ -162,7 +162,7 @@ NTLMv2 est nettement plus difficile à craquer grâce à son algorithme robuste 
 
 Dans un environnement AD, les méthodes d'authentification mentionnées nécessitent que l'hôte communique avec le contrôleur de domaine. Microsoft a développé l'algorithme MS Cache v1 et v2 (également connu sous le nom de Domain Cached Credentials - DCC) pour résoudre le problème potentiel d'un hôte joint au domaine incapable de communiquer avec un contrôleur de domaine.
 
-#### Fonctionnement
+#### <mark style="color:$success;">Fonctionnement</mark>
 
 * Les hôtes sauvegardent les **dix derniers hachages** pour tout utilisateur de domaine qui se connecte avec succès à la machine
 * Stockés dans la clé de registre `HKEY_LOCAL_MACHINE\SECURITY\Cache`

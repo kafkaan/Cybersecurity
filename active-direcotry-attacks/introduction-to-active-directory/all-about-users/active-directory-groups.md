@@ -12,9 +12,11 @@ Il est essentiel de comprendre l'impact de l'utilisation de différents types de
 
 ### <mark style="color:blue;">Différence entre Groupes et Unités Organisationnelles (OU)</mark>
 
-Une question qui revient souvent est la différence entre les groupes et les unités organisationnelles (OU). Comme discuté précédemment dans le module, les OU sont utiles pour regrouper les utilisateurs, les groupes et les ordinateurs afin de faciliter la gestion et le déploiement des paramètres de stratégie de groupe vers des objets spécifiques dans le domaine.
+> Une question qui revient souvent est la différence entre les groupes et les unités organisationnelles (OU). Comme discuté précédemment dans le module, les OU sont utiles pour regrouper les utilisateurs, les groupes et les ordinateurs afin de faciliter la gestion et le déploiement des paramètres de stratégie de groupe vers des objets spécifiques dans le domaine.
 
+{% hint style="info" %}
 Les groupes sont principalement utilisés pour assigner des permissions d'accès aux ressources. Les OU peuvent également être utilisées pour déléguer des tâches administratives à un utilisateur, comme la réinitialisation de mots de passe ou le déverrouillage de comptes utilisateurs sans leur donner de droits d'administration supplémentaires qu'ils pourraient hériter par l'appartenance à un groupe.
+{% endhint %}
 
 ### <mark style="color:blue;">Types de Groupes</mark>
 

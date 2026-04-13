@@ -6,8 +6,8 @@
 
 ### <mark style="color:blue;">Utilisateurs</mark>
 
-Ce sont les utilisateurs au sein de l’environnement AD de l’organisation.\
-Les utilisateurs sont considérés comme des **objets feuille**, ce qui signifie qu’ils ne peuvent pas contenir d’autres objets.
+> Ce sont les utilisateurs au sein de l’environnement AD de l’organisation.\
+> Les utilisateurs sont considérés comme des **objets feuille**, ce qui signifie qu’ils ne peuvent pas contenir d’autres objets.
 
 Un autre exemple d’objet feuille est une boîte aux lettres dans Microsoft Exchange.
 
@@ -19,7 +19,7 @@ Les objets utilisateur possèdent de nombreux attributs possibles, tels que le n
 
 ### <mark style="color:blue;">Contacts</mark>
 
-Un objet contact est généralement utilisé pour représenter un utilisateur externe et contient des attributs informationnels tels que le prénom, le nom, l’adresse e-mail, le numéro de téléphone, etc.
+> Un objet contact est généralement utilisé pour représenter un utilisateur externe et contient des attributs informationnels tels que le prénom, le nom, l’adresse e-mail, le numéro de téléphone, etc.
 
 Ce sont des objets feuille et **ne sont PAS des principaux de sécurité** (objets sécurisables), ils ne possèdent donc pas de SID, seulement un GUID.\
 Un exemple serait une fiche de contact pour un fournisseur tiers ou un client.
@@ -37,8 +37,8 @@ Les imprimantes ont des attributs tels que le nom de l’imprimante, les informa
 
 ### <mark style="color:blue;">Ordinateurs</mark>
 
-Un objet ordinateur est tout ordinateur joint au réseau AD (poste de travail ou serveur).\
-Les ordinateurs sont des objets feuille car ils ne contiennent pas d’autres objets. Cependant, ils sont considérés comme des **principaux de sécurité** et possèdent un SID et un GUID.
+> Un objet ordinateur est tout ordinateur joint au réseau AD (poste de travail ou serveur).\
+> Les ordinateurs sont des objets feuille car ils ne contiennent pas d’autres objets. Cependant, ils sont considérés comme des **principaux de sécurité** et possèdent un SID et un GUID.
 
 Comme les utilisateurs, ils sont des **cibles privilégiées pour les attaquants**, car un accès administratif complet à un ordinateur (en tant que compte tout-puissant **NT AUTHORITY\SYSTEM**) accorde des droits similaires à ceux d’un utilisateur de domaine standard et peut être utilisé pour effectuer la majorité des tâches d’énumération qu’un compte utilisateur peut réaliser (à l’exception de quelques cas à travers les relations d’approbation entre domaines).
 
@@ -62,7 +62,7 @@ Les attributs d’un dossier partagé peuvent inclure le nom, l’emplacement su
 
 ### <mark style="color:blue;">Groupes</mark>
 
-Un groupe est considéré comme un **objet conteneur** car il peut contenir d’autres objets, y compris des utilisateurs, des ordinateurs et même d’autres groupes.
+> Un groupe est considéré comme un **objet conteneur** car il peut contenir d’autres objets, y compris des utilisateurs, des ordinateurs et même d’autres groupes.
 
 Un groupe est considéré comme un **principal de sécurité** et possède un SID et un GUID.
 
@@ -81,7 +81,7 @@ Les groupes dans AD peuvent avoir de nombreux attributs, les plus courants étan
 
 ### <mark style="color:blue;">Unités d’organisation (OU)</mark>
 
-Une unité d’organisation, ou **OU**, est un conteneur que les administrateurs systèmes peuvent utiliser pour stocker des objets similaires afin de faciliter l’administration.
+> Une unité d’organisation, ou **OU**, est un conteneur que les administrateurs systèmes peuvent utiliser pour stocker des objets similaires afin de faciliter l’administration.
 
 Les OU sont souvent utilisées pour la **délégation administrative de tâches** sans accorder à un compte utilisateur des droits administratifUnités d’organisation (OU)s complets.
 
@@ -103,8 +103,8 @@ Quelques attributs d’une OU incluent son nom, ses membres, ses paramètres de 
 
 ### <mark style="color:blue;">Domaine</mark>
 
-Un domaine est la structure d’un réseau AD.\
-Les domaines contiennent des objets tels que des utilisateurs et des ordinateurs, qui sont organisés dans des objets conteneurs : groupes et OU.
+> Un domaine est la structure d’un réseau AD.\
+> Les domaines contiennent des objets tels que des utilisateurs et des ordinateurs, qui sont organisés dans des objets conteneurs : groupes et OU.
 
 Chaque domaine possède sa propre base de données et son propre ensemble de stratégies pouvant être appliquées à tout ou partie des objets du domaine.
 

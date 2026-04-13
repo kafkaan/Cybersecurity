@@ -2,15 +2,12 @@
 
 ## <mark style="color:red;">Examen de la Stratégie de Groupe</mark>
 
-La stratégie de groupe est une fonctionnalité Windows qui fournit aux administrateurs un large éventail de paramètres avancés qui peuvent s'appliquer à la fois aux comptes utilisateurs et ordinateurs dans un environnement Windows. Chaque hôte Windows dispose d'un éditeur de stratégie de groupe local pour gérer les paramètres locaux.
+> La stratégie de groupe est une fonctionnalité Windows qui fournit aux administrateurs un large éventail de paramètres avancés qui peuvent s'appliquer à la fois aux comptes utilisateurs et ordinateurs dans un environnement Windows. Chaque hôte Windows dispose d'un éditeur de stratégie de groupe local pour gérer les paramètres locaux.
 
-Pour nos besoins, nous nous concentrerons sur la stratégie de groupe dans un contexte de domaine pour gérer les utilisateurs et les ordinateurs dans Active Directory. La stratégie de groupe est un outil puissant pour gérer et configurer les paramètres utilisateur, les systèmes d'exploitation et les applications. La stratégie de groupe est également un outil puissant pour gérer la sécurité dans un environnement de domaine.
-
-Du point de vue de la sécurité, exploiter la stratégie de groupe est l'un des meilleurs moyens d'affecter largement la posture de sécurité de votre entreprise. Active Directory n'est en aucun cas sécurisé "prêt à l'emploi", et la stratégie de groupe, lorsqu'elle est utilisée correctement, est une partie cruciale d'une stratégie de défense en profondeur.
-
-Bien que la stratégie de groupe soit un excellent outil pour gérer la sécurité d'un domaine, elle peut également être exploitée par des attaquants. Obtenir des droits sur un objet de stratégie de groupe pourrait conduire à un mouvement latéral, une escalade de privilèges, et même une compromission complète du domaine si l'attaquant peut les exploiter de manière à prendre le contrôle d'un utilisateur ou d'un ordinateur de grande valeur. Ils peuvent également être utilisés comme moyen pour un attaquant de maintenir la persistance au sein d'un réseau.
-
-Comprendre comment fonctionne la stratégie de groupe nous donnera un avantage contre les attaquants et peut nous aider grandement lors des tests d'intrusion, trouvant parfois des mauvaises configurations nuancées que d'autres testeurs d'intrusion pourraient manquer.
+👉 La stratégie de groupe (GPO) est un outil d’Active Directory qui permet de configurer et gérer les utilisateurs, les ordinateurs et la sécurité dans un domaine.\
+👉 Elle est très importante pour sécuriser une entreprise, car elle permet d’appliquer des règles à grande échelle (mots de passe, accès, paramètres système).\
+👉 Mais attention : si un attaquant prend le contrôle d’une GPO, il peut se déplacer dans le réseau, augmenter ses privilèges et même compromettre tout le domaine.\
+👉 Comprendre les GPO est donc essentiel pour sécuriser un réseau et détecter les failles.
 
 ***
 
@@ -63,7 +60,7 @@ Les paramètres GPO sont traités en utilisant la structure hiérarchique d'AD e
 
 ### <mark style="color:blue;">Ordre de Préséance</mark>
 
-#### Tableau de l'Ordre de Préséance
+#### <mark style="color:green;">Tableau de l'Ordre de Préséance</mark>
 
 **Stratégie de Groupe Locale (Local Group Policy)** Les politiques sont définies directement sur l'hôte localement en dehors du domaine. Tout paramètre ici sera écrasé si un paramètre similaire est défini à un niveau supérieur.
 
@@ -89,7 +86,7 @@ La **Default Domain Controllers Policy** est également créée automatiquement 
 
 ***
 
-### Ordre de Préséance des GPO
+### <mark style="color:blue;">Ordre de Préséance des GPO</mark>
 
 Les GPO sont traités de haut en bas lorsqu'on les visualise du point de vue organisationnel du domaine. Un GPO lié à une OU au niveau le plus élevé dans un réseau Active Directory (au niveau du domaine, par exemple) serait traité en premier, suivi de ceux liés à une OU enfant, etc.
 
@@ -121,7 +118,7 @@ Quel que soit le GPO défini comme appliqué, si le GPO **Default Domain Policy*
 
 ***
 
-### Option "Block Inheritance" (Bloquer l'Héritage)
+### <mark style="color:blue;">Option "Block Inheritance" (Bloquer l'Héritage)</mark>
 
 <figure><img src="../../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
@@ -134,6 +131,8 @@ Si les deux options sont définies, l'option No Override a la préséance sur l'
 <figure><img src="../../../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
+
+***
 
 ### <mark style="color:blue;">Fréquence de Rafraîchissement de la Stratégie de Groupe</mark>
 
@@ -154,7 +153,5 @@ Bien qu'il puisse être modifié, il ne devrait pas être configuré pour se pro
 Comme mentionné précédemment, les GPO peuvent être utilisés pour effectuer des attaques. Ces attaques peuvent inclure l'ajout de droits supplémentaires à un compte utilisateur que nous contrôlons, l'ajout d'un administrateur local à un hôte, ou la création d'une tâche planifiée immédiate pour exécuter une commande malveillante telle que la modification de l'appartenance à un groupe, l'ajout d'un nouveau compte administrateur, l'établissement d'une connexion shell inversée, ou même l'installation de logiciels malveillants ciblés dans tout un domaine.
 
 Ces attaques se produisent généralement lorsqu'un utilisateur possède les droits requis pour modifier un GPO qui s'applique à une OU qui contient soit un compte utilisateur que nous contrôlons, soit un ordinateur.
-
-Ci-dessous se trouve un exemple de chemin d'attaque GPO identifié à l'aide de l'outil BloodHound. Cet exemple montre que le groupe **Domain Users** peut modifier le GPO **Disconnect Idle RDP** en raison de l'appartenance à un groupe imbriqué. Dans ce cas, nous examinerions ensuite à quelles OU ce GPO s'applique et si nous pouvons exploiter ces droits pour prendre le contrôle d'un utilisateur de grande valeur (administrateur ou Domain Admin) ou d'un ordinateur (serveur, DC ou hôte critique) et nous déplacer latéralement pour escalader les privilèges au sein du domaine.
 
 ***
