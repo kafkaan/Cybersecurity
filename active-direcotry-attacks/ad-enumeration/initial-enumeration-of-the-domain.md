@@ -114,7 +114,7 @@ sudo nmap -v -A -iL hosts.txt -oN /home/htb-student/Documents/host-enum
 <mark style="color:green;">**NMAP Result Highlights**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```shellscript
 Nmap scan report for inlanefreight.local (172.16.5.5)
 Host is up (0.069s latency).
 Not shown: 987 closed tcp ports (conn-refused)
@@ -163,7 +163,7 @@ Service Info: Host: ACADEMY-EA-DC01; OS: Windows; CPE: cpe:/o:microsoft:windows
 Our scans have provided us with the naming standard used by NetBIOS and DNS, we can see some hosts have RDP open, and they have pointed us in the direction of the <mark style="color:blue;">**primary**</mark><mark style="color:blue;">**&#x20;**</mark><mark style="color:blue;">**`Domain Controller`**</mark><mark style="color:blue;">**&#x20;**</mark><mark style="color:blue;">**for the INLANEFREIGHT.LOCAL domain (ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL)**</mark>**.** The results below show some interesting results surrounding a possibly outdated host (not in our current lab).
 
 {% code fullWidth="true" %}
-```shell-session
+```shellscript
 mrroboteLiot@htb[/htb]$ nmap -A 172.16.5.100
 
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-04-08 13:42 EDT

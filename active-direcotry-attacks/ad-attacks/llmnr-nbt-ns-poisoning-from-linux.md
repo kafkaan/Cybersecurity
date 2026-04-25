@@ -111,7 +111,7 @@ Proxy-Auth-NTLMv2-172.16.5.200.txt
 <mark style="color:green;">**Starting Responder with Default Settings**</mark>
 
 ```bash
-sudo responder -I ens224 
+ 
 ```
 
 <mark style="color:green;">**Cracking an NTLMv2 Hash With Hashcat**</mark>

@@ -6,7 +6,7 @@
 
 Extraction et cracking d'un hash Kerberos à partir d'un paquet AS-REQ (Authentication Service Request) capturé sur le réseau. L'attaque exploite le fait que le timestamp chiffré dans AS-REQ utilise le mot de passe de l'utilisateur comme clé.
 
-#### 🎯 Prérequis
+#### <mark style="color:green;">🎯 Prérequis</mark>
 
 * Capture réseau contenant un AS-REQ avec données chiffrées (etype 18 ou 23)
 * Wireshark ou outil d'analyse PCAP

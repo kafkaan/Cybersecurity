@@ -36,7 +36,7 @@ Cette attaque a été popularisée par la présentation de **Tim Medin** lors de
 
 ### <mark style="color:red;">Kerberoasting - Performing the Attack</mark>
 
-L'attaque **Kerberoasting** peut être réalisée de différentes manières selon votre position sur le réseau :
+L'attaque **Kerberoasting** peut être réalisée de différentes manières selon votre position sur le réseau&#x20;
 
 * Depuis un hôte Linux non membre du domaine avec des identifiants de domaine valides.
 * Depuis un hôte Linux membre du domaine en tant que root après avoir récupéré le fichier **keytab**.
