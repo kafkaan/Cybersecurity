@@ -26,7 +26,7 @@ If you retrieve the cpassword value more manually, the `gpp-decrypt` utility can
 
 <mark style="color:green;">**Decrypting the Password with gpp-decrypt**</mark>
 
-```shell-session
+```shellscript
 mrroboteLiot@htb[/htb]$ gpp-decrypt VPe/o9YRyz2cksnYRbNeQj35w9KxQ5ttbvtRaAVqxaE
 
 Password1
@@ -41,7 +41,7 @@ CrackMapExec also has two modules for locating and retrieving GPP passwords. One
 <mark style="color:green;">**Locating & Retrieving GPP Passwords with CrackMapExec**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```shellscript
 mrroboteLiot@htb[/htb]$ crackmapexec smb -L | grep gpp
 
 [*] gpp_autologin             Searches the domain controller for registry.xml to find autologon information and returns the username and password.

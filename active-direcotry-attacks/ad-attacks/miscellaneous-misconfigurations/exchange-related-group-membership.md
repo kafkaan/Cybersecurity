@@ -11,7 +11,7 @@ En effet, Exchange dispose généralement de privilèges étendus au sein du dom
 * Il est courant de voir des comptes d’utilisateurs et même des **ordinateurs** membres de ce groupe. Les **utilisateurs avancés** et le **personnel de support** dans les bureaux distants y sont souvent ajoutés pour leur permettre de **réinitialiser des mots de passe**.
 * Un dépôt GitHub (mentionné dans le texte) décrit plusieurs techniques permettant d'exploiter **Exchange pour une élévation de privilèges** dans un environnement Active Directory.
 
-#### **Le groupe "Organization Management" d’Exchange**
+#### <mark style="color:green;">**Le groupe "Organization Management" d’Exchange**</mark>
 
 * Il s'agit d'un groupe **extrêmement puissant**, équivalent à **"Domain Admins"** mais pour **Exchange**.
 * Il a accès aux **boîtes mail de tous les utilisateurs** du domaine.

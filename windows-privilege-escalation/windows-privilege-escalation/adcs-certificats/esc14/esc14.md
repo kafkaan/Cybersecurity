@@ -1,4 +1,4 @@
-# ESC8
+# ESC14
 
 ***
 
@@ -166,9 +166,5 @@ Attaquant (a.carter)                      ADCS Server / CA                  KDC 
 ```
 
 ***
-
-* [🎓 ESC8 on Certified Pre-Owned (SpecterOps)](https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf)
-* [🔧 Certipy Wiki ESC8](https://github.com/ly4k/Certipy/wiki/ESC8)
-* [🛠️ ADCS Attacks Overview](https://github.com/dirkjanm/PKINITtools)
 
 ***

