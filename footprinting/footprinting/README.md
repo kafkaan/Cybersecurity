@@ -12,7 +12,7 @@ La méthodologie d'énumération est une <mark style="color:orange;">**approche 
 
 Elle est divisée en plusieurs couches, chacune représentant un <mark style="color:orange;">**niveau spécifique d'information à découvrir**</mark>.&#x20;
 
-<table data-header-hidden data-full-width="true"><thead><tr><th width="324"></th><th width="353"></th><th></th></tr></thead><tbody><tr><td><code>Infrastructure-based enumeration</code></td><td><code>Host-based enumeration</code></td><td><code>OS-based enumeration</code></td></tr></tbody></table>
+<table data-header-hidden data-full-width="true"><thead><tr><th width="282.46881103515625"></th><th width="263.8203125"></th><th width="196.30072021484375"></th></tr></thead><tbody><tr><td><code>Infrastructure-based enumeration</code></td><td><code>Host-based enumeration</code></td><td><code>OS-based enumeration</code></td></tr></tbody></table>
 
 <figure><img src="../../.gitbook/assets/image (90).png" alt=""><figcaption><p>COUCHES</p></figcaption></figure>
 

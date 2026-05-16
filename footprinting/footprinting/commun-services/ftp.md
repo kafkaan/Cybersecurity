@@ -2,7 +2,7 @@
 description: >-
   Le protocole de transfert de fichiers (FTP) est l’un des plus anciens
   protocoles sur Internet. Le FTP fonctionne au sein de la couche application de
-  la pile de protocoles TCP/IP. Il se situe donc au m
+  la pile de protocoles TCP/IP
 cover: ../../../.gitbook/assets/mainimage-1.jpg
 coverY: -27.41454020221473
 ---
