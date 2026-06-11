@@ -1,6 +1,27 @@
 ---
 cover: ../../.gitbook/assets/XSS-attacks-what-is-cross-site-scripting.webp
 coverY: 204.65066666666667
+layout:
+  width: default
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+  actions:
+    visible: true
 ---
 
 # XSS

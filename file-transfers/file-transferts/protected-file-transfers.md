@@ -4,7 +4,7 @@
 
 ### <mark style="color:red;">File Encryption on Windows</mark>
 
-Many different methods can be used to encrypt files and information on Windows systems. One of the simplest methods is the [Invoke-AESEncryption.ps1](https://www.powershellgallery.com/packages/DRTools/4.0.2.3/Content/Functions/Invoke-AESEncryption.ps1) PowerShell script. This script is small and provides encryption of files and strings.
+Many different methods can be used to encrypt files and information on Windows systems. One of the simplest methods is the [Invoke-AESEncryption.ps1](https://www.powershellgallery.com/packages/DRTools/4.0.2.3/Content/Functions%5CInvoke-AESEncryption.ps1) PowerShell script. This script is small and provides encryption of files and strings.
 
 <mark style="color:orange;">**Invoke-AESEncryption.ps1**</mark>
 

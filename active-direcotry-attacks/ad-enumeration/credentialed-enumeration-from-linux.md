@@ -197,7 +197,7 @@ wmiexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.5
 {% hint style="info" %}
 Cet environnement shell (fourni par `wmiexec.py`) n'est **pas totalement interactif**. Cela signifie qu'à chaque commande que vous exécutez, un **nouveau processus `cmd.exe`** est lancé par WMI pour exécuter la commande.
 
-#### **Conséquences et risques :**
+**Conséquences et risques :**
 
 * **Création de processus visible :**
   * Un défenseur attentif peut vérifier les **journaux d'événements** de Windows et repérer un **événement ID 4688 : Un nouveau processus a été créé**.

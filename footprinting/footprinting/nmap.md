@@ -2,6 +2,27 @@
 cover: >-
   https://png.pngtree.com/thumb_back/fh260/background/20230702/pngtree-d-rendering-of-an-internet-page-featuring-login-credentials-input-fields-image_3740977.jpg
 coverY: 58
+layout:
+  width: default
+  cover:
+    visible: true
+    size: hero
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+  actions:
+    visible: true
 ---
 
 # NMAP

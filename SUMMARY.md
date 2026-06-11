@@ -99,6 +99,7 @@
   * [Fichiers Protégés](password-attacks/password-attacks/fichiers-proteges.md)
   * [Archives Protégées](password-attacks/password-attacks/archives-protegees.md)
   * [Password Cracking PBKDF2](password-attacks/password-attacks/password-cracking-pbkdf2.md)
+  * [GPG Backup to Root](password-attacks/password-attacks/gpg-backup-to-root.md)
 * [SKILLS ASSESSEMENT](password-attacks/skills-assessement.md)
 
 ## 🏹 Attacking Common Services  &#x20;
@@ -198,6 +199,7 @@
   * [LFI and File Uploads](file-inclusion/file-inclusions/lfi-and-file-uploads.md)
   * [Log Poisoning](file-inclusion/file-inclusions/log-poisoning.md)
   * [Automated Scanning pour LFI](file-inclusion/file-inclusions/automated-scanning-pour-lfi.md)
+  * [LFI sur Next.js](file-inclusion/file-inclusions/lfi-sur-next.js.md)
   * [File Inclusion Prevention](file-inclusion/file-inclusions/file-inclusion-prevention.md)
 * [SKILLS ASSESSEMENT](file-inclusion/skills-assessement.md)
 
@@ -224,6 +226,7 @@
   * [Injecting Commands](command-injections/command-injections/injecting-commands.md)
   * [Identifying Filters](command-injections/command-injections/identifying-filters.md)
   * [Outils d'Évasion pour l'Obfuscation des Commandes](command-injections/command-injections/outils-devasion-pour-lobfuscation-des-commandes.md)
+  * [PHP Filter Chain — LFI → RCE](command-injections/command-injections/php-filter-chain-lfi-rce.md)
 * [SKILLS ASSESSMENT](command-injections/skills-assessment.md)
 
 ## 🅰️ ACTIVE DIRECOTRY ATTACKS
@@ -350,7 +353,6 @@
   * [Next.Js CVE](web-attacks/web-attacks/next.js-cve.md)
   * [Next.Js LFI](web-attacks/web-attacks/next.js-lfi.md)
   * [Server-Side Template Injection (SSTI)](web-attacks/web-attacks/server-side-template-injection-ssti.md)
-  * [Django Cache Poisoning](web-attacks/web-attacks/django-cache-poisoning.md)
   * [Désérialisation PHP et RCE](web-attacks/web-attacks/deserialisation-php-et-rce.md)
   * [PHP-CGI Argument Injection via Best-Fit Encoding](web-attacks/web-attacks/php-cgi-argument-injection-via-best-fit-encoding.md)
   * [Mass Assignment Vulnerability](web-attacks/web-attacks/mass-assignment-vulnerability.md)
@@ -504,12 +506,15 @@
   * [EMPTY ENV VARIABLES AND LIBRARY HIJACKING](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/README.md)
     * [CVE-2024-48990-PoC](linux-privilege-escalation/various-techniques/empty-env-variables-and-library-hijacking/cve-2024-48990-poc.md)
   * [Terraform](linux-privilege-escalation/various-techniques/terraform.md)
+  * [Django Cache Poisoning](linux-privilege-escalation/various-techniques/django-cache-poisoning.md)
   * [Empoisonnement DNS](linux-privilege-escalation/various-techniques/empoisonnement-dns.md)
   * [Forgerie de Certificats SSL](linux-privilege-escalation/various-techniques/forgerie-de-certificats-ssl.md)
   * [Escalade de privilèges via Below](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-below.md)
-  * [FAILLE BASH ARITHMETIC EXPRESSION INJECTION](linux-privilege-escalation/various-techniques/faille-bash-arithmetic-expression-injection.md)
+  * [Arithmetic expression injection exploit](linux-privilege-escalation/various-techniques/arithmetic-expression-injection-exploit.md)
   * [Escalade de Privilèges via Facter](linux-privilege-escalation/various-techniques/escalade-de-privileges-via-facter.md)
   * [NFS UID Spoofing](linux-privilege-escalation/various-techniques/nfs-uid-spoofing.md)
+  * [safeapache2ctl](linux-privilege-escalation/various-techniques/safeapache2ctl.md)
+  * [Privilege Escalation via Python Bytecode Hijacking](linux-privilege-escalation/various-techniques/privilege-escalation-via-python-bytecode-hijacking.md)
 
 ## CYPHER INJECTION
 
