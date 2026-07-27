@@ -22,7 +22,7 @@ The `/etc/shadow` file has a unique format in which the entries are entered and 
 
 The encryption of the password in this file is formatted as follows:
 
-<table data-full-width="true"><thead><tr><th>--------------------------------------------</th><th>-------------------------------------------------</th><th>------------------------------------------------</th></tr></thead><tbody><tr><td><code>$ &#x3C;id></code></td><td><code>$ &#x3C;salt></code></td><td><code>$ &#x3C;hashed></code></td></tr><tr><td><code>$ y</code></td><td><code>$ j9T</code></td><td><code>$ 3QSBB6CbHEu...SNIP...f8Ms</code></td></tr></tbody></table>
+<table data-full-width="true"><thead><tr><th>FIRST</th><th>SECOND</th><th>THIRD</th></tr></thead><tbody><tr><td><code>$ &#x3C;id></code></td><td><code>$ &#x3C;salt></code></td><td><code>$ &#x3C;hashed></code></td></tr><tr><td><code>$ y</code></td><td><code>$ j9T</code></td><td><code>$ 3QSBB6CbHEu...SNIP...f8Ms</code></td></tr></tbody></table>
 
 The type (`id`) is the cryptographic hash method used to encrypt the password.&#x20;
 
@@ -51,13 +51,36 @@ The `x` in the password field indicates that the encrypted password is in the `/
 
 ### <mark style="color:blue;">Windows Authentication Process</mark>
 
-The [<mark style="color:orange;">**Local Security Authority**</mark>](https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection) <mark style="color:orange;">**(**</mark><mark style="color:orange;">**`LSA`**</mark><mark style="color:orange;">**)**</mark> is a protected subsystem that authenticates users and logs them into the local computer.&#x20;
+#### <mark style="color:green;">Qu'est-ce que le LSA ?</mark>
 
-* In addition, the LSA maintains information about all aspects of local security on a computer.&#x20;
-* It also provides various services for translating between names and <mark style="color:orange;">**security IDs (**</mark><mark style="color:orange;">**`SIDs`**</mark><mark style="color:orange;">**)**</mark>.
-* The security subsystem keeps track of the security policies and accounts that reside on a computer system.&#x20;
-* In the case of a <mark style="color:orange;">**Domain Controller**</mark>, these policies and accounts apply to the domain where the Domain Controller is located. These policies and accounts are stored in <mark style="color:orange;">**Active Directory**</mark>.&#x20;
-* In addition, the LSA subsystem provides services for checking access to objects, checking user permissions, and generating monitoring messages.
+Le LSA est un **sous-système protégé de Windows** dont le rôle principal est de gérer la sécurité locale d'un ordinateur. On peut le voir comme le "gardien" central de la sécurité sur une machine Windows.
+
+#### <mark style="color:green;">Ses rôles principaux</mark>
+
+**1. Authentification des utilisateurs**\
+Le LSA est responsable de l'authentification : c'est lui qui vérifie l'identité des utilisateurs et gère leur connexion (logon) à l'ordinateur local.
+
+**2. Gestion des informations de sécurité**\
+Il conserve et gère toutes les informations liées à la sécurité locale de la machine (politiques de sécurité, comptes, etc.).
+
+**3. Traduction Noms ↔ SIDs**\
+Le LSA fournit des services permettant de faire la correspondance entre :
+
+* les **noms d'utilisateurs/groupes** (ex: "Jean.Dupont")
+* et leurs **SID** (Security Identifier), l'identifiant unique de sécurité utilisé en interne par Windows
+
+**4. Gestion des politiques et comptes**\
+Il garde une trace de toutes les politiques de sécurité et des comptes présents sur le système.
+
+**5. Cas particulier : Contrôleur de domaine (DC)**\
+Si la machine est un **Contrôleur de Domaine**, alors le LSA ne gère plus seulement les politiques locales, mais celles de **tout le domaine**. Ces informations (comptes, politiques) sont alors stockées dans l'**Active Directory** plutôt que localement.
+
+**6. Contrôle d'accès et audit**\
+Enfin, le LSA fournit des services pour :
+
+* **Vérifier les droits d'accès** aux objets (fichiers, dossiers, ressources...)
+* **Vérifier les permissions** des utilisateurs
+* **Générer des messages de surveillance/audit** (logs de sécurité)
 
 {% hint style="info" %}
 <mark style="color:orange;">**Le LSA (Local Security Authority) est une composante de sécurité dans Windows qui :**</mark>
@@ -71,6 +94,50 @@ The [<mark style="color:orange;">**Local Security Authority**</mark>](https://le
 {% endhint %}
 
 #### <mark style="color:green;">**Windows Authentication Process Diagram**</mark>
+
+{% hint style="info" %}
+#### <mark style="color:orange;">Explication du schéma : Processus d'authentification Windows</mark>
+
+Ce diagramme illustre les étapes internes qui se déroulent lorsqu'un utilisateur se connecte (logon) à une machine Windows. Il se lit en suivant les **3 grandes étapes numérotées**.
+
+**🔹 Étape 1 — Capture des identifiants (côté interface)**
+
+* **WinLogon.exe** est le processus responsable de la gestion de la session de connexion (il gère les combinaisons Ctrl+Alt+Suppr, le verrouillage d'écran, etc.)
+* Il fait appel à **LogonUI** (l'interface graphique de connexion)
+* Qui utilise elle-même un **Credential Provider** (le composant qui fournit le formulaire de saisie : mot de passe, PIN, biométrie, carte à puce...)
+* **Secur32.dll** est la bibliothèque qui expose les fonctions SSPI (Security Support Provider Interface) utilisées par WinLogon
+
+➡️ Résultat : les identifiants de l'utilisateur sont récupérés.
+
+**🔹 Étape 2 — Vérification des identifiants (cœur de l'authentification)**
+
+* WinLogon transmet les identifiants à **lsass.exe** (le processus du LSA que nous avons vu précédemment), via la bibliothèque **Lsasrv.dll**
+* Lsass consulte les **Authentication Packages** (packages d'authentification) pour savoir comment valider ces identifiants. Deux cas de figure :
+
+**📍 Cas "Local / Non-Domain joined" (poste isolé, hors domaine)**
+
+* Utilise le protocole **NTLM**
+* NTLM interroge le **SAM** (Security Account Manager, base de comptes locaux)
+* Le SAM s'appuie sur **Samsrv.dll**, lui-même stocké dans le **Registre** Windows
+* **Msv1\_0.dll** est le fournisseur d'authentification NTLM
+
+**📍 Cas "Remote / Domain joined" (poste dans un domaine Active Directory)**
+
+Deux protocoles possibles :
+
+* **NTLM** (via **Netlogon**) → interroge **AD Directory Services** (**Ntdsa.dll**)
+* **Kerberos** (protocole moderne et préféré en environnement AD) → passe aussi par **Netlogon.dll**
+
+➡️ Résultat : les identifiants sont validés ou rejetés.
+
+**🔹 Étape 3 — Ouverture de la session utilisateur**
+
+Une fois l'authentification réussie, on revient vers WinLogon qui déclenche :
+
+* **CreateDesktop()** : création du bureau (desktop) de session
+  * **Load Profile** → **Load Registry** (chargement du profil utilisateur et de sa ruche registre `HKCU`)
+  * **userinit.exe** → lance **explorer.exe** (l'interface bureau que l'utilisateur voit)
+{% endhint %}
 
 ![](https://academy.hackthebox.com/storage/modules/147/Auth_process1.png)
 
@@ -232,7 +299,9 @@ Les systèmes Windows peuvent être affectés à un **groupe de travail** ou à 
 
 Le **Gestionnaire d'identifiants** (_Credential Manager_) est une fonctionnalité intégrée à tous les systèmes d'exploitation Windows qui permet aux utilisateurs **d'enregistrer les identifiants** qu'ils utilisent pour accéder à divers **ressources réseau** et **sites web**.
 
+{% hint style="info" %}
 Les identifiants enregistrés sont **stockés selon le profil utilisateur**, dans un **coffre sécurisé appelé Credential Locker** (_casier à identifiants_).
+{% endhint %}
 
 Les identifiants sont **chiffrés** et stockés à l'emplacement suivant :
 

@@ -356,6 +356,7 @@
   * [Désérialisation PHP et RCE](web-attacks/web-attacks/deserialisation-php-et-rce.md)
   * [PHP-CGI Argument Injection via Best-Fit Encoding](web-attacks/web-attacks/php-cgi-argument-injection-via-best-fit-encoding.md)
   * [Mass Assignment Vulnerability](web-attacks/web-attacks/mass-assignment-vulnerability.md)
+  * [SSRF Bypass — IP en représentation décimale](web-attacks/web-attacks/ssrf-bypass-ip-en-representation-decimale.md)
 
 ## 🪟 Windows Privilege Escalation
 
@@ -581,6 +582,7 @@
 * [Escape Container : Docker Desktop API (CVE-2025-9074)](docker/escape-container-docker-desktop-api-cve-2025-9074.md)
 * [Analyse Technique Exhaustive de l'Évasion de Conteneurs Docker](docker/analyse-technique-exhaustive-de-levasion-de-conteneurs-docker.md)
 * [Docker Escape via Certificats TLS Forgés](docker/docker-escape-via-certificats-tls-forges.md)
+* [CodeBuild Privilégié + core\_pattern Escape](docker/codebuild-privilegie-+-core_pattern-escape.md)
 
 ## ☁️ Cloud
 
