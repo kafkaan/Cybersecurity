@@ -41,7 +41,7 @@ Each rule is written on a new line which determines how the word should be mutat
 
 ## <mark style="color:blue;">**Hashcat Rule File**</mark>
 
-```shell-session
+```shellscript
 mrroboteLiot@htb[/htb]$ cat custom.rule
 
 :
@@ -66,7 +66,7 @@ Hashcat will apply the rules of `custom.rule` for each word in `password.list` a
 <mark style="color:green;">**Generating Rule-based Wordlist**</mark>
 
 {% code fullWidth="true" %}
-```shell-session
+```shellscript
 mrroboteLiot@htb[/htb]$ hashcat --force password.list -r custom.rule --stdout | sort -u > mut_password.list
 mrroboteLiot@htb[/htb]$ cat mut_password.list
 
@@ -95,7 +95,7 @@ P@ssw0rd!
 ## <mark style="color:blue;">**Hashcat Existing Rules**</mark>
 
 {% code fullWidth="true" %}
-```shell-session
+```shellscript
 mrroboteLiot@htb[/htb]$ ls /usr/share/hashcat/rules/
 
 best64.rule                  specific.rule
@@ -121,7 +121,7 @@ We can now use another tool called [CeWL](https://github.com/digininja/CeWL) to 
 ## <mark style="color:blue;">**Generating Wordlists Using CeWL**</mark>
 
 {% code fullWidth="true" %}
-```shell-session
+```shellscript
 mrroboteLiot@htb[/htb]$ cewl https://www.inlanefreight.com -d 4 -m 6 --lowercase -w inlane.wordlist
 mrroboteLiot@htb[/htb]$ wc -l inlane.wordlist
 

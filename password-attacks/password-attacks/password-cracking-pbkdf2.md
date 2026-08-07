@@ -2,7 +2,7 @@
 
 ### <mark style="color:blue;">Password Cracking PBKDF2</mark> <a href="#password-cracking" id="password-cracking"></a>
 
-#### 3.1 Comprendre PBKDF2
+#### <mark style="color:green;">3.1 Comprendre PBKDF2</mark>
 
 **PBKDF2** (Password-Based Key Derivation Function 2):
 
@@ -17,7 +17,7 @@
 pbkdf2:sha256:iterations$salt$hash
 ```
 
-#### 3.2 Conversion pour Hashcat/John
+#### <mark style="color:green;">3.2 Conversion pour Hashcat/John</mark>
 
 **Format requis pour John the Ripper:**
 
@@ -67,7 +67,7 @@ echo "0673ad90a0b4afb19d662336f0fce3a9edd0b7b19193717be28ce4d66c887133" | xxd -r
 $pbkdf2-sha256$600000$QU10enRlUUlHN3lBYlpJYQ$BnOtkKC0r7GdZiM28Pzjqe3Qt7GRk3F74ozk1myIcTM
 ```
 
-#### 3.3 Cracking avec John
+#### <mark style="color:green;">3.3 Cracking avec John</mark>
 
 ```bash
 john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt

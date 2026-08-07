@@ -53,14 +53,14 @@ c:\tools> mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /rc4:64F12CDD
 
 <mark style="color:orange;">**Invoke-TheHash**</mark> est un outil basé sur PowerShell qui permet d'effectuer des attaques "Pass the Hash" en utilisant les protocoles **WMI** et **SMB**. Il utilise un hachage NTLM pour s'authentifier via le protocole d'authentification NTLMv2.
 
-#### **Points clés :**
+#### <mark style="color:green;">**Points clés :**</mark>
 
 * Tu n'as pas besoin de privilèges administrateur sur la machine attaquante, mais le compte (utilisateur et hachage) doit avoir des droits d’administrateur sur la machine cible.
 * Deux options disponibles :
   * Exécution de commandes via **SMB**.
   * Exécution de commandes via **WMI**.
 
-#### **Paramètres nécessaires :**
+#### <mark style="color:green;">**Paramètres nécessaires :**</mark>
 
 1. **Target** : Nom de l'hôte ou adresse IP de la cible.
 2. **Username** : Nom d'utilisateur pour l'authentification.
@@ -69,7 +69,7 @@ c:\tools> mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /rc4:64F12CDD
 5. **Command** : Commande à exécuter sur la cible (facultatif, sinon il vérifie les droits d'accès WMI).
 
 {% code overflow="wrap" fullWidth="true" %}
-```powershell-session
+```shellscript
 PS c:\htb> cd C:\tools\Invoke-TheHash\
 --
 PS c:\tools\Invoke-TheHash> Import-Module .\Invoke-TheHash.psd1

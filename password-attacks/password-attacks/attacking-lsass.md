@@ -2,8 +2,6 @@
 
 ***
 
-***
-
 En plus d’obtenir des copies de la base de données **SAM** afin d’extraire et de casser les **hashs de mots de passe**, nous allons également **tirer avantage du ciblage de LSASS**.
 
 Comme expliqué dans la section **Stockage des identifiants** de ce module, **LSASS** (_Local Security Authority Subsystem Service_) est un **service critique** qui joue un rôle central dans la **gestion des identifiants** et les **processus d’authentification** sur tous les systèmes d’exploitation Windows.

@@ -13,7 +13,7 @@ There are three registry hives that we can copy if we have local admin access on
 
 ***
 
-#### 🔹 **Décomposition :**
+**Décomposition :**
 
 * **`HKLM`** : Abréviation de **HKEY\_LOCAL\_MACHINE**.
   * C'est une branche principale du registre qui contient des paramètres et configurations liés au **système** et à **tous les utilisateurs** de l’ordinateur.

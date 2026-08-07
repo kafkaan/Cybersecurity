@@ -33,7 +33,7 @@ We need a valid Kerberos ticket to perform a `Pass the Ticket (PtT)`. It can be:
 
 <mark style="color:orange;">**On Windows, tickets are processed and stored by the LSASS (Local Security Authority Subsystem Service) process.**</mark>
 
-&#x20;Therefore, to get a ticket from a Windows system, you must communicate with LSASS and request it. As a non-administrative user, you can only get your tickets, but as a local administrator, you can collect everything.
+Therefore, to get a ticket from a Windows system, you must communicate with LSASS and request it. As a non-administrative user, you can only get your tickets, but as a local administrator, you can collect everything.
 
 We can harvest all tickets from a system using the `Mimikatz` module `sekurlsa::tickets /export`. The result is a list of files with the extension `.kirbi`, which contain the tickets.
 
@@ -369,6 +369,63 @@ Rubeus createnetonly /user:admin /domain:inlanefreight.htb /show
 ```
 
 Cela crée un processus où `admin` est utilisé uniquement pour l’authentification réseau.
+
+{% hint style="info" %}
+***
+
+**Problème 1 — Les tickets Kerberos sont liés à une session**
+
+Windows organise les tickets Kerberos par **LUID** (Locally Unique Identifier) — un identifiant unique pour chaque session de connexion. Chaque `cmd.exe` ou `powershell` a son propre LUID.
+
+```
+Session A (LUID = 0x12345)    Session B (LUID = 0x67890)
+│                              │
+├─ Cache Kerberos A            ├─ Cache Kerberos B
+│   └─ TGT de alice           │   └─ TGT de bob
+│                              │
+└─ Enter-PSSession             └─ Enter-PSSession
+   utilise TGT alice              utilise TGT bob
+```
+
+Si tu injectes un ticket dans ta session courante avec `kerberos::ptt`, il va dans **ton** LUID et écrase tes tickets existants.
+
+***
+
+**Problème 2 — Ce que `createnetonly` fait**
+
+```
+Rubeus.exe createnetonly /program:"C:\Windows\System32\cmd.exe" /show
+```
+
+Ça crée un **nouveau processus cmd.exe avec un nouveau LUID vierge** — une session sacrificielle isolée. Ce nouveau processus a son propre cache Kerberos séparé, vide au départ.
+
+```
+Ta session (LUID = 0x12345)
+│
+├─ Tes tickets → intacts, pas touchés
+│
+└─> Rubeus createnetonly → crée nouveau cmd.exe (LUID = 0x99999)
+                               │
+                               ├─ Cache Kerberos vide au départ
+                               └─> Rubeus injecte TGT de john ici
+                                        │
+                                        └─> tout ce que ce cmd.exe
+                                            fait réseau → utilise
+                                            le TGT de john
+```
+
+***
+
+**L'équivalent mental : `runas /netonly`**
+
+```
+runas /netonly /user:john cmd.exe
+```
+
+`/netonly` veut dire : "lance ce processus avec ces credentials uniquement pour les connexions réseau, pas pour la session locale". La session locale reste la tienne, mais quand le processus parle au réseau, il s'authentifie en tant que john.
+
+`createnetonly` fait exactement ça, mais pour un ticket Kerberos au lieu d'un mot de passe.
+{% endhint %}
 
 {% code fullWidth="true" %}
 ```powershell

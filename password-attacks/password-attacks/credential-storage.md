@@ -53,7 +53,7 @@ The `x` in the password field indicates that the encrypted password is in the `/
 
 #### <mark style="color:green;">Qu'est-ce que le LSA ?</mark>
 
-Le LSA est un **sous-système protégé de Windows** dont le rôle principal est de gérer la sécurité locale d'un ordinateur. On peut le voir comme le "gardien" central de la sécurité sur une machine Windows.
+Le LSA est un **sous-système protégé de Windows** dont le rôle principal est de gérer la sécurité locale d'un ordinateur.​ On peut le voir comme le "gardien" central de la sécurité sur une machine Windows.
 
 #### <mark style="color:green;">Ses rôles principaux</mark>
 
@@ -92,6 +92,8 @@ Enfin, le LSA fournit des services pour :
 3. **Génère des messages de surveillance (auditing) :**
    * Si l'accès est refusé ou accordé, cela peut être consigné dans les journaux de sécurité, selon la politique d’audit configurée.
 {% endhint %}
+
+***
 
 #### <mark style="color:green;">**Windows Authentication Process Diagram**</mark>
 

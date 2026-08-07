@@ -26,42 +26,13 @@ We can search for passwords or even whole credentials that we can use to log in 
 #### <mark style="color:green;">**Configuration Files**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```shellscript
 cry0l1t3@unixclient:~$ for l in $(echo ".conf .config .cnf");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null | grep -v "lib\|fonts\|share\|core" ;done
 
 File extension:  .conf
 /run/tmpfiles.d/static-nodes.conf
 /run/NetworkManager/resolv.conf
-/run/NetworkManager/no-stub-resolv.conf
-/run/NetworkManager/conf.d/10-globally-managed-devices.conf
-...SNIP...
-/etc/ltrace.conf
-/etc/rygel.conf
-/etc/ld.so.conf.d/x86_64-linux-gnu.conf
-/etc/ld.so.conf.d/fakeroot-x86_64-linux-gnu.conf
-/etc/fprintd.conf
-
-File extension:  .config
-/usr/src/linux-headers-5.13.0-27-generic/.config
-/usr/src/linux-headers-5.11.0-27-generic/.config
-/usr/src/linux-hwe-5.13-headers-5.13.0-27/tools/perf/Makefile.config
-/usr/src/linux-hwe-5.13-headers-5.13.0-27/tools/power/acpi/Makefile.config
-/usr/src/linux-hwe-5.11-headers-5.11.0-27/tools/perf/Makefile.config
-/usr/src/linux-hwe-5.11-headers-5.11.0-27/tools/power/acpi/Makefile.config
-/home/cry0l1t3/.config
-/etc/X11/Xwrapper.config
-/etc/manpath.config
-
-File extension:  .cnf
-/etc/ssl/openssl.cnf
-/etc/alternatives/my.cnf
-/etc/mysql/my.cnf
-/etc/mysql/debian.cnf
-/etc/mysql/mysql.conf.d/mysqld.cnf
-/etc/mysql/mysql.conf.d/mysql.cnf
-/etc/mysql/mysql.cnf
-/etc/mysql/conf.d/mysqldump.cnf
-/etc/mysql/conf.d/mysql.cnf
+....
 ```
 {% endcode %}
 
@@ -70,33 +41,12 @@ Optionally, we can save the result in a text file and use it to examine the indi
 #### <mark style="color:green;">**Credentials in Configuration Files**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```shellscript
 cry0l1t3@unixclient:~$ for i in $(find / -name *.cnf 2>/dev/null | grep -v "doc\|lib");do echo -e "\nFile: " $i; grep "user\|password\|pass" $i 2>/dev/null | grep -v "\#";done
 
 File:  /snap/core18/2128/etc/ssl/openssl.cnf
 challengePassword		= A challenge password
-
-File:  /usr/share/ssl-cert/ssleay.cnf
-
-File:  /etc/ssl/openssl.cnf
-challengePassword		= A challenge password
-
-File:  /etc/alternatives/my.cnf
-
-File:  /etc/mysql/my.cnf
-
-File:  /etc/mysql/debian.cnf
-
-File:  /etc/mysql/mysql.conf.d/mysqld.cnf
-user		= mysql
-
-File:  /etc/mysql/mysql.conf.d/mysql.cnf
-
-File:  /etc/mysql/mysql.cnf
-
-File:  /etc/mysql/conf.d/mysqldump.cnf
-
-File:  /etc/mysql/conf.d/mysql.cnf
+....
 ```
 {% endcode %}
 
@@ -105,43 +55,14 @@ We can apply this simple search to the other file extensions as well. Additional
 #### <mark style="color:green;">**Databases**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
+```shellscript
 cry0l1t3@unixclient:~$ for l in $(echo ".sql .db .*db .db*");do echo -e "\nDB File extension: " $l; find / -name *$l 2>/dev/null | grep -v "doc\|lib\|headers\|share\|man";done
 
 DB File extension:  .sql
 
 DB File extension:  .db
 /var/cache/dictionaries-common/ispell.db
-/var/cache/dictionaries-common/aspell.db
-/var/cache/dictionaries-common/wordlist.db
-/var/cache/dictionaries-common/hunspell.db
-/home/cry0l1t3/.mozilla/firefox/1bplpd86.default-release/cert9.db
-/home/cry0l1t3/.mozilla/firefox/1bplpd86.default-release/key4.db
-/home/cry0l1t3/.cache/tracker/meta.db
-
-DB File extension:  .*db
-/var/cache/dictionaries-common/ispell.db
-/var/cache/dictionaries-common/aspell.db
-/var/cache/dictionaries-common/wordlist.db
-/var/cache/dictionaries-common/hunspell.db
-/home/cry0l1t3/.mozilla/firefox/1bplpd86.default-release/cert9.db
-/home/cry0l1t3/.mozilla/firefox/1bplpd86.default-release/key4.db
-/home/cry0l1t3/.config/pulse/3a1ee8276bbe4c8e8d767a2888fc2b1e-card-database.tdb
-/home/cry0l1t3/.config/pulse/3a1ee8276bbe4c8e8d767a2888fc2b1e-device-volumes.tdb
-/home/cry0l1t3/.config/pulse/3a1ee8276bbe4c8e8d767a2888fc2b1e-stream-volumes.tdb
-/home/cry0l1t3/.cache/tracker/meta.db
-/home/cry0l1t3/.cache/tracker/ontologies.gvdb
-
-DB File extension:  .db*
-/var/cache/dictionaries-common/ispell.db
-/var/cache/dictionaries-common/aspell.db
-/var/cache/dictionaries-common/wordlist.db
-/var/cache/dictionaries-common/hunspell.db
-/home/cry0l1t3/.dbus
-/home/cry0l1t3/.mozilla/firefox/1bplpd86.default-release/cert9.db
-/home/cry0l1t3/.mozilla/firefox/1bplpd86.default-release/key4.db
-/home/cry0l1t3/.cache/tracker/meta.db-shm
-/home/cry0l1t3/.cache/tracker/meta.db-wal
+...
 /home/cry0l1t3/.cache/tracker/meta.db
 ```
 {% endcode %}
@@ -150,7 +71,7 @@ Depending on the environment we are in and the purpose of the host we are on, we
 
 #### <mark style="color:green;">**Notes**</mark>
 
-```shell-session
+```shellscript
 cry0l1t3@unixclient:~$ find /home/* -type f -name "*.txt" -o ! -name "*.*"
 
 /home/cry0l1t3/.config/caja/desktop-metadata
@@ -166,8 +87,13 @@ Scripts are files that often contain highly sensitive information and processes.
 #### <mark style="color:green;">**Scripts**</mark>
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
-cry0l1t3@unixclient:~$ L
+```shellscript
+for ext in py pyc pl go jar c sh; do
+    echo "File extension: .$ext"
+    echo
+    find / -type f -name "*.$ext" 2>/dev/null
+    echo
+done
 
 File extension:  .py
 
@@ -199,7 +125,7 @@ File extension:  .sh
 
 Les **cronjobs** sont des exécutions indépendantes de commandes, de programmes ou de scripts. Ils sont divisés en deux catégories : la zone système (/etc/crontab) et les exécutions dépendantes de l'utilisateur. Certaines applications et certains scripts nécessitent des informations d'identification pour s'exécuter et sont donc incorrectement enregistrés dans les cronjobs. De plus, il existe des zones qui sont divisées en différentes plages horaires (/etc/cron.daily, /etc/cron.hourly, /etc/cron.monthly, /etc/cron.weekly). Les scripts et fichiers utilisés par cron peuvent également être trouvés dans /etc/cron.d/ pour les distributions basées sur Debian.
 
-#### Explication :
+#### <mark style="color:green;">Explication</mark> :
 
 Les **cronjobs** sont utilisés dans les systèmes Unix/Linux pour exécuter des tâches automatiquement à des moments spécifiques. Ces tâches peuvent être programmées pour s'exécuter à des horaires réguliers (quotidiens, horaires, mensuels, etc.). Voici une explication détaillée de chaque concept mentionné :
 
@@ -318,6 +244,8 @@ su
 fi
 ```
 
+***
+
 #### <mark style="color:green;">**Logs**</mark>
 
 An essential concept of Linux systems is log files that are stored in text files. Many programs, especially all services and the system itself, write such files. In them, we find system errors, detect problems regarding services or follow what the system is doing in the background. The entirety of log files can be divided into four categories:
@@ -341,8 +269,8 @@ An essential concept of Linux systems is log files that are stored in text files
 | `/var/log/mysqld.log` | All MySQL server related logs.                     |
 
 {% code overflow="wrap" fullWidth="true" %}
-```shell-session
-cry0l1t3@unixclient:~$ for i in $(ls /var/log/* 2>/dev/null);do GREP=$(grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null); if [[ $GREP ]];then echo -e "\n#### Log file: " $i; grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null;fi;done
+```shellscript
+for i in $(ls /var/log/* 2>/dev/null);do GREP=$(grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null); if [[ $GREP ]];then echo -e "\n#### Log file: " $i; grep "accepted\|session opened\|session closed\|failure\|failed\|ssh\|password changed\|new user\|delete user\|sudo\|COMMAND\=\|logs" $i 2>/dev/null;fi;done
 
 #### Log file:  /var/log/dpkg.log.1
 2022-01-10 17:57:41 install libssh-dev:amd64 <none> 0.9.5-1+deb11u1
@@ -365,7 +293,7 @@ Many applications and processes work with credentials needed for authentication 
 
 <mark style="color:orange;">**Memory - Mimipenguin**</mark>
 
-```shell-session
+```shaderlab
 cry0l1t3@unixclient:~$ sudo python3 mimipenguin.py
 [sudo] password for cry0l1t3: 
 

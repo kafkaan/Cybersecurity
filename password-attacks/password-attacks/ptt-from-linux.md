@@ -5,6 +5,8 @@ description: >-
 
 # (PtT) from Linux
 
+## <mark style="color:blue;">Introduction</mark>
+
 Les ordinateurs Linux peuvent se connecter à Active Directory, ce qui permet de centraliser la gestion des identités et de permettre aux utilisateurs d'utiliser une seule identité pour s'authentifier aussi bien sur des systèmes Linux que Windows.
 
 Lorsque Linux est intégré à Active Directory, il utilise généralement **Kerberos** pour l'authentification. Si un attaquant parvient à compromettre une machine Linux connectée à Active Directory, il pourrait exploiter les tickets Kerberos pour se faire passer pour un autre utilisateur et obtenir un accès accru au réseau.
@@ -70,7 +72,7 @@ Another way to find `keytab` files is in automated scripts configured using a cr
 **Identifying Keytab Files in Cronjobs**
 
 {% code fullWidth="true" %}
-```shell-session
+```shellscript
 carlos@inlanefreight.htb@linux01:~$ crontab -l
 
 # Edit this file to introduce tasks to be run by cron.

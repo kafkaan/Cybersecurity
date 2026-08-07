@@ -52,7 +52,7 @@ Proc-Type: 4,ENCRYPTED
 DEK-Info: AES-128-CBC,2109D25CC91F8DBFCEB0F7589066B2CC
 ```
 
-#### Décryptage avec John the Ripper
+#### <mark style="color:green;">Décryptage avec John the Ripper</mark>
 
 **John the Ripper** offre divers scripts pour convertir des fichiers en hachages exploitables. On peut localiser ces scripts avec la commande :
 
@@ -91,7 +91,7 @@ john ssh.hash --show
 cle-ssh:1234
 ```
 
-#### Décryptage de Documents Protégés
+#### <mark style="color:green;">Décryptage de Documents Protégés</mark>
 
 John permet aussi de décrypter des fichiers Office et PDF via des scripts comme **office2john.py** et **pdf2john.py**.
 

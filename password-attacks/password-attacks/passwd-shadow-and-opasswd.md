@@ -6,16 +6,16 @@ description: https://medium.com/@mrbnf/password-attacks-passwd-shadow-opasswd-59
 
 ***
 
-Les distributions basées sur Linux peuvent utiliser de **nombreux mécanismes d’authentification différents**.\
-L’un des plus utilisés et standardisés est le système **PAM (Pluggable Authentication Modules)** — en français, **Modules d’Authentification Modulaires**.
+Les distributions basées sur Linux peuvent utiliser de **nombreux mécanismes d’authentification différents**. L’un des plus utilisés et standardisés est le système **PAM (Pluggable Authentication Modules)** — en français, **Modules d’Authentification Modulaires**.
 
 Les modules utilisés dans ce cadre sont appelés **`pam_unix.so`** ou **`pam_unix2.so`**.\
-Sur les distributions basées sur Debian (comme Ubuntu ou Kali), ces modules sont situés dans le répertoire suivant :\
-📂 `/usr/lib/x86_64-linux-gnu/security/`
+Sur les distributions basées sur Debian (comme Ubuntu ou Kali), ces modules sont situés dans le répertoire suivant
+
+* 📂 `/usr/lib/x86_64-linux-gnu/security/`
 
 ***
 
-#### 📌 Rôle des modules PAM :
+#### <mark style="color:green;">📌 Rôle des modules PAM :</mark>
 
 Ces modules gèrent :
 
@@ -30,7 +30,7 @@ Ce dernier prend les précautions nécessaires (validation, chiffrement, stockag
 
 ***
 
-#### 🔧 Fichiers système impliqués :
+#### <mark style="color:green;">🔧 Fichiers système impliqués :</mark>
 
 Le module `pam_unix.so` s’appuie sur les **APIs standardisées** des bibliothèques système pour lire et modifier les informations d’authentification.
 
@@ -41,7 +41,7 @@ Voici les **fichiers gérés et mis à jour** :
 
 ***
 
-#### 🧩 Autres modules PAM disponibles :
+#### <mark style="color:green;">🧩 Autres modules PAM disponibles :</mark>
 
 En plus de `pam_unix`, PAM peut utiliser d’autres modules spécialisés pour différentes sources d’authentification :
 
@@ -55,7 +55,7 @@ En plus de `pam_unix`, PAM peut utiliser d’autres modules spécialisés pour d
 
 ***
 
-#### 🧪 Astuce Pentester
+#### <mark style="color:green;">🧪 Astuce Pentester</mark>
 
 Tu peux auditer les modules PAM utilisés pour chaque service dans les fichiers du dossier :\
 📁 `/etc/pam.d/`

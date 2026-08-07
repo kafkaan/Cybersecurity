@@ -21,7 +21,7 @@ curl -s https://fileinfo.com/filetypes/compressed | html2text | awk '{print tolo
 
 ### <mark style="color:blue;">Manipulation des Archives Protégées</mark>
 
-#### Création et protection d'une archive avec `tar` et `openssl`
+#### <mark style="color:green;">Création et protection d'une archive avec</mark> <mark style="color:green;"></mark><mark style="color:green;">`tar`</mark> <mark style="color:green;"></mark><mark style="color:green;">et</mark> <mark style="color:green;"></mark><mark style="color:green;">`openssl`</mark>
 
 **Commande pour créer une archive compressée :**
 
