@@ -2,13 +2,35 @@
 
 ***
 
-<mark style="color:orange;">**Server Message Block (SMB)**</mark> is a communication protocol created for providing shared access to files and printers across nodes on a network. Initially, it was designed to run on top of NetBIOS over TCP/IP (NBT) using **TCP port `139`** and **UDP ports `137`** and `138`. However, with Windows 2000, Microsoft added the option to run SMB directly over **TCP/IP on port `445`** without the extra NetBIOS layer. Nowadays, modern Windows operating systems use SMB over TCP but still support the NetBIOS implementation as a failover.
+**SMB** est un protocole de communication créé pour permettre le **partage de fichiers et d'imprimantes** entre plusieurs machines sur un réseau. En gros, c'est ce qui permet à votre PC Windows d'accéder à un dossier partagé sur un autre ordinateur du réseau.
 
-<mark style="color:orange;">**Samba**</mark> is a Unix/Linux-based open-source implementation of the SMB protocol. It also allows Linux/Unix servers and Windows clients to use the same SMB services.
+<mark style="color:orange;">**Les ports utilisés**</mark>
 
-For instance, on Windows, SMB can run directly over port 445 TCP/IP without the need for NetBIOS over TCP/IP, but if Windows has NetBIOS enabled, or we are targetting a non-Windows host, we will find SMB running on port 139 TCP/IP. This means that SMB is running with NetBIOS over TCP/IP.
+Au départ, SMB fonctionnait **par-dessus NetBIOS** (un autre protocole réseau plus ancien) et utilisait ces ports :
 
-Another protocol that is commonly related to SMB is [<mark style="color:orange;">**MSRPC (Microsoft Remote Procedure Call)**</mark>](https://en.wikipedia.org/wiki/Microsoft_RPC)<mark style="color:orange;">**.**</mark> RPC provides an application developer a generic way to execute a procedure (a.k.a. a function) in a local or remote process without having to understand the network protocols used to support the communication, as specified in [MS-RPCE](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rpce/290c38b1-92fe-4229-91e6-4fc376610c15), which defines an RPC over SMB Protocol that can use SMB Protocol named pipes as its underlying transport.
+* **TCP 139** → connexion NetBIOS
+* **UDP 137 et 138** → découverte et nommage NetBIOS
+
+Avec **Windows 2000**, Microsoft a simplifié les choses : SMB peut maintenant tourner **directement sur TCP/IP**, sur le port **445**, sans avoir besoin de NetBIOS en dessous.
+
+Aujourd'hui :
+
+* **Windows moderne** → SMB sur port **445** (direct, sans NetBIOS)
+* **Vieilles machines ou NetBIOS activé** → SMB sur port **139** (via NetBIOS)
+
+<mark style="color:orange;">**Samba**</mark>
+
+**Samba** est la version **open-source** de SMB, faite pour **Linux/Unix**. Elle permet à un serveur Linux de "parler" le protocole SMB, et donc de partager des fichiers avec des machines Windows — et inversement. C'est ce qui permet à des systèmes différents de cohabiter sur le même réseau et de partager des ressources.
+
+<mark style="color:orange;">**MSRPC (Microsoft Remote Procedure Call)**</mark>
+
+**MSRPC** est un protocole souvent lié à SMB. L'idée derrière RPC (Remote Procedure Call) est simple :
+
+> _"Je veux exécuter une fonction/une action sur une autre machine distante, sans me préoccuper de comment ça transite sur le réseau"_
+
+C'est une sorte d'**abstraction** : le développeur appelle une fonction comme si elle était locale, et RPC se charge de tout envoyer à travers le réseau vers la machine distante, de récupérer le résultat, et de le ramener.
+
+**Le lien avec SMB** : MSRPC peut utiliser SMB comme **tunnel de transport**, via ce qu'on appelle des **named pipes** (des tuyaux nommés — des canaux de communication internes à Windows). En gros, les appels RPC peuvent transiter à l'intérieur d'une connexion SMB déjà établie.
 
 ***
 

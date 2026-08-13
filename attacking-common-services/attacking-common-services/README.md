@@ -55,8 +55,6 @@ C:\htb> dir n: /a-d /s /b | find /c ":\"
 
 We found 29,302 files. Let's walk through the command:
 
-&#x20; Interacting with Common Services
-
 ```shell-session
 dir n: /a-d /s /b | find /c ":\"
 ```
